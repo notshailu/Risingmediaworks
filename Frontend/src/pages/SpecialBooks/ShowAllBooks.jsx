@@ -1,0 +1,293 @@
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { booksData } from '../../data/dummyData';
+
+const ShowAllBooks = () => {
+  const [filter, setFilter] = useState('all');
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // Force light theme
+    document.body.classList.add('light-theme');
+    return () => {
+      document.body.classList.remove('light-theme');
+    };
+  }, []);
+
+  useGSAP(() => {
+    // Entrance animations
+    const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+    tl.from('.animate-header', {
+      opacity: 0,
+      y: 35,
+      duration: 1.2
+    })
+    .from('.filter-btn', {
+      opacity: 0,
+      y: 15,
+      duration: 0.8,
+      stagger: 0.05
+    }, '-=0.8')
+    .from('.book-card', {
+      opacity: 0,
+      z: -600,
+      rotationX: 35,
+      rotationY: -25,
+      y: 100,
+      scale: 0.75,
+      duration: 1.8,
+      stagger: 0.1,
+      ease: 'power3.out'
+    }, '-=0.6');
+  });
+
+  const categories = [
+    { id: 'all', label: 'All Books' },
+    { id: 'book-covers', label: 'Book Covers' },
+    { id: 'publishing', label: 'Publishing' },
+    { id: 'kdp', label: 'KDP' },
+    { id: 'technical-books', label: 'Technical' },
+    { id: 'academic-books', label: 'Academic' }
+  ];
+
+  const filteredBooks = filter === 'all' 
+    ? booksData 
+    : booksData.filter(b => b.category === filter);
+
+  return (
+    <div
+      style={{
+        width: '100%',
+        minHeight: '100vh',
+        backgroundColor: '#ffffff',
+        color: '#000000',
+        padding: '120px 4rem 60px 4rem',
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        fontFamily: 'serif'
+      }}
+    >
+      {/* Header Block */}
+      <div className="animate-header" style={{ marginBottom: '3rem', flexShrink: 0 }}>
+        <Link
+          to="/special-books"
+          style={{
+            fontSize: '0.75rem',
+            color: '#000000',
+            textTransform: 'uppercase',
+            letterSpacing: '0.2em',
+            textDecoration: 'none',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.6rem',
+            marginBottom: '1.5rem',
+            fontFamily: 'sans-serif',
+            fontWeight: '600'
+          }}
+        >
+          <span style={{ fontSize: '0.9rem' }}>←</span> Back to Featured
+        </Link>
+        
+        <div style={{ borderBottom: '1px solid #e5e5e5', paddingBottom: '1.5rem' }}>
+          <span style={{
+            fontSize: '0.68rem',
+            letterSpacing: '0.3em',
+            textTransform: 'uppercase',
+            color: '#888888',
+            fontWeight: '600',
+            display: 'block',
+            marginBottom: '0.4rem',
+            fontFamily: 'sans-serif'
+          }}>
+            Rising Media Works
+          </span>
+          <h1 style={{
+            fontSize: 'calc(2.2rem + 1.2vw)',
+            fontWeight: '400',
+            textTransform: 'uppercase',
+            margin: 0,
+            letterSpacing: '0.04em',
+            lineHeight: '1.1'
+          }}>
+            Complete Publications Archive
+          </h1>
+        </div>
+      </div>
+
+      {/* Filter Bar */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '1rem',
+        flexWrap: 'wrap',
+        marginBottom: '4rem',
+        position: 'relative',
+        zIndex: 10
+      }}>
+        {categories.map((cat) => (
+          <button
+            key={cat.id}
+            className="filter-btn"
+            onClick={() => setFilter(cat.id)}
+            style={{
+              padding: '0.6rem 1.5rem',
+              borderRadius: '20px',
+              border: '1px solid',
+              borderColor: filter === cat.id ? '#000000' : '#e4e4e7',
+              backgroundColor: filter === cat.id ? '#000000' : '#ffffff',
+              color: filter === cat.id ? '#ffffff' : '#09090b',
+              fontSize: '0.75rem',
+              fontWeight: '600',
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              fontFamily: 'sans-serif'
+            }}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        width: '100%',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+        gap: '5rem 4rem',
+        boxSizing: 'border-box',
+        perspective: '2000px',
+        transformStyle: 'preserve-3d'
+      }}>
+        {filteredBooks.map((book) => (
+          <Link
+            key={book.id}
+            to={`/special-books/${book.id}`}
+            className="book-card"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '2rem',
+              textDecoration: 'none',
+              color: 'inherit',
+              perspective: '1200px'
+            }}
+          >
+            {/* Book Cover Container (Supports 3D Perspective Rotation) */}
+            <div 
+              style={{
+                width: '100%',
+                height: '420px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'rgba(0,0,0,0.015)',
+                border: '1px solid #e4e4e7',
+                borderRadius: '8px',
+                position: 'relative',
+                overflow: 'hidden',
+                transition: 'border-color 0.4s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.4)';
+                const cover = e.currentTarget.querySelector('.book-3d-cover');
+                if (cover) {
+                  cover.style.transform = 'rotateY(-20deg) rotateX(5deg) translateZ(20px)';
+                  cover.style.boxShadow = '-15px 25px 40px rgba(0, 0, 0, 0.25)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = '#e4e4e7';
+                const cover = e.currentTarget.querySelector('.book-3d-cover');
+                if (cover) {
+                  cover.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0)';
+                  cover.style.boxShadow = '-5px 10px 20px rgba(0, 0, 0, 0.12)';
+                }
+              }}
+            >
+              {/* Inner 3D Card Object */}
+              <div
+                className="book-3d-cover"
+                style={{
+                  width: '210px',
+                  height: '310px',
+                  position: 'relative',
+                  transformStyle: 'preserve-3d',
+                  transform: 'rotateY(0deg) rotateX(0deg) translateZ(0)',
+                  transition: 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s ease',
+                  boxShadow: '-5px 10px 20px rgba(0, 0, 0, 0.12)',
+                  borderRadius: '2px 6px 6px 2px'
+                }}
+              >
+                {/* Simulated book thickness spine */}
+                <div style={{
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  width: '6px',
+                  height: '100%',
+                  background: 'linear-gradient(to right, rgba(0,0,0,0.3) 0%, rgba(255,255,255,0.1) 100%)',
+                  zIndex: 4,
+                  pointerEvents: 'none'
+                }} />
+
+                <img
+                  src={book.image}
+                  alt={book.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: '2px 6px 6px 2px',
+                    display: 'block'
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Book Details */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', paddingLeft: '0.25rem' }}>
+              <span style={{
+                fontSize: '0.7rem',
+                color: '#000000',
+                textTransform: 'uppercase',
+                letterSpacing: '0.15em',
+                fontWeight: '600',
+                fontFamily: 'sans-serif'
+              }}>
+                {book.author}
+              </span>
+              <h3 style={{
+                fontSize: '1.3rem',
+                fontWeight: '300',
+                margin: 0,
+                fontFamily: 'serif',
+                lineHeight: '1.25',
+                color: '#000000'
+              }}>
+                {book.title}
+              </h3>
+              <p style={{
+                fontSize: '0.88rem',
+                color: '#71717a',
+                lineHeight: '1.6',
+                margin: 0,
+                fontWeight: '300'
+              }}>
+                {book.description}
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ShowAllBooks;
