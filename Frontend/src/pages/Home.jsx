@@ -11,7 +11,10 @@ const Home = () => {
   const containerRef = useRef(null);
   const secondSectionRef = useRef(null);
   const canvasRef = useRef(null);
+  const handsSectionRef = useRef(null);
+  const handsCanvasRef = useRef(null);
   const [images, setImages] = useState([]);
+  const [handsImages, setHandsImages] = useState([]);
   const [works, setWorks] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
@@ -91,6 +94,25 @@ const Home = () => {
       loadedImages.push(img);
     }
     setImages(loadedImages);
+  }, []);
+
+  // Preload Hands image sequence in background
+  useEffect(() => {
+    const totalFrames = 150;
+    const loadedImages = [];
+
+    const pad = (num, size) => {
+      let s = num + "";
+      while (s.length < size) s = "0" + s;
+      return s;
+    };
+
+    for (let i = 1; i <= totalFrames; i++) {
+      const img = new Image();
+      img.src = `/Hands/frame_${pad(i, 4)}.jpeg`;
+      loadedImages.push(img);
+    }
+    setHandsImages(loadedImages);
   }, []);
 
   // Landing / Entrance animation
@@ -442,6 +464,114 @@ const Home = () => {
     };
   }, [images]);
 
+  // Set up canvas drawing on scroll pinned to Hands section (Identical to iPhone animation setup)
+  useGSAP(() => {
+    if (!handsCanvasRef.current || !handsSectionRef.current || handsImages.length === 0) return;
+
+    const canvas = handsCanvasRef.current;
+    const context = canvas.getContext('2d');
+    const sequence = { frame: 0 };
+
+    const drawImage = (frameIndex) => {
+      const roundedIndex = Math.round(frameIndex);
+      const img = handsImages[roundedIndex];
+      if (!img || !img.complete) return; // Only draw if loaded
+
+      context.imageSmoothingEnabled = true;
+      context.imageSmoothingQuality = 'high';
+
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const imageWidth = img.width;
+      const imageHeight = img.height;
+
+      const r = Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight);
+      const nw = imageWidth * r;
+      const nh = imageHeight * r;
+      const cx = (canvasWidth - nw) / 2;
+      const cy = (canvasHeight - nh) / 2;
+
+      context.drawImage(img, cx, cy, nw, nh);
+    };
+
+    const handleResize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = canvas.offsetWidth * dpr;
+      canvas.height = canvas.offsetHeight * dpr;
+      drawImage(sequence.frame);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    if (handsImages[0]) {
+      if (handsImages[0].complete) {
+        handleResize();
+      } else {
+        handsImages[0].onload = () => {
+          handleResize();
+        };
+      }
+    }
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: handsSectionRef.current,
+        start: 'top top',
+        end: '+=3500', // Expanded scroll distance for ultra-smooth frame steps
+        pin: true,
+        scrub: 2, // Enhanced cinematic inertia smoothing
+        anticipatePin: 1,
+      }
+    });
+
+    tl.to(sequence, {
+      frame: handsImages.length - 1,
+      ease: 'none',
+      duration: 1,
+      onUpdate: () => {
+        drawImage(sequence.frame);
+      }
+    }, 0);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [handsImages]);
+
+  // Why Us ScrollTrigger Stagger Entrance Animation
+  useGSAP(() => {
+    const section = document.querySelector('#why-us');
+    if (!section) return;
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#why-us',
+        start: 'top 80%',
+        toggleActions: 'play none none reverse'
+      }
+    });
+
+    tl.fromTo('#why-us .why-header', 
+      { opacity: 0, y: 50 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
+    );
+
+    tl.fromTo('#why-us .capability-cell', 
+      { opacity: 0, y: 60, scale: 0.96 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        scale: 1, 
+        duration: 0.8, 
+        stagger: 0.15, 
+        ease: 'power3.out' 
+      },
+      '-=0.6'
+    );
+  }, []);
+
   return (
     <div ref={containerRef} style={{ width: '100%', position: 'relative', overflowX: 'hidden' }}>
       
@@ -679,801 +809,399 @@ const Home = () => {
         </div>
       </section>
 
-      {/* WORKS SECTION (WSJ Editorial Redesign) */}
-      <section id="work" style={{
+      {/* HANDS SHOWCASE SECTION: Pinned 3D Image Sequence Animation */}
+      <section ref={handsSectionRef} id="hands-showcase" style={{
+        position: 'relative',
         width: '100%',
-        minHeight: '100vh',
-        padding: '16vh 8vw',
-        boxSizing: 'border-box',
-        backgroundColor: '#ffffff', // Clean white background
-        borderTop: '1px solid #eeeeee',
-        borderBottom: '1px solid #eeeeee'
+        height: '100vh',
+        backgroundColor: '#000000',
+        overflow: 'hidden'
       }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          
-          {/* Section Header */}
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            alignItems: 'baseline', 
-            marginBottom: '12vh', 
-            borderBottom: '1px solid #eeeeee',
-            paddingBottom: '2rem'
-          }}>
-            <div>
-              <span style={{ fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: '#77756f', fontWeight: '600', display: 'block', marginBottom: '0.8rem', fontFamily: 'sans-serif' }}>
-                Featured Archive
-              </span>
-              <h2 style={{ fontSize: '1.2rem', fontWeight: '700', textTransform: 'uppercase', fontFamily: 'sans-serif', margin: 0, letterSpacing: '0.05em', color: '#000000' }}>
-                Selected Work
-              </h2>
-            </div>
-            <Link to="/work" style={{ 
-              fontSize: '0.75rem', 
-              letterSpacing: '0.15em', 
-              textTransform: 'uppercase', 
-              color: '#000000', 
-              fontWeight: '700', 
-              textDecoration: 'none',
-              borderBottom: '2px solid #000000',
-              paddingBottom: '4px',
-              transition: 'opacity 0.3s ease'
-            }}
-            onMouseEnter={(e) => e.target.style.opacity = 0.6}
-            onMouseLeave={(e) => e.target.style.opacity = 1}
-            >
-              View All Works
-            </Link>
-          </div>
+        {/* Top Blend Overlay (Pure Black Fog) */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '200px',
+          background: 'linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0.85) 65%, transparent 100%)',
+          zIndex: 4,
+          pointerEvents: 'none'
+        }} />
 
-          {/* Editorial Project Stack */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16vh' }}>
-            {works.slice(0, 3).map((project, idx) => (
-              <div key={project.id} style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
-                
-                {/* Massive Condensed Headline */}
-                <h3 className="editorial-title" style={{
-                  fontSize: 'calc(3.5rem + 5vw)',
-                  fontWeight: '400',
-                  lineHeight: '0.85',
-                  letterSpacing: '-0.02em',
-                  textTransform: 'uppercase',
-                  textAlign: 'center',
-                  margin: 0,
-                  color: '#000000',
-                  fontFamily: 'var(--font-editorial)'
-                }}>
-                  {project.title}
-                </h3>
+        {/* Canvas to render Hands images */}
+        <canvas
+          ref={handsCanvasRef}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            display: 'block',
+            zIndex: 2,
+            filter: 'contrast(1.08) brightness(1.02) saturate(1.08)',
+            imageRendering: '-webkit-optimize-contrast'
+          }}
+        />
 
-                {/* Horizontal Separator */}
-                <div className="editorial-divider" style={{ width: '100%', height: '1px', backgroundColor: '#000000' }} />
+        {/* Bottom Black Shade Overlay */}
+        <div style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          width: '100%',
+          height: '220px',
+          background: 'linear-gradient(to top, #000000 40%, rgba(0,0,0,0.85) 75%, transparent 100%)',
+          zIndex: 4,
+          pointerEvents: 'none'
+        }} />
 
-                {/* Uppercase Summary Header */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '1rem' }}>
-                  <h4 style={{
-                    fontSize: 'calc(0.85rem + 0.3vw)',
-                    fontWeight: '700',
-                    textTransform: 'uppercase',
-                    fontFamily: 'sans-serif',
-                    lineHeight: '1.4',
-                    margin: 0,
-                    maxWidth: '850px',
-                    color: '#000000'
-                  }}>
-                    {project.client ? `${project.client.toUpperCase()} PARTNERS WITH RISING MEDIA WORKS FOR AN ADVANCED ${project.category.replace('-', ' ').toUpperCase()} CAMPAIGN.` : 'RISING MEDIA WORKS EDITORIAL PRODUCTION AND DESIGN SERVICES.'}
-                  </h4>
-                  <span style={{
-                    fontSize: '0.7rem',
-                    letterSpacing: '0.15em',
-                    textTransform: 'uppercase',
-                    color: '#77756f',
-                    fontWeight: '700',
-                    fontFamily: 'sans-serif'
-                  }}>
-                    // {project.category.replace('-', ' ')}
-                  </span>
-                </div>
-
-                {/* Two Column Layout Grid */}
-                <div className="editorial-grid" style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1.2fr 0.8fr',
-                  gap: '3rem',
-                  width: '100%',
-                  marginTop: '1rem'
-                }}>
-                  
-                  {/* High Contrast B&W Image */}
-                  <div style={{
-                    width: '100%',
-                    height: '420px',
-                    overflow: 'hidden',
-                    backgroundColor: '#f5f5f5',
-                    border: '1px solid #eeeeee'
-                  }}>
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="editorial-project-img"
-                      onClick={() => handleCardClick(project)}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        filter: 'grayscale(1) contrast(1.15) brightness(0.95)',
-                        transition: 'filter 0.5s ease, transform 0.8s ease',
-                        cursor: 'pointer'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.target.style.filter = 'none';
-                        e.target.style.transform = 'scale(1.02)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.filter = 'grayscale(1) contrast(1.15) brightness(0.95)';
-                        e.target.style.transform = 'scale(1)';
-                      }}
-                    />
-                  </div>
-
-                  {/* Descriptive Text Columns */}
-                  <div style={{ 
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    gap: '1.5rem',
-                    fontSize: '0.9rem',
-                    lineHeight: '1.65',
-                    color: '#2a2927',
-                    fontFamily: 'serif',
-                    fontWeight: '400',
-                    justifyContent: 'flex-start'
-                  }}>
-                    <p style={{ margin: 0 }}>
-                      {project.description}
-                    </p>
-                    <p style={{ margin: 0, color: '#55534f' }}>
-                      {project.client} Campaign — Directed by Rising Media Works.
-                    </p>
-                    <div onClick={() => handleCardClick(project)} style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      marginTop: '1rem',
-                      fontSize: '0.7rem',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.15em',
-                      fontWeight: '700',
-                      color: '#000000',
-                      textDecoration: 'none',
-                      fontFamily: 'sans-serif',
-                      cursor: 'pointer'
-                    }}>
-                      {project.videoUrl ? 'Watch Campaign Video' : 'Read Full Case Study'}
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </div>
-
-                </div>
-
-              </div>
-            ))}
-          </div>
-
-        </div>
-
-        {/* Responsive CSS inject */}
-        <style>{`
-          @media (max-width: 768px) {
-            .editorial-grid {
-              grid-template-columns: 1fr !important;
-              gap: 2rem !important;
-            }
-            .editorial-project-img {
-              filter: none !important; /* Keep color on mobile for rich look */
-            }
-            .editorial-grid div:first-child {
-              height: 280px !important;
-            }
-          }
-        `}</style>
+        {/* Corner Mask to Hide Gemini AI Logo */}
+        <div style={{
+          position: 'absolute',
+          bottom: 0,
+          right: 0,
+          width: '320px',
+          height: '180px',
+          background: 'radial-gradient(circle at 100% 100%, #000000 65%, rgba(0,0,0,0.95) 85%, transparent 100%)',
+          zIndex: 5,
+          pointerEvents: 'none'
+        }} />
       </section>
 
-      {/* SERVICES SECTION (Premium Grid Cell Redesign) */}
-      <section id="services" style={{
+      {/* SERVICES / AGENCY OVERVIEW SECTION (Modern Editorial UI matching Reference) */}
+      <section id="services-overview" className="scroll-fade-in" style={{
         width: '100%',
         minHeight: '100vh',
-        padding: '16vh 8vw',
+        padding: '12vh 6vw',
         boxSizing: 'border-box',
-        backgroundColor: '#ffffff',
-        borderTop: '1px solid #dcdad4',
-        fontFamily: 'sans-serif'
+        backgroundColor: '#000000',
+        color: '#ffffff',
+        fontFamily: 'sans-serif',
+        position: 'relative'
       }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
           
-          {/* Section Header */}
-          <div style={{ marginBottom: '10vh' }}>
-            <span style={{ fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: '#888888', fontWeight: '600', display: 'block', marginBottom: '0.8rem' }}>
-              Our Capabilities
+          {/* Top Eyebrow Header Row */}
+          <div style={{
+            paddingTop: '2.5rem',
+            marginBottom: '8vh',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.6rem'
+          }}>
+            <span style={{
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              backgroundColor: '#ffffff',
+              display: 'inline-block'
+            }} />
+            <span style={{
+              fontSize: '0.72rem',
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              fontWeight: '600',
+              color: '#ffffff',
+              fontFamily: 'sans-serif'
+            }}>
+              ABOUT THE SERVICES
             </span>
-            <h2 style={{ fontSize: 'calc(2.2rem + 1.2vw)', fontWeight: '300', textTransform: 'uppercase', fontFamily: 'serif', margin: 0, letterSpacing: '0.02em' }}>
-              Creative Expertise
+          </div>
+
+          {/* Massive Mixed Typography Statement */}
+          <div style={{ maxWidth: '1300px', marginBottom: '8vh' }}>
+            <h2 style={{
+              fontSize: 'calc(2.2rem + 2.2vw)',
+              fontWeight: '300',
+              lineHeight: '1.25',
+              letterSpacing: '-0.02em',
+              margin: 0,
+              color: '#ffffff',
+              fontFamily: 'sans-serif'
+            }}>
+              <span style={{ fontFamily: 'serif', fontStyle: 'italic', fontWeight: '400' }}>Rising Media Works</span>, a revolutionary approach to digital creation. From expert-crafted video productions to clinically proven digital architectures, it’s the <span style={{ fontFamily: 'serif', fontStyle: 'italic', fontWeight: '400' }}>new standard</span> in visual excellence.
             </h2>
           </div>
 
-          {/* Grid Cells Container */}
-          <div className="capabilities-grid" style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
-            borderTop: '1px solid #000000',
-            borderLeft: '1px solid #000000'
+          {/* Indented Right Paragraph Block */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginBottom: '12vh'
           }}>
-            {servicesData.slice(0, 6).map((service, index) => (
-              <div 
-                key={service.id} 
-                className="capability-cell"
-                style={{
-                  padding: '4.5rem 3.5rem',
-                  borderRight: '1px solid #000000',
-                  borderBottom: '1px solid #000000',
-                  backgroundColor: '#ffffff',
-                  color: '#000000',
-                  transition: 'all 0.5s cubic-bezier(0.25, 1, 0.5, 1)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '2rem',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  cursor: 'pointer'
-                }}
-                onMouseEnter={(e) => {
-                  playHoverSound();
-                  e.currentTarget.style.backgroundColor = '#0052ff';
-                  e.currentTarget.style.color = '#ffffff';
-                  const arrow = e.currentTarget.querySelector('.cell-arrow');
-                  if (arrow) arrow.style.transform = 'rotate(45deg) translate(2px, -2px)';
-                  const num = e.currentTarget.querySelector('.cell-number');
-                  if (num) num.style.color = 'rgba(255, 255, 255, 0.4)';
-                  const desc = e.currentTarget.querySelector('.cell-desc');
-                  if (desc) desc.style.color = 'rgba(255, 255, 255, 0.85)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#ffffff';
-                  e.currentTarget.style.color = '#000000';
-                  const arrow = e.currentTarget.querySelector('.cell-arrow');
-                  if (arrow) arrow.style.transform = 'none';
-                  const num = e.currentTarget.querySelector('.cell-number');
-                  if (num) num.style.color = '#888888';
-                  const desc = e.currentTarget.querySelector('.cell-desc');
-                  if (desc) desc.style.color = '#555555';
-                }}
-              >
-                {/* Cell Header: Number and Arrow */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span className="cell-number" style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#888888', letterSpacing: '0.1em', transition: 'color 0.4s' }}>
-                    // 0{index + 1}
-                  </span>
-                  <div className="cell-arrow" style={{ fontSize: '1.2rem', fontWeight: '300', transition: 'transform 0.4s ease' }}>
-                    →
-                  </div>
-                </div>
+            <p style={{
+              maxWidth: '560px',
+              fontSize: '0.98rem',
+              lineHeight: '1.75',
+              color: 'rgba(255, 255, 255, 0.65)',
+              margin: 0,
+              fontFamily: 'sans-serif',
+              fontWeight: '300'
+            }}>
+              At Rising Media Works, we craft unique, bespoke visual campaigns and digital platforms. Specifically designed for high-impact brand positioning and audience retention, our services deliver uncompromised creative quality and technical performance.
+            </p>
+          </div>
 
-                {/* Content */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
-                  <h3 style={{ 
-                    fontSize: '2rem', 
-                    fontWeight: '400', 
-                    textTransform: 'uppercase', 
-                    margin: 0,
-                    letterSpacing: '-0.02em',
-                    fontFamily: 'var(--font-editorial)'
-                  }}>
-                    {service.title}
-                  </h3>
-                  <p className="cell-desc" style={{ 
-                    fontSize: '1rem', 
-                    lineHeight: '1.7', 
-                    color: '#555555', 
-                    fontFamily: 'serif', 
-                    fontWeight: '400', 
-                    margin: 0,
-                    transition: 'color 0.4s'
-                  }}>
-                    {service.overview}
-                  </p>
+          {/* Bottom Capabilities / Team Metadata Row */}
+          <div style={{
+            borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+            paddingTop: '3.5rem',
+            display: 'grid',
+            gridTemplateColumns: '1fr 2fr',
+            gap: '4rem'
+          }}>
+            {/* Left Header */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', height: 'fit-content' }}>
+              <span style={{
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                backgroundColor: '#ffffff',
+                display: 'inline-block'
+              }} />
+              <span style={{
+                fontSize: '0.72rem',
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                fontWeight: '600',
+                color: '#ffffff',
+                fontFamily: 'sans-serif'
+              }}>
+                CAPABILITIES
+              </span>
+            </div>
+
+            {/* Right Capabilities Table List */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+              {[
+                { id: '[01]', label: 'Video Production:', val: 'High-End Commercial Direction & Cinematic Storytelling' },
+                { id: '[02]', label: 'UI/UX & Web Design:', val: 'Bespoke Digital Architectures & Interactive Systems' },
+                { id: '[03]', label: '3D & Motion Graphics:', val: 'Dynamic 2D/3D Animations & Title Sequences' },
+                { id: '[04]', label: 'Special Books:', val: 'Premium Hardbound Publishing & Fine Editorial Design' }
+              ].map((item) => (
+                <div key={item.id} style={{
+                  display: 'grid',
+                  gridTemplateColumns: '45px 180px 1fr',
+                  alignItems: 'baseline',
+                  fontSize: '0.85rem',
+                  color: 'rgba(255, 255, 255, 0.85)',
+                  fontFamily: 'sans-serif'
+                }}>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.4)', fontStyle: 'italic', fontFamily: 'serif' }}>
+                    {item.id}
+                  </span>
+                  <span style={{ fontWeight: '600', color: '#ffffff' }}>
+                    {item.label}
+                  </span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.65)', fontWeight: '300' }}>
+                    {item.val}
+                  </span>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
         </div>
 
-        {/* Responsive Capability styles */}
+        {/* Mobile Responsive injected style */}
         <style>{`
           @media (max-width: 768px) {
-            .capabilities-grid {
-              grid-template-columns: 1fr !important;
+            #services-overview {
+              padding: 8vh 5vw !important;
             }
-            .capability-cell {
-              padding: 3rem 2rem !important;
+            #services-overview div[style*="gridTemplateColumns: '1fr 2fr'"] {
+              grid-template-columns: 1fr !important;
+              gap: 2rem !important;
+            }
+            #services-overview div[style*="gridTemplateColumns: '45px 180px 1fr'"] {
+              grid-template-columns: 45px 1fr !important;
+              gap: 0.5rem !important;
             }
           }
         `}</style>
       </section>
 
-      {/* BOOKS SECTION */}
-      <section id="books" className="scroll-fade-in" style={{
+      {/* WHY RISING MEDIA WORKS SECTION (Non-Card Kinetic Typographic List UI) */}
+      <section id="why-rising-media-works" className="scroll-fade-in" style={{
         width: '100%',
         minHeight: '100vh',
-        padding: '16vh 8vw',
+        padding: '14vh 6vw',
         boxSizing: 'border-box',
-        backgroundColor: '#ffffff',
-        borderTop: '1px solid #eeeeee'
+        backgroundColor: '#000000',
+        color: '#ffffff',
+        fontFamily: 'sans-serif',
+        position: 'relative',
+        borderTop: '1px solid rgba(255, 255, 255, 0.15)'
       }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1500px', margin: '0 auto' }}>
           
-          {/* Header */}
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            alignItems: 'flex-end', 
-            marginBottom: '10vh', 
-            flexWrap: 'wrap', 
-            gap: '2rem', 
-            borderBottom: '1px solid #eeeeee',
-            paddingBottom: '2.5rem'
-          }}>
-            <div>
-              <span style={{ fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: '#888888', fontWeight: '600', display: 'block', marginBottom: '0.8rem', fontFamily: 'sans-serif' }}>
-                Publishing Works
+          {/* Eyebrow and Section Header */}
+          <div style={{ marginBottom: '10vh' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.2rem' }}>
+              <span style={{
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                backgroundColor: '#ffffff',
+                display: 'inline-block'
+              }} />
+              <span style={{
+                fontSize: '0.72rem',
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                fontWeight: '600',
+                color: 'rgba(255, 255, 255, 0.5)',
+                fontFamily: 'sans-serif'
+              }}>
+                WHY RISING MEDIA WORKS
               </span>
-              <h2 style={{ fontSize: 'calc(2.2rem + 1.2vw)', fontWeight: '300', textTransform: 'uppercase', fontFamily: 'serif', margin: 0 }}>
-                Special Books
-              </h2>
             </div>
-            <Link to="/special-books" style={{ 
-              fontSize: '0.8rem', 
-              letterSpacing: '0.15em', 
-              textTransform: 'uppercase', 
-              color: '#000000', 
-              fontWeight: '700', 
-              textDecoration: 'none',
-              borderBottom: '2px solid #000000',
-              paddingBottom: '6px',
-              transition: 'all 0.3s ease',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = 0.6;
-              e.currentTarget.style.transform = 'translateX(4px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = 1;
-              e.currentTarget.style.transform = 'none';
-            }}
-            >
-              View Books Catalog
-              <span>→</span>
-            </Link>
+
+            <h2 style={{
+              fontSize: 'calc(2.4rem + 2vw)',
+              fontWeight: '300',
+              fontFamily: 'serif',
+              textTransform: 'uppercase',
+              margin: 0,
+              letterSpacing: '0.02em',
+              color: '#ffffff'
+            }}>
+              The Rising Standards
+            </h2>
           </div>
 
-          {/* Books Premium Asymmetric Showcase */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '4rem',
-            perspective: '2000px',
-            marginTop: '2rem'
-          }}>
-            {booksData.slice(0, 3).map((book, idx) => (
-              <Link 
-                to={`/special-books/${book.id}`} 
-                key={book.id} 
-                style={{ 
-                  display: 'flex', 
-                  flexDirection: 'column',
-                  textDecoration: 'none', 
-                  color: 'inherit',
-                  position: 'relative',
-                  group: 'true'
+          {/* Non-Card Typographic Rows List */}
+          <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.15)' }}>
+            {[
+              {
+                num: '01',
+                title: 'Cinematic Visual Direction',
+                desc: 'Bespoke narrative timing, master color grading, and high-production visual architectures that command absolute audience retention.'
+              },
+              {
+                num: '02',
+                title: 'Architectural Precision',
+                desc: 'Obsessive grid systems, golden-ratio margins, and engineering-grade web interfaces crafted for high-end digital presence.'
+              },
+              {
+                num: '03',
+                title: 'High-Throughput Delivery',
+                desc: 'Streamlined editorial production pipelines built for rapid global campaign launches without compromising frame perfection.'
+              },
+              {
+                num: '04',
+                title: 'Unrivaled Engagement',
+                desc: 'Interactive 3D sequences, micro-animations, and dynamic motion art that convert passive viewers into loyal brand advocates.'
+              }
+            ].map((item, idx) => (
+              <div
+                key={idx}
+                className="why-row-item"
+                style={{
+                  padding: '3.5rem 2rem',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
+                  display: 'grid',
+                  gridTemplateColumns: '80px 1fr 1.2fr 40px',
+                  alignItems: 'center',
+                  gap: '3rem',
+                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                  cursor: 'pointer',
+                  backgroundColor: 'transparent'
                 }}
                 onMouseEnter={(e) => {
-                  const card = e.currentTarget.querySelector('.book-3d-wrap');
-                  const glow = e.currentTarget.querySelector('.book-ambient-glow');
-                  const badge = e.currentTarget.querySelector('.book-badge');
-                  if (card) {
-                    card.style.transform = 'translateY(-15px) rotateY(-22deg) rotateX(8deg) scale(1.03)';
-                  }
-                  if (glow) {
-                    glow.style.opacity = '0.75';
-                    glow.style.transform = 'scale(1.15) translateZ(-10px)';
-                  }
-                  if (badge) {
-                    badge.style.transform = 'translateY(-4px) scale(1.05)';
-                    badge.style.boxShadow = '0 8px 20px rgba(191, 144, 0, 0.3)';
+                  playHoverSound();
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)';
+                  e.currentTarget.style.paddingLeft = '3rem';
+                  const title = e.currentTarget.querySelector('.row-title');
+                  if (title) title.style.color = '#ffffff';
+                  const num = e.currentTarget.querySelector('.row-num');
+                  if (num) num.style.color = '#0052ff';
+                  const arrow = e.currentTarget.querySelector('.row-arrow');
+                  if (arrow) {
+                    arrow.style.color = '#0052ff';
+                    arrow.style.transform = 'rotate(45deg) translate(2px, -2px)';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  const card = e.currentTarget.querySelector('.book-3d-wrap');
-                  const glow = e.currentTarget.querySelector('.book-ambient-glow');
-                  const badge = e.currentTarget.querySelector('.book-badge');
-                  if (card) {
-                    card.style.transform = 'rotateY(-8deg) rotateX(2deg)';
-                  }
-                  if (glow) {
-                    glow.style.opacity = '0';
-                    glow.style.transform = 'scale(1) translateZ(-10px)';
-                  }
-                  if (badge) {
-                    badge.style.transform = 'none';
-                    badge.style.boxShadow = 'none';
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.paddingLeft = '2rem';
+                  const title = e.currentTarget.querySelector('.row-title');
+                  if (title) title.style.color = 'rgba(255, 255, 255, 0.9)';
+                  const num = e.currentTarget.querySelector('.row-num');
+                  if (num) num.style.color = 'rgba(255, 255, 255, 0.4)';
+                  const arrow = e.currentTarget.querySelector('.row-arrow');
+                  if (arrow) {
+                    arrow.style.color = 'rgba(255, 255, 255, 0.6)';
+                    arrow.style.transform = 'none';
                   }
                 }}
               >
-                {/* 3D Book Interactive Wrapper */}
-                <div style={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '420px',
-                  backgroundColor: '#fbfbfa',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(0,0,0,0.04)',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '3rem 2rem',
-                  boxSizing: 'border-box',
-                  overflow: 'visible',
-                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
+                {/* Number */}
+                <span className="row-num" style={{
+                  fontSize: '0.85rem',
+                  fontFamily: 'monospace',
+                  color: 'rgba(255, 255, 255, 0.4)',
+                  letterSpacing: '0.1em',
+                  transition: 'color 0.4s'
                 }}>
-                  {/* Ambient Glow using blurred book image colors */}
-                  <div 
-                    className="book-ambient-glow"
-                    style={{
-                      position: 'absolute',
-                      top: '15%',
-                      left: '15%',
-                      right: '15%',
-                      bottom: '15%',
-                      backgroundImage: `url(${book.image})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      filter: 'blur(35px) saturate(1.8)',
-                      opacity: 0,
-                      zIndex: 1,
-                      pointerEvents: 'none',
-                      transform: 'translateZ(-10px)',
-                      transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
-                    }} 
-                  />
+                  // {item.num}
+                </span>
 
-                  {/* 3D Standing Book Structure */}
-                  <div 
-                    className="book-3d-wrap"
-                    style={{
-                      width: '190px',
-                      height: '270px',
-                      position: 'relative',
-                      transformStyle: 'preserve-3d',
-                      transform: 'rotateY(-8deg) rotateX(2deg)',
-                      transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-                      zIndex: 2
-                    }}
-                  >
-                    {/* Simulated Book Spine Thickness (Left 3D side) */}
-                    <div style={{
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '24px',
-                      transform: 'rotateY(-90deg) translateX(-12px)',
-                      transformOrigin: 'left center',
-                      background: 'linear-gradient(to right, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 20%, rgba(255,255,255,0.1) 60%, rgba(0,0,0,0.2) 100%)',
-                      backgroundColor: '#1a1a1a',
-                      zIndex: 3
-                    }} />
+                {/* Title */}
+                <h3 className="row-title" style={{
+                  fontSize: 'calc(1.4rem + 0.6vw)',
+                  fontWeight: '400',
+                  textTransform: 'uppercase',
+                  margin: 0,
+                  fontFamily: 'var(--font-editorial)',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  letterSpacing: '-0.01em',
+                  transition: 'color 0.4s ease'
+                }}>
+                  {item.title}
+                </h3>
 
-                    {/* Simulated Page Edge Thickness (Right 3D side) */}
-                    <div style={{
-                      position: 'absolute',
-                      right: 0,
-                      top: '2px',
-                      bottom: '2px',
-                      width: '20px',
-                      transform: 'rotateY(90deg) translateX(10px)',
-                      transformOrigin: 'right center',
-                      background: 'repeating-linear-gradient(to right, #f4f3ef 0px, #f4f3ef 2px, #e8e7e1 3px, #e8e7e1 4px)',
-                      borderRight: '1px solid rgba(0,0,0,0.1)',
-                      boxShadow: 'inset 4px 0 8px rgba(0,0,0,0.08)',
-                      zIndex: 1
-                    }} />
+                {/* Description */}
+                <p style={{
+                  fontSize: '0.95rem',
+                  lineHeight: '1.65',
+                  color: 'rgba(255, 255, 255, 0.6)',
+                  margin: 0,
+                  fontFamily: 'sans-serif',
+                  fontWeight: '300'
+                }}>
+                  {item.desc}
+                </p>
 
-                    {/* Book Front Cover */}
-                    <div 
-                      className="book-front-cover"
-                      style={{
-                        position: 'absolute',
-                        left: 0,
-                        top: 0,
-                        width: '100%',
-                        height: '100%',
-                        backgroundImage: `url(${book.image})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        borderRadius: '2px 5px 5px 2px',
-                        boxShadow: 'inset 4px 0 8px rgba(255,255,255,0.15), -4px 6px 15px rgba(0,0,0,0.15)',
-                        zIndex: 4,
-                        transform: 'translateZ(1px)'
-                      }}
-                    >
-                      {/* Spine Crease Line overlay */}
-                      <div style={{
-                        position: 'absolute',
-                        left: '10px',
-                        top: 0,
-                        bottom: 0,
-                        width: '1px',
-                        backgroundColor: 'rgba(0, 0, 0, 0.15)',
-                        boxShadow: '0 0 3px rgba(255,255,255,0.2)'
-                      }} />
-                    </div>
-
-                    {/* Back Cover shadow anchor */}
-                    <div style={{
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      width: '100%',
-                      height: '100%',
-                      backgroundColor: 'rgba(0,0,0,0.2)',
-                      boxShadow: '-12px 18px 30px rgba(0,0,0,0.28)',
-                      transform: 'translateZ(-12px)',
-                      borderRadius: '2px 5px 5px 2px',
-                      zIndex: 0
-                    }} />
-                  </div>
-
-                  {/* Collector Badge Overlay */}
-                  <span 
-                    className="book-badge"
-                    style={{
-                      position: 'absolute',
-                      top: '1.25rem',
-                      right: '1.25rem',
-                      fontSize: '0.6rem',
-                      letterSpacing: '0.12em',
-                      textTransform: 'uppercase',
-                      color: '#9a7b56',
-                      border: '1px solid rgba(154, 123, 86, 0.3)',
-                      backgroundColor: 'rgba(251, 251, 250, 0.8)',
-                      padding: '4px 10px',
-                      borderRadius: '20px',
-                      fontWeight: '700',
-                      zIndex: 5,
-                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-                    }}
-                  >
-                    {idx === 0 ? 'Collector\'s Edit' : idx === 1 ? 'Hardcover' : 'First Edition'}
-                  </span>
+                {/* Arrow */}
+                <div className="row-arrow" style={{
+                  fontSize: '1.4rem',
+                  color: 'rgba(255, 255, 255, 0.6)',
+                  transition: 'transform 0.4s ease'
+                }}>
+                  →
                 </div>
-
-                {/* Typography Metadata Redesign */}
-                <div style={{ marginTop: '1.8rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', marginBottom: '0.4rem' }}>
-                    <h3 style={{ 
-                      fontSize: '1.25rem', 
-                      fontWeight: '400', 
-                      fontFamily: 'serif', 
-                      margin: 0,
-                      lineHeight: '1.3',
-                      color: '#1a1a1a',
-                      letterSpacing: '-0.01em'
-                    }}>
-                      {book.title}
-                    </h3>
-                    <div style={{ 
-                      fontSize: '0.85rem', 
-                      color: '#9a7b56',
-                      fontWeight: '300'
-                    }}>
-                      →
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
-                    <span style={{ 
-                      fontSize: '0.72rem', 
-                      color: '#888888', 
-                      textTransform: 'uppercase', 
-                      letterSpacing: '0.1em',
-                      fontWeight: '600',
-                      fontFamily: 'sans-serif'
-                    }}>
-                      By {book.author}
-                    </span>
-                    <span style={{ width: '3px', height: '3px', borderRadius: '50%', backgroundColor: '#cccccc' }} />
-                    <span style={{ 
-                      fontSize: '0.68rem', 
-                      color: '#9a7b56',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.08em',
-                      fontWeight: '600',
-                      fontFamily: 'sans-serif'
-                    }}>
-                      {book.category.replace('-', ' ')}
-                    </span>
-                  </div>
-                </div>
-              </Link>
+              </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ABOUT SECTION */}
-      <section id="about" className="scroll-fade-in" style={{
-        width: '100%',
-        minHeight: '80vh',
-        padding: '12vh 8vw',
-        boxSizing: 'border-box',
-        backgroundColor: '#ffffff',
-        borderTop: '1px solid rgba(0,0,0,0.05)'
-      }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-          <span style={{ fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#888888', fontWeight: '600', display: 'block', marginBottom: '1.5rem', fontFamily: 'sans-serif' }}>
-            Who We Are
-          </span>
-          <h2 style={{ fontSize: 'calc(2rem + 1.5vw)', fontWeight: '300', fontFamily: 'serif', marginBottom: '2.5rem', lineHeight: '1.3' }}>
-            We bridge the gap between cinematic visual art and technical publishing frameworks.
-          </h2>
-          <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: '#666666', fontFamily: 'serif', fontWeight: '300', marginBottom: '3rem' }}>
-            Rising Media Works is built upon a philosophy of strategic refinement. We obsess over page margins, typographic pairings, and color timing to tell stories that are both authentic and unforgettable.
-          </p>
-          <Link to="/about" style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.8rem 2rem',
-            border: '1px solid #000000',
-            color: '#000000',
-            borderRadius: '50px',
-            fontSize: '0.75rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.15em',
-            fontWeight: '600',
-            textDecoration: 'none'
-          }}>
-            Our Story
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </div>
-      </section>
-
-      {/* CONTACT SECTION (Premium Dark Footer UI) */}
-      <section id="contact" style={{
-        width: '100%',
-        backgroundColor: '#000000',
-        color: '#ffffff',
-        padding: '18vh 8vw 6vh 8vw',
-        boxSizing: 'border-box',
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'relative',
-        overflow: 'hidden',
-        fontFamily: 'sans-serif'
-      }}>
-        <div style={{ maxWidth: '1600px', margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: '10vh' }}>
-          
-          {/* Top Row: Call To Action and Socials Links */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '4rem' }}>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '3.5rem' }}>
-              <h2 className="contact-title" style={{ 
-                fontSize: 'calc(3.5rem + 3.2vw)', 
-                fontWeight: '500', 
-                lineHeight: '1.05', 
-                margin: 0, 
-                letterSpacing: '-0.03em',
-                maxWidth: '900px',
-                fontFamily: 'sans-serif'
-              }}>
-                Let’s start<br />from nothin’
-              </h2>
-              
-              {/* Pill Button CTAs */}
-              <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-                <a href="https://calendly.com/risingmediaworks" className="contact-btn" target="_blank" rel="noreferrer" style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  padding: '1.2rem 2.8rem',
-                  border: '1.2px solid rgba(255, 255, 255, 0.45)',
-                  color: '#ffffff',
-                  borderRadius: '100px',
-                  fontSize: '0.95rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.15em',
-                  fontWeight: '700',
-                  textDecoration: 'none',
-                  transition: 'all 0.3s cubic-bezier(0.25, 1, 0.5, 1)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#ffffff';
-                  e.currentTarget.style.color = '#000000';
-                  e.currentTarget.style.borderColor = '#ffffff';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#ffffff';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.45)';
-                }}
-                >
-                  Book A Call 
-                  <span style={{ fontSize: '1.1rem' }}>→</span>
-                </a>
-                <a href="mailto:Info.risingmediaworks@gmail.com" className="contact-btn" style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  padding: '1.2rem 2.8rem',
-                  border: '1.2px solid rgba(255, 255, 255, 0.45)',
-                  color: '#ffffff',
-                  borderRadius: '100px',
-                  fontSize: '0.95rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.15em',
-                  fontWeight: '700',
-                  textDecoration: 'none',
-                  transition: 'all 0.3s cubic-bezier(0.25, 1, 0.5, 1)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#ffffff';
-                  e.currentTarget.style.color = '#000000';
-                  e.currentTarget.style.borderColor = '#ffffff';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#ffffff';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.45)';
-                }}
-                >
-                  Drop us an email 
-                  <span style={{ fontSize: '1rem' }}>@</span>
-                </a>
-              </div>
-            </div>
- 
-            {/* Right Socials Stack */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '2.2rem', fontWeight: '500', textAlign: 'right', minWidth: '220px', lineHeight: '1.4' }}>
-              <a href="https://www.instagram.com/risingmediaworks?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==" className="contact-social-link" target="_blank" rel="noreferrer" style={{ color: '#ffffff', textDecoration: 'none', transition: 'opacity 0.2s' }} onMouseEnter={(e) => e.target.style.opacity = 0.5} onMouseLeave={(e) => e.target.style.opacity = 1}>Instagram</a>
-              <a href="https://wa.me/918741975000" className="contact-social-link" target="_blank" rel="noreferrer" style={{ color: '#ffffff', textDecoration: 'none', transition: 'opacity 0.2s' }} onMouseEnter={(e) => e.target.style.opacity = 0.5} onMouseLeave={(e) => e.target.style.opacity = 1}>WhatsApp</a>
-              <a href="mailto:Info.risingmediaworks@gmail.com" className="contact-social-link" style={{ color: '#ffffff', textDecoration: 'none', transition: 'opacity 0.2s' }} onMouseEnter={(e) => e.target.style.opacity = 0.5} onMouseLeave={(e) => e.target.style.opacity = 1}>Email</a>
-            </div>
-          </div>
-
-          <h1 className="footer-giant-word" style={{
-            fontSize: '28vw',
-            fontWeight: '900',
-            textTransform: 'uppercase',
-            letterSpacing: '-0.07em',
-            lineHeight: '0.75',
-            margin: '8vh -8vw -6vh -8vw',
-            textAlign: 'left',
-            color: '#ffffff',
-            userSelect: 'none',
-            fontFamily: 'sans-serif',
-            width: '100vw',
-            display: 'block'
-          }}>
-            Rising
-          </h1>
 
         </div>
+
+        {/* Mobile Responsive Rules */}
+        <style>{`
+          @media (max-width: 900px) {
+            #why-rising-media-works .why-row-item {
+              grid-template-columns: 50px 1fr 30px !important;
+              gap: 1.5rem !important;
+              padding: 2.5rem 1rem !important;
+            }
+            #why-rising-media-works .why-row-item p {
+              display: none !important;
+            }
+          }
+        `}</style>
       </section>
 
       {/* Video Lightbox Modal Overlay */}
