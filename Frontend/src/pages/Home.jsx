@@ -4,8 +4,26 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { servicesData, projectsData, booksData } from '../data/dummyData';
+import Footer from '../components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const brandLogos = [
+  { name: 'Mahindra & Mahindra', src: '/logo/Mahindra-Mahindra-Logo-2012.png' },
+  { name: 'Tata Motors', src: '/logo/tata-logo-tata-icon-transparent-free-png.webp' },
+  { name: 'JCB', src: '/logo/JCB_(J.C._Bamford_Excavators_Limited)_logo.svg.webp' },
+  { name: 'John Deere', src: '/logo/John-Deere-Emblem.png' },
+  { name: 'Ather Energy', src: '/logo/Ather_New_Logo.jpg' },
+  { name: 'Piaggio', src: '/logo/Piaggio-Logo.png' },
+  { name: 'New Holland', src: '/logo/New Holland.png' },
+  { name: 'Greaves Cotton', src: '/logo/Greaves 3 Wheeler Logo-03.png' },
+  { name: 'JK Tyre', src: '/logo/jk-tyre-logo-present-scaled.webp' },
+  { name: 'Brand Partner', src: '/logo/312215907_553521910110595_1889743859625241028_n.jpg' },
+  { name: 'Brand Partner', src: '/logo/80612d717e3e8d70fe1c456f2235a5dc.jpg' },
+  { name: 'Brand Partner', src: '/logo/images.png' },
+  { name: 'Brand Partner', src: '/logo/Logo (1).png' },
+  { name: 'Brand Partner', src: '/logo/te8f-dKV_400x400.jpg' }
+];
 
 const Home = () => {
   const containerRef = useRef(null);
@@ -17,20 +35,21 @@ const Home = () => {
   const [handsImages, setHandsImages] = useState([]);
   const [works, setWorks] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [hoveredWhyUsImage, setHoveredWhyUsImage] = useState(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  // Fetch real works from the database
+  // Fetch real works from the database (fallback gracefully if offline)
   useEffect(() => {
     const fetchWorks = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/works');
-        if (response.ok) {
+        const response = await fetch('http://localhost:5000/api/works').catch(() => null);
+        if (response && response.ok) {
           const data = await response.json();
           setWorks(data);
         } else {
           setWorks(projectsData);
         }
       } catch (error) {
-        console.error('Error fetching works:', error);
         setWorks(projectsData);
       }
     };
@@ -58,9 +77,17 @@ const Home = () => {
     }
   };
 
+  // Single AudioContext reference for hover sound
+  const audioCtxRef = useRef(null);
   const playHoverSound = () => {
     try {
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (!audioCtxRef.current) {
+        audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      const audioCtx = audioCtxRef.current;
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
       const osc = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();
       osc.connect(gainNode);
@@ -73,7 +100,7 @@ const Home = () => {
       osc.start(audioCtx.currentTime);
       osc.stop(audioCtx.currentTime + 0.08);
     } catch (error) {
-      console.warn('Audio context blocked or unsupported:', error);
+      // Ignore audio block
     }
   };
 
@@ -119,44 +146,34 @@ const Home = () => {
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
-    tl.from('.header', {
-      opacity: 0,
-      y: -30,
-      duration: 1.2
-    }, 0.2);
-
-    tl.from('.hero-eyebrow', {
-      opacity: 0,
-      y: 20,
-      duration: 1.2
-    }, 0.4);
-
-    tl.from('.hero-title', {
-      opacity: 0,
-      y: 40,
-      letterSpacing: '0.3em',
-      duration: 1.6
-    }, 0.5);
-
-    tl.from('.hero-btn', {
-      opacity: 0,
-      y: 30,
-      duration: 1.2
-    }, 0.7);
-
-    tl.from('.scroll-down-btn', {
-      opacity: 0,
-      y: 15,
-      duration: 1.2
-    }, 0.85);
+    if (document.querySelector('.header')) {
+      tl.from('.header', { opacity: 0, y: -30, duration: 1.2 }, 0.2);
+    }
+    if (document.querySelector('.hero-eyebrow')) {
+      tl.from('.hero-eyebrow', { opacity: 0, y: 20, duration: 1.2 }, 0.4);
+    }
+    if (document.querySelector('.hero-title')) {
+      tl.from('.hero-title', { opacity: 0, y: 40, duration: 1.6 }, 0.5);
+    }
+    if (document.querySelector('.hero-subtitle')) {
+      tl.from('.hero-subtitle', { opacity: 0, y: 25, duration: 1.2 }, 0.65);
+    }
+    if (document.querySelector('.hero-ctas')) {
+      tl.from('.hero-ctas', { opacity: 0, y: 30, duration: 1.2 }, 0.8);
+    }
+    if (document.querySelector('.scroll-down-btn')) {
+      tl.from('.scroll-down-btn', { opacity: 0, y: 15, duration: 1.2 }, 0.95);
+    }
 
     // Infinite loop animation for scroll down line
-    gsap.to('.scroll-line-indicator', {
-      top: '100%',
-      duration: 1.5,
-      repeat: -1,
-      ease: 'power1.inOut'
-    });
+    if (document.querySelector('.scroll-line-indicator')) {
+      gsap.to('.scroll-line-indicator', {
+        top: '100%',
+        duration: 1.5,
+        repeat: -1,
+        ease: 'power1.inOut'
+      });
+    }
 
     // ScrollTrigger animations for Selected Work editorial sections
     gsap.utils.toArray('.editorial-title').forEach((title) => {
@@ -216,69 +233,79 @@ const Home = () => {
       );
     });
 
-    // Contact Section Animations
-    gsap.fromTo('.contact-title',
-      { y: 60, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1.4,
-        ease: 'power4.out',
-        scrollTrigger: {
-          trigger: '#contact',
-          start: 'top 80%',
-          toggleActions: 'play none none none'
-        }
+    // Contact Section Animations (Only execute if present in DOM)
+    if (document.querySelector('#contact')) {
+      if (document.querySelector('.contact-title')) {
+        gsap.fromTo('.contact-title',
+          { y: 60, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.4,
+            ease: 'power4.out',
+            scrollTrigger: {
+              trigger: '#contact',
+              start: 'top 80%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
       }
-    );
 
-    gsap.fromTo('.contact-btn',
-      { scale: 0.9, opacity: 0, y: 30 },
-      {
-        scale: 1,
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '#contact',
-          start: 'top 78%',
-          toggleActions: 'play none none none'
-        }
+      if (document.querySelector('.contact-btn')) {
+        gsap.fromTo('.contact-btn',
+          { scale: 0.9, opacity: 0, y: 30 },
+          {
+            scale: 1,
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            stagger: 0.15,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: '#contact',
+              start: 'top 78%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
       }
-    );
 
-    gsap.fromTo('.contact-social-link',
-      { y: 40, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1.2,
-        stagger: 0.12,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '#contact',
-          start: 'top 78%',
-          toggleActions: 'play none none none'
-        }
+      if (document.querySelector('.contact-social-link')) {
+        gsap.fromTo('.contact-social-link',
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            stagger: 0.12,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: '#contact',
+              start: 'top 78%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
       }
-    );
 
-    gsap.fromTo('.footer-giant-word',
-      { y: 120, scale: 0.93 },
-      {
-        y: 0,
-        scale: 1.03,
-        ease: 'power1.out',
-        scrollTrigger: {
-          trigger: '#contact',
-          start: 'top bottom',
-          end: 'bottom bottom',
-          scrub: 1.2
-        }
+      if (document.querySelector('.footer-giant-word')) {
+        gsap.fromTo('.footer-giant-word',
+          { y: 120, scale: 0.93 },
+          {
+            y: 0,
+            scale: 1.03,
+            ease: 'power1.out',
+            scrollTrigger: {
+              trigger: '#contact',
+              start: 'top bottom',
+              end: 'bottom bottom',
+              scrub: 1.2
+            }
+          }
+        );
       }
-    );
+    }
   }, []);
 
   // Cursor trailing image gallery effect in the Hero section
@@ -370,31 +397,46 @@ const Home = () => {
     const sequence = { frame: 0 };
 
     const drawImage = (frameIndex) => {
-      const roundedIndex = Math.round(frameIndex);
-      const img = images[roundedIndex];
-      if (!img || !img.complete) return; // Only draw if loaded
+      if (images.length === 0) return;
+      const maxIdx = images.length - 1;
+      const clamped = Math.max(0, Math.min(maxIdx, frameIndex));
+      const idx1 = Math.floor(clamped);
+      const idx2 = Math.min(maxIdx, idx1 + 1);
+      const progress = clamped - idx1;
+
+      const img1 = images[idx1];
+      const img2 = images[idx2];
+      if (!img1 || !img1.complete) return;
 
       context.imageSmoothingEnabled = true;
       context.imageSmoothingQuality = 'high';
-
       context.clearRect(0, 0, canvas.width, canvas.height);
 
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
-      const imageWidth = img.width;
-      const imageHeight = img.height;
+      const imageWidth = img1.width;
+      const imageHeight = img1.height;
 
+      const isMobile = canvasWidth < 768;
       const r = Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight);
       const nw = imageWidth * r;
       const nh = imageHeight * r;
       const cx = (canvasWidth - nw) / 2;
-      const cy = ((canvasHeight - nh) / 2) + 80;
+      const cyOffset = isMobile ? 0 : 80;
+      const cy = ((canvasHeight - nh) / 2) + cyOffset;
 
-      context.drawImage(img, cx, cy, nw, nh);
+      context.globalAlpha = 1.0;
+      context.drawImage(img1, cx, cy, nw, nh);
+
+      if (progress > 0.01 && img2 && img2.complete) {
+        context.globalAlpha = progress;
+        context.drawImage(img2, cx, cy, nw, nh);
+        context.globalAlpha = 1.0;
+      }
     };
 
     const handleResize = () => {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       drawImage(sequence.frame);
@@ -417,7 +459,7 @@ const Home = () => {
       scrollTrigger: {
         trigger: secondSectionRef.current,
         start: 'top top',
-        end: '+=2500', // Pinned scroll length
+        end: '+=3000', // Pinned scroll length for extended smooth scroll
         pin: true,
         scrub: 1.2,
         anticipatePin: 1,
@@ -464,7 +506,7 @@ const Home = () => {
     };
   }, [images]);
 
-  // Set up canvas drawing on scroll pinned to Hands section (Identical to iPhone animation setup)
+  // Set up canvas drawing on scroll pinned to Hands section
   useGSAP(() => {
     if (!handsCanvasRef.current || !handsSectionRef.current || handsImages.length === 0) return;
 
@@ -473,31 +515,50 @@ const Home = () => {
     const sequence = { frame: 0 };
 
     const drawImage = (frameIndex) => {
-      const roundedIndex = Math.round(frameIndex);
-      const img = handsImages[roundedIndex];
-      if (!img || !img.complete) return; // Only draw if loaded
+      if (handsImages.length === 0) return;
+      const maxIdx = handsImages.length - 1;
+      const clamped = Math.max(0, Math.min(maxIdx, frameIndex));
+      const idx1 = Math.floor(clamped);
+      const idx2 = Math.min(maxIdx, idx1 + 1);
+      const progress = clamped - idx1;
+
+      const img1 = handsImages[idx1];
+      const img2 = handsImages[idx2];
+      if (!img1 || !img1.complete) return;
 
       context.imageSmoothingEnabled = true;
       context.imageSmoothingQuality = 'high';
-
       context.clearRect(0, 0, canvas.width, canvas.height);
 
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
-      const imageWidth = img.width;
-      const imageHeight = img.height;
+      const imageWidth = img1.width;
+      const imageHeight = img1.height;
 
-      const r = Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight);
+      const aspect = canvasWidth / canvasHeight;
+      const isMobile = canvasWidth < 1000 || aspect < 0.85;
+
+      const r = isMobile
+        ? (canvasWidth / imageWidth) * 1.05
+        : Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight);
+
       const nw = imageWidth * r;
       const nh = imageHeight * r;
       const cx = (canvasWidth - nw) / 2;
       const cy = (canvasHeight - nh) / 2;
 
-      context.drawImage(img, cx, cy, nw, nh);
+      context.globalAlpha = 1.0;
+      context.drawImage(img1, cx, cy, nw, nh);
+
+      if (progress > 0.01 && img2 && img2.complete) {
+        context.globalAlpha = progress;
+        context.drawImage(img2, cx, cy, nw, nh);
+        context.globalAlpha = 1.0;
+      }
     };
 
     const handleResize = () => {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       drawImage(sequence.frame);
@@ -519,9 +580,9 @@ const Home = () => {
       scrollTrigger: {
         trigger: handsSectionRef.current,
         start: 'top top',
-        end: '+=3500', // Expanded scroll distance for ultra-smooth frame steps
+        end: '+=4000', // Pinned scroll distance for smooth frame steps
         pin: true,
-        scrub: 2, // Enhanced cinematic inertia smoothing
+        scrub: 1.2,
         anticipatePin: 1,
       }
     });
@@ -534,6 +595,13 @@ const Home = () => {
         drawImage(sequence.frame);
       }
     }, 0);
+
+    // Text overlay fades in over the hands towards the end of the handshake sequence
+    tl.fromTo('.hands-showcase-text',
+      { opacity: 0, y: 35, scale: 0.92 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.2, ease: 'power3.out' },
+      0.72
+    );
 
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -572,6 +640,169 @@ const Home = () => {
     );
   }, []);
 
+  // Mobile Active Scroll Highlight for Capabilities (.cap-item-row) - ONE item at a time
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerWidth > 1024) return;
+      const rows = document.querySelectorAll('#services-overview .cap-item-row');
+      if (rows.length === 0) return;
+
+      const viewportCenter = window.innerHeight / 2;
+      let closestRow = null;
+      let minDistance = Infinity;
+
+      rows.forEach((row) => {
+        const rect = row.getBoundingClientRect();
+        if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
+          const rowCenter = rect.top + rect.height / 2;
+          const distance = Math.abs(rowCenter - viewportCenter);
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestRow = row;
+          }
+        }
+      });
+
+      rows.forEach((row) => {
+        const capId = row.querySelector('.cap-id');
+        const capVal = row.querySelector('.cap-val-text');
+        const capArrow = row.querySelector('.cap-arrow');
+
+        if (row === closestRow) {
+          row.style.backgroundColor = '#0052ff';
+          row.style.boxShadow = '0 8px 25px rgba(0, 82, 255, 0.45)';
+          row.style.transform = 'scale(1.02)';
+          if (capId) { capId.style.color = '#ffffff'; capId.style.opacity = '0.95'; }
+          if (capVal) { capVal.style.color = 'rgba(255, 255, 255, 0.95)'; capVal.style.opacity = '1'; }
+          if (capArrow) { capArrow.style.opacity = '1'; capArrow.style.transform = 'translateX(4px)'; }
+        } else {
+          row.style.backgroundColor = 'transparent';
+          row.style.boxShadow = 'none';
+          row.style.transform = 'none';
+          if (capId) { capId.style.color = 'rgba(255, 255, 255, 0.5)'; capId.style.opacity = '1'; }
+          if (capVal) { capVal.style.color = 'rgba(255, 255, 255, 0.7)'; capVal.style.opacity = '0.85'; }
+          if (capArrow) { capArrow.style.opacity = '0'; capArrow.style.transform = 'none'; }
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Mobile Active Scroll Highlight for Why Us (.why-row-item) - ONE item at a time
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerWidth > 1024) return;
+      const rows = document.querySelectorAll('#why-rising-media-works .why-row-item');
+      if (rows.length === 0) return;
+
+      const viewportCenter = window.innerHeight / 2;
+      let closestRow = null;
+      let minDistance = Infinity;
+
+      rows.forEach((row) => {
+        const rect = row.getBoundingClientRect();
+        if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
+          const rowCenter = rect.top + rect.height / 2;
+          const distance = Math.abs(rowCenter - viewportCenter);
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestRow = row;
+          }
+        }
+      });
+
+      rows.forEach((row) => {
+        const numEl = row.querySelector('.row-num');
+        const titleEl = row.querySelector('.row-title');
+        const descEl = row.querySelector('.why-row-desc');
+        const arrowEl = row.querySelector('.row-arrow');
+
+        if (row === closestRow) {
+          row.style.backgroundColor = '#0052ff';
+          row.style.boxShadow = '0 8px 25px rgba(0, 82, 255, 0.45)';
+          row.style.transform = 'scale(1.02)';
+          if (numEl) { numEl.style.color = '#ffffff'; numEl.style.opacity = '0.95'; }
+          if (titleEl) { titleEl.style.color = '#ffffff'; }
+          if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.95)'; }
+          if (arrowEl) { arrowEl.style.color = '#ffffff'; arrowEl.style.transform = 'rotate(45deg) translate(2px, -2px)'; }
+        } else {
+          row.style.backgroundColor = 'transparent';
+          row.style.boxShadow = 'none';
+          row.style.transform = 'none';
+          if (numEl) { numEl.style.color = 'rgba(255, 255, 255, 0.4)'; numEl.style.opacity = '1'; }
+          if (titleEl) { titleEl.style.color = 'rgba(255, 255, 255, 0.9)'; }
+          if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.6)'; }
+          if (arrowEl) { arrowEl.style.color = 'rgba(255, 255, 255, 0.6)'; arrowEl.style.transform = 'none'; }
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Mobile Active Scroll Highlight for Process Methodology Steps (.process-step-col) - ONE item at a time
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerWidth > 1024) return;
+      const steps = document.querySelectorAll('.process-step-col');
+      if (steps.length === 0) return;
+
+      const viewportCenter = window.innerHeight / 2;
+      let closestStep = null;
+      let minDistance = Infinity;
+
+      steps.forEach((col) => {
+        const rect = col.getBoundingClientRect();
+        if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
+          const colCenter = rect.top + rect.height / 2;
+          const distance = Math.abs(colCenter - viewportCenter);
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestStep = col;
+          }
+        }
+      });
+
+      steps.forEach((col) => {
+        const numEl = col.querySelector('.method-num') || col.querySelector('span');
+        const labelEl = col.querySelector('.method-label') || col.querySelector('div');
+
+        if (col === closestStep) {
+          col.style.backgroundColor = '#0052ff';
+          col.style.boxShadow = '0 10px 30px rgba(0, 82, 255, 0.45)';
+          col.style.transform = 'translateY(-4px) scale(1.03)';
+          col.style.borderRadius = '16px';
+          if (numEl) { numEl.style.color = '#ffffff'; numEl.style.transform = 'scale(1.08)'; }
+          if (labelEl) {
+            labelEl.style.color = '#ffffff';
+            const childDivs = labelEl.querySelectorAll('div');
+            childDivs.forEach(d => d.style.color = '#ffffff');
+          }
+        } else {
+          col.style.backgroundColor = 'transparent';
+          col.style.boxShadow = 'none';
+          col.style.transform = 'none';
+          if (numEl) { numEl.style.color = '#18181b'; numEl.style.transform = 'none'; }
+          if (labelEl) {
+            labelEl.style.color = '#52525b';
+            const childDivs = labelEl.querySelectorAll('div');
+            if (childDivs[0]) childDivs[0].style.color = '#18181b';
+            if (childDivs[1]) childDivs[1].style.color = '#52525b';
+          }
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div ref={containerRef} style={{ width: '100%', position: 'relative', overflowX: 'hidden' }}>
       
@@ -592,53 +823,107 @@ const Home = () => {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.8rem', maxWidth: '1100px' }}>
           <span className="hero-eyebrow eyebrow" style={{
             fontSize: '0.8rem',
-            letterSpacing: '0.4em',
+            letterSpacing: '0.35em',
             textTransform: 'uppercase',
-            color: '#888888',
+            color: '#666666',
             fontWeight: '600',
             fontFamily: 'sans-serif'
           }}>
-            Creative Agency & Publishing House
+            CREATIVE AGENCY & DIGITAL PRODUCTION STUDIO
           </span>
+
           <h1 className="hero-title" style={{
-            fontSize: 'calc(4rem + 8vw)',
+            fontSize: 'clamp(2.4rem, 5vw, 4.8rem)',
             fontWeight: '300',
-            lineHeight: '0.9',
-            letterSpacing: '0.05em',
+            lineHeight: '1.08',
+            letterSpacing: '0.01em',
             textTransform: 'uppercase',
             margin: 0,
             fontFamily: 'serif',
             color: '#000000'
           }}>
-            Rising
+            We Don’t Just Create Content.<br />
+            <span style={{ fontStyle: 'italic', fontWeight: '400' }}>We Build Brands.</span>
           </h1>
-          <a className="hero-btn" href="#showcase" style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '1rem',
-            padding: '1rem 2.5rem',
-            backgroundColor: '#000000',
-            color: '#ffffff',
-            borderRadius: '50px',
-            fontSize: '0.8rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.2em',
-            fontWeight: '500',
-            transition: 'opacity 0.3s ease',
-            marginTop: '1.5rem',
-            textDecoration: 'none'
-          }}
-          onMouseEnter={(e) => e.target.style.opacity = 0.8}
-          onMouseLeave={(e) => e.target.style.opacity = 1}
-          >
-            Explore Work
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M12 5v14M5 12l7 7 7-7" />
-            </svg>
-          </a>
+
+          <p className="hero-subtitle" style={{
+            maxWidth: '750px',
+            fontSize: 'calc(0.95rem + 0.3vw)',
+            lineHeight: '1.7',
+            color: '#555555',
+            fontWeight: '300',
+            fontFamily: 'sans-serif',
+            margin: '0.5rem 0 1.2rem 0'
+          }}>
+            Rising Media Works is a creative agency helping businesses, brands, and ideas become more visible, memorable, and meaningful through strategy, design, storytelling, and digital experiences.
+          </p>
+
+          <div className="hero-ctas" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <Link className="hero-btn" to="/contact" style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.8rem',
+              padding: '1.1rem 2.6rem',
+              backgroundColor: '#000000',
+              color: '#ffffff',
+              borderRadius: '50px',
+              fontSize: '0.82rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.18em',
+              fontWeight: '600',
+              transition: 'all 0.35s ease',
+              textDecoration: 'none',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.15)'
+            }}
+            onMouseEnter={(e) => {
+              playHoverSound();
+              e.currentTarget.style.backgroundColor = '#0052ff';
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,82,255,0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#000000';
+              e.currentTarget.style.transform = 'none';
+              e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.15)';
+            }}
+            >
+              Start A Project →
+            </Link>
+
+            <Link className="hero-btn-secondary" to="/work" style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.8rem',
+              padding: '1.1rem 2.4rem',
+              backgroundColor: 'transparent',
+              border: '1px solid rgba(0, 0, 0, 0.25)',
+              color: '#000000',
+              borderRadius: '50px',
+              fontSize: '0.82rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.18em',
+              fontWeight: '600',
+              transition: 'all 0.35s ease',
+              textDecoration: 'none'
+            }}
+            onMouseEnter={(e) => {
+              playHoverSound();
+              e.currentTarget.style.borderColor = '#000000';
+              e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.04)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.25)';
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.transform = 'none';
+            }}
+            >
+              Explore Our Works ↗
+            </Link>
+          </div>
         </div>
 
         {/* Scroll Down Indicator */}
@@ -753,7 +1038,8 @@ const Home = () => {
             height: '100%',
             display: 'block',
             zIndex: 2,
-            filter: 'drop-shadow(0 0 60px rgba(255, 255, 255, 0.95))'
+            filter: 'contrast(1.08) saturate(1.05) brightness(1.02) drop-shadow(0 0 60px rgba(255, 255, 255, 0.95))',
+            imageRendering: '-webkit-optimize-contrast'
           }}
         />
 
@@ -868,6 +1154,176 @@ const Home = () => {
           zIndex: 5,
           pointerEvents: 'none'
         }} />
+
+        {/* Text overlay appearing near the end of the handshake sequence (Positioned cleanly above the hands) */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+          paddingTop: '12vh',
+          paddingLeft: '5vw',
+          paddingRight: '5vw',
+          boxSizing: 'border-box',
+          pointerEvents: 'none',
+          zIndex: 6
+        }}>
+          <div className="hands-showcase-text" style={{
+            textAlign: 'center',
+            maxWidth: '860px',
+            opacity: 0
+          }}>
+            <p style={{
+              fontSize: 'calc(1.1rem + 0.5vw)',
+              lineHeight: '1.5',
+              color: 'rgba(255, 255, 255, 0.95)',
+              margin: 0,
+              fontFamily: 'sans-serif',
+              fontWeight: '300',
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+              textShadow: '0 4px 30px rgba(0, 0, 0, 0.95)'
+            }}>
+              WE PARTNER WITH INDUSTRY LEADERS TO BUILD SOMETHING WORTH REMEMBERING
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* BRAND PARTNERS SHOWCASE SECTION (Showcasing all 14 brand logos right after handshake sequence) */}
+      <section id="brand-partners" className="scroll-fade-in" style={{
+        width: '100%',
+        padding: '6vh 6vw',
+        boxSizing: 'border-box',
+        backgroundColor: '#000000',
+        color: '#ffffff',
+        fontFamily: 'sans-serif',
+        position: 'relative',
+        borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.15)'
+      }}>
+        <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
+          
+          {/* Top Description Text */}
+          <div style={{ marginBottom: '3rem', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
+            <p style={{
+              maxWidth: '820px',
+              fontSize: 'calc(0.95rem + 0.35vw)',
+              lineHeight: '1.75',
+              color: 'rgba(255, 255, 255, 0.78)',
+              margin: 0,
+              fontFamily: 'sans-serif',
+              fontWeight: '300',
+              letterSpacing: '0.01em'
+            }}>
+              Partnering with global leaders in automotive, engineering, mobility, and industrial innovation to deliver high-impact visual campaigns and production.
+            </p>
+          </div>
+
+          {/* Infinite Auto-Scrolling Marquee Ticker */}
+          <div className="brand-marquee-container" style={{ display: 'flex', flexDirection: 'column', gap: '1.8rem' }}>
+            {/* Row 1: Moving Left */}
+            <div className="brand-marquee-track-left">
+              {[...brandLogos, ...brandLogos].map((brand, idx) => (
+                <div
+                  key={idx}
+                  className="brand-logo-card"
+                  style={{
+                    backgroundColor: '#ffffff',
+                    borderRadius: '16px',
+                    padding: '1.25rem',
+                    height: '105px',
+                    width: '210px',
+                    flexShrink: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxSizing: 'border-box',
+                    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                    cursor: 'pointer',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)'
+                  }}
+                  onMouseEnter={(e) => {
+                    playHoverSound();
+                    e.currentTarget.style.transform = 'translateY(-6px) scale(1.04)';
+                    e.currentTarget.style.boxShadow = '0 15px 35px rgba(0, 82, 255, 0.4)';
+                    e.currentTarget.style.borderColor = '#0052ff';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'none';
+                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.4)';
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                  }}
+                >
+                  <img
+                    src={brand.src}
+                    alt={brand.name}
+                    style={{
+                      maxHeight: '60px',
+                      maxWidth: '85%',
+                      objectFit: 'contain',
+                      filter: 'contrast(1.05)'
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Row 2: Moving Right */}
+            <div className="brand-marquee-track-right">
+              {[...brandLogos.slice().reverse(), ...brandLogos.slice().reverse()].map((brand, idx) => (
+                <div
+                  key={idx}
+                  className="brand-logo-card"
+                  style={{
+                    backgroundColor: '#ffffff',
+                    borderRadius: '16px',
+                    padding: '1.25rem',
+                    height: '105px',
+                    width: '210px',
+                    flexShrink: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxSizing: 'border-box',
+                    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                    cursor: 'pointer',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)'
+                  }}
+                  onMouseEnter={(e) => {
+                    playHoverSound();
+                    e.currentTarget.style.transform = 'translateY(-6px) scale(1.04)';
+                    e.currentTarget.style.boxShadow = '0 15px 35px rgba(0, 82, 255, 0.4)';
+                    e.currentTarget.style.borderColor = '#0052ff';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'none';
+                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.4)';
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                  }}
+                >
+                  <img
+                    src={brand.src}
+                    alt={brand.name}
+                    style={{
+                      maxHeight: '60px',
+                      maxWidth: '85%',
+                      objectFit: 'contain',
+                      filter: 'contrast(1.05)'
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
       </section>
 
       {/* SERVICES / AGENCY OVERVIEW SECTION (Modern Editorial UI matching Reference) */}
@@ -884,162 +1340,258 @@ const Home = () => {
         <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
           
           {/* Top Eyebrow Header Row */}
-          <div style={{
+          <div className="services-eyebrow-row" style={{
             paddingTop: '2.5rem',
-            marginBottom: '8vh',
+            marginBottom: '6vh',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.6rem'
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '1.5rem'
           }}>
-            <span style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              backgroundColor: '#ffffff',
-              display: 'inline-block'
-            }} />
-            <span style={{
-              fontSize: '0.72rem',
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              fontWeight: '600',
-              color: '#ffffff',
-              fontFamily: 'sans-serif'
-            }}>
-              ABOUT THE SERVICES
-            </span>
-          </div>
-
-          {/* Massive Mixed Typography Statement */}
-          <div style={{ maxWidth: '1300px', marginBottom: '8vh' }}>
-            <h2 style={{
-              fontSize: 'calc(2.2rem + 2.2vw)',
-              fontWeight: '300',
-              lineHeight: '1.25',
-              letterSpacing: '-0.02em',
-              margin: 0,
-              color: '#ffffff',
-              fontFamily: 'sans-serif'
-            }}>
-              <span style={{ fontFamily: 'serif', fontStyle: 'italic', fontWeight: '400' }}>Rising Media Works</span>, a revolutionary approach to digital creation. From expert-crafted video productions to clinically proven digital architectures, it’s the <span style={{ fontFamily: 'serif', fontStyle: 'italic', fontWeight: '400' }}>new standard</span> in visual excellence.
-            </h2>
-          </div>
-
-          {/* Indented Right Paragraph Block */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginBottom: '12vh'
-          }}>
-            <p style={{
-              maxWidth: '560px',
-              fontSize: '0.98rem',
-              lineHeight: '1.75',
-              color: 'rgba(255, 255, 255, 0.65)',
-              margin: 0,
-              fontFamily: 'sans-serif',
-              fontWeight: '300'
-            }}>
-              At Rising Media Works, we craft unique, bespoke visual campaigns and digital platforms. Specifically designed for high-impact brand positioning and audience retention, our services deliver uncompromised creative quality and technical performance.
-            </p>
-          </div>
-
-          {/* Bottom Capabilities / Team Metadata Row */}
-          <div style={{
-            borderTop: '1px solid rgba(255, 255, 255, 0.15)',
-            paddingTop: '3.5rem',
-            display: 'grid',
-            gridTemplateColumns: '1fr 2fr',
-            gap: '4rem'
-          }}>
-            {/* Left Header */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', height: 'fit-content' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
               <span style={{
                 width: '8px',
                 height: '8px',
                 borderRadius: '50%',
                 backgroundColor: '#ffffff',
+                boxShadow: '0 0 12px rgba(255, 255, 255, 0.6)',
                 display: 'inline-block'
               }} />
               <span style={{
-                fontSize: '0.72rem',
-                letterSpacing: '0.18em',
+                fontSize: '0.75rem',
+                letterSpacing: '0.22em',
                 textTransform: 'uppercase',
-                fontWeight: '600',
+                fontWeight: '700',
                 color: '#ffffff',
-                fontFamily: 'sans-serif'
+                fontFamily: 'monospace'
               }}>
                 CAPABILITIES
               </span>
             </div>
 
-            {/* Right Capabilities Table List */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+            <Link 
+              to="/services" 
+              className="services-explore-link"
+              style={{
+                fontSize: '0.78rem',
+                letterSpacing: '0.16em',
+                textTransform: 'uppercase',
+                fontWeight: '700',
+                color: '#ffffff',
+                backgroundColor: '#0052ff',
+                padding: '0.6rem 1.4rem',
+                borderRadius: '50px',
+                textDecoration: 'none',
+                fontFamily: 'sans-serif',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                boxShadow: '0 4px 20px rgba(0, 82, 255, 0.45)',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#ffffff';
+                e.currentTarget.style.color = '#000000';
+                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                e.currentTarget.style.boxShadow = '0 8px 25px rgba(255, 255, 255, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#0052ff';
+                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.transform = 'none';
+                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 82, 255, 0.45)';
+              }}
+            >
+              EXPLORE ALL SERVICES →
+            </Link>
+          </div>
+
+          {/* Massive Mixed Typography Statement */}
+          <div style={{ maxWidth: '1300px', marginBottom: '6vh' }}>
+            <Link to="/services" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <h2 
+                className="services-main-headline"
+                style={{
+                  fontSize: 'calc(2.4rem + 2vw)',
+                  fontWeight: '300',
+                  lineHeight: '1.2',
+                  letterSpacing: '-0.02em',
+                  margin: 0,
+                  color: '#ffffff',
+                  fontFamily: 'serif',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                  transition: 'opacity 0.3s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.85'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+              >
+                Creative Work <br />
+                <span style={{ fontStyle: 'italic', fontWeight: '400', color: '#ffffff' }}>With A Purpose.</span>
+              </h2>
+            </Link>
+          </div>
+
+          {/* Indented Right Paragraph Block */}
+          <div className="services-paragraph-wrapper" style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginBottom: '10vh'
+          }}>
+            <p style={{
+              maxWidth: '620px',
+              fontSize: '1.05rem',
+              lineHeight: '1.75',
+              color: 'rgba(255, 255, 255, 0.75)',
+              margin: 0,
+              fontFamily: 'sans-serif',
+              fontWeight: '300'
+            }}>
+              We combine strategy, creativity, technology, and production to create communication that looks distinctive and works for your business.
+            </p>
+          </div>
+
+          {/* Bottom Capabilities / Team Metadata Row */}
+          <div 
+            className="capabilities-grid-layout"
+            style={{
+              borderTop: '1px solid rgba(255, 255, 255, 0.2)',
+              paddingTop: '4rem',
+              display: 'grid',
+              gridTemplateColumns: '1fr 2.5fr',
+              gap: '4rem'
+            }}
+          >
+            {/* Left Header with Glowing Dot Badge */}
+            <div className="services-what-we-do-header" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', height: 'fit-content' }}>
+              <span style={{
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                backgroundColor: '#ffffff',
+                boxShadow: '0 0 14px rgba(255, 255, 255, 0.6)',
+                display: 'inline-block'
+              }} />
+              <span style={{
+                fontSize: '0.8rem',
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                fontWeight: '700',
+                color: '#ffffff',
+                fontFamily: 'monospace'
+              }}>
+                WHAT WE DO
+              </span>
+            </div>
+
+            {/* Right Capabilities Table List with Interactive Highlights */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {[
-                { id: '[01]', label: 'Video Production:', val: 'High-End Commercial Direction & Cinematic Storytelling' },
-                { id: '[02]', label: 'UI/UX & Web Design:', val: 'Bespoke Digital Architectures & Interactive Systems' },
-                { id: '[03]', label: '3D & Motion Graphics:', val: 'Dynamic 2D/3D Animations & Title Sequences' },
-                { id: '[04]', label: 'Special Books:', val: 'Premium Hardbound Publishing & Fine Editorial Design' }
+                { id: '[01]', serviceId: 'video-production', label: 'Video Production:', val: 'Brand Films, Corporate, Commercial & Social Media Video Experiences' },
+                { id: '[02]', serviceId: 'video-editing', label: 'Video Editing:', val: 'Short-Form Reels, YouTube, Colour Grading & Post-Production' },
+                { id: '[03]', serviceId: 'motion-graphics', label: 'Motion Graphics:', val: '2D/3D Motion, Logo Animation, Explainer Videos & Title Sequences' },
+                { id: '[04]', serviceId: 'branding', label: 'Branding & Creative Design:', val: 'Brand Identity, Logo Design, Guidelines & Campaign Design' },
+                { id: '[05]', serviceId: 'web-design', label: 'Web Design & Development:', val: 'Modern UI/UX, Custom Web Architectures & High-Conversion Landing Pages' },
+                { id: '[06]', serviceId: 'digital-content', label: 'Digital Content & Social Media:', val: 'Content Strategy, Social Media Management & Creative Promotion' },
+                { id: '[07]', serviceId: 'photography', label: 'Photography & Visual Production:', val: 'Product, Campaign & Marketing Visual Photography' },
+                { id: '[08]', serviceId: 'book-design', label: 'Book Design & Publishing:', val: 'Cover Design, Interior Layout, Print-Ready Files & KDP Publishing' }
               ].map((item) => (
-                <div key={item.id} style={{
-                  display: 'grid',
-                  gridTemplateColumns: '45px 180px 1fr',
-                  alignItems: 'baseline',
-                  fontSize: '0.85rem',
-                  color: 'rgba(255, 255, 255, 0.85)',
-                  fontFamily: 'sans-serif'
-                }}>
-                  <span style={{ color: 'rgba(255, 255, 255, 0.4)', fontStyle: 'italic', fontFamily: 'serif' }}>
-                    {item.id}
-                  </span>
-                  <span style={{ fontWeight: '600', color: '#ffffff' }}>
-                    {item.label}
-                  </span>
-                  <span style={{ color: 'rgba(255, 255, 255, 0.65)', fontWeight: '300' }}>
-                    {item.val}
-                  </span>
-                </div>
+                <Link
+                  key={item.id}
+                  to={`/services/${item.serviceId}`}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <div 
+                    className="cap-item-row"
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '55px 210px 1fr auto',
+                      alignItems: 'center',
+                      fontSize: '0.95rem',
+                      color: 'rgba(255, 255, 255, 0.9)',
+                      fontFamily: 'sans-serif',
+                      padding: '1.2rem 1.5rem',
+                      borderRadius: '12px',
+                      borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                      transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                      cursor: 'pointer',
+                      backgroundColor: 'transparent'
+                    }}
+                    onMouseEnter={(e) => {
+                      playHoverSound();
+                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                      e.currentTarget.style.transform = 'translateX(10px)';
+                      e.currentTarget.style.borderBottomColor = '#ffffff';
+                      const idxEl = e.currentTarget.querySelector('.cap-id');
+                      if (idxEl) idxEl.style.color = '#ffffff';
+                      const labelEl = e.currentTarget.querySelector('.cap-label');
+                      if (labelEl) labelEl.style.color = '#ffffff';
+                      const arrowEl = e.currentTarget.querySelector('.cap-arrow');
+                      if (arrowEl) {
+                        arrowEl.style.opacity = '1';
+                        arrowEl.style.transform = 'translateX(4px)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.transform = 'none';
+                      e.currentTarget.style.borderBottomColor = 'rgba(255, 255, 255, 0.08)';
+                      const idxEl = e.currentTarget.querySelector('.cap-id');
+                      if (idxEl) idxEl.style.color = 'rgba(255, 255, 255, 0.5)';
+                      const labelEl = e.currentTarget.querySelector('.cap-label');
+                      if (labelEl) labelEl.style.color = '#ffffff';
+                      const arrowEl = e.currentTarget.querySelector('.cap-arrow');
+                      if (arrowEl) {
+                        arrowEl.style.opacity = '0';
+                        arrowEl.style.transform = 'none';
+                      }
+                    }}
+                  >
+                    <span className="cap-id" style={{ color: 'rgba(255, 255, 255, 0.5)', fontWeight: '600', fontFamily: 'monospace', fontSize: '0.9rem', transition: 'color 0.3s' }}>
+                      {item.id}
+                    </span>
+                    <span className="cap-label" style={{ fontWeight: '600', color: '#ffffff', fontSize: '1rem', transition: 'color 0.3s' }}>
+                      {item.label}
+                    </span>
+                    <span className="cap-val-text" style={{ color: 'rgba(255, 255, 255, 0.7)', fontWeight: '300', fontSize: '0.95rem' }}>
+                      {item.val}
+                    </span>
+                    <span className="cap-arrow" style={{ opacity: 0, color: '#ffffff', transition: 'all 0.3s ease', fontSize: '1.1rem', fontWeight: 'bold' }}>
+                      →
+                    </span>
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
 
         </div>
-
-        {/* Mobile Responsive injected style */}
-        <style>{`
-          @media (max-width: 768px) {
-            #services-overview {
-              padding: 8vh 5vw !important;
-            }
-            #services-overview div[style*="gridTemplateColumns: '1fr 2fr'"] {
-              grid-template-columns: 1fr !important;
-              gap: 2rem !important;
-            }
-            #services-overview div[style*="gridTemplateColumns: '45px 180px 1fr'"] {
-              grid-template-columns: 45px 1fr !important;
-              gap: 0.5rem !important;
-            }
-          }
-        `}</style>
       </section>
 
-      {/* WHY RISING MEDIA WORKS SECTION (Non-Card Kinetic Typographic List UI) */}
-      <section id="why-rising-media-works" className="scroll-fade-in" style={{
-        width: '100%',
-        minHeight: '100vh',
-        padding: '14vh 6vw',
-        boxSizing: 'border-box',
-        backgroundColor: '#000000',
-        color: '#ffffff',
-        fontFamily: 'sans-serif',
-        position: 'relative',
-        borderTop: '1px solid rgba(255, 255, 255, 0.15)'
-      }}>
+      {/* WHY RISING MEDIA WORKS SECTION (Kinetic Typographic List with Hover Image Reveal UI) */}
+      <section 
+        id="why-rising-media-works" 
+        className="scroll-fade-in" 
+        onMouseMove={(e) => setMousePos({ x: e.clientX, y: e.clientY })}
+        style={{
+          width: '100%',
+          minHeight: '100vh',
+          padding: '14vh 6vw',
+          boxSizing: 'border-box',
+          backgroundColor: '#000000',
+          color: '#ffffff',
+          fontFamily: 'sans-serif',
+          position: 'relative',
+          borderTop: '1px solid rgba(255, 255, 255, 0.15)'
+        }}
+      >
         <div style={{ maxWidth: '1500px', margin: '0 auto' }}>
           
           {/* Eyebrow and Section Header */}
-          <div style={{ marginBottom: '10vh' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.2rem' }}>
+          <div className="why-header-wrapper" style={{ marginBottom: '10vh' }}>
+            <div className="why-eyebrow-container" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.2rem' }}>
               <span style={{
                 width: '8px',
                 height: '8px',
@@ -1059,7 +1611,7 @@ const Home = () => {
               </span>
             </div>
 
-            <h2 style={{
+            <h2 className="why-main-title" style={{
               fontSize: 'calc(2.4rem + 2vw)',
               fontWeight: '300',
               fontFamily: 'serif',
@@ -1077,23 +1629,33 @@ const Home = () => {
             {[
               {
                 num: '01',
-                title: 'Cinematic Visual Direction',
-                desc: 'Bespoke narrative timing, master color grading, and high-production visual architectures that command absolute audience retention.'
+                title: 'STRATEGY MEETS CREATIVITY',
+                desc: 'We combine strategic thinking with creative execution to ensure that every visual decision supports a larger business objective.',
+                image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80'
               },
               {
                 num: '02',
-                title: 'Architectural Precision',
-                desc: 'Obsessive grid systems, golden-ratio margins, and engineering-grade web interfaces crafted for high-end digital presence.'
+                title: 'BUILT AROUND YOUR BRAND',
+                desc: 'No one-size-fits-all creative. We develop concepts, visuals, and content around your brand identity, audience, and goals.',
+                image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'
               },
               {
                 num: '03',
-                title: 'High-Throughput Delivery',
-                desc: 'Streamlined editorial production pipelines built for rapid global campaign launches without compromising frame perfection.'
+                title: 'ONE CREATIVE PARTNER',
+                desc: 'From strategy and design to production, editing, motion, web, and digital content, we bring multiple creative capabilities together.',
+                image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80'
               },
               {
                 num: '04',
-                title: 'Unrivaled Engagement',
-                desc: 'Interactive 3D sequences, micro-animations, and dynamic motion art that convert passive viewers into loyal brand advocates.'
+                title: 'DETAIL MATTERS',
+                desc: 'Typography, composition, pacing, colour, sound, movement, layout, and consistency — we pay attention to the details that make creative work feel finished.',
+                image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80'
+              },
+              {
+                num: '05',
+                title: 'MADE FOR THE DIGITAL WORLD',
+                desc: "We create content and experiences designed for today's platforms while keeping the core brand identity consistent across every touchpoint.",
+                image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80'
               }
             ].map((item, idx) => (
               <div
@@ -1112,6 +1674,7 @@ const Home = () => {
                 }}
                 onMouseEnter={(e) => {
                   playHoverSound();
+                  setHoveredWhyUsImage(item.image);
                   e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)';
                   e.currentTarget.style.paddingLeft = '3rem';
                   const title = e.currentTarget.querySelector('.row-title');
@@ -1125,6 +1688,7 @@ const Home = () => {
                   }
                 }}
                 onMouseLeave={(e) => {
+                  setHoveredWhyUsImage(null);
                   e.currentTarget.style.backgroundColor = 'transparent';
                   e.currentTarget.style.paddingLeft = '2rem';
                   const title = e.currentTarget.querySelector('.row-title');
@@ -1151,11 +1715,11 @@ const Home = () => {
 
                 {/* Title */}
                 <h3 className="row-title" style={{
-                  fontSize: 'calc(1.4rem + 0.6vw)',
+                  fontSize: 'calc(1.3rem + 0.5vw)',
                   fontWeight: '400',
                   textTransform: 'uppercase',
                   margin: 0,
-                  fontFamily: 'var(--font-editorial)',
+                  fontFamily: 'serif',
                   color: 'rgba(255, 255, 255, 0.9)',
                   letterSpacing: '-0.01em',
                   transition: 'color 0.4s ease'
@@ -1164,7 +1728,7 @@ const Home = () => {
                 </h3>
 
                 {/* Description */}
-                <p style={{
+                <p className="why-row-desc" style={{
                   fontSize: '0.95rem',
                   lineHeight: '1.65',
                   color: 'rgba(255, 255, 255, 0.6)',
@@ -1189,19 +1753,534 @@ const Home = () => {
 
         </div>
 
-        {/* Mobile Responsive Rules */}
-        <style>{`
-          @media (max-width: 900px) {
-            #why-rising-media-works .why-row-item {
-              grid-template-columns: 50px 1fr 30px !important;
-              gap: 1.5rem !important;
-              padding: 2.5rem 1rem !important;
-            }
-            #why-rising-media-works .why-row-item p {
-              display: none !important;
-            }
-          }
-        `}</style>
+        {/* Floating Cursor-Following Image Preview */}
+        <div 
+          className="why-hover-preview"
+          style={{
+            position: 'fixed',
+            top: mousePos.y - 110,
+            left: mousePos.x + 30,
+            width: '320px',
+            height: '210px',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            pointerEvents: 'none',
+            zIndex: 99999,
+            opacity: hoveredWhyUsImage ? 1 : 0,
+            transform: hoveredWhyUsImage ? 'scale(1) rotate(2deg)' : 'scale(0.8) rotate(0deg)',
+            transition: 'opacity 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+            boxShadow: '0 30px 70px rgba(0, 0, 0, 0.9), 0 0 1px rgba(255, 255, 255, 0.4)'
+          }}
+        >
+          {hoveredWhyUsImage && (
+            <img 
+              src={hoveredWhyUsImage} 
+              alt="Preview" 
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block'
+              }} 
+            />
+          )}
+        </div>
+      </section>
+
+      {/* OUR PROCESS SECTION (08. OUR PROCESS) */}
+      <section id="our-process" className="scroll-fade-in" style={{
+        width: '100%',
+        padding: '12vh 6vw',
+        boxSizing: 'border-box',
+        backgroundColor: '#000000',
+        color: '#ffffff',
+        fontFamily: 'sans-serif',
+        position: 'relative',
+        borderTop: '1px solid rgba(255, 255, 255, 0.15)'
+      }}>
+        <div style={{ maxWidth: '1500px', margin: '0 auto' }}>
+          
+          {/* Elegant Centered Header */}
+          <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
+            <span style={{
+              fontSize: '0.8rem',
+              letterSpacing: '0.35em',
+              textTransform: 'uppercase',
+              fontWeight: '700',
+              color: 'rgba(255, 255, 255, 0.5)',
+              fontFamily: "'Manrope', sans-serif",
+              display: 'block',
+              marginBottom: '0.6rem'
+            }}>
+              OUR PROCESS & METHODOLOGY
+            </span>
+            <p style={{
+              fontSize: '1.05rem',
+              lineHeight: '1.6',
+              color: 'rgba(255, 255, 255, 0.65)',
+              margin: '0 auto',
+              maxWidth: '620px',
+              fontWeight: '300',
+              fontFamily: "'Manrope', sans-serif"
+            }}>
+              A structured creative roadmap turning raw brand vision into high-impact digital products, immersive design, and measurable growth.
+            </p>
+          </div>
+
+          {/* 100% Exact Methodology UI matching reference image */}
+          <div 
+            style={{
+              backgroundColor: '#fafaf9',
+              borderRadius: '24px',
+              padding: '6rem 2rem',
+              color: '#1a1a1a',
+              marginTop: '2rem',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.3)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '4.5rem',
+              fontFamily: "'Manrope', sans-serif"
+            }}
+          >
+            {/* ROW 1: 5 ITEMS (01 - 05) */}
+            <div 
+              className="process-row-top"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(5, 1fr)',
+                width: '100%',
+                maxWidth: '1200px'
+              }}
+            >
+              {[
+                { num: '01', line1: 'Product :', line2: 'Problem and task.' },
+                { num: '02', line1: 'Research', line2: '& Discovery.' },
+                { num: '03', line1: 'UX Strategy.', line2: '' },
+                { num: '04', line1: 'UI Design.', line2: '' },
+                { num: '05', line1: 'MVP.', line2: '' }
+              ].map((step, idx) => (
+                <div 
+                  key={step.num}
+                  className="process-step-col"
+                  onMouseEnter={() => playHoverSound()}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    padding: '0 1rem',
+                    position: 'relative',
+                    borderRight: idx < 4 ? '1px solid #d4d4d8' : 'none',
+                    minHeight: '140px',
+                    justifyContent: 'flex-start'
+                  }}
+                >
+                  <span 
+                    className="method-num"
+                    style={{
+                      fontSize: 'clamp(3.2rem, 5vw, 4.8rem)',
+                      fontWeight: '600',
+                      color: '#18181b',
+                      lineHeight: '1',
+                      marginBottom: '1.2rem',
+                      letterSpacing: '-0.02em'
+                    }}
+                  >
+                    {step.num}
+                  </span>
+
+                  <div 
+                    className="method-label"
+                    style={{
+                      fontSize: '1rem',
+                      lineHeight: '1.35',
+                      color: '#52525b',
+                      fontWeight: '400',
+                      maxWidth: '160px'
+                    }}
+                  >
+                    <div>{step.line1}</div>
+                    {step.line2 && <div>{step.line2}</div>}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* ROW 2: 2 ITEMS CENTERED (06 - 07) */}
+            <div 
+              className="process-row-bottom"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                maxWidth: '480px',
+                width: '100%'
+              }}
+            >
+              {[
+                { num: '06', line1: 'Metrics.', line2: '' },
+                { num: '07', line1: 'How do I', line2: 'really work?' }
+              ].map((step, idx) => (
+                <div 
+                  key={step.num}
+                  className="process-step-col"
+                  onMouseEnter={() => playHoverSound()}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    padding: '0 1.5rem',
+                    borderRight: idx === 0 ? '1px solid #d4d4d8' : 'none',
+                    minHeight: '140px',
+                    justifyContent: 'flex-start'
+                  }}
+                >
+                  <span 
+                    className="method-num"
+                    style={{
+                      fontSize: 'clamp(3.2rem, 5vw, 4.8rem)',
+                      fontWeight: '600',
+                      color: '#18181b',
+                      lineHeight: '1',
+                      marginBottom: '1.2rem',
+                      letterSpacing: '-0.02em'
+                    }}
+                  >
+                    {step.num}
+                  </span>
+
+                  <div 
+                    className="method-label"
+                    style={{
+                      fontSize: '1rem',
+                      lineHeight: '1.35',
+                      color: '#52525b',
+                      fontWeight: '400',
+                      maxWidth: '160px'
+                    }}
+                  >
+                    <div>{step.line1}</div>
+                    {step.line2 && <div>{step.line2}</div>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* TESTIMONIALS SECTION */}
+      <section id="testimonials" className="scroll-fade-in" style={{
+        width: '100%',
+        minHeight: '100vh',
+        padding: '10vh 6vw',
+        boxSizing: 'border-box',
+        backgroundColor: '#000000',
+        color: '#ffffff',
+        fontFamily: 'sans-serif',
+        position: 'relative',
+        borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div style={{ maxWidth: '1600px', width: '100%', margin: '0 auto' }}>
+          
+          {/* Testimonial Editorial Grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+            gap: '4rem'
+          }}>
+            {[
+              {
+                num: '01',
+                avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+                quote: '“Rising Media Works transformed our brand narrative with cinematic direction that doubled our audience engagement within 30 days.”',
+                author: 'Alexander Vance',
+                role: 'Creative Director',
+                company: 'Apex Studio'
+              },
+              {
+                num: '02',
+                avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
+                quote: '“Their engineering-grade web interfaces and 3D motion artwork command absolute authority. The single highest standard in modern production.”',
+                author: 'Elena Rostova',
+                role: 'Managing Director',
+                company: 'Lumina Capital'
+              },
+              {
+                num: '03',
+                avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+                quote: '“From storyboards to final master color grading, working with Rising Media Works was flawless execution. They deliver true luxury aesthetics.”',
+                author: 'Marcus Thorne',
+                role: 'Chief Executive Officer',
+                company: 'Thorne & Co.'
+              }
+            ].map((item, idx) => (
+              <div
+                key={idx}
+                className="t-editorial-item"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  gap: '2.8rem',
+                  paddingBottom: '3rem',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
+                  transition: 'all 0.4s ease',
+                  cursor: 'pointer',
+                  backgroundColor: 'transparent'
+                }}
+                onMouseEnter={(e) => {
+                  playHoverSound();
+                  const num = e.currentTarget.querySelector('.t-num');
+                  if (num) num.style.color = '#0052ff';
+                  const img = e.currentTarget.querySelector('.t-img');
+                  if (img) {
+                    img.style.filter = 'grayscale(0%) contrast(1)';
+                    img.style.borderColor = '#0052ff';
+                  }
+                  const quote = e.currentTarget.querySelector('.t-quote');
+                  if (quote) quote.style.color = '#ffffff';
+                }}
+                onMouseLeave={(e) => {
+                  const num = e.currentTarget.querySelector('.t-num');
+                  if (num) num.style.color = 'rgba(255, 255, 255, 0.4)';
+                  const img = e.currentTarget.querySelector('.t-img');
+                  if (img) {
+                    img.style.filter = 'grayscale(100%) contrast(1.15) brightness(0.95)';
+                    img.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                  }
+                  const quote = e.currentTarget.querySelector('.t-quote');
+                  if (quote) quote.style.color = 'rgba(255, 255, 255, 0.8)';
+                }}
+              >
+                {/* Header Row: B&W Portrait & Index Number */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <img 
+                      src={item.avatar} 
+                      alt={item.author}
+                      className="t-img"
+                      style={{
+                        width: '64px',
+                        height: '64px',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                        filter: 'grayscale(100%) contrast(1.15) brightness(0.95)',
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                        transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
+                      }}
+                    />
+                    <div>
+                      <h4 style={{ fontSize: '1.05rem', fontWeight: '600', color: '#ffffff', margin: '0 0 0.2rem 0', fontFamily: 'sans-serif' }}>
+                        {item.author}
+                      </h4>
+                      <p style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.5)', margin: 0, fontFamily: 'sans-serif', fontWeight: '300' }}>
+                        {item.role} — <span style={{ color: 'rgba(255, 255, 255, 0.75)' }}>{item.company}</span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <span className="t-num" style={{
+                    fontSize: '0.85rem',
+                    fontFamily: 'monospace',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    letterSpacing: '0.1em',
+                    transition: 'color 0.4s'
+                  }}>
+                    // {item.num}
+                  </span>
+                </div>
+
+                {/* Main Quote Content */}
+                <p className="t-quote" style={{
+                  fontSize: '1.2rem',
+                  lineHeight: '1.7',
+                  fontFamily: 'serif',
+                  fontStyle: 'italic',
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  margin: 0,
+                  transition: 'color 0.4s ease'
+                }}>
+                  {item.quote}
+                </p>
+
+                {/* Rating Footer Row */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingTop: '1rem'
+                }}>
+                  <div style={{ color: '#0052ff', fontSize: '0.85rem', letterSpacing: '3px' }}>
+                    ★★★★★
+                  </div>
+                  <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255, 255, 255, 0.4)', fontFamily: 'monospace' }}>
+                    VERIFIED CLIENT
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* CTA SECTION (11. FINAL CTA SECTION) */}
+      <section id="cta-section" className="scroll-fade-in" style={{
+        width: '100%',
+        minHeight: '100vh',
+        padding: '12vh 6vw 6vh 6vw',
+        boxSizing: 'border-box',
+        backgroundColor: '#000000',
+        color: '#ffffff',
+        fontFamily: 'sans-serif',
+        position: 'relative',
+        borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        overflow: 'hidden'
+      }}>
+        {/* Soft Ambient Radial Electric Blue Aura (Behind CTA Text) */}
+        <div style={{
+          position: 'absolute',
+          top: '45%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '60vw',
+          height: '60vw',
+          background: 'radial-gradient(circle, rgba(0, 82, 255, 0.14) 0%, rgba(0, 82, 255, 0.04) 45%, transparent 70%)',
+          filter: 'blur(60px)',
+          pointerEvents: 'none',
+          zIndex: 1
+        }} />
+
+        <div style={{ maxWidth: '1400px', width: '100%', margin: 'auto 0', textAlign: 'center', position: 'relative', zIndex: 2 }}>
+          
+          <span style={{
+            fontSize: '0.78rem',
+            letterSpacing: '0.3em',
+            textTransform: 'uppercase',
+            color: '#0052ff',
+            fontWeight: '700',
+            fontFamily: 'monospace',
+            display: 'block',
+            marginBottom: '1.5rem'
+          }}>
+            READY WHEN YOU ARE
+          </span>
+
+          {/* Main Giant Kinetic Editorial Statement */}
+          <h2 style={{
+            fontSize: 'calc(2.6rem + 3vw)',
+            fontWeight: '800',
+            fontFamily: "'Manrope', sans-serif",
+            textTransform: 'uppercase',
+            lineHeight: '1.1',
+            letterSpacing: '-0.02em',
+            color: '#ffffff',
+            margin: '0 0 2rem 0'
+          }}>
+            Build Something <br />
+            <span style={{ color: '#ffffff' }}>
+              Worth Remembering.
+            </span>
+          </h2>
+
+          {/* Subtitle Paragraph */}
+          <p style={{
+            maxWidth: '680px',
+            margin: '0 auto 3.5rem auto',
+            fontSize: '1.05rem',
+            lineHeight: '1.75',
+            color: 'rgba(255, 255, 255, 0.7)',
+            fontWeight: '300',
+            fontFamily: "'Manrope', sans-serif"
+          }}>
+            Partner with Rising Media Works for strategic creative, powerful storytelling, and digital experiences designed around your brand.
+          </p>
+
+          {/* Magnetic CTA Action Buttons */}
+          <div className="cta-buttons-wrapper" style={{ display: 'flex', justifyContent: 'center', gap: '1.8rem', flexWrap: 'wrap' }}>
+            <Link 
+              to="/contact"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '1.2rem',
+                padding: '1.35rem 3.5rem',
+                borderRadius: '50px',
+                backgroundColor: '#ffffff',
+                color: '#000000',
+                fontSize: '0.95rem',
+                fontWeight: '600',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                boxShadow: '0 10px 40px rgba(255, 255, 255, 0.15)'
+              }}
+              onMouseEnter={(e) => {
+                playHoverSound();
+                e.currentTarget.style.backgroundColor = '#0052ff';
+                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.transform = 'scale(1.05) translateY(-4px)';
+                e.currentTarget.style.boxShadow = '0 15px 50px rgba(0, 82, 255, 0.5)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#ffffff';
+                e.currentTarget.style.color = '#000000';
+                e.currentTarget.style.transform = 'none';
+                e.currentTarget.style.boxShadow = '0 10px 40px rgba(255, 255, 255, 0.15)';
+              }}
+            >
+              Start A Project →
+            </Link>
+
+            <Link 
+              to="/work"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '1rem',
+                padding: '1.35rem 3rem',
+                borderRadius: '50px',
+                backgroundColor: 'transparent',
+                border: '1px solid rgba(255, 255, 255, 0.25)',
+                color: '#ffffff',
+                fontSize: '0.95rem',
+                fontWeight: '500',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+              }}
+              onMouseEnter={(e) => {
+                playHoverSound();
+                e.currentTarget.style.borderColor = '#0052ff';
+                e.currentTarget.style.color = '#0052ff';
+                e.currentTarget.style.backgroundColor = 'rgba(0, 82, 255, 0.08)';
+                e.currentTarget.style.transform = 'scale(1.03) translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.transform = 'none';
+              }}
+            >
+              Explore Our Works ↗
+            </Link>
+          </div>
+
+        </div>
+
       </section>
 
       {/* Video Lightbox Modal Overlay */}
@@ -1240,6 +2319,9 @@ const Home = () => {
           </div>
         </div>
       )}
+
+      {/* Main Page Footer */}
+      <Footer />
     </div>
   );
 };

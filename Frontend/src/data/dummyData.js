@@ -2,7 +2,18 @@ export const servicesData = [
   {
     id: 'video-production',
     title: 'Video Production',
-    overview: 'High-end video production from concept to final delivery, crafting cinematic narratives that engage and inspire.',
+    overview: 'From brand films and promotional videos to corporate films, product videos, testimonials, and social media content, we create video experiences that communicate your story with clarity and impact.',
+    servicesInclude: [
+      'Brand Films',
+      'Corporate Videos',
+      'Promotional Videos',
+      'Product Videos',
+      'Commercial Content',
+      'Testimonial Videos',
+      'Social Media Videos',
+      'YouTube Content',
+      'Documentary Production'
+    ],
     whatWeCreate: ['Commercials', 'Brand films', 'Social campaigns', 'Corporate narratives'],
     process: {
       concept: 'Collaborating to define the core message and visual direction.',
@@ -23,7 +34,18 @@ export const servicesData = [
   {
     id: 'video-editing',
     title: 'Video Editing',
-    overview: 'Professional video editing, precision color grading, and dynamic post-production services.',
+    overview: 'Great footage becomes powerful through great editing. We shape raw footage into engaging visual stories with precise editing, sound design, colour grading, pacing, transitions, and finishing.',
+    servicesInclude: [
+      'Reels & Short-Form Videos',
+      'YouTube Editing',
+      'Corporate Video Editing',
+      'Commercial Editing',
+      'Documentary Editing',
+      'Social Media Content',
+      'Colour Correction & Grading',
+      'Sound Design',
+      'Post-Production'
+    ],
     editingServices: ['Multi-cam editing', 'Color correction & grading', 'Audio post-production', 'VFX compositing'],
     process: {
       review: 'Ingesting footage and logging takes for quality.',
@@ -38,7 +60,18 @@ export const servicesData = [
   {
     id: 'motion-graphics',
     title: 'Motion Graphics',
-    overview: 'Dynamic 2D and 3D motion graphics, brand animations, and titles.',
+    overview: 'We transform information, ideas, and brand messages into dynamic visual experiences through 2D and 3D motion graphics.',
+    servicesInclude: [
+      '2D Motion Graphics',
+      '3D Motion Graphics',
+      'Logo Animation',
+      'Explainer Videos',
+      'Product Animation',
+      'Brand Animations',
+      'Title Sequences',
+      'Social Media Motion Design',
+      'Promotional Motion Graphics'
+    ],
     motionDetails: {
       twoD: 'Clean vector-based animations, typography, and illustration movement.',
       threeD: 'Complex modeling, texturing, lighting, and cinematic physics rendering.',
@@ -51,8 +84,19 @@ export const servicesData = [
   },
   {
     id: 'branding-design',
-    title: 'Branding & Design',
-    overview: 'Crafting unique brand identities and striking visual designs.',
+    title: 'Branding & Creative Design',
+    overview: 'A strong brand is more than a logo. We build visual identities that create recognition, consistency, and a distinctive presence across every touchpoint.',
+    servicesInclude: [
+      'Brand Identity',
+      'Logo Design',
+      'Visual Identity',
+      'Brand Guidelines',
+      'Social Media Design',
+      'Marketing Creatives',
+      'Campaign Design',
+      'Presentation Design',
+      'Print & Digital Design'
+    ],
     designAreas: {
       identity: 'Logo suites, brand voice, core values, and comprehensive visual style guides.',
       logo: 'Iconic custom symbols designed for high readability and memorability.',
@@ -64,9 +108,37 @@ export const servicesData = [
     featuredWorkIds: ['proj-2']
   },
   {
-    id: 'social-media',
-    title: 'Social Media Content',
-    overview: 'Engaging content tailored for modern social media platforms.',
+    id: 'web-design',
+    title: 'Web Design & Development',
+    overview: 'We design modern digital experiences that combine strong visual direction with clear structure, usability, responsive design, and business-focused functionality.',
+    servicesInclude: [
+      'Website Design',
+      'Website Development',
+      'Business Websites',
+      'Portfolio Websites',
+      'Landing Pages',
+      'UI/UX Design',
+      'Responsive Web Design',
+      'Website Content Structure',
+      'Conversion-Focused Design'
+    ],
+    process: ['Wireframing', 'UI/UX Layout', 'Frontend Development', 'Responsive Optimization'],
+    featuredWorkIds: ['proj-1']
+  },
+  {
+    id: 'digital-content',
+    title: 'Digital Content & Social Media',
+    overview: 'We create consistent digital content that helps brands communicate, engage, and stay relevant across social platforms and digital channels.',
+    servicesInclude: [
+      'Social Media Management',
+      'Social Media Content',
+      'Reels & Short Videos',
+      'Creative Campaigns',
+      'Content Strategy',
+      'Social Media Design',
+      'Digital Marketing Creatives',
+      'Brand Promotion'
+    ],
     contentTypes: {
       strategy: 'Audience alignment, optimal posting calendars, and growth templates.',
       reels: 'High-impact short-form videos with trend-aligned audio tracks.',
@@ -79,9 +151,17 @@ export const servicesData = [
     featuredWorkIds: ['proj-1', 'proj-4']
   },
   {
-    id: 'product-shoots',
-    title: 'Product Shoots',
-    overview: 'Cinematic and high-quality photography/videography for luxury products.',
+    id: 'photography',
+    title: 'Photography & Visual Production',
+    overview: 'Professional visuals help products and brands communicate quality before a customer reads a single word. We create photography and visual content for products, businesses, campaigns, websites, social media, and marketing.',
+    servicesInclude: [
+      'Product Photography',
+      'Corporate Photography',
+      'Campaign Photography',
+      'Website & Digital Visuals',
+      'Brand Lifestyle Photography',
+      'Marketing Asset Shoots'
+    ],
     shootElements: {
       photography: 'Ultra high-res studio macro shots and lifestyle editorials.',
       videography: 'Cinematic product movement, slow-motion splash captures, and rotations.',
@@ -93,27 +173,20 @@ export const servicesData = [
     featuredWorkIds: ['proj-2']
   },
   {
-    id: 'documentary-corporate',
-    title: 'Documentary / Corporate Films',
-    overview: 'Telling compelling stories through documentary and corporate film formats.',
-    filmCategories: {
-      corporate: 'Clean, modern executive profiles and internal team culture highlights.',
-      documentary: 'In-depth historical, artistic, or socio-cultural narrative films.',
-      interviews: 'Two-camera setup executive conversations with premium key lighting.',
-      brandStories: 'Narratives sharing the founders vision, challenges, and success.'
-    },
-    process: {
-      research: 'Gathering historical archives and background details.',
-      storyDevelopment: 'Drafting interviewing questions and storyboard guides.',
-      production: 'Shooting natural light sequences and B-roll layouts.',
-      postProduction: 'Assembling audio files and syncing visual B-roll.'
-    },
-    featuredWorkIds: ['proj-3']
-  },
-  {
     id: 'book-design',
     title: 'Book Design & Publishing',
-    overview: 'Premium book cover design, print layouts, and publishing support.',
+    overview: 'We work with authors, publishers, educators, and businesses to create professionally designed books ready for print and digital publishing.',
+    servicesInclude: [
+      'Book Cover Design',
+      'Front & Back Cover Design',
+      'Full Wrap Cover Design',
+      'Interior Book Layout',
+      'Print-Ready Files',
+      'KDP Cover Design',
+      'Publishing Design',
+      'Editorial Design',
+      'Book Promotional Creatives'
+    ],
     designElements: {
       cover: 'Striking typographical cover art optimized for both digital and print shelves.',
       layout: 'Typesetting page grids, typography matching, running headers, and table layouts.',

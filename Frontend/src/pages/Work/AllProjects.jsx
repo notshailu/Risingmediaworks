@@ -8,6 +8,7 @@ const AllProjects = () => {
   const containerRef = useRef(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
+  const [activeCategory, setActiveCategory] = useState('all');
   const [works, setWorks] = useState([]);
 
   useEffect(() => {
@@ -43,12 +44,17 @@ const AllProjects = () => {
       y: 30,
       duration: 1.2
     })
+    .from('.animate-filters', {
+      opacity: 0,
+      y: 15,
+      duration: 0.8
+    }, '-=0.6')
     .from('.animate-division', {
       opacity: 0,
       y: 40,
       duration: 1.4,
       stagger: 0.15
-    }, '-=0.8');
+    }, '-=0.6');
   }, { scope: containerRef });
 
   const getYoutubeId = (url) => {
@@ -72,16 +78,33 @@ const AllProjects = () => {
     }
   };
 
-  // Filter divisions
+  // Filter categories config
+  const filterCategories = [
+    { id: 'all', label: 'All Works' },
+    { id: 'ai-videos', label: 'AI Videos' },
+    { id: 'motion-graphics', label: 'Motion Graphics' },
+    { id: 'greaves', label: 'Greaves Cotton' },
+    { id: 'itoty', label: 'ITOTY Campaigns' },
+    { id: 'nh-work', label: 'NH Group' }
+  ];
+
+  // Filter divisions based on activeCategory
   const aiProjects = works.filter((p) => p.category === 'ai-videos');
   const motionProjects = works.filter((p) => p.category === 'motion-graphics');
   const greavesProjects = works.filter((p) => p.category === 'greaves');
   const nhProjects = works.filter((p) => p.category === 'nh-work');
   const itotyProjects = works.filter((p) => p.category === 'itoty');
 
+  const showAi = activeCategory === 'all' || activeCategory === 'ai-videos';
+  const showMotion = activeCategory === 'all' || activeCategory === 'motion-graphics';
+  const showGreaves = activeCategory === 'all' || activeCategory === 'greaves';
+  const showItoty = activeCategory === 'all' || activeCategory === 'itoty';
+  const showNh = activeCategory === 'all' || activeCategory === 'nh-work';
+
   return (
     <div
       ref={containerRef}
+      className="all-projects-page"
       style={{
         width: '100%',
         minHeight: '100vh',
@@ -91,46 +114,103 @@ const AllProjects = () => {
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
-        fontFamily: 'sans-serif',
+        fontFamily: "'Manrope', sans-serif",
         overflow: 'hidden'
       }}
     >
       {/* Title Header */}
-      <div className="animate-header" style={{ marginBottom: '5rem', borderBottom: '1px solid #e5e5e5', paddingBottom: '2rem' }}>
+      <div className="animate-header all-projects-header" style={{ marginBottom: '2.5rem', borderBottom: '1px solid #e5e5e5', paddingBottom: '2.5rem' }}>
         <span style={{
           fontSize: '0.75rem',
-          letterSpacing: '0.3em',
+          letterSpacing: '0.35em',
           textTransform: 'uppercase',
-          color: '#888888',
-          fontWeight: '600',
+          color: '#666666',
+          fontWeight: '700',
           display: 'block',
-          marginBottom: '0.5rem'
+          marginBottom: '0.8rem',
+          fontFamily: "'Manrope', sans-serif"
         }}>
-          Creative Divisions
+          SELECTED WORKS
         </span>
-        <h1 style={{
+        <h1 className="all-projects-title" style={{
           fontSize: 'calc(2.2rem + 2.2vw)',
-          fontWeight: '300',
+          fontWeight: '700',
           textTransform: 'uppercase',
-          margin: 0,
-          letterSpacing: '0.02em',
+          margin: '0 0 1.2rem 0',
+          letterSpacing: '-0.02em',
           lineHeight: '1.1',
-          fontFamily: 'serif'
+          fontFamily: "'Manrope', sans-serif"
         }}>
-          Selected Works & Portfolios
+          Ideas Brought To Life.
         </h1>
+        <p className="all-projects-desc" style={{
+          fontSize: '1.1rem',
+          lineHeight: '1.7',
+          color: '#555555',
+          maxWidth: '720px',
+          margin: 0,
+          fontFamily: "'Manrope', sans-serif",
+          fontWeight: '300'
+        }}>
+          Explore selected projects across video, branding, design, motion graphics, digital experiences, and publishing.
+        </p>
+      </div>
+
+      {/* Interactive Category Filter Bar */}
+      <div className="animate-filters all-projects-filter-bar" style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap', marginBottom: '4rem', alignItems: 'center' }}>
+        <span style={{ fontSize: '0.75rem', fontWeight: '700', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#888888', marginRight: '0.5rem', fontFamily: "'Manrope', sans-serif" }}>
+          Filter By:
+        </span>
+        {filterCategories.map((cat) => {
+          const isActive = activeCategory === cat.id;
+          return (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              style={{
+                padding: '0.65rem 1.4rem',
+                borderRadius: '30px',
+                border: isActive ? '1px solid #000000' : '1px solid #e0e0e0',
+                backgroundColor: isActive ? '#000000' : '#ffffff',
+                color: isActive ? '#ffffff' : '#444444',
+                fontSize: '0.8rem',
+                fontWeight: isActive ? '700' : '500',
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
+                fontFamily: "'Manrope', sans-serif",
+                boxShadow: isActive ? '0 4px 14px rgba(0, 0, 0, 0.15)' : 'none'
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.borderColor = '#0052ff';
+                  e.currentTarget.style.color = '#0052ff';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.borderColor = '#e0e0e0';
+                  e.currentTarget.style.color = '#444444';
+                }
+              }}
+            >
+              {cat.label}
+            </button>
+          );
+        })}
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8rem' }}>
         
         {/* DIVISION 1: AI CINEMATICS */}
-        {aiProjects.length > 0 && (
+        {showAi && aiProjects.length > 0 && (
           <div className="animate-division" style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: '6rem' }}>
             <div style={{ marginBottom: '3rem' }}>
-              <span style={{ fontSize: '0.7rem', color: '#888888', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: '600' }}>
+              <span style={{ fontSize: '0.75rem', color: '#888888', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: '700', fontFamily: "'Manrope', sans-serif" }}>
                 Division 01 // AI Videos
               </span>
-              <h2 style={{ fontSize: '2rem', fontWeight: '300', textTransform: 'uppercase', margin: '0.5rem 0 0 0', fontFamily: 'serif' }}>
+              <h2 className="division-main-title" style={{ fontSize: '2rem', fontWeight: '700', textTransform: 'uppercase', margin: '0.5rem 0 0 0', fontFamily: "'Manrope', sans-serif" }}>
                 Generative AI Cinematics
               </h2>
             </div>
@@ -143,8 +223,8 @@ const AllProjects = () => {
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                     </div>
                   </div>
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: '500', margin: '1rem 0 0.25rem 0', textTransform: 'uppercase' }}>{proj.title}</h3>
-                  <p style={{ fontSize: '0.85rem', color: '#666666', margin: 0 }}>{proj.description}</p>
+                  <h3 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '1rem 0 0.25rem 0', textTransform: 'uppercase', fontFamily: "'Manrope', sans-serif" }}>{proj.title}</h3>
+                  <p style={{ fontSize: '0.85rem', color: '#666666', margin: 0, fontFamily: "'Manrope', sans-serif" }}>{proj.description}</p>
                 </div>
               ))}
             </div>
@@ -152,13 +232,13 @@ const AllProjects = () => {
         )}
 
         {/* DIVISION 2: MOTION GRAPHICS */}
-        {motionProjects.length > 0 && (
+        {showMotion && motionProjects.length > 0 && (
           <div className="animate-division" style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: '6rem' }}>
             <div style={{ marginBottom: '3rem' }}>
-              <span style={{ fontSize: '0.7rem', color: '#888888', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: '600' }}>
+              <span style={{ fontSize: '0.75rem', color: '#888888', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: '700', fontFamily: "'Manrope', sans-serif" }}>
                 Division 02 // Motion Graphics
               </span>
-              <h2 style={{ fontSize: '2rem', fontWeight: '300', textTransform: 'uppercase', margin: '0.5rem 0 0 0', fontFamily: 'serif' }}>
+              <h2 className="division-main-title" style={{ fontSize: '2rem', fontWeight: '700', textTransform: 'uppercase', margin: '0.5rem 0 0 0', fontFamily: "'Manrope', sans-serif" }}>
                 Motion Explainer & 3D Simulations
               </h2>
             </div>
@@ -171,8 +251,8 @@ const AllProjects = () => {
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                     </div>
                   </div>
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: '500', margin: '1rem 0 0.25rem 0', textTransform: 'uppercase' }}>{proj.title}</h3>
-                  <p style={{ fontSize: '0.85rem', color: '#666666', margin: 0 }}>{proj.description}</p>
+                  <h3 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '1rem 0 0.25rem 0', textTransform: 'uppercase', fontFamily: "'Manrope', sans-serif" }}>{proj.title}</h3>
+                  <p style={{ fontSize: '0.85rem', color: '#666666', margin: 0, fontFamily: "'Manrope', sans-serif" }}>{proj.description}</p>
                 </div>
               ))}
             </div>
@@ -180,13 +260,13 @@ const AllProjects = () => {
         )}
 
         {/* DIVISION 3: GREAVES COTTON */}
-        {greavesProjects.length > 0 && (
+        {showGreaves && greavesProjects.length > 0 && (
           <div className="animate-division" style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: '6rem' }}>
             <div style={{ marginBottom: '3rem' }}>
-              <span style={{ fontSize: '0.7rem', color: '#888888', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: '600' }}>
+              <span style={{ fontSize: '0.75rem', color: '#888888', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: '700', fontFamily: "'Manrope', sans-serif" }}>
                 Division 03 // Greaves Cotton
               </span>
-              <h2 style={{ fontSize: '2rem', fontWeight: '300', textTransform: 'uppercase', margin: '0.5rem 0 0 0', fontFamily: 'serif' }}>
+              <h2 className="division-main-title" style={{ fontSize: '2rem', fontWeight: '700', textTransform: 'uppercase', margin: '0.5rem 0 0 0', fontFamily: "'Manrope', sans-serif" }}>
                 Greaves Campaigns & Mobility Highlights
               </h2>
             </div>
@@ -199,8 +279,8 @@ const AllProjects = () => {
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                     </div>
                   </div>
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: '500', margin: '1rem 0 0.25rem 0', textTransform: 'uppercase' }}>{proj.title}</h3>
-                  <p style={{ fontSize: '0.85rem', color: '#666666', margin: 0 }}>{proj.description}</p>
+                  <h3 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '1rem 0 0.25rem 0', textTransform: 'uppercase', fontFamily: "'Manrope', sans-serif" }}>{proj.title}</h3>
+                  <p style={{ fontSize: '0.85rem', color: '#666666', margin: 0, fontFamily: "'Manrope', sans-serif" }}>{proj.description}</p>
                 </div>
               ))}
             </div>
@@ -208,13 +288,13 @@ const AllProjects = () => {
         )}
 
         {/* DIVISION 4: ITOTY VIDEOS */}
-        {itotyProjects.length > 0 && (
+        {showItoty && itotyProjects.length > 0 && (
           <div className="animate-division" style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: '6rem' }}>
             <div style={{ marginBottom: '3rem' }}>
-              <span style={{ fontSize: '0.7rem', color: '#888888', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: '600' }}>
+              <span style={{ fontSize: '0.75rem', color: '#888888', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: '700', fontFamily: "'Manrope', sans-serif" }}>
                 Division 04 // ITOTY Campaigns
               </span>
-              <h2 style={{ fontSize: '2rem', fontWeight: '300', textTransform: 'uppercase', margin: '0.5rem 0 0 0', fontFamily: 'serif' }}>
+              <h2 className="division-main-title" style={{ fontSize: '2rem', fontWeight: '700', textTransform: 'uppercase', margin: '0.5rem 0 0 0', fontFamily: "'Manrope', sans-serif" }}>
                 ITOTY Visual & Commercial Showcase
               </h2>
             </div>
@@ -227,8 +307,8 @@ const AllProjects = () => {
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                     </div>
                   </div>
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: '500', margin: '1rem 0 0.25rem 0', textTransform: 'uppercase' }}>{proj.title}</h3>
-                  <p style={{ fontSize: '0.85rem', color: '#666666', margin: 0 }}>{proj.description}</p>
+                  <h3 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '1rem 0 0.25rem 0', textTransform: 'uppercase', fontFamily: "'Manrope', sans-serif" }}>{proj.title}</h3>
+                  <p style={{ fontSize: '0.85rem', color: '#666666', margin: 0, fontFamily: "'Manrope', sans-serif" }}>{proj.description}</p>
                 </div>
               ))}
             </div>
@@ -236,13 +316,13 @@ const AllProjects = () => {
         )}
 
         {/* DIVISION 5: NH GROUP WORK */}
-        {nhProjects.length > 0 && (
+        {showNh && nhProjects.length > 0 && (
           <div className="animate-division" style={{ paddingBottom: '4rem' }}>
             <div style={{ marginBottom: '3rem' }}>
-              <span style={{ fontSize: '0.7rem', color: '#888888', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: '600' }}>
+              <span style={{ fontSize: '0.75rem', color: '#888888', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: '700', fontFamily: "'Manrope', sans-serif" }}>
                 Division 05 // NH Group Work
               </span>
-              <h2 style={{ fontSize: '2rem', fontWeight: '300', textTransform: 'uppercase', margin: '0.5rem 0 0 0', fontFamily: 'serif' }}>
+              <h2 className="division-main-title" style={{ fontSize: '2rem', fontWeight: '700', textTransform: 'uppercase', margin: '0.5rem 0 0 0', fontFamily: "'Manrope', sans-serif" }}>
                 NH Infrastructure & Corporate Productions
               </h2>
             </div>
@@ -255,8 +335,8 @@ const AllProjects = () => {
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                     </div>
                   </div>
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: '500', margin: '1rem 0 0.25rem 0', textTransform: 'uppercase' }}>{proj.title}</h3>
-                  <p style={{ fontSize: '0.85rem', color: '#666666', margin: 0 }}>{proj.description}</p>
+                  <h3 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '1rem 0 0.25rem 0', textTransform: 'uppercase', fontFamily: "'Manrope', sans-serif" }}>{proj.title}</h3>
+                  <p style={{ fontSize: '0.85rem', color: '#666666', margin: 0, fontFamily: "'Manrope', sans-serif" }}>{proj.description}</p>
                 </div>
               ))}
             </div>

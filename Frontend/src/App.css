@@ -11,6 +11,19 @@
   transition: background-color 0.8s cubic-bezier(0.25, 1, 0.5, 1), color 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+/* Service Detail Independent Right Panel Scrollbar */
+#service-content-scroll-container::-webkit-scrollbar {
+  width: 5px;
+}
+#service-content-scroll-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+#service-content-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
 /* Header */
 .header {
   position: absolute;
@@ -169,14 +182,20 @@
 .constellation-item[data-index="8"] { width: 240px; height: 150px; }
 .constellation-item[data-index="9"] { width: 190px; height: 260px; }
 
-/* Responsive adjustments */
+/* Comprehensive Responsive Layout Rules */
+
+/* Header & Navigation Mobile Adaptations */
 @media (max-width: 768px) {
-  .header, .footer {
-    padding: 1.5rem;
+  .header {
+    padding: 1.25rem 1.5rem !important;
   }
   
   .nav-links {
-    display: none; /* Hide on mobile for simplicity */
+    display: none !important;
+  }
+
+  .logo {
+    font-size: 1.2rem !important;
   }
   
   .constellation {
@@ -184,3 +203,631 @@
     height: 150vw;
   }
 }
+
+/* Hero Section Mobile Adaptations */
+@media (max-width: 768px) {
+  #hero {
+    padding: 0 1.25rem !important;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 8.5vw, 3.8rem) !important;
+    line-height: 1.1 !important;
+    padding: 0 0.25rem !important;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.68rem !important;
+    letter-spacing: 0.22em !important;
+  }
+
+  .hero-btn {
+    padding: 0.85rem 2rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  .trail-image {
+    display: none !important; /* Disable cursor image pool on touch devices */
+  }
+
+  .scroll-down-btn {
+    bottom: 25px !important;
+  }
+}
+
+/* Services / Agency Overview Section Mobile Adaptations */
+@media (max-width: 900px) {
+  #services-overview {
+    padding: 8vh 5vw !important;
+  }
+
+  #services-overview > div > div:last-child {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+}
+
+@media (max-width: 640px) {
+  #services-overview .cap-item-row {
+    grid-template-columns: 45px 1fr !important;
+    gap: 0.4rem 1rem !important;
+    padding: 1rem 0.8rem !important;
+  }
+
+  #services-overview .cap-val-text {
+    grid-column: 1 / -1 !important;
+    padding-left: 45px !important;
+  }
+}
+
+/* Why Rising Media Works Section Mobile Adaptations */
+@media (max-width: 1023px) {
+  #why-rising-media-works {
+    padding: 10vh 5vw !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #why-rising-media-works .why-row-item {
+    grid-template-columns: 35px 1fr 24px !important;
+    gap: 0.8rem 1rem !important;
+    padding: 2rem 0.8rem !important;
+  }
+
+  #why-rising-media-works .why-row-item p {
+    grid-column: 1 / -1 !important;
+    padding-left: 35px !important;
+    font-size: 0.88rem !important;
+    line-height: 1.6 !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    display: block !important;
+    margin-top: 0.3rem !important;
+  }
+
+  .why-hover-preview {
+    display: none !important; /* Hide cursor hover popup box on touch screens */
+  }
+}
+
+/* Testimonials Section Mobile Adaptations */
+@media (max-width: 768px) {
+  #testimonials {
+    padding: 8vh 5vw !important;
+  }
+
+  #testimonials > div > div {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+
+  .t-editorial-item {
+    gap: 1.8rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  .t-quote {
+    font-size: 1.05rem !important;
+    line-height: 1.6 !important;
+  }
+}
+
+/* CTA Section Mobile Adaptations */
+@media (max-width: 768px) {
+  #cta-section {
+    padding: 10vh 5vw 6vh 5vw !important;
+  }
+
+  #cta-section h2 {
+    font-size: clamp(2.2rem, 7.5vw, 3.8rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  #cta-section p {
+    font-size: 0.98rem !important;
+    margin-bottom: 2.5rem !important;
+  }
+
+  .cta-buttons-wrapper {
+    flex-direction: column !important;
+    width: 100% !important;
+    align-items: center !important;
+    gap: 1rem !important;
+  }
+
+  .cta-buttons-wrapper a {
+    width: 100% !important;
+    max-width: 320px !important;
+    justify-content: center !important;
+    padding: 1rem 1.8rem !important;
+  }
+}
+
+/* All Books Special Page Mobile Adaptations */
+@media (max-width: 768px) {
+  .all-books-mockup {
+    right: 6% !important;
+    top: 22% !important;
+    width: 120px !important;
+    height: 180px !important;
+    opacity: 0.88 !important;
+  }
+
+  .all-books-filter {
+    padding: 0 1rem !important;
+    gap: 0.4rem !important;
+    margin: 2rem auto 1.5rem auto !important;
+  }
+
+  .all-books-filter .filter-btn {
+    padding: 0.45rem 0.9rem !important;
+    font-size: 0.68rem !important;
+  }
+
+  .all-books-grid {
+    padding: 2rem 1.25rem 6rem 1.25rem !important;
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+  }
+
+  .all-books-grid > a > div:first-child {
+    height: 350px !important;
+    padding: 2rem 1rem !important;
+  }
+}
+
+/* Book Detail Page Mobile Adaptations */
+@media (max-width: 900px) {
+  .book-detail-hero {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+  }
+}
+
+/* Infinite Auto-Scrolling Brand Logo Marquee */
+.brand-marquee-container {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.brand-marquee-track-left {
+  display: flex;
+  width: max-content;
+  gap: 1.8rem;
+  animation: logoMarqueeLeft 28s linear infinite;
+  will-change: transform;
+}
+
+.brand-marquee-track-right {
+  display: flex;
+  width: max-content;
+  gap: 1.8rem;
+  animation: logoMarqueeRight 32s linear infinite;
+  will-change: transform;
+}
+
+.brand-marquee-container:hover .brand-marquee-track-left,
+.brand-marquee-container:hover .brand-marquee-track-right {
+  animation-play-state: paused;
+}
+
+@keyframes logoMarqueeLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes logoMarqueeRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+/* ================= MOBILE RESPONSIVE ADAPTATIONS (MAX-WIDTH: 768PX) ================= */
+@media (max-width: 768px) {
+  /* Brand Logo Marquee Ticker Mobile Optimization */
+  .brand-marquee-container {
+    mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%) !important;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%) !important;
+  }
+
+  .brand-marquee-track-left,
+  .brand-marquee-track-right {
+    gap: 0.9rem !important;
+  }
+
+  .brand-logo-card {
+    width: 145px !important;
+    height: 76px !important;
+    padding: 0.65rem !important;
+    border-radius: 12px !important;
+  }
+
+  .brand-logo-card img {
+    max-height: 42px !important;
+  }
+
+  /* Services Overview Section Mobile Optimization */
+  #services-overview {
+    padding: 50px 5vw !important;
+    text-align: center !important;
+  }
+
+  .services-eyebrow-row {
+    margin-bottom: 2rem !important;
+    padding-top: 1rem !important;
+    gap: 0.8rem !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .services-explore-link {
+    font-size: 0.72rem !important;
+    padding: 0.5rem 1.15rem !important;
+    letter-spacing: 0.14em !important;
+  }
+
+  .services-main-headline {
+    font-size: clamp(1.75rem, 6.8vw, 2.4rem) !important;
+    line-height: 1.25 !important;
+    margin: 0 auto 1.5rem auto !important;
+    text-align: center !important;
+  }
+
+  .services-paragraph-wrapper {
+    justify-content: center !important;
+    text-align: center !important;
+    margin-bottom: 3rem !important;
+  }
+
+  .services-paragraph-wrapper p {
+    font-size: 0.92rem !important;
+    line-height: 1.65 !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+
+  .services-what-we-do-header {
+    justify-content: center !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Capabilities section mobile stacking */
+  .capabilities-grid-layout {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+    padding-top: 2.5rem !important;
+  }
+
+  .cap-item-row {
+    grid-template-columns: 45px 1fr !important;
+    gap: 0.4rem 0.8rem !important;
+    padding: 1rem 0.75rem !important;
+    transition: background-color 0.35s ease, border-color 0.35s ease, transform 0.35s ease !important;
+    box-sizing: border-box !important;
+  }
+
+  .cap-id {
+    font-size: 0.85rem !important;
+  }
+
+  .cap-label {
+    font-size: 0.95rem !important;
+  }
+
+  .cap-val-text {
+    grid-column: 2 / -1 !important;
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+    opacity: 0.85 !important;
+  }
+
+  .cap-arrow {
+    display: none !important;
+  }
+
+  /* Section Padding Scale for Mobile */
+  .scroll-fade-in {
+    padding: 60px 5vw !important;
+  }
+
+  /* Why Rising Media Works Section Mobile Adaptations */
+  #why-rising-media-works {
+    padding: 60px 5vw !important;
+  }
+
+  .why-header-wrapper {
+    margin-bottom: 2.5rem !important;
+    text-align: center !important;
+  }
+
+  .why-eyebrow-container {
+    justify-content: center !important;
+  }
+
+  .why-main-title {
+    font-size: clamp(1.75rem, 6.8vw, 2.5rem) !important;
+    line-height: 1.25 !important;
+    text-align: center !important;
+  }
+
+  .why-row-item {
+    grid-template-columns: 1fr !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+    padding: 1.5rem 1rem !important;
+    border-radius: 14px !important;
+    box-sizing: border-box !important;
+    transition: background-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease !important;
+  }
+
+  .why-row-item .row-title {
+    font-size: clamp(1.15rem, 4.5vw, 1.4rem) !important;
+    line-height: 1.3 !important;
+  }
+
+  .why-row-item .why-row-desc {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Service Detail Split View Mobile Adaptation */
+  .service-detail-container {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 90px 1.25rem 40px 1.25rem !important;
+  }
+
+  .service-detail-wrapper {
+    height: auto !important;
+  }
+
+  .service-detail-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    flex: none !important;
+  }
+
+  .service-detail-sidebar {
+    display: none !important;
+  }
+
+  .service-detail-content {
+    height: auto !important;
+    overflow-y: visible !important;
+    padding-right: 0 !important;
+  }
+
+  .service-detail-title {
+    font-size: clamp(1.75rem, 6.8vw, 2.8rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Process Steps Minimal Column Layout Mobile Stacking */
+  .process-row-top,
+  .process-row-bottom {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  .process-step-col {
+    border-right: none !important;
+    border-bottom: 1px solid #e4e4e7 !important;
+    padding: 1.8rem 1rem !important;
+    box-sizing: border-box !important;
+    transition: background-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease, border-radius 0.4s ease !important;
+  }
+
+  .process-step-col span,
+  .process-step-col div {
+    transition: color 0.4s ease, transform 0.4s ease !important;
+  }
+
+  .process-step-col:last-child {
+    border-bottom: none !important;
+  }
+
+  /* Footer Mobile Adaptations */
+  footer#footer {
+    padding: 0.75rem !important;
+  }
+
+  .footer-inner-card {
+    padding: 3rem 1.25rem 0 1.25rem !important;
+    border-radius: 18px !important;
+  }
+
+  .footer-columns-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+    margin-bottom: 3.5rem !important;
+  }
+
+  .footer-giant-wordmark {
+    font-size: clamp(2rem, 9vw, 4.2rem) !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0em !important;
+    word-break: break-word !important;
+    white-space: normal !important;
+  }
+
+  .footer-bottom-bar {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 1.2rem !important;
+    padding: 2rem 0 !important;
+  }
+
+  /* All Services Page Mobile Adaptations */
+  .all-services-page {
+    padding: 90px 1.25rem 40px 1.25rem !important;
+  }
+
+  .all-services-wrapper {
+    gap: 3rem !important;
+  }
+
+  .all-services-hero {
+    min-height: auto !important;
+    padding: 1.5rem 0 !important;
+  }
+
+  .hero-main-title {
+    font-size: clamp(2rem, 7.5vw, 3.2rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  .service-philosophy-section {
+    display: none !important;
+  }
+
+  .service-row-inner {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+  }
+
+  .service-title-box {
+    flex: 1 1 100% !important;
+    gap: 1.2rem !important;
+    width: 100% !important;
+  }
+
+  .service-title {
+    font-size: clamp(1.2rem, 5vw, 1.6rem) !important;
+    line-height: 1.25 !important;
+  }
+
+  .service-desc-box {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+
+  .service-desc {
+    max-width: 100% !important;
+    font-size: 0.88rem !important;
+    line-height: 1.55 !important;
+  }
+
+  /* All Projects Page Mobile Adaptations */
+  .all-projects-page {
+    padding: 90px 1.25rem 40px 1.25rem !important;
+  }
+
+  .all-projects-header {
+    margin-bottom: 1.8rem !important;
+    padding-bottom: 1.8rem !important;
+  }
+
+  .all-projects-title {
+    font-size: clamp(2rem, 7.5vw, 3.2rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  .all-projects-desc {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .all-projects-filter-bar {
+    gap: 0.5rem !important;
+    margin-bottom: 2.5rem !important;
+    flex-wrap: wrap !important;
+  }
+
+  .all-projects-filter-bar button {
+    padding: 0.5rem 1.1rem !important;
+    font-size: 0.72rem !important;
+  }
+
+  .division-main-title {
+    font-size: clamp(1.3rem, 5.2vw, 1.75rem) !important;
+    line-height: 1.25 !important;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
+/* Methodology Process Step Column Interactive Hover Animations */
+.process-step-col {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease !important;
+  cursor: pointer;
+  border-radius: 12px;
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+.process-step-col:hover {
+  transform: translateY(-8px) !important;
+}
+
+.process-step-col:hover .method-num {
+  transform: scale(1.08);
+  color: #000000 !important;
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,0.2));
+}
+
+.process-step-col:hover .method-label {
+  color: #000000 !important;
+}
+
+.process-step-col .method-num,
+.process-step-col .method-label {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Admin Panel Native Mobile App UI Adaptations */
+@media (max-width: 768px) {
+  .admin-layout-container {
+    flex-direction: column !important;
+  }
+
+  .admin-sidebar {
+    display: none !important;
+  }
+
+  .mobile-admin-app-header {
+    display: flex !important;
+  }
+
+  .mobile-admin-bottom-nav {
+    display: flex !important;
+  }
+
+  .admin-main-content {
+    padding: 1.25rem 1rem 90px 1rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .admin-header-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+}
+
+
+
+

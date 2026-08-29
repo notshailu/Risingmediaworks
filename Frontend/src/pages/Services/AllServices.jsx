@@ -48,34 +48,30 @@ const AllServices = () => {
     // Scroll trigger for divider lines and row reveals
     const observerOptions = {
       root: null,
-      threshold: 0.05,
-      rootMargin: '0px 0px -50px 0px'
+      rootMargin: '0px',
+      threshold: 0.15
     };
 
-    const revealObserver = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          gsap.to(entry.target.querySelector('.divider-line'), {
-            scaleX: 1,
-            duration: 1.2,
-            ease: 'power2.inOut'
-          });
-          gsap.to(entry.target.querySelector('.row-content'), {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: 'power3.out',
-            delay: 0.1
-          });
-          obs.unobserve(entry.target);
+          const row = entry.target;
+          const line = row.querySelector('.divider-line');
+          const content = row.querySelector('.row-content');
+
+          if (line) {
+            gsap.to(line, { scaleX: 1, duration: 1.2, ease: 'power3.inOut' });
+          }
+          if (content) {
+            gsap.to(content, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 0.2 });
+          }
+          revealObserver.unobserve(row);
         }
       });
     }, observerOptions);
 
-    const rows = document.querySelectorAll('.service-row-block');
-    rows.forEach(row => {
-      revealObserver.observe(row);
-    });
+    const rows = containerRef.current?.querySelectorAll('.service-row-block');
+    rows?.forEach((row) => revealObserver.observe(row));
 
     return () => {
       revealObserver.disconnect();
@@ -101,20 +97,78 @@ const AllServices = () => {
     'video-editing': 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=500&auto=format&fit=crop',
     'motion-graphics': 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=500&auto=format&fit=crop',
     'branding-design': 'https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?q=80&w=500&auto=format&fit=crop',
-    'social-media': 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=500&auto=format&fit=crop',
-    'product-shoots': 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=500&auto=format&fit=crop',
-    'documentary-corporate': 'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=500&auto=format&fit=crop',
+    'web-design': 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=500&auto=format&fit=crop',
+    'digital-content': 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=500&auto=format&fit=crop',
+    'photography': 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=500&auto=format&fit=crop',
     'book-design': 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=500&auto=format&fit=crop'
   };
+
+  // Mobile Active Scroll Highlight for Services List - Strictly ONE item at a time
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerWidth > 1024) return;
+      const rows = containerRef.current?.querySelectorAll('.service-row-block');
+      if (!rows || rows.length === 0) return;
+
+      const viewportCenter = window.innerHeight / 2;
+      let closestRow = null;
+      let minDistance = Infinity;
+
+      rows.forEach((row) => {
+        const rect = row.getBoundingClientRect();
+        if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
+          const rowCenter = rect.top + rect.height / 2;
+          const distance = Math.abs(rowCenter - viewportCenter);
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestRow = row;
+          }
+        }
+      });
+
+      rows.forEach((row) => {
+        const content = row.querySelector('.row-content');
+        const numEl = row.querySelector('.service-num');
+        const titleEl = row.querySelector('.service-title');
+        const descEl = row.querySelector('.service-desc');
+        const arrowEl = row.querySelector('.service-arrow');
+
+        if (row === closestRow) {
+          row.style.backgroundColor = '#0052ff';
+          row.style.borderRadius = '12px';
+          row.style.boxShadow = '0 10px 30px rgba(0, 82, 255, 0.45)';
+          if (content) { content.style.color = '#ffffff'; content.style.padding = '1.8rem 1.25rem'; }
+          if (numEl) { numEl.style.color = '#ffffff'; numEl.style.opacity = '0.95'; }
+          if (titleEl) { titleEl.style.color = '#ffffff'; }
+          if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.95)'; }
+          if (arrowEl) { arrowEl.style.color = '#ffffff'; arrowEl.style.transform = 'translateX(5px)'; }
+        } else {
+          row.style.backgroundColor = 'transparent';
+          row.style.borderRadius = '0px';
+          row.style.boxShadow = 'none';
+          if (content) { content.style.color = '#000000'; content.style.padding = '1.8rem 0'; }
+          if (numEl) { numEl.style.color = '#000000'; numEl.style.opacity = '1'; }
+          if (titleEl) { titleEl.style.color = '#000000'; }
+          if (descEl) { descEl.style.color = '#444444'; }
+          if (arrowEl) { arrowEl.style.color = '#000000'; arrowEl.style.transform = 'none'; }
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
+      className="all-services-page"
       style={{
         width: '100%',
         minHeight: '100vh',
-        backgroundColor: 'transparent',
+        backgroundColor: '#ffffff',
         color: '#000000',
         padding: '120px 2rem 80px 2rem',
         boxSizing: 'border-box',
@@ -125,46 +179,74 @@ const AllServices = () => {
       }}
     >
       <WaterBackground />
-      <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: '6rem' }}>
+      <div className="all-services-wrapper" style={{ maxWidth: '1200px', margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: '6rem' }}>
         
         {/* ================= HERO SECTION ================= */}
-        <section style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <section className="all-services-hero" style={{ minHeight: '50vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <span className="hero-eyebrow" style={{
             fontSize: '0.75rem',
             letterSpacing: '0.4em',
             textTransform: 'uppercase',
-            color: '#888888',
-            fontWeight: '600',
+            color: '#000000',
+            fontWeight: '700',
             display: 'block',
             marginBottom: '1.5rem',
-            fontFamily: 'sans-serif'
+            fontFamily: "'Manrope', sans-serif"
           }}>
             OUR SERVICES
           </span>
-          <h1 style={{
+          <h1 className="hero-main-title" style={{
             fontSize: 'calc(2.5rem + 3.2vw)',
-            fontWeight: '300',
+            fontWeight: '700',
             textTransform: 'uppercase',
             margin: '0 0 2rem 0',
             letterSpacing: '-0.02em',
             lineHeight: '1.08',
             color: '#000000',
-            fontFamily: 'serif'
+            fontFamily: "'Manrope', sans-serif"
           }}>
-            <span className="hero-title-line" style={{ display: 'block' }}>We Turn Ideas</span>
-            <span className="hero-title-line" style={{ display: 'block', fontStyle: 'italic', borderBottom: '2px solid #000000', display: 'inline-block', paddingBottom: '3px' }}>Into Visual Experiences.</span>
+            <span className="hero-title-line" style={{ display: 'block' }}>From First Idea</span>
+            <span className="hero-title-line" style={{ display: 'block', fontWeight: '300', fontStyle: 'italic', borderBottom: '2px solid #000000', display: 'inline-block', paddingBottom: '3px' }}>To Final Delivery.</span>
           </h1>
           <p className="hero-desc" style={{
-            fontSize: '1.25rem',
+            fontSize: '1.2rem',
             lineHeight: '1.8',
             color: '#444444',
             fontWeight: '300',
-            maxWidth: '650px',
+            maxWidth: '700px',
             margin: 0,
-            fontFamily: 'serif'
+            fontFamily: "'Manrope', sans-serif"
           }}>
-            Rising Media Works brings together storytelling, production, design, motion, branding, and digital content to create work that connects with people.
+            One creative partner for the visual, digital, and content needs of your brand. Rising Media Works brings strategy, design, production, technology, and storytelling together under one creative roof.
           </p>
+        </section>
+
+        {/* ================= SERVICE PHILOSOPHY ================= */}
+        <section className="service-philosophy-section" style={{
+          padding: '4rem 3rem',
+          backgroundColor: '#f9f9f9',
+          border: '1px solid #e5e5e5',
+          borderRadius: '12px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '3rem',
+          alignItems: 'center'
+        }}>
+          <div>
+            <span style={{ fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#000000', fontWeight: '700', fontFamily: "'Manrope', sans-serif", display: 'block', marginBottom: '0.8rem' }}>
+              SERVICE PHILOSOPHY
+            </span>
+            <h2 style={{ fontSize: '2rem', fontWeight: '700', textTransform: 'uppercase', fontFamily: "'Manrope', sans-serif", margin: 0, color: '#000000' }}>
+              Built Around Your Brand.
+            </h2>
+          </div>
+          <div>
+            <p style={{ fontSize: '1rem', lineHeight: '1.75', color: '#4b5563', margin: 0, fontFamily: "'Manrope', sans-serif", fontWeight: '300' }}>
+              Every business is different. Your content should be too.<br />
+              Instead of relying on generic templates or disconnected creative pieces, we develop visual solutions around your brand, audience, goals, and communication style.<br />
+              The result is creative work that feels consistent, intentional, and recognisably yours.
+            </p>
+          </div>
         </section>
 
         {/* ================= SERVICES INDEX ================= */}
@@ -179,7 +261,11 @@ const AllServices = () => {
                 onMouseLeave={() => setHoveredService(null)}
                 style={{
                   width: '100%',
-                  position: 'relative'
+                  position: 'relative',
+                  backgroundColor: isHovered ? '#2563eb' : 'transparent',
+                  borderRadius: isHovered ? '12px' : '0px',
+                  transition: 'all 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
+                  boxShadow: isHovered ? '0 12px 35px rgba(37, 99, 235, 0.35)' : 'none'
                 }}
               >
                 {/* Thin animated divider line */}
@@ -187,10 +273,11 @@ const AllServices = () => {
                   className="divider-line" 
                   style={{ 
                     height: '1px', 
-                    backgroundColor: '#e0e0e0', 
+                    backgroundColor: isHovered ? 'transparent' : '#e0e0e0', 
                     width: '100%',
                     transform: 'scaleX(0)',
-                    transformOrigin: 'left'
+                    transformOrigin: 'left',
+                    transition: 'background-color 0.3s ease'
                   }} 
                 />
 
@@ -198,67 +285,66 @@ const AllServices = () => {
                   to={`/services/${service.id}`}
                   className="row-content"
                   style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '3rem 0',
+                    display: 'block',
+                    padding: isHovered ? '3rem 2rem' : '3rem 0',
                     textDecoration: 'none',
-                    color: 'inherit',
+                    color: isHovered ? '#ffffff' : '#000000',
                     opacity: 0,
                     transform: 'translateY(20px)',
-                    transition: 'padding 0.3s ease',
-                    display: 'block' // Ensure structure matches block
+                    transition: 'all 0.3s ease'
                   }}
                 >
-                  <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', width: '100%', gap: '2rem' }}>
-                    <div style={{ display: 'flex', gap: '3rem', alignItems: 'baseline', flex: '1 1 400px' }}>
-                      <span style={{ 
+                  <div className="service-row-inner" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', width: '100%', gap: '2rem' }}>
+                    <div className="service-title-box" style={{ display: 'flex', gap: '3rem', alignItems: 'baseline', flex: '1 1 400px' }}>
+                      <span className="service-num" style={{ 
                         fontSize: '1.15rem', 
-                        fontWeight: '300', 
-                        color: isHovered ? '#000000' : '#888888', 
-                        fontFamily: 'serif',
+                        fontWeight: '600', 
+                        color: isHovered ? '#93c5fd' : '#000000', 
+                        fontFamily: "'Manrope', sans-serif",
                         transition: 'color 0.3s ease'
                       }}>
                         {`0${index + 1}`}
                       </span>
-                      <h2 style={{ 
+                      <h2 className="service-title" style={{ 
                         fontSize: 'calc(1.4rem + 1vw)', 
-                        fontWeight: isHovered ? '400' : '300', 
+                        fontWeight: isHovered ? '700' : '600', 
                         textTransform: 'uppercase', 
                         margin: 0, 
-                        fontFamily: 'serif',
+                        fontFamily: "'Manrope', sans-serif",
                         letterSpacing: '-0.5px',
+                        color: isHovered ? '#ffffff' : '#000000',
                         transform: `translateX(${isHovered ? '10px' : '0px'})`,
-                        transition: 'transform 0.3s ease, font-weight 0.3s ease'
+                        transition: 'transform 0.3s ease, font-weight 0.3s ease, color 0.3s ease'
                       }}>
                         {service.title}
                       </h2>
                     </div>
 
-                    <div style={{ 
+                    <div className="service-desc-box" style={{ 
                       flex: '1 1 350px',
-                      opacity: isHovered ? 1 : 0.6,
+                      opacity: isHovered ? 1 : 0.85,
                       transition: 'opacity 0.3s ease',
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center'
                     }}>
-                      <p style={{ 
+                      <p className="service-desc" style={{ 
                         fontSize: '0.95rem', 
                         lineHeight: '1.6', 
-                        color: '#444444', 
+                        color: isHovered ? '#e0f2fe' : '#444444', 
                         margin: 0, 
                         fontWeight: '300', 
-                        fontFamily: 'serif',
-                        maxWidth: '300px'
+                        fontFamily: "'Manrope', sans-serif",
+                        maxWidth: '300px',
+                        transition: 'color 0.3s ease'
                       }}>
                         {service.overview}
                       </p>
-                      <span style={{ 
+                      <span className="service-arrow" style={{ 
                         fontSize: '1.5rem', 
+                        color: isHovered ? '#ffffff' : '#000000',
                         transform: `translateX(${isHovered ? '5px' : '0px'})`,
-                        transition: 'transform 0.3s ease' 
+                        transition: 'transform 0.3s ease, color 0.3s ease' 
                       }}>→</span>
                     </div>
                   </div>
@@ -284,16 +370,16 @@ const AllServices = () => {
         <section style={{ borderTop: '1px solid #e0e0e0', paddingTop: '6rem', paddingBottom: '4rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '2rem', width: '100%', boxSizing: 'border-box' }}>
           <h2 style={{
             fontSize: 'calc(1.8rem + 1.8vw)',
-            fontWeight: '300',
+            fontWeight: '700',
             textTransform: 'uppercase',
             color: '#000000',
-            fontFamily: 'serif',
+            fontFamily: "'Manrope', sans-serif",
             margin: 0,
             maxWidth: '800px',
             lineHeight: '1.2'
           }}>
             Let's Create Something <br />
-            <span style={{ fontStyle: 'italic', borderBottom: '2px solid #000', paddingBottom: '3px' }}>Worth Remembering.</span>
+            <span style={{ fontStyle: 'italic', fontWeight: '300', borderBottom: '2px solid #000000', paddingBottom: '3px' }}>Worth Remembering.</span>
           </h2>
           
           <p style={{
@@ -317,25 +403,22 @@ const AllServices = () => {
             textTransform: 'uppercase',
             letterSpacing: '0.2em',
             fontSize: '0.8rem',
-            cursor: 'pointer',
-            transition: 'all 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
-            fontFamily: 'sans-serif',
             textDecoration: 'none',
-            display: 'inline-block',
-            marginTop: '1rem'
+            transition: 'all 0.3s ease',
+            fontFamily: 'sans-serif'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
+            e.currentTarget.style.backgroundColor = '#ffffff';
             e.currentTarget.style.color = '#000000';
-            e.currentTarget.style.transform = 'translateY(-3px)';
+            e.currentTarget.style.borderColor = '#000000';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.backgroundColor = '#000000';
             e.currentTarget.style.color = '#ffffff';
-            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.borderColor = '#000000';
           }}
           >
-            Start a Conversation →
+            Start A Project →
           </Link>
         </section>
       </div>
@@ -347,13 +430,13 @@ const AllServices = () => {
           position: 'fixed',
           top: 0,
           left: 0,
-          width: '260px',
-          height: '180px',
+          width: '270px',
+          height: '185px',
           pointerEvents: 'none',
           zIndex: 1000,
           overflow: 'hidden',
-          borderRadius: '4px',
-          boxShadow: '0 12px 24px rgba(0,0,0,0.12)',
+          borderRadius: '8px',
+          boxShadow: '0 16px 36px rgba(0,0,0,0.2), 0 0 0 2px #2563eb',
           opacity: hoveredService !== null ? 1 : 0,
           transform: `scale(${hoveredService !== null ? 1 : 0.8})`,
           transition: 'opacity 0.3s ease, transform 0.3s ease'
@@ -362,8 +445,8 @@ const AllServices = () => {
         {servicesData.map((service, idx) => (
           <img 
             key={service.id}
-            src={hoverImages[service.id]} 
-            alt="" 
+            src={hoverImages[service.id] || service.image || 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=500&auto=format&fit=crop'} 
+            alt={service.title} 
             style={{ 
               position: 'absolute',
               top: 0,
@@ -371,7 +454,7 @@ const AllServices = () => {
               width: '100%', 
               height: '100%', 
               objectFit: 'cover', 
-              filter: 'grayscale(100%)',
+              filter: 'none',
               opacity: hoveredService === idx ? 1 : 0,
               transition: 'opacity 0.3s ease'
             }} 

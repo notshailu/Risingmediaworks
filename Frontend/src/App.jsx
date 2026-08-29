@@ -22,6 +22,7 @@ import AdminBooks from './pages/Admin/AdminBooks';
 import BookForm from './pages/Admin/BookForm';
 import AdminWorks from './pages/Admin/AdminWorks';
 import WorkForm from './pages/Admin/WorkForm';
+import AdminInquiries from './pages/Admin/AdminInquiries';
 
 // Dynamic wrappers to extract URL params for boilerplate titles
 const WorkCategory = () => {
@@ -55,6 +56,7 @@ const App = () => {
         </Route>
 
         <Route path="/admin" element={<AdminLayout />}>
+          <Route path="inquiries" element={<AdminInquiries />} />
           <Route path="books" element={<AdminBooks />} />
           <Route path="books/new" element={<BookForm />} />
           <Route path="books/edit/:id" element={<BookForm />} />

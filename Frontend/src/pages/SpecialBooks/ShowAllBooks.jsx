@@ -5,8 +5,6 @@ import { useGSAP } from '@gsap/react';
 import { booksData } from '../../data/dummyData';
 
 const ShowAllBooks = () => {
-  const [filter, setFilter] = useState('all');
-
   useEffect(() => {
     window.scrollTo(0, 0);
     // Force light theme
@@ -25,12 +23,6 @@ const ShowAllBooks = () => {
       y: 35,
       duration: 1.2
     })
-    .from('.filter-btn', {
-      opacity: 0,
-      y: 15,
-      duration: 0.8,
-      stagger: 0.05
-    }, '-=0.8')
     .from('.book-card', {
       opacity: 0,
       z: -600,
@@ -43,19 +35,6 @@ const ShowAllBooks = () => {
       ease: 'power3.out'
     }, '-=0.6');
   });
-
-  const categories = [
-    { id: 'all', label: 'All Books' },
-    { id: 'book-covers', label: 'Book Covers' },
-    { id: 'publishing', label: 'Publishing' },
-    { id: 'kdp', label: 'KDP' },
-    { id: 'technical-books', label: 'Technical' },
-    { id: 'academic-books', label: 'Academic' }
-  ];
-
-  const filteredBooks = filter === 'all' 
-    ? booksData 
-    : booksData.filter(b => b.category === filter);
 
   return (
     <div
@@ -118,42 +97,6 @@ const ShowAllBooks = () => {
         </div>
       </div>
 
-      {/* Filter Bar */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '1rem',
-        flexWrap: 'wrap',
-        marginBottom: '4rem',
-        position: 'relative',
-        zIndex: 10
-      }}>
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            className="filter-btn"
-            onClick={() => setFilter(cat.id)}
-            style={{
-              padding: '0.6rem 1.5rem',
-              borderRadius: '20px',
-              border: '1px solid',
-              borderColor: filter === cat.id ? '#000000' : '#e4e4e7',
-              backgroundColor: filter === cat.id ? '#000000' : '#ffffff',
-              color: filter === cat.id ? '#ffffff' : '#09090b',
-              fontSize: '0.75rem',
-              fontWeight: '600',
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              fontFamily: 'sans-serif'
-            }}
-          >
-            {cat.label}
-          </button>
-        ))}
-      </div>
-
       <div style={{
         maxWidth: '1200px',
         margin: '0 auto',
@@ -165,7 +108,7 @@ const ShowAllBooks = () => {
         perspective: '2000px',
         transformStyle: 'preserve-3d'
       }}>
-        {filteredBooks.map((book) => (
+        {booksData.map((book) => (
           <Link
             key={book.id}
             to={`/special-books/${book.id}`}

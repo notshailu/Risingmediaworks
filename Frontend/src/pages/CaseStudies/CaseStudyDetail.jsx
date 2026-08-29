@@ -16,6 +16,27 @@ const CaseStudyDetail = () => {
     window.scrollTo(0, 0);
   }, [id]);
 
+  const playHoverSound = () => {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(800, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.04, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.08);
+    } catch {
+      // Audio context silenced
+    }
+  };
+
   // Map 18 sections configuration
   const sections = [
     { id: 'overview', title: 'Project Overview', content: study?.overview },
@@ -51,7 +72,6 @@ const CaseStudyDetail = () => {
         const element = document.getElementById(section.id);
         if (element) {
           const rect = element.getBoundingClientRect();
-          // If the section top is close to the top of viewport, mark it active
           if (rect.top <= 180) {
             currentSection = section.id;
           }
@@ -88,18 +108,19 @@ const CaseStudyDetail = () => {
 
   if (!study) {
     return (
-      <div style={{ padding: '120px 2rem', textAlign: 'center', color: '#fff' }}>
+      <div style={{ padding: '140px 2rem', textAlign: 'center', color: '#000', backgroundColor: '#ffffff', minHeight: '100vh' }}>
         <h2>Case Study Not Found</h2>
-        <Link to="/case-studies" style={{ color: '#c5a880', textDecoration: 'underline' }}>Back to All Case Studies</Link>
+        <Link to="/case-studies" style={{ color: '#0052ff', textDecoration: 'underline' }}>Back to All Case Studies</Link>
       </div>
     );
   }
 
   const handleSidebarClick = (e, sectionId) => {
     e.preventDefault();
+    playHoverSound();
     const element = document.getElementById(sectionId);
     if (element) {
-      const headerOffset = 100;
+      const headerOffset = 120;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -117,74 +138,98 @@ const CaseStudyDetail = () => {
       style={{
         width: '100%',
         minHeight: '100vh',
-        backgroundColor: '#000000',
-        color: '#ffffff',
-        padding: '120px 2rem 60px 2rem',
+        backgroundColor: '#ffffff',
+        color: '#000000',
+        padding: '140px 6vw 100px 6vw',
         boxSizing: 'border-box',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
+        fontFamily: 'sans-serif'
       }}
     >
-      <div style={{ maxWidth: '1200px', width: '100%' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+        
         {/* Header Block */}
-        <div className="animate-header" style={{ marginBottom: '4rem', borderBottom: '1px solid #111', paddingBottom: '3rem' }}>
+        <div className="animate-header" style={{ marginBottom: '5rem', borderBottom: '1px solid rgba(0, 0, 0, 0.12)', paddingBottom: '3.5rem' }}>
           <Link
             to="/case-studies"
+            onMouseEnter={playHoverSound}
             style={{
               fontSize: '0.8rem',
-              color: '#c5a880',
+              color: '#0052ff',
               textTransform: 'uppercase',
               letterSpacing: '0.15em',
               textDecoration: 'none',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.5rem',
-              marginBottom: '1.5rem'
+              gap: '0.6rem',
+              marginBottom: '2rem',
+              fontFamily: 'monospace'
             }}
           >
-            ← Back to All Case Studies
+            ← BACK TO ALL CASE STUDIES
           </Link>
-          <span style={{
-            fontSize: '0.75rem',
-            letterSpacing: '0.3em',
-            textTransform: 'uppercase',
-            color: '#c5a880',
-            fontWeight: '600',
-            display: 'block',
-            marginBottom: '0.5rem'
-          }}>
-            Case Study: {study.client}
-          </span>
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
+            <span style={{
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              backgroundColor: '#0052ff',
+              boxShadow: '0 0 10px rgba(0, 82, 255, 0.4)',
+              display: 'inline-block'
+            }} />
+            <span style={{
+              fontSize: '0.75rem',
+              letterSpacing: '0.22em',
+              textTransform: 'uppercase',
+              color: 'rgba(0, 0, 0, 0.5)',
+              fontWeight: '600',
+              fontFamily: 'monospace'
+            }}>
+              CLIENT // {study.client}
+            </span>
+          </div>
+
           <h1 style={{
-            fontSize: 'calc(2rem + 1.5vw)',
+            fontSize: 'calc(2.2rem + 2vw)',
             fontWeight: '300',
+            fontFamily: 'serif',
             textTransform: 'uppercase',
             margin: 0,
             letterSpacing: '0.02em',
-            lineHeight: '1.2'
+            lineHeight: '1.15',
+            color: '#000000'
           }}>
             {study.title}
           </h1>
         </div>
 
         {/* Layout Grid */}
-        <div style={{ display: 'flex', gap: '4rem', position: 'relative' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: '5rem', position: 'relative' }}>
+          
           {/* Left Sidebar Table of Contents */}
           <aside
             className="animate-sidebar"
             style={{
-              width: '280px',
               position: 'sticky',
-              top: '120px',
-              height: 'calc(100vh - 180px)',
+              top: '140px',
+              maxHeight: 'calc(100vh - 180px)',
               overflowY: 'auto',
-              flexShrink: 0,
-              paddingRight: '1rem',
-              borderRight: '1px solid #111'
+              paddingRight: '1.5rem',
+              borderRight: '1px solid rgba(0, 0, 0, 0.12)'
             }}
           >
-            <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <span style={{
+              fontSize: '0.7rem',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: 'rgba(0, 0, 0, 0.4)',
+              fontFamily: 'monospace',
+              display: 'block',
+              marginBottom: '1.5rem'
+            }}>
+              CONTENTS INDEX
+            </span>
+            <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
               {sections.map((sect) => (
                 <a
                   key={sect.id}
@@ -193,13 +238,14 @@ const CaseStudyDetail = () => {
                   style={{
                     fontSize: '0.8rem',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.1em',
+                    letterSpacing: '0.12em',
                     textDecoration: 'none',
-                    color: activeSection === sect.id ? '#c5a880' : '#555',
+                    color: activeSection === sect.id ? '#0052ff' : 'rgba(0, 0, 0, 0.5)',
                     fontWeight: activeSection === sect.id ? '600' : '400',
-                    transition: 'color 0.3s ease',
-                    paddingLeft: activeSection === sect.id ? '0.5rem' : '0',
-                    borderLeft: activeSection === sect.id ? '2px solid #c5a880' : '2px solid transparent'
+                    transition: 'all 0.3s ease',
+                    paddingLeft: activeSection === sect.id ? '0.6rem' : '0',
+                    borderLeft: activeSection === sect.id ? '2px solid #0052ff' : '2px solid transparent',
+                    fontFamily: 'monospace'
                   }}
                 >
                   {sect.title}
@@ -209,7 +255,7 @@ const CaseStudyDetail = () => {
           </aside>
 
           {/* Right Scrollable Content */}
-          <div ref={scrollContainerRef} style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '5rem' }}>
+          <div ref={scrollContainerRef} style={{ display: 'flex', flexDirection: 'column', gap: '5rem' }}>
             {sections.map((sect) => {
               if (sect.isBeforeAfter) {
                 return (
@@ -217,19 +263,27 @@ const CaseStudyDetail = () => {
                     key={sect.id}
                     id={sect.id}
                     className="animate-content-section"
-                    style={{ scrollMarginTop: '120px' }}
+                    style={{ scrollMarginTop: '140px', borderTop: '1px solid rgba(0, 0, 0, 0.12)', paddingTop: '3rem' }}
                   >
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: '300', textTransform: 'uppercase', color: '#c5a880', marginBottom: '1.5rem', letterSpacing: '0.05em' }}>
+                    <h2 style={{ fontSize: '1.6rem', fontWeight: '400', fontFamily: 'serif', color: '#000000', marginBottom: '2rem', letterSpacing: '0.02em' }}>
                       {sect.title}
                     </h2>
-                    <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
-                      <div style={{ flex: '1 1 200px', backgroundColor: '#090909', border: '1px solid #111', padding: '2rem', borderRadius: '8px' }}>
-                        <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#666', letterSpacing: '0.1em', display: 'block', marginBottom: '0.5rem' }}>Before</span>
-                        <p style={{ color: '#aaa', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>{study.beforeAfter?.before}</p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+                      <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.03)', border: '1px solid rgba(0, 0, 0, 0.12)', padding: '2.5rem', borderRadius: '16px' }}>
+                        <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'rgba(0, 0, 0, 0.5)', letterSpacing: '0.15em', display: 'block', marginBottom: '0.8rem', fontFamily: 'monospace' }}>
+                          BEFORE // LEGACY STATE
+                        </span>
+                        <p style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: '1rem', lineHeight: '1.7', margin: 0, fontWeight: '300' }}>
+                          {study.beforeAfter?.before}
+                        </p>
                       </div>
-                      <div style={{ flex: '1 1 200px', backgroundColor: '#090909', border: '1px solid #111', padding: '2rem', borderRadius: '8px' }}>
-                        <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#c5a880', letterSpacing: '0.1em', display: 'block', marginBottom: '0.5rem' }}>After</span>
-                        <p style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>{study.beforeAfter?.after}</p>
+                      <div style={{ backgroundColor: 'rgba(0, 82, 255, 0.04)', border: '1px solid #0052ff', padding: '2.5rem', borderRadius: '16px' }}>
+                        <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: '#0052ff', letterSpacing: '0.15em', display: 'block', marginBottom: '0.8rem', fontFamily: 'monospace' }}>
+                          AFTER // RISING MEDIA TRANSFORMATION
+                        </span>
+                        <p style={{ color: '#000000', fontSize: '1rem', lineHeight: '1.7', margin: 0, fontWeight: '300' }}>
+                          {study.beforeAfter?.after}
+                        </p>
                       </div>
                     </div>
                   </section>
@@ -242,20 +296,20 @@ const CaseStudyDetail = () => {
                     key={sect.id}
                     id={sect.id}
                     className="animate-content-section"
-                    style={{ scrollMarginTop: '120px', borderTop: '1px solid #111', paddingTop: '4rem' }}
+                    style={{ scrollMarginTop: '140px', borderTop: '1px solid rgba(0, 0, 0, 0.12)', paddingTop: '4rem' }}
                   >
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: '300', textTransform: 'uppercase', color: '#c5a880', marginBottom: '1.5rem', letterSpacing: '0.05em' }}>
+                    <h2 style={{ fontSize: '1.6rem', fontWeight: '400', fontFamily: 'serif', color: '#000000', marginBottom: '2rem', letterSpacing: '0.02em' }}>
                       {sect.title}
                     </h2>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '2rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '2rem' }}>
                       {relatedProjects.map((proj) => (
-                        <div key={proj.id} style={{ backgroundColor: '#0d0d0d', border: '1px solid #1a1a1a', borderRadius: '8px', overflow: 'hidden' }}>
-                          <div style={{ height: '140px' }}>
+                        <div key={proj.id} style={{ backgroundColor: '#ffffff', border: '1px solid rgba(0, 0, 0, 0.12)', borderRadius: '14px', overflow: 'hidden' }}>
+                          <div style={{ height: '160px' }}>
                             <img src={proj.image} alt={proj.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           </div>
-                          <div style={{ padding: '1.25rem' }}>
-                            <span style={{ fontSize: '0.65rem', color: '#c5a880', textTransform: 'uppercase' }}>{proj.category}</span>
-                            <h4 style={{ fontSize: '1rem', fontWeight: '500', color: '#fff', margin: '0.25rem 0' }}>{proj.title}</h4>
+                          <div style={{ padding: '1.5rem' }}>
+                            <span style={{ fontSize: '0.68rem', color: '#0052ff', textTransform: 'uppercase', fontFamily: 'monospace', letterSpacing: '0.1em' }}>{proj.category}</span>
+                            <h4 style={{ fontSize: '1.05rem', fontWeight: '500', color: '#000', margin: '0.4rem 0 0 0', fontFamily: 'sans-serif' }}>{proj.title}</h4>
                           </div>
                         </div>
                       ))}
@@ -269,15 +323,15 @@ const CaseStudyDetail = () => {
                   key={sect.id}
                   id={sect.id}
                   className="animate-content-section"
-                  style={{ scrollMarginTop: '120px' }}
+                  style={{ scrollMarginTop: '140px', borderTop: '1px solid rgba(0, 0, 0, 0.1)', paddingTop: '2.5rem' }}
                 >
-                  <h2 style={{ fontSize: '1.5rem', fontWeight: '300', textTransform: 'uppercase', color: '#c5a880', marginBottom: '1rem', letterSpacing: '0.05em' }}>
+                  <h2 style={{ fontSize: '1.4rem', fontWeight: '400', fontFamily: 'serif', textTransform: 'uppercase', color: '#0052ff', marginBottom: '1rem', letterSpacing: '0.05em' }}>
                     {sect.title}
                   </h2>
                   <p style={{
-                    color: '#ccc',
-                    fontSize: '1.05rem',
-                    lineHeight: '1.7',
+                    color: 'rgba(0, 0, 0, 0.8)',
+                    fontSize: '1.1rem',
+                    lineHeight: '1.8',
                     fontWeight: '300',
                     margin: 0
                   }}>
@@ -287,10 +341,13 @@ const CaseStudyDetail = () => {
               );
             })}
           </div>
+
         </div>
+
       </div>
     </div>
   );
 };
 
 export default CaseStudyDetail;
+

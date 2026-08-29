@@ -21,7 +21,7 @@ const Header = () => {
   }, [isNavOpen]);
 
   const navLinkStyle = ({ isActive }) => ({
-    color: 'var(--text-color)',
+    color: isNavOpen ? '#ffffff' : 'var(--text-color)',
     textDecoration: isActive ? 'underline' : 'none',
     textUnderlineOffset: '6px',
     fontWeight: isActive ? '600' : '400',
@@ -43,8 +43,8 @@ const Header = () => {
 
   return (
     <>
-      <header className="header" style={{ zIndex: 1000 }}>
-        <Link to="/" className="logo" style={{ color: isNavOpen ? '#ffffff' : 'inherit', position: 'relative', zIndex: 1001, pointerEvents: 'auto', transition: 'color 0.3s ease' }}>Rising Media Works</Link>
+      <header className="header" style={{ zIndex: 1000, color: 'var(--text-color)' }}>
+        <Link to="/" className="logo" style={{ color: isNavOpen ? '#ffffff' : 'var(--text-color)', position: 'relative', zIndex: 1001, pointerEvents: 'auto', transition: 'color 0.3s ease' }}>Rising Media Works</Link>
         
         {/* Desktop Nav */}
         <nav className="nav-links">
@@ -66,7 +66,7 @@ const Header = () => {
             pointerEvents: 'auto',
             background: 'none',
             border: 'none',
-            color: isNavOpen ? '#ffffff' : 'inherit',
+            color: isNavOpen ? '#ffffff' : 'var(--text-color)',
             cursor: 'pointer',
             padding: '0.5rem',
             display: 'flex',

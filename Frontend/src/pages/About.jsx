@@ -587,16 +587,16 @@ const About = () => {
           <div 
             className="typo-bg-text"
             style={{
-              fontSize: 'calc(7rem + 15vw)',
-              fontWeight: '700',
+              fontSize: 'clamp(4.2rem, 13vw, 13.5rem)',
+              fontWeight: '800',
               color: '#1a1a1a', // dark gray outline text
               textTransform: 'lowercase',
-              fontFamily: 'sans-serif',
+              fontFamily: "'Manrope', sans-serif",
               whiteSpace: 'nowrap',
               lineHeight: '1',
-              letterSpacing: '-0.03em',
+              letterSpacing: '-0.04em',
               position: 'absolute',
-              top: '36%',
+              top: '24%',
               left: 0,
               width: '100%',
               textAlign: 'center',
@@ -612,17 +612,17 @@ const About = () => {
           <div 
             className="typo-fg-text"
             style={{
-              fontSize: 'calc(11rem + 21vw)',
+              fontSize: 'clamp(6.5rem, 22vw, 22rem)',
               fontWeight: '800',
               color: '#1a1a1a', // dark gray to match rising media
               WebkitTextStroke: '1px #333333',
               textTransform: 'lowercase',
-              fontFamily: 'sans-serif',
+              fontFamily: "'Manrope', sans-serif",
               whiteSpace: 'nowrap',
               lineHeight: '1',
-              letterSpacing: '-0.04em',
+              letterSpacing: '-0.05em',
               position: 'absolute',
-              top: '46%',
+              top: '42%',
               left: 0,
               width: '100%',
               textAlign: 'center',
@@ -723,28 +723,48 @@ const About = () => {
         {/* Lower Content Wrapper (Constrained to 1200px) */}
         <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%', display: 'block', padding: '0 2rem', boxSizing: 'border-box' }}>
 
-        {/* ================= OUR PHILOSOPHY ================= */}
+        {/* ================= OUR PHILOSOPHY / MANIFESTO ================= */}
         <section 
           className="scroll-reveal" 
           onMouseMove={handlePhilosophyMouseMove}
-          style={{ display: 'flex', flexDirection: 'column', gap: '5rem', borderTop: '1px solid #e0e0e0', paddingTop: '5rem', position: 'relative', marginBottom: '8rem' }}
+          style={{ display: 'flex', flexDirection: 'column', gap: '4rem', borderTop: '1px solid #e0e0e0', paddingTop: '5rem', position: 'relative', marginBottom: '8rem' }}
         >
-          <div style={{ maxWidth: '850px' }}>
+          <div style={{ maxWidth: '950px' }}>
+            <span style={{ fontSize: '0.75rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#0052ff', fontWeight: '700', fontFamily: 'monospace', display: 'block', marginBottom: '1.2rem' }}>
+              ABOUT RISING MEDIA WORKS
+            </span>
             <h2 style={{
-              fontSize: 'calc(1.8rem + 1.5vw)',
+              fontSize: 'calc(2.2rem + 1.8vw)',
               fontWeight: '300',
-              lineHeight: '1.25',
+              lineHeight: '1.2',
               textTransform: 'uppercase',
               color: '#000000',
               fontFamily: 'serif',
               margin: 0
             }}>
-              We Don't Just Make Things Look Good. <br />
-              <span style={{ fontStyle: 'italic', borderBottom: '2px solid #000', paddingBottom: '3px' }}>We Make Them Matter.</span>
+              Creativity With Direction.<br />
+              <span style={{ fontStyle: 'italic', fontSize: 'calc(1.8rem + 1.2vw)', borderBottom: '2px solid #000', paddingBottom: '3px' }}>
+                We Believe Good Creative Work Should Do More Than Look Good.
+              </span>
             </h2>
-            <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: '#444444', fontWeight: '300', marginTop: '2.5rem', fontFamily: 'serif', maxWidth: '650px' }}>
-              Great design should not be a cosmetic wrapper. It is an operational framework that shapes how users digest information, navigate interfaces, and connect with brand goals.
-            </p>
+
+            <div style={{ marginTop: '2.5rem', display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem', margin: '1rem 0' }}>
+                {['It should communicate.', 'It should create recognition.', 'It should build trust.', 'And help a brand move forward.'].map((pt, i) => (
+                  <div key={i} style={{ borderLeft: '2px solid #0052ff', paddingLeft: '1.2rem', fontSize: '1.05rem', fontWeight: '600', color: '#111827', fontFamily: 'sans-serif' }}>
+                    {pt}
+                  </div>
+                ))}
+              </div>
+
+              <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: '#4b5563', fontWeight: '300', fontFamily: 'serif', margin: 0 }}>
+                At Rising Media Works, we bring together creative thinking, visual design, video production, motion graphics, digital experiences, branding, and publishing to create work with purpose.
+              </p>
+
+              <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: '#4b5563', fontWeight: '300', fontFamily: 'serif', margin: 0 }}>
+                Whether we are developing a brand identity, producing a commercial video, designing a website, creating social media content, or designing a book, our focus remains the same: <strong>Create something meaningful, distinctive, and built to last.</strong>
+              </p>
+            </div>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>

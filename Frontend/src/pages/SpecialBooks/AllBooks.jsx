@@ -8,7 +8,6 @@ const AllBooks = () => {
   const containerRef = useRef(null);
   const bookAssetRef = useRef(null);
   const mouseMoveHandlerRef = useRef(null);
-  const [filter, setFilter] = useState('all');
   const [canClick, setCanClick] = useState(false);
   const [displayLimit, setDisplayLimit] = useState(6);
 
@@ -28,23 +27,6 @@ const AllBooks = () => {
     };
   }, []);
 
-  useEffect(() => {
-    setDisplayLimit(6);
-  }, [filter]);
-
-  const categories = [
-    { id: 'all', label: 'All Books' },
-    { id: 'book-covers', label: 'Book Covers' },
-    { id: 'publishing', label: 'Publishing' },
-    { id: 'kdp', label: 'KDP' },
-    { id: 'technical-books', label: 'Technical' },
-    { id: 'academic-books', label: 'Academic' }
-  ];
-
-  const filteredBooks = filter === 'all' 
-    ? booksData 
-    : booksData.filter(b => b.category === filter);
-
   useGSAP(() => {
     // Entrance animations
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
@@ -63,12 +45,6 @@ const AllBooks = () => {
       duration: 1.8,
       ease: 'power3.out'
     }, '-=1.2')
-    .from('.filter-btn', {
-      opacity: 0,
-      y: 20,
-      duration: 1,
-      stagger: 0.08
-    }, '-=1')
     .from('.book-card', {
       opacity: 0,
       z: -600,
@@ -184,49 +160,53 @@ const AllBooks = () => {
           zIndex: 2,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center'
+          alignItems: 'center',
+          maxWidth: '900px'
         }}>
+          <span style={{
+            fontSize: '0.75rem',
+            letterSpacing: '0.35em',
+            textTransform: 'uppercase',
+            color: '#888888',
+            fontWeight: '600',
+            display: 'block',
+            marginBottom: '1.2rem',
+            fontFamily: 'sans-serif'
+          }}>
+            BOOK DESIGN & PUBLISHING
+          </span>
+
           <h1 className="hero-serif-line" style={{
-            fontSize: 'calc(4rem + 5vw)',
+            fontSize: 'clamp(2rem, 6vw, 4.5rem)',
             fontWeight: '300',
             fontFamily: 'serif',
-            lineHeight: '0.9',
+            lineHeight: '1.05',
             margin: 0,
             textTransform: 'uppercase',
-            letterSpacing: '-0.02em'
+            letterSpacing: '-0.01em'
           }}>
-            Rising Media
+            Great Ideas Deserve <br />
+            <span style={{ fontStyle: 'italic', fontWeight: '400' }}>A Great Cover.</span>
           </h1>
-          <h1 className="hero-serif-line" style={{
-            fontSize: 'calc(4rem + 5vw)',
-            fontWeight: '300',
+
+          <p style={{
+            fontSize: '1.1rem',
+            lineHeight: '1.75',
+            color: 'var(--text-color)',
+            opacity: 0.8,
+            maxWidth: '650px',
+            margin: '1.5rem 0 0 0',
             fontFamily: 'serif',
-            lineHeight: '0.9',
-            margin: 0,
-            textTransform: 'uppercase',
-            letterSpacing: '-0.02em',
-            fontStyle: 'italic',
-            color: 'var(--text-color)'
+            fontWeight: '300'
           }}>
-            Publishing
-          </h1>
-          <h1 className="hero-serif-line" style={{
-            fontSize: 'calc(4rem + 5vw)',
-            fontWeight: '300',
-            fontFamily: 'serif',
-            lineHeight: '0.9',
-            margin: 0,
-            textTransform: 'uppercase',
-            letterSpacing: '-0.02em'
-          }}>
-            Concepts
-          </h1>
+            From concept to print-ready artwork, we help authors and publishers turn manuscripts into professionally designed books.
+          </p>
         </div>
 
         {/* Angled Layered Overlay Book Mockup Asset */}
         <div
           ref={bookAssetRef}
-          className="hero-book-mockup-trigger"
+          className="hero-book-mockup-trigger all-books-mockup"
           onClick={handleHeroBookClick}
           style={{
             position: 'absolute',
@@ -368,46 +348,10 @@ const AllBooks = () => {
       </div>
 
       {/* Filter Bar (Placed at Bottom of Hero) */}
-      <div 
-        id="books-filter-bar"
-        style={{
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '1rem',
-        flexWrap: 'wrap',
-        margin: '4rem auto 2rem auto',
-        padding: '0 2rem',
-        maxWidth: '1000px',
-        position: 'relative',
-        zIndex: 10
-      }}>
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            className="filter-btn"
-            onClick={() => setFilter(cat.id)}
-            style={{
-              padding: '0.6rem 1.5rem',
-              borderRadius: '20px',
-              border: '1px solid',
-              borderColor: filter === cat.id ? '#000000' : 'var(--card-border)',
-              backgroundColor: filter === cat.id ? '#000000' : 'var(--card-bg)',
-              color: filter === cat.id ? '#ffffff' : 'var(--text-color)',
-              fontSize: '0.75rem',
-              fontWeight: '600',
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease'
-            }}
-          >
-            {cat.label}
-          </button>
-        ))}
-      </div>
-
       {/* Books Listing Grid */}
-      <div style={{
+      <div 
+        className="all-books-grid"
+        style={{
         maxWidth: '1200px',
         margin: '0 auto',
         padding: '4rem 4rem 10rem 4rem',
@@ -418,7 +362,7 @@ const AllBooks = () => {
         perspective: '2000px',
         transformStyle: 'preserve-3d'
       }}>
-        {filteredBooks.slice(0, displayLimit).map((book, idx) => (
+        {booksData.slice(0, displayLimit).map((book, idx) => (
           <Link
             key={book.id}
             to={`/special-books/${book.id}`}
@@ -672,7 +616,7 @@ const AllBooks = () => {
 
 
       {/* See All Books action button */}
-      {filteredBooks.length > displayLimit && (
+      {booksData.length > displayLimit && (
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem', marginBottom: '8rem', position: 'relative', zIndex: 10 }}>
           <Link
             to="/special-books/all"

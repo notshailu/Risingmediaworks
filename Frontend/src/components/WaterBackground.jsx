@@ -13,10 +13,11 @@ const WaterBackground = () => {
       return;
     }
 
-    // Set canvas dimensions
+    // Set canvas dimensions (optimized internal resolution for high FPS)
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const scale = 0.8;
+      canvas.width = Math.floor(window.innerWidth * scale);
+      canvas.height = Math.floor(window.innerHeight * scale);
       gl.viewport(0, 0, canvas.width, canvas.height);
     };
     resizeCanvas();

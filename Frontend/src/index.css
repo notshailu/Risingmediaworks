@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Oswald:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Manrope:wght@200;300;400;500;600;700;800&family=Oswald:wght@300;400;700&family=Playfair+Display:ital,wght@0,300;0,400;0,600;1,400&family=Syne:wght@700;800&display=swap');
 
 :root {
   --bg-color: #ffffff;
@@ -6,8 +6,11 @@
   --text-muted: #666666;
   --card-bg: #ffffff;
   --card-border: #e4e4e7;
-  --font-main: 'Inter', sans-serif;
+  --font-main: 'Manrope', 'Inter', sans-serif;
+  --font-sans: 'Manrope', sans-serif;
   --font-editorial: 'Bebas Neue', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-display: 'Cinzel', serif;
 }
 
 body.light-theme {
@@ -55,10 +58,24 @@ ul {
   }
 }
 
-/* Hide scrollbar completely to eliminate side white track line */
-::-webkit-scrollbar {
-  display: none;
-  width: 0px;
-  height: 0px;
-  background: transparent;
+/* Lenis Smooth Scroll CSS Rules */
+html.lenis, html.lenis body {
+  height: auto;
 }
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+

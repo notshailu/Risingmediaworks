@@ -1,10 +1,50 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
 const Contact = () => {
   const containerRef = useRef(null);
   const glowRef = useRef(null);
+
+  const [formData, setFormData] = useState({
+    name: '',
+    company: '',
+    email: '',
+    phone: '',
+    projectType: 'Video Production',
+    details: ''
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email) {
+      alert('Please enter your name and email address.');
+      return;
+    }
+
+    const newInquiry = {
+      id: 'inq-' + Date.now(),
+      name: formData.name,
+      company: formData.company,
+      email: formData.email,
+      phone: formData.phone,
+      projectType: formData.projectType,
+      details: formData.details,
+      createdAt: new Date().toISOString(),
+      status: 'New'
+    };
+
+    try {
+      const existing = JSON.parse(localStorage.getItem('rmw_inquiries') || '[]');
+      existing.unshift(newInquiry);
+      localStorage.setItem('rmw_inquiries', JSON.stringify(existing));
+    } catch (err) {
+      console.error('Error saving inquiry:', err);
+    }
+
+    setSubmitted(true);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -105,32 +145,43 @@ const Contact = () => {
       />
 
       <div style={{ maxWidth: '1100px', width: '100%', position: 'relative', zIndex: 2 }}>
-        <div style={{ marginBottom: '5rem', textAlign: 'left' }}>
+        <div style={{ marginBottom: '4rem', textAlign: 'left' }}>
           <span className="animate-label" style={{
             fontSize: '0.75rem',
-            letterSpacing: '0.4em',
+            letterSpacing: '0.35em',
             textTransform: 'uppercase',
-            color: '#888888',
-            fontWeight: '600',
+            color: '#666666',
+            fontWeight: '700',
             display: 'block',
             marginBottom: '1rem',
-            fontFamily: 'sans-serif'
+            fontFamily: "'Manrope', sans-serif"
           }}>
-            Get In Touch
+            START A PROJECT
           </span>
           <h1 className="animate-title" style={{
-            fontSize: 'calc(2.2rem + 2vw)',
-            fontWeight: '300',
+            fontSize: 'calc(2.4rem + 2vw)',
+            fontWeight: '700',
             textTransform: 'uppercase',
-            margin: 0,
+            margin: '0 0 1.2rem 0',
             letterSpacing: '-0.02em',
             lineHeight: '1.15',
             color: '#000000',
-            fontFamily: 'serif'
+            fontFamily: "'Manrope', sans-serif"
           }}>
-            Let's create something <br />
-            <span style={{ fontStyle: 'italic', fontWeight: '400', borderBottom: '2px solid #000', paddingBottom: '4px' }}>remarkable</span> together.
+            Have An Idea? <br />
+            <span style={{ fontStyle: 'italic', fontWeight: '300', borderBottom: '2px solid #000', paddingBottom: '4px' }}>Let's Build It.</span>
           </h1>
+          <p style={{
+            fontSize: '1.1rem',
+            lineHeight: '1.75',
+            color: '#555555',
+            maxWidth: '720px',
+            margin: 0,
+            fontFamily: "'Manrope', sans-serif",
+            fontWeight: '300'
+          }}>
+            Whether you need a brand video, website, social media content, motion graphics, branding, or book design, tell us what you're working on. We'll help you shape the idea into a clear creative direction.
+          </p>
         </div>
 
         <div style={{
@@ -141,175 +192,252 @@ const Contact = () => {
         }}>
           {/* Form Side */}
           <div style={{ flex: '1 1 550px' }}>
-            <form onSubmit={(e) => e.preventDefault()} style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-              <div style={{ display: 'flex', gap: '2.5rem', flexWrap: 'wrap' }}>
-                <div className="animate-input" style={{ flex: '1 1 240px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: 'sans-serif', fontWeight: '600' }}>Your Name</label>
-                  <input type="text" style={{
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    borderBottom: '1px solid #e0e0e0',
-                    padding: '0.75rem 0',
-                    color: '#000000',
-                    outline: 'none',
-                    fontSize: '1.05rem',
-                    fontFamily: 'serif',
-                    transition: 'border-color 0.3s ease'
-                  }} 
-                  onFocus={(e) => e.target.style.borderBottomColor = '#000000'}
-                  onBlur={(e) => e.target.style.borderBottomColor = '#e0e0e0'}
-                  />
-                </div>
-                <div className="animate-input" style={{ flex: '1 1 240px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: 'sans-serif', fontWeight: '600' }}>Your Email</label>
-                  <input type="email" style={{
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    borderBottom: '1px solid #e0e0e0',
-                    padding: '0.75rem 0',
-                    color: '#000000',
-                    outline: 'none',
-                    fontSize: '1.05rem',
-                    fontFamily: 'serif',
-                    transition: 'border-color 0.3s ease'
-                  }}
-                  onFocus={(e) => e.target.style.borderBottomColor = '#000000'}
-                  onBlur={(e) => e.target.style.borderBottomColor = '#e0e0e0'}
-                  />
-                </div>
-              </div>
+            <h3 style={{ fontSize: '0.85rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#000000', fontWeight: '700', fontFamily: "'Manrope', sans-serif", marginBottom: '2.5rem' }}>
+              TELL US ABOUT YOUR PROJECT.
+            </h3>
 
-              <div className="animate-input" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: 'sans-serif', fontWeight: '600' }}>Enquiry Type</label>
-                <div style={{ position: 'relative', width: '100%' }}>
-                  <select style={{
-                    width: '100%',
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    borderBottom: '1px solid #e0e0e0',
-                    padding: '0.75rem 0',
-                    color: '#000000',
-                    outline: 'none',
-                    fontSize: '1.05rem',
-                    fontFamily: 'serif',
-                    transition: 'border-color 0.3s ease',
+            {submitted ? (
+              <div style={{ backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0', padding: '2.5rem', borderRadius: '16px', color: '#166534' }}>
+                <h3 style={{ fontSize: '1.5rem', fontWeight: '800', margin: '0 0 0.5rem 0' }}>Enquiry Received!</h3>
+                <p style={{ fontSize: '1rem', lineHeight: '1.6', margin: 0 }}>
+                  Thank you, <strong>{formData.name}</strong>. Your project details have been successfully submitted to our team. We'll review your enquiry and get back to you within 24 hours.
+                </p>
+                <button 
+                  onClick={() => { setSubmitted(false); setFormData({ name: '', company: '', email: '', phone: '', projectType: 'Video Production', details: '' }); }}
+                  style={{ marginTop: '1.5rem', padding: '0.6rem 1.2rem', backgroundColor: '#166534', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600' }}
+                >
+                  Submit Another Enquiry
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+                <div style={{ display: 'flex', gap: '2.5rem', flexWrap: 'wrap' }}>
+                  <div className="animate-input" style={{ flex: '1 1 240px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Name *</label>
+                    <input 
+                      type="text" 
+                      placeholder="Your Full Name" 
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      required
+                      style={{
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        borderBottom: '1px solid #e0e0e0',
+                        padding: '0.75rem 0',
+                        color: '#000000',
+                        outline: 'none',
+                        fontSize: '1.05rem',
+                        fontFamily: "'Manrope', sans-serif",
+                        transition: 'border-color 0.3s ease'
+                      }} 
+                      onFocus={(e) => e.target.style.borderBottomColor = '#000000'}
+                      onBlur={(e) => e.target.style.borderBottomColor = '#e0e0e0'}
+                    />
+                  </div>
+                  <div className="animate-input" style={{ flex: '1 1 240px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Company / Brand</label>
+                    <input 
+                      type="text" 
+                      placeholder="Your Brand Name" 
+                      value={formData.company}
+                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      style={{
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        borderBottom: '1px solid #e0e0e0',
+                        padding: '0.75rem 0',
+                        color: '#000000',
+                        outline: 'none',
+                        fontSize: '1.05rem',
+                        fontFamily: "'Manrope', sans-serif",
+                        transition: 'border-color 0.3s ease'
+                      }} 
+                      onFocus={(e) => e.target.style.borderBottomColor = '#000000'}
+                      onBlur={(e) => e.target.style.borderBottomColor = '#e0e0e0'}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '2.5rem', flexWrap: 'wrap' }}>
+                  <div className="animate-input" style={{ flex: '1 1 240px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Email Address *</label>
+                    <input 
+                      type="email" 
+                      placeholder="name@domain.com" 
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      required
+                      style={{
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        borderBottom: '1px solid #e0e0e0',
+                        padding: '0.75rem 0',
+                        color: '#000000',
+                        outline: 'none',
+                        fontSize: '1.05rem',
+                        fontFamily: "'Manrope', sans-serif",
+                        transition: 'border-color 0.3s ease'
+                      }}
+                      onFocus={(e) => e.target.style.borderBottomColor = '#000000'}
+                      onBlur={(e) => e.target.style.borderBottomColor = '#e0e0e0'}
+                    />
+                  </div>
+                  <div className="animate-input" style={{ flex: '1 1 240px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Phone Number</label>
+                    <input 
+                      type="tel" 
+                      placeholder="+91 00000 00000" 
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      style={{
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        borderBottom: '1px solid #e0e0e0',
+                        padding: '0.75rem 0',
+                        color: '#000000',
+                        outline: 'none',
+                        fontSize: '1.05rem',
+                        fontFamily: "'Manrope', sans-serif",
+                        transition: 'border-color 0.3s ease'
+                      }}
+                      onFocus={(e) => e.target.style.borderBottomColor = '#000000'}
+                      onBlur={(e) => e.target.style.borderBottomColor = '#e0e0e0'}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '2.5rem', flexWrap: 'wrap' }}>
+                  <div className="animate-input" style={{ flex: '1 1 100%', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Project Type</label>
+                    <div style={{ position: 'relative', width: '100%' }}>
+                      <select 
+                        value={formData.projectType}
+                        onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
+                        style={{
+                          width: '100%',
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          borderBottom: '1px solid #e0e0e0',
+                          padding: '0.75rem 0',
+                          color: '#000000',
+                          outline: 'none',
+                          fontSize: '1.05rem',
+                          fontFamily: "'Manrope', sans-serif",
+                          transition: 'border-color 0.3s ease',
+                          cursor: 'pointer',
+                          appearance: 'none',
+                          WebkitAppearance: 'none'
+                        }}
+                        onFocus={(e) => e.target.style.borderBottomColor = '#000000'}
+                        onBlur={(e) => e.target.style.borderBottomColor = '#e0e0e0'}
+                      >
+                        <option value="Video Production">Video Production</option>
+                        <option value="Video Editing">Video Editing</option>
+                        <option value="Motion Graphics">Motion Graphics</option>
+                        <option value="Branding & Identity">Branding & Identity</option>
+                        <option value="Web Design & Development">Web Design & Development</option>
+                        <option value="Digital Content & Social Media">Digital Content & Social Media</option>
+                        <option value="Photography & Visual Production">Photography & Visual Production</option>
+                        <option value="Book Design & Publishing">Book Design & Publishing</option>
+                      </select>
+                      <div style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#000000', fontSize: '0.8rem' }}>▼</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="animate-input" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Project Details</label>
+                  <textarea 
+                    rows="4" 
+                    placeholder="Tell us about your brand goals, target audience, and timeline..." 
+                    value={formData.details}
+                    onChange={(e) => setFormData({ ...formData, details: e.target.value })}
+                    style={{
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      borderBottom: '1px solid #e0e0e0',
+                      padding: '0.75rem 0',
+                      color: '#000000',
+                      outline: 'none',
+                      fontSize: '1.05rem',
+                      fontFamily: "'Manrope', sans-serif",
+                      resize: 'none',
+                      transition: 'border-color 0.3s ease',
+                      lineHeight: '1.6'
+                    }}
+                    onFocus={(e) => e.target.style.borderBottomColor = '#000000'}
+                    onBlur={(e) => e.target.style.borderBottomColor = '#e0e0e0'}
+                  ></textarea>
+                </div>
+
+                <button 
+                  type="submit" 
+                  style={{
+                    backgroundColor: '#000000',
+                    color: '#ffffff',
+                    border: '1px solid #000000',
+                    padding: '1.25rem 3rem',
+                    borderRadius: '8px',
+                    fontWeight: '700',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.15em',
+                    fontSize: '0.9rem',
                     cursor: 'pointer',
-                    appearance: 'none',
-                    WebkitAppearance: 'none'
+                    alignSelf: 'flex-start',
+                    transition: 'all 0.3s ease',
+                    fontFamily: "'Manrope', sans-serif",
+                    marginTop: '1.5rem',
+                    opacity: 1,
+                    display: 'inline-block'
                   }}
-                  onFocus={(e) => e.target.style.borderBottomColor = '#000000'}
-                  onBlur={(e) => e.target.style.borderBottomColor = '#e0e0e0'}
-                  >
-                    <option value="start-project">Start a Project</option>
-                    <option value="project-enquiry">Project Enquiry</option>
-                    <option value="general">General Support</option>
-                    <option value="other">Other</option>
-                  </select>
-                  <div style={{
-                    position: 'absolute',
-                    right: '10px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    pointerEvents: 'none',
-                    color: '#000000',
-                    fontSize: '0.8rem'
-                  }}>▼</div>
-                </div>
-              </div>
-
-              <div className="animate-input" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: 'sans-serif', fontWeight: '600' }}>Message</label>
-                <textarea rows="4" style={{
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  borderBottom: '1px solid #e0e0e0',
-                  padding: '0.75rem 0',
-                  color: '#000000',
-                  outline: 'none',
-                  fontSize: '1.05rem',
-                  fontFamily: 'serif',
-                  resize: 'none',
-                  transition: 'border-color 0.3s ease',
-                  lineHeight: '1.6'
-                }}
-                onFocus={(e) => e.target.style.borderBottomColor = '#000000'}
-                onBlur={(e) => e.target.style.borderBottomColor = '#e0e0e0'}
-                ></textarea>
-              </div>
-
-              <button className="animate-input" type="submit" style={{
-                backgroundColor: '#000000',
-                color: '#ffffff',
-                border: '1px solid #000000',
-                padding: '1.25rem 3rem',
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                letterSpacing: '0.2em',
-                fontSize: '0.8rem',
-                cursor: 'pointer',
-                alignSelf: 'flex-start',
-                transition: 'all 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
-                fontFamily: 'sans-serif',
-                marginTop: '1rem'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#000000';
-                e.currentTarget.style.transform = 'translateY(-3px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#000000';
-                e.currentTarget.style.color = '#ffffff';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
-              >
-                Send Message
-              </button>
-            </form>
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#0052ff';
+                    e.currentTarget.style.borderColor = '#0052ff';
+                    e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.boxShadow = '0 10px 25px rgba(0,82,255,0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#000000';
+                    e.currentTarget.style.borderColor = '#000000';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  Submit Project Enquiry →
+                </button>
+              </form>
+            )}
           </div>
 
-          {/* Details Side */}
-          <div style={{ flex: '1 1 350px', display: 'flex', flexDirection: 'column', gap: '3.5rem', justifyContent: 'flex-start', paddingTop: '1rem' }}>
+          {/* Direct Details Side */}
+          <div style={{ flex: '1 1 320px', display: 'flex', flexDirection: 'column', gap: '3.5rem', justifyContent: 'flex-start', paddingTop: '1rem' }}>
             <div className="animate-info-block" style={{ borderLeft: '2px solid #000000', paddingLeft: '1.5rem' }}>
-              <h4 style={{ color: '#888888', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.2em', marginBottom: '0.75rem', fontWeight: '600', fontFamily: 'sans-serif' }}>Office Location</h4>
-              <p style={{ color: '#000000', fontSize: '1.05rem', margin: 0, lineHeight: '1.6', fontWeight: '300', fontFamily: 'serif' }}>
-                100 Creative Boulevard,<br />
-                Suite 400, Paris 75001
-              </p>
-            </div>
-
-            <div className="animate-info-block" style={{ borderLeft: '2px solid #000000', paddingLeft: '1.5rem' }}>
-              <h4 style={{ color: '#888888', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.2em', marginBottom: '0.75rem', fontWeight: '600', fontFamily: 'sans-serif' }}>Contact Methods</h4>
-              <div style={{ color: '#000000', fontSize: '1.05rem', margin: 0, lineHeight: '2.1', fontWeight: '300', fontFamily: 'serif' }}>
+              <h4 style={{ color: '#888888', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.2em', marginBottom: '1rem', fontWeight: '700', fontFamily: "'Manrope', sans-serif" }}>Contact Directly</h4>
+              <div style={{ color: '#000000', fontSize: '1.05rem', margin: 0, lineHeight: '2.2', fontWeight: '400', fontFamily: "'Manrope', sans-serif" }}>
                 <div><strong>Email:</strong> <a href="mailto:Info.risingmediaworks@gmail.com" style={{ color: 'inherit', textDecoration: 'none', borderBottom: '1px dashed #666' }}>Info.risingmediaworks@gmail.com</a></div>
                 <div><strong>Phone:</strong> <a href="tel:+918741975000" style={{ color: 'inherit', textDecoration: 'none', borderBottom: '1px dashed #666' }}>+91 87419 75000</a></div>
-                <div><strong>WhatsApp:</strong> <a href="https://wa.me/918741975000" target="_blank" rel="noreferrer" style={{ color: '#000', textDecoration: 'none', fontWeight: 'bold', borderBottom: '2px solid #25D366', paddingBottom: '1px' }}>Chat with us</a></div>
+                <div style={{ marginTop: '0.5rem' }}><strong>WhatsApp:</strong> <a href="https://wa.me/918741975000" target="_blank" rel="noreferrer" style={{ color: '#000000', textDecoration: 'none', fontWeight: '700', borderBottom: '2px solid #000000', paddingBottom: '2px' }}>Chat with us →</a></div>
               </div>
             </div>
 
             <div className="animate-info-block" style={{ borderLeft: '2px solid #000000', paddingLeft: '1.5rem' }}>
-              <h4 style={{ color: '#888888', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.2em', marginBottom: '0.75rem', fontWeight: '600', fontFamily: 'sans-serif' }}>Project Enquiry</h4>
-              <p style={{ color: '#000000', fontSize: '1.05rem', margin: 0, lineHeight: '1.65', fontWeight: '300', fontFamily: 'serif' }}>
-                Ready to <strong>Start a Project</strong>? <br />
-                Fill out the contact form or reach out via WhatsApp for a faster response. We usually reply within 24 hours.
-              </p>
-            </div>
-
-            <div className="animate-info-block" style={{ borderLeft: '2px solid #000000', paddingLeft: '1.5rem' }}>
-              <h4 style={{ color: '#888888', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.2em', marginBottom: '0.75rem', fontWeight: '600', fontFamily: 'sans-serif' }}>Follow Us</h4>
-              <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.5rem' }}>
+              <h4 style={{ color: '#888888', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.2em', marginBottom: '1rem', fontWeight: '700', fontFamily: "'Manrope', sans-serif" }}>Connect With Us</h4>
+              <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
                 {[
                   { name: 'Instagram', url: 'https://www.instagram.com/risingmediaworks?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==' },
                   { name: 'LinkedIn', url: '#linkedin' },
                   { name: 'Twitter', url: '#twitter' }
                 ].map((social) => (
                   <a key={social.name} href={social.url} target="_blank" rel="noreferrer" style={{
-                    fontSize: '0.95rem',
+                    fontSize: '1rem',
                     color: '#000000',
-                    fontFamily: 'serif',
+                    fontFamily: "'Manrope', sans-serif",
+                    fontWeight: '500',
                     transition: 'border-bottom 0.2s ease',
                     borderBottom: '1px solid transparent',
-                    paddingBottom: '2px'
+                    paddingBottom: '2px',
+                    textDecoration: 'none'
                   }}
                   onMouseEnter={(e) => e.target.style.borderBottomColor = '#000000'}
                   onMouseLeave={(e) => e.target.style.borderBottomColor = 'transparent'}
