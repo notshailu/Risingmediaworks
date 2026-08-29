@@ -2028,7 +2028,7 @@ const Home = () => {
                 staggerOffset: '4rem' // Staggered vertical displacement matching reference
               },
               {
-                id: 'case-3',
+                id: 'case-greaves',
                 title: 'GREAVES COTTON',
                 subtitle: 'Corporate Brand Film & Future Clean Mobility Showcase',
                 category: 'BRANDING',
@@ -2039,27 +2039,27 @@ const Home = () => {
                 staggerOffset: '0px'
               },
               {
-                id: 'case-4',
+                id: 'case-ather',
                 title: 'ATHER ENERGY',
                 subtitle: 'Clean Electric Scooter Visual Campaign & Motion Series',
                 category: 'BRANDING',
-                image: 'https://img.youtube.com/vi/3V9bYUBpF70/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/watch?v=3V9bYUBpF70&t=52s',
+                image: 'https://img.youtube.com/vi/SGcGnys014E/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/watch?v=SGcGnys014E',
                 aspectRatio: '16/10',
                 staggerOffset: '0px'
               },
               {
-                id: 'case-5',
+                id: 'case-publishing',
                 title: 'RISING PUBLISHING // VOL. 01',
                 subtitle: '3D Book Cover Art, Typesetting & Kindle Publishing',
                 category: 'PRODUCT',
-                image: '/assets/hero.webp',
+                image: 'https://i.pinimg.com/736x/59/8b/b5/598bb5309e1cac0e08e0b18dc4f4b6af.jpg',
                 linkUrl: '/special-books',
                 aspectRatio: '1/1',
                 staggerOffset: '4rem'
               },
               {
-                id: 'case-6',
+                id: 'case-nh',
                 title: 'NEW HOLLAND (NH GROUP)',
                 subtitle: 'Industrial Heavy Machinery Corporate Documentary',
                 category: 'WEB',
