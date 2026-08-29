@@ -883,24 +883,38 @@
   }
 
   .show-all-books-title {
-    font-size: clamp(1.8rem, 6.8vw, 2.8rem) !important;
+    font-size: clamp(1.75rem, 6.5vw, 2.8rem) !important;
     line-height: 1.15 !important;
   }
 
   .show-all-books-grid {
     grid-template-columns: 1fr !important;
-    gap: 3rem !important;
+    gap: 2.5rem !important;
     padding: 1rem 0 3rem 0 !important;
   }
 
+  .show-all-books-grid > a {
+    gap: 1.25rem !important;
+  }
+
   .show-all-books-grid > a > div:first-child {
-    height: 350px !important;
-    padding: 1.5rem 1rem !important;
+    height: 290px !important;
+    padding: 1rem !important;
+    border-radius: 12px !important;
   }
 
   .show-all-books-grid .book-3d-cover {
-    width: 175px !important;
-    height: 260px !important;
+    width: 150px !important;
+    height: 220px !important;
+  }
+
+  .show-all-books-grid h3 {
+    font-size: 1.15rem !important;
+  }
+
+  .show-all-books-grid p {
+    font-size: 0.85rem !important;
+    line-height: 1.55 !important;
   }
 }
 

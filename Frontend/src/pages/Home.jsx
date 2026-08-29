@@ -117,7 +117,7 @@ const Home = () => {
 
     for (let i = 1; i <= totalFrames; i++) {
       const img = new Image();
-      img.src = `/Animation/frame_${pad(i, 4)}.jpeg`;
+      img.src = `/Animation/frame_${pad(i, 4)}.webp`;
       loadedImages.push(img);
     }
     setImages(loadedImages);
@@ -136,7 +136,7 @@ const Home = () => {
 
     for (let i = 1; i <= totalFrames; i++) {
       const img = new Image();
-      img.src = `/Hands/frame_${pad(i, 4)}.jpeg`;
+      img.src = `/Hands/frame_${pad(i, 4)}.webp`;
       loadedImages.push(img);
     }
     setHandsImages(loadedImages);
