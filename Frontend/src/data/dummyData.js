@@ -235,7 +235,7 @@ export const projectsData = [
     title: 'AI Visual Archive',
     category: 'ai-videos',
     client: 'AI Studio',
-    image: '/assets/img1.png',
+    image: '/assets/img1.webp',
     videoUrl: 'https://drive.google.com/drive/folders/1hXo6Q0CBYdN552nvyt3LcBPNE76vM0jV?usp=drive_link',
     description: 'Complete drive library of AI motion captures and concept videos.'
   },
@@ -397,7 +397,7 @@ export const projectsData = [
     title: 'Motion Production Folder',
     category: 'motion-graphics',
     client: 'Rising Media',
-    image: '/assets/img2.png',
+    image: '/assets/img2.webp',
     videoUrl: 'https://drive.google.com/drive/folders/14GZ8RZrQmaJPS7lu5r33g_KkzoGGcBdP?usp=drive_link',
     description: 'Drive directory containing high-fidelity output master files.'
   },
@@ -455,7 +455,7 @@ export const projectsData = [
     title: 'ITOTY Campaigns Library',
     category: 'itoty',
     client: 'ITOTY',
-    image: '/assets/img1.png',
+    image: '/assets/img1.webp',
     videoUrl: 'https://drive.google.com/drive/folders/1uSuXQDHeL9m7l2IOTYkNCevRRngIhyE2',
     description: 'Collection of premium visual designs and commercial edits.'
   },
@@ -547,7 +547,7 @@ export const projectsData = [
     title: 'NH Modern Workspace Design',
     category: 'nh-work',
     client: 'NH Group',
-    image: '/assets/img1.png',
+    image: '/assets/img1.webp',
     videoUrl: 'https://www.instagram.com/reel/DFARM5kqdoy/?igsh=MTJxbXJlbThzaXFmeA%3D%3D',
     description: 'Instagram reel highlighting executive office aesthetics.'
   },
@@ -556,7 +556,7 @@ export const projectsData = [
     title: 'NH Sustainable Layouts Showcase',
     category: 'nh-work',
     client: 'NH Group',
-    image: '/assets/img2.png',
+    image: '/assets/img2.webp',
     videoUrl: 'https://www.instagram.com/reel/C_MjDabvDqm/?igsh=M3FmMWFhbmZhYmNq',
     description: 'Cinematic layout design reels.'
   },
@@ -565,7 +565,7 @@ export const projectsData = [
     title: 'NH Collaboration Spaces Highlight',
     category: 'nh-work',
     client: 'NH Group',
-    image: '/assets/img1.png',
+    image: '/assets/img1.webp',
     videoUrl: 'https://www.instagram.com/reel/DDCgXaHMi8v/?igsh=bTg4MWh6cDE3bWVt',
     description: 'Co-working setup profiles.'
   },
@@ -574,7 +574,7 @@ export const projectsData = [
     title: 'NH Green Tech Initiatives',
     category: 'nh-work',
     client: 'NH Group',
-    image: '/assets/img2.png',
+    image: '/assets/img2.webp',
     videoUrl: 'https://www.instagram.com/reel/DBgfrr7PJZP/?igsh=MW52dWh3Z3pnNW1tYQ%3D%3D',
     description: 'Highlighting solar grids and green infrastructure.'
   },
@@ -583,7 +583,7 @@ export const projectsData = [
     title: 'NH Operational Core Video',
     category: 'nh-work',
     client: 'NH Group',
-    image: '/assets/img1.png',
+    image: '/assets/img1.webp',
     videoUrl: 'https://www.instagram.com/reel/DHkX-fZBBUm/?igsh=NjRkZzAxbmpzcXo2',
     description: 'Showcasing core management systems.'
   },
@@ -592,7 +592,7 @@ export const projectsData = [
     title: 'NH Construction Milestones',
     category: 'nh-work',
     client: 'NH Group',
-    image: '/assets/img2.png',
+    image: '/assets/img2.webp',
     videoUrl: 'https://www.instagram.com/reel/DF7r5m_yA9M/?igsh=MWR0ajE0enFkbWhvdA%3D%3D',
     description: 'Drone sweeps of structural milestones.'
   }
@@ -603,7 +603,7 @@ export const caseStudiesData = [
     id: 'case-study-1',
     title: 'Revamping a Global Beauty Brand',
     client: 'Aura Cosmetics',
-    image: '/assets/img1.png',
+    image: '/assets/img1.webp',
     overview: 'A complete brand overhaul, visual asset redesign, and multi-channel launch campaign for Aura Cosmetics, a leader in organic beauty.',
     problem: 'Aura Cosmetics had a strong product line but struggled to connect with digital-native Gen Z consumers due to an outdated, text-heavy brand style.',
     objective: 'Create an engaging, luxury visual identity, produce premium video assets, and launch a social-first digital identity to capture a modern market share.',
