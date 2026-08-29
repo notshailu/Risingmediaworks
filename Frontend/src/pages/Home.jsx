@@ -641,9 +641,9 @@ const Home = () => {
       const imageWidth = img1.width;
       const imageHeight = img1.height;
 
-      // Smart aspect ratio calculation with breathing room on mobile view
+      // Smart aspect ratio calculation so hands fill screen width grandly on mobile view
       const scale = isMobile
-        ? (canvasWidth / imageWidth) * 0.82
+        ? (canvasWidth / imageWidth) * 1.02
         : Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight);
 
       const nw = imageWidth * scale;
