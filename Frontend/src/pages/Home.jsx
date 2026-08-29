@@ -149,8 +149,10 @@ const Home = () => {
     }
   };
 
-  // Preload image sequence in background
+  // Mobile-optimized high performance image sequence preloader with GPU background decoding
   useEffect(() => {
+    const isMobile = window.innerWidth <= 768;
+    const step = isMobile ? 3 : 1; // Downsample 3x on mobile to save 70% RAM & GPU memory
     const totalFrames = 250;
     const loadedImages = [];
 
@@ -160,16 +162,21 @@ const Home = () => {
       return s;
     };
 
-    for (let i = 1; i <= totalFrames; i++) {
+    for (let i = 1; i <= totalFrames; i += step) {
       const img = new Image();
       img.src = `/Animation/frame_${pad(i, 4)}.webp`;
+      if (img.decode) {
+        img.decode().catch(() => {});
+      }
       loadedImages.push(img);
     }
     setImages(loadedImages);
   }, []);
 
-  // Preload Hands image sequence in background
+  // Preload Hands image sequence with mobile downsampling & GPU decoding
   useEffect(() => {
+    const isMobile = window.innerWidth <= 768;
+    const step = isMobile ? 3 : 1;
     const totalFrames = 150;
     const loadedImages = [];
 
@@ -179,9 +186,12 @@ const Home = () => {
       return s;
     };
 
-    for (let i = 1; i <= totalFrames; i++) {
+    for (let i = 1; i <= totalFrames; i += step) {
       const img = new Image();
       img.src = `/Hands/frame_${pad(i, 4)}.webp`;
+      if (img.decode) {
+        img.decode().catch(() => {});
+      }
       loadedImages.push(img);
     }
     setHandsImages(loadedImages);
@@ -438,14 +448,21 @@ const Home = () => {
     if (!canvasRef.current || !secondSectionRef.current || images.length === 0) return;
 
     const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext('2d', { alpha: false, desynchronized: true });
     const sequence = { frame: 0 };
+    let lastDrawnFrame = -1;
 
     const drawImage = (frameIndex) => {
       if (images.length === 0) return;
       const maxIdx = images.length - 1;
       const clamped = Math.max(0, Math.min(maxIdx, frameIndex));
       const idx1 = Math.floor(clamped);
+      const isMobile = window.innerWidth <= 768;
+
+      // Frame guard: skip duplicate draws when frame index has not changed
+      if (lastDrawnFrame === idx1 && isMobile) return;
+      lastDrawnFrame = idx1;
+
       const idx2 = Math.min(maxIdx, idx1 + 1);
       const progress = clamped - idx1;
 
@@ -453,16 +470,16 @@ const Home = () => {
       const img2 = images[idx2];
       if (!img1 || !img1.complete) return;
 
-      context.imageSmoothingEnabled = true;
-      context.imageSmoothingQuality = 'high';
-      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.imageSmoothingEnabled = !isMobile;
+      if (!isMobile) {
+        context.imageSmoothingQuality = 'high';
+      }
 
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
       const imageWidth = img1.width;
       const imageHeight = img1.height;
 
-      const isMobile = canvasWidth < 768;
       const r = Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight);
       const nw = imageWidth * r;
       const nh = imageHeight * r;
@@ -470,10 +487,10 @@ const Home = () => {
       const cyOffset = isMobile ? 0 : 80;
       const cy = ((canvasHeight - nh) / 2) + cyOffset;
 
-      context.globalAlpha = 1.0;
       context.drawImage(img1, cx, cy, nw, nh);
 
-      if (progress > 0.01 && img2 && img2.complete) {
+      // Only perform alpha crossfade on desktop GPUs to eliminate mobile draw overhead
+      if (!isMobile && progress > 0.05 && img2 && img2.complete) {
         context.globalAlpha = progress;
         context.drawImage(img2, cx, cy, nw, nh);
         context.globalAlpha = 1.0;
@@ -481,7 +498,8 @@ const Home = () => {
     };
 
     const handleResize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const isMobile = window.innerWidth <= 768;
+      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       drawImage(sequence.frame);
@@ -556,14 +574,21 @@ const Home = () => {
     if (!handsCanvasRef.current || !handsSectionRef.current || handsImages.length === 0) return;
 
     const canvas = handsCanvasRef.current;
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext('2d', { alpha: false, desynchronized: true });
     const sequence = { frame: 0 };
+    let lastDrawnFrame = -1;
 
     const drawImage = (frameIndex) => {
       if (handsImages.length === 0) return;
       const maxIdx = handsImages.length - 1;
       const clamped = Math.max(0, Math.min(maxIdx, frameIndex));
       const idx1 = Math.floor(clamped);
+      const isMobile = window.innerWidth <= 768;
+
+      // Frame guard: skip duplicate draws when frame index has not changed
+      if (lastDrawnFrame === idx1 && isMobile) return;
+      lastDrawnFrame = idx1;
+
       const idx2 = Math.min(maxIdx, idx1 + 1);
       const progress = clamped - idx1;
 
@@ -571,9 +596,10 @@ const Home = () => {
       const img2 = handsImages[idx2];
       if (!img1 || !img1.complete) return;
 
-      context.imageSmoothingEnabled = true;
-      context.imageSmoothingQuality = 'high';
-      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.imageSmoothingEnabled = !isMobile;
+      if (!isMobile) {
+        context.imageSmoothingQuality = 'high';
+      }
 
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
@@ -581,9 +607,9 @@ const Home = () => {
       const imageHeight = img1.height;
 
       const aspect = canvasWidth / canvasHeight;
-      const isMobile = canvasWidth < 1000 || aspect < 0.85;
+      const isMobileAspect = canvasWidth < 1000 || aspect < 0.85;
 
-      const r = isMobile
+      const r = isMobileAspect
         ? (canvasWidth / imageWidth) * 1.05
         : Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight);
 
@@ -592,10 +618,9 @@ const Home = () => {
       const cx = (canvasWidth - nw) / 2;
       const cy = (canvasHeight - nh) / 2;
 
-      context.globalAlpha = 1.0;
       context.drawImage(img1, cx, cy, nw, nh);
 
-      if (progress > 0.01 && img2 && img2.complete) {
+      if (!isMobile && progress > 0.05 && img2 && img2.complete) {
         context.globalAlpha = progress;
         context.drawImage(img2, cx, cy, nw, nh);
         context.globalAlpha = 1.0;
@@ -603,7 +628,8 @@ const Home = () => {
     };
 
     const handleResize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const isMobile = window.innerWidth <= 768;
+      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       drawImage(sequence.frame);
