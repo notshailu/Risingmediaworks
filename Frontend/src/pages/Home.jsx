@@ -104,8 +104,10 @@ const Home = () => {
     }
   };
 
-  // Preload image sequence in background
+  // Preload image sequence in background (optimized frame stepping on mobile to save 90% memory)
   useEffect(() => {
+    const isMobile = window.innerWidth <= 1024;
+    const step = isMobile ? 8 : 1;
     const totalFrames = 250;
     const loadedImages = [];
 
@@ -115,7 +117,7 @@ const Home = () => {
       return s;
     };
 
-    for (let i = 1; i <= totalFrames; i++) {
+    for (let i = 1; i <= totalFrames; i += step) {
       const img = new Image();
       img.src = `/Animation/frame_${pad(i, 4)}.jpeg`;
       loadedImages.push(img);
@@ -123,8 +125,10 @@ const Home = () => {
     setImages(loadedImages);
   }, []);
 
-  // Preload Hands image sequence in background
+  // Preload Hands image sequence in background (optimized frame stepping on mobile)
   useEffect(() => {
+    const isMobile = window.innerWidth <= 1024;
+    const step = isMobile ? 6 : 1;
     const totalFrames = 150;
     const loadedImages = [];
 
@@ -134,7 +138,7 @@ const Home = () => {
       return s;
     };
 
-    for (let i = 1; i <= totalFrames; i++) {
+    for (let i = 1; i <= totalFrames; i += step) {
       const img = new Image();
       img.src = `/Hands/frame_${pad(i, 4)}.jpeg`;
       loadedImages.push(img);
@@ -454,14 +458,16 @@ const Home = () => {
       }
     }
 
+    const isMobileDevice = window.innerWidth <= 1024;
+
     // Timeline for the pinned second section
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: secondSectionRef.current,
         start: 'top top',
-        end: '+=3000', // Pinned scroll length for extended smooth scroll
+        end: isMobileDevice ? '+=1200' : '+=3000',
         pin: true,
-        scrub: 1.2,
+        scrub: isMobileDevice ? 0.3 : 1.2,
         anticipatePin: 1,
       }
     });
