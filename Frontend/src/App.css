@@ -848,10 +848,28 @@
   }
 
   .upcoming-books-wrapper {
-    gap: 2rem !important;
-    margin: 1rem auto 3.5rem auto !important;
-    flex-direction: column !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
     align-items: center !important;
+    gap: 0.75rem !important;
+    margin: 1.5rem auto 3.5rem auto !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+  }
+
+  .upcoming-books-wrapper > div {
+    width: 140px !important;
+    height: 205px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .upcoming-books-wrapper > div:first-child {
+    transform: rotate(-6deg) scale(0.95) !important;
+  }
+
+  .upcoming-books-wrapper > div:last-child {
+    transform: rotate(6deg) scale(0.95) !important;
   }
 
   .upcoming-newsletter-form {
