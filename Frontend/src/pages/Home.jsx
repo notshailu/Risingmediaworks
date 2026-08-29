@@ -37,6 +37,7 @@ const Home = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [hoveredWhyUsImage, setHoveredWhyUsImage] = useState(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [activeProcessStep, setActiveProcessStep] = useState('01');
 
   // Fetch real works from the database (fallback gracefully if offline)
   useEffect(() => {
@@ -54,6 +55,50 @@ const Home = () => {
       }
     };
     fetchWorks();
+  }, []);
+
+  // Mobile Active Scroll Highlight for Process Methodology Steps - Strictly ONE blue item at a time (rAF throttled)
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (window.innerWidth > 1024) return;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const steps = document.querySelectorAll('.process-step-col');
+          if (steps.length > 0) {
+            const viewportCenter = window.innerHeight / 2;
+            let closestStep = null;
+            let minDistance = Infinity;
+
+            steps.forEach((col) => {
+              const rect = col.getBoundingClientRect();
+              if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
+                const colCenter = rect.top + rect.height / 2;
+                const distance = Math.abs(colCenter - viewportCenter);
+                if (distance < minDistance) {
+                  minDistance = distance;
+                  closestStep = col;
+                }
+              }
+            });
+
+            if (closestStep) {
+              const stepNum = closestStep.getAttribute('data-step-num');
+              if (stepNum) {
+                setActiveProcessStep(stepNum);
+              }
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check on mount
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const getYoutubeId = (url) => {
@@ -1883,52 +1928,65 @@ const Home = () => {
                 { num: '03', line1: 'UX Strategy.', line2: '' },
                 { num: '04', line1: 'UI Design.', line2: '' },
                 { num: '05', line1: 'MVP.', line2: '' }
-              ].map((step, idx) => (
-                <div 
-                  key={step.num}
-                  className="process-step-col"
-                  onMouseEnter={() => playHoverSound()}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    textAlign: 'center',
-                    padding: '0 1rem',
-                    position: 'relative',
-                    borderRight: idx < 4 ? '1px solid #d4d4d8' : 'none',
-                    minHeight: '140px',
-                    justifyContent: 'flex-start'
-                  }}
-                >
-                  <span 
-                    className="method-num"
-                    style={{
-                      fontSize: 'clamp(3.2rem, 5vw, 4.8rem)',
-                      fontWeight: '600',
-                      color: '#18181b',
-                      lineHeight: '1',
-                      marginBottom: '1.2rem',
-                      letterSpacing: '-0.02em'
-                    }}
-                  >
-                    {step.num}
-                  </span>
-
+              ].map((step, idx) => {
+                const isActive = activeProcessStep === step.num;
+                return (
                   <div 
-                    className="method-label"
+                    key={step.num}
+                    className={`process-step-col ${isActive ? 'is-active-step' : ''}`}
+                    data-step-num={step.num}
+                    onMouseEnter={() => { setActiveProcessStep(step.num); playHoverSound(); }}
+                    onClick={() => setActiveProcessStep(step.num)}
                     style={{
-                      fontSize: '1rem',
-                      lineHeight: '1.35',
-                      color: '#52525b',
-                      fontWeight: '400',
-                      maxWidth: '160px'
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      padding: '1.25rem 1rem',
+                      position: 'relative',
+                      borderRight: idx < 4 ? '1px solid #d4d4d8' : 'none',
+                      minHeight: '140px',
+                      justifyContent: 'flex-start',
+                      backgroundColor: isActive ? '#0052ff' : 'transparent',
+                      borderRadius: isActive ? '16px' : '0px',
+                      boxShadow: isActive ? '0 14px 35px rgba(0, 82, 255, 0.4)' : 'none',
+                      transform: isActive ? 'scale(1.02) translateY(-4px)' : 'none',
+                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                      cursor: 'pointer'
                     }}
                   >
-                    <div>{step.line1}</div>
-                    {step.line2 && <div>{step.line2}</div>}
+                    <span 
+                      className="method-num"
+                      style={{
+                        fontSize: 'clamp(3.2rem, 5vw, 4.8rem)',
+                        fontWeight: '600',
+                        color: isActive ? '#ffffff' : '#18181b',
+                        lineHeight: '1',
+                        marginBottom: '1.2rem',
+                        letterSpacing: '-0.02em',
+                        transition: 'color 0.4s ease'
+                      }}
+                    >
+                      {step.num}
+                    </span>
+
+                    <div 
+                      className="method-label"
+                      style={{
+                        fontSize: '1rem',
+                        lineHeight: '1.35',
+                        color: isActive ? '#ffffff' : '#52525b',
+                        fontWeight: '400',
+                        maxWidth: '160px',
+                        transition: 'color 0.4s ease'
+                      }}
+                    >
+                      <div>{step.line1}</div>
+                      {step.line2 && <div>{step.line2}</div>}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* ROW 2: 2 ITEMS CENTERED (06 - 07) */}
@@ -1944,51 +2002,65 @@ const Home = () => {
               {[
                 { num: '06', line1: 'Metrics.', line2: '' },
                 { num: '07', line1: 'How do I', line2: 'really work?' }
-              ].map((step, idx) => (
-                <div 
-                  key={step.num}
-                  className="process-step-col"
-                  onMouseEnter={() => playHoverSound()}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    textAlign: 'center',
-                    padding: '0 1.5rem',
-                    borderRight: idx === 0 ? '1px solid #d4d4d8' : 'none',
-                    minHeight: '140px',
-                    justifyContent: 'flex-start'
-                  }}
-                >
-                  <span 
-                    className="method-num"
-                    style={{
-                      fontSize: 'clamp(3.2rem, 5vw, 4.8rem)',
-                      fontWeight: '600',
-                      color: '#18181b',
-                      lineHeight: '1',
-                      marginBottom: '1.2rem',
-                      letterSpacing: '-0.02em'
-                    }}
-                  >
-                    {step.num}
-                  </span>
-
+              ].map((step, idx) => {
+                const isActive = activeProcessStep === step.num;
+                return (
                   <div 
-                    className="method-label"
+                    key={step.num}
+                    className={`process-step-col ${isActive ? 'is-active-step' : ''}`}
+                    data-step-num={step.num}
+                    onMouseEnter={() => { setActiveProcessStep(step.num); playHoverSound(); }}
+                    onClick={() => setActiveProcessStep(step.num)}
                     style={{
-                      fontSize: '1rem',
-                      lineHeight: '1.35',
-                      color: '#52525b',
-                      fontWeight: '400',
-                      maxWidth: '160px'
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      padding: '1.25rem 1.5rem',
+                      position: 'relative',
+                      borderRight: idx === 0 ? '1px solid #d4d4d8' : 'none',
+                      minHeight: '140px',
+                      justifyContent: 'flex-start',
+                      backgroundColor: isActive ? '#0052ff' : 'transparent',
+                      borderRadius: isActive ? '16px' : '0px',
+                      boxShadow: isActive ? '0 14px 35px rgba(0, 82, 255, 0.4)' : 'none',
+                      transform: isActive ? 'scale(1.02) translateY(-4px)' : 'none',
+                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                      cursor: 'pointer'
                     }}
                   >
-                    <div>{step.line1}</div>
-                    {step.line2 && <div>{step.line2}</div>}
+                    <span 
+                      className="method-num"
+                      style={{
+                        fontSize: 'clamp(3.2rem, 5vw, 4.8rem)',
+                        fontWeight: '600',
+                        color: isActive ? '#ffffff' : '#18181b',
+                        lineHeight: '1',
+                        marginBottom: '1.2rem',
+                        letterSpacing: '-0.02em',
+                        transition: 'color 0.4s ease'
+                      }}
+                    >
+                      {step.num}
+                    </span>
+
+                    <div 
+                      className="method-label"
+                      style={{
+                        fontSize: '1rem',
+                        lineHeight: '1.35',
+                        color: isActive ? '#ffffff' : '#52525b',
+                        fontWeight: '400',
+                        maxWidth: '160px',
+                        transition: 'color 0.4s ease'
+                      }}
+                    >
+                      <div>{step.line1}</div>
+                      {step.line2 && <div>{step.line2}</div>}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
