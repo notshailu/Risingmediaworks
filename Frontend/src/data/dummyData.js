@@ -202,6 +202,24 @@ export const servicesData = [
 ];
 
 export const projectsData = [
+  {
+    id: 'mahindra-video-1',
+    title: 'Mahindra & Mahindra Commercial Launch',
+    category: 'branding',
+    client: 'Mahindra & Mahindra',
+    image: 'https://img.youtube.com/vi/w_xOxPuBmjk/hqdefault.jpg',
+    videoUrl: 'https://www.youtube.com/watch?v=w_xOxPuBmjk',
+    description: 'Cinematic corporate brand identity and manufacturing story for Mahindra.'
+  },
+  {
+    id: 'mahindra-video-2',
+    title: 'Mahindra Industrial Production Showcase',
+    category: 'branding',
+    client: 'Mahindra & Mahindra',
+    image: 'https://img.youtube.com/vi/JR5Ay3Du1SQ/hqdefault.jpg',
+    videoUrl: 'https://www.youtube.com/watch?v=JR5Ay3Du1SQ',
+    description: 'High-impact commercial video production and brand campaign for Mahindra.'
+  },
   // AI Videos / Motion Work
   {
     id: 'ai-1',

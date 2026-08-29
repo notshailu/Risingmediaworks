@@ -2008,43 +2008,43 @@ const Home = () => {
           }}>
             {[
               {
-                id: 'case-1',
+                id: 'case-mahindra-1',
                 title: 'MAHINDRA & MAHINDRA',
                 subtitle: 'Electric Vehicle Commercial Launch & Tractor Plant Film',
                 category: 'BRANDING',
                 image: 'https://img.youtube.com/vi/w_xOxPuBmjk/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/watch?v=w_xOxPuBmjk&t=2s',
+                videoUrl: 'https://www.youtube.com/watch?v=w_xOxPuBmjk',
                 aspectRatio: '16/10',
                 staggerOffset: '0px'
               },
               {
-                id: 'case-2',
-                title: 'GREAVES COTTON',
-                subtitle: 'Corporate Brand Film & Future Clean Mobility Showcase',
+                id: 'case-mahindra-2',
+                title: 'MAHINDRA BRAND CAMPAIGN',
+                subtitle: 'Featured Commercial Video Production & Industrial Showcase',
                 category: 'PRODUCT',
-                image: 'https://img.youtube.com/vi/nc7Dn7nzjHk/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/watch?v=nc7Dn7nzjHk&t=73s',
+                image: 'https://img.youtube.com/vi/JR5Ay3Du1SQ/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/watch?v=JR5Ay3Du1SQ',
                 aspectRatio: '1/1',
                 staggerOffset: '4rem' // Staggered vertical displacement matching reference
               },
               {
                 id: 'case-3',
-                title: 'ATHER ENERGY',
-                subtitle: 'Clean Electric Scooter Visual Campaign & Motion Series',
+                title: 'GREAVES COTTON',
+                subtitle: 'Corporate Brand Film & Future Clean Mobility Showcase',
                 category: 'BRANDING',
-                image: 'https://img.youtube.com/vi/3V9bYUBpF70/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/watch?v=3V9bYUBpF70&t=52s',
+                image: 'https://img.youtube.com/vi/nc7Dn7nzjHk/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/watch?v=nc7Dn7nzjHk&t=73s',
                 bgColor: '#e6eff7', // Soft sky blue background container matching reference
                 aspectRatio: '4/5',
                 staggerOffset: '0px'
               },
               {
                 id: 'case-4',
-                title: 'NEW HOLLAND (NH GROUP)',
-                subtitle: 'Industrial Heavy Machinery Corporate Documentary',
+                title: 'ATHER ENERGY',
+                subtitle: 'Clean Electric Scooter Visual Campaign & Motion Series',
                 category: 'BRANDING',
-                image: 'https://img.youtube.com/vi/A1pwtdmXWtk/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/watch?v=A1pwtdmXWtk',
+                image: 'https://img.youtube.com/vi/3V9bYUBpF70/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/watch?v=3V9bYUBpF70&t=52s',
                 aspectRatio: '16/10',
                 staggerOffset: '0px'
               },
@@ -2060,11 +2060,11 @@ const Home = () => {
               },
               {
                 id: 'case-6',
-                title: 'ITOTY AWARDS',
-                subtitle: 'Indian Tractor Of The Year Commercial Film Series',
+                title: 'NEW HOLLAND (NH GROUP)',
+                subtitle: 'Industrial Heavy Machinery Corporate Documentary',
                 category: 'WEB',
-                image: 'https://img.youtube.com/vi/rGHSwscmbZM/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/shorts/rGHSwscmbZM',
+                image: 'https://img.youtube.com/vi/A1pwtdmXWtk/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/watch?v=A1pwtdmXWtk',
                 aspectRatio: '4/5',
                 staggerOffset: '0px'
               }
