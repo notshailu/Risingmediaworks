@@ -9,20 +9,20 @@ import Footer from '../components/Footer';
 gsap.registerPlugin(ScrollTrigger);
 
 const brandLogos = [
-  { name: 'Mahindra & Mahindra', src: '/logo/Mahindra-Mahindra-Logo-2012.png' },
+  { name: 'Mahindra & Mahindra', src: '/logo/Mahindra-Mahindra-Logo-2012.webp' },
   { name: 'Tata Motors', src: '/logo/tata-logo-tata-icon-transparent-free-png.webp' },
   { name: 'JCB', src: '/logo/JCB_(J.C._Bamford_Excavators_Limited)_logo.svg.webp' },
-  { name: 'John Deere', src: '/logo/John-Deere-Emblem.png' },
-  { name: 'Ather Energy', src: '/logo/Ather_New_Logo.jpg' },
-  { name: 'Piaggio', src: '/logo/Piaggio-Logo.png' },
-  { name: 'New Holland', src: '/logo/New Holland.png' },
-  { name: 'Greaves Cotton', src: '/logo/Greaves 3 Wheeler Logo-03.png' },
+  { name: 'John Deere', src: '/logo/John-Deere-Emblem.webp' },
+  { name: 'Ather Energy', src: '/logo/Ather_New_Logo.webp' },
+  { name: 'Piaggio', src: '/logo/Piaggio-Logo.webp' },
+  { name: 'New Holland', src: '/logo/New Holland.webp' },
+  { name: 'Greaves Cotton', src: '/logo/Greaves 3 Wheeler Logo-03.webp' },
   { name: 'JK Tyre', src: '/logo/jk-tyre-logo-present-scaled.webp' },
-  { name: 'Brand Partner', src: '/logo/312215907_553521910110595_1889743859625241028_n.jpg' },
-  { name: 'Brand Partner', src: '/logo/80612d717e3e8d70fe1c456f2235a5dc.jpg' },
-  { name: 'Brand Partner', src: '/logo/images.png' },
-  { name: 'Brand Partner', src: '/logo/Logo (1).png' },
-  { name: 'Brand Partner', src: '/logo/te8f-dKV_400x400.jpg' }
+  { name: 'Brand Partner', src: '/logo/312215907_553521910110595_1889743859625241028_n.webp' },
+  { name: 'Brand Partner', src: '/logo/80612d717e3e8d70fe1c456f2235a5dc.webp' },
+  { name: 'Brand Partner', src: '/logo/images.webp' },
+  { name: 'Brand Partner', src: '/logo/Logo (1).webp' },
+  { name: 'Brand Partner', src: '/logo/te8f-dKV_400x400.webp' }
 ];
 
 const Home = () => {
