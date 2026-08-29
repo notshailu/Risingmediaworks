@@ -2015,39 +2015,8 @@ const Home = () => {
             {[
               {
                 id: 'case-1',
-                title: 'BRIDGE HEALTH',
-                subtitle: 'Healthcare Platform & Brand System',
-                category: 'WEB',
-                image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
-                videoUrl: 'https://www.youtube.com/watch?v=wOg8_fZstWU',
-                aspectRatio: '16/10',
-                staggerOffset: '0px'
-              },
-              {
-                id: 'case-2',
-                title: 'BRINC LIVEOPS',
-                subtitle: 'Autonomous Hardware & Drone System',
-                category: 'PRODUCT',
-                image: 'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=800&q=80',
-                videoUrl: 'https://www.youtube.com/watch?v=A1pwtdmXWtk',
-                aspectRatio: '1/1',
-                staggerOffset: '4rem' // Staggered vertical displacement matching reference
-              },
-              {
-                id: 'case-3',
-                title: 'DV COMMODITIES',
-                subtitle: 'Market Analytics & Mobile App Platform',
-                category: 'BRANDING',
-                image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80',
-                videoUrl: 'https://www.youtube.com/watch?v=w_xOxPuBmjk',
-                bgColor: '#e6eff7', // Soft sky blue background container matching reference
-                aspectRatio: '4/5',
-                staggerOffset: '0px'
-              },
-              {
-                id: 'case-4',
-                title: 'MAHINDRA EV // MOTION CAMPAIGN',
-                subtitle: 'Automotive Electric Mobility Launch',
+                title: 'MAHINDRA & MAHINDRA',
+                subtitle: 'Electric Vehicle Commercial Launch & Tractor Plant Film',
                 category: 'BRANDING',
                 image: 'https://img.youtube.com/vi/w_xOxPuBmjk/hqdefault.jpg',
                 videoUrl: 'https://www.youtube.com/watch?v=w_xOxPuBmjk&t=2s',
@@ -2055,22 +2024,53 @@ const Home = () => {
                 staggerOffset: '0px'
               },
               {
-                id: 'case-5',
-                title: 'RISING PUBLISHING // VOL 01',
-                subtitle: '3D Cover Art & Typesetting Edition',
+                id: 'case-2',
+                title: 'GREAVES COTTON',
+                subtitle: 'Corporate Brand Film & Future Clean Mobility Showcase',
                 category: 'PRODUCT',
-                image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80',
+                image: 'https://img.youtube.com/vi/nc7Dn7nzjHk/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/watch?v=nc7Dn7nzjHk&t=73s',
+                aspectRatio: '1/1',
+                staggerOffset: '4rem' // Staggered vertical displacement matching reference
+              },
+              {
+                id: 'case-3',
+                title: 'ATHER ENERGY',
+                subtitle: 'Clean Electric Scooter Visual Campaign & Motion Series',
+                category: 'BRANDING',
+                image: 'https://img.youtube.com/vi/3V9bYUBpF70/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/watch?v=3V9bYUBpF70&t=52s',
+                bgColor: '#e6eff7', // Soft sky blue background container matching reference
+                aspectRatio: '4/5',
+                staggerOffset: '0px'
+              },
+              {
+                id: 'case-4',
+                title: 'NEW HOLLAND (NH GROUP)',
+                subtitle: 'Industrial Heavy Machinery Corporate Documentary',
+                category: 'BRANDING',
+                image: 'https://img.youtube.com/vi/A1pwtdmXWtk/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/watch?v=A1pwtdmXWtk',
+                aspectRatio: '16/10',
+                staggerOffset: '0px'
+              },
+              {
+                id: 'case-5',
+                title: 'RISING PUBLISHING // VOL. 01',
+                subtitle: '3D Book Cover Art, Typesetting & Kindle Publishing',
+                category: 'PRODUCT',
+                image: '/assets/hero.webp',
                 linkUrl: '/special-books',
                 aspectRatio: '1/1',
                 staggerOffset: '4rem'
               },
               {
                 id: 'case-6',
-                title: 'RISING MOTION // GRAPHICS REEL',
-                subtitle: '2D & 3D Particle Simulation Systems',
+                title: 'ITOTY AWARDS',
+                subtitle: 'Indian Tractor Of The Year Commercial Film Series',
                 category: 'WEB',
-                image: 'https://img.youtube.com/vi/8zBhYNs6usc/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/watch?v=8zBhYNs6usc',
+                image: 'https://img.youtube.com/vi/rGHSwscmbZM/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/shorts/rGHSwscmbZM',
                 aspectRatio: '4/5',
                 staggerOffset: '0px'
               }
