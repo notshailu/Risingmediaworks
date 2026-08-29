@@ -820,6 +820,44 @@
     width: 155px !important;
     height: 220px !important;
   }
+
+  /* Upcoming Publications Section Mobile Adaptations */
+  .upcoming-section-container {
+    padding: 4rem 1.25rem 5rem 1.25rem !important;
+    margin-top: 2rem !important;
+  }
+
+  .upcoming-eyebrow {
+    letter-spacing: 0.15em !important;
+    font-size: 0.68rem !important;
+    margin-bottom: 0.8rem !important;
+    display: block !important;
+  }
+
+  .upcoming-title {
+    font-size: clamp(1.8rem, 6.5vw, 3rem) !important;
+    line-height: 1.15 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .upcoming-desc {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 2.5rem !important;
+    max-width: 100% !important;
+  }
+
+  .upcoming-books-wrapper {
+    gap: 2rem !important;
+    margin: 1rem auto 3.5rem auto !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .upcoming-newsletter-form {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
 }
 
 /* Methodology Process Step Column Interactive Hover Animations */

@@ -653,8 +653,8 @@ const AllBooks = () => {
         </div>
       )}
 
-      {/* Coming Soon Section */}
-      <div style={{
+      {/* Upcoming / Coming Soon Section */}
+      <div className="upcoming-section-container" style={{
         borderTop: '1px solid var(--card-border)',
         padding: '8rem 4rem',
         marginTop: '6rem',
@@ -667,7 +667,7 @@ const AllBooks = () => {
         boxSizing: 'border-box',
         position: 'relative'
       }}>
-        <span style={{
+        <span className="upcoming-eyebrow" style={{
           fontSize: '0.75rem',
           color: '#000000',
           textTransform: 'uppercase',
@@ -678,7 +678,7 @@ const AllBooks = () => {
         }}>
           Upcoming Publications
         </span>
-        <h2 style={{
+        <h2 className="upcoming-title" style={{
           fontFamily: 'serif',
           fontSize: 'calc(2rem + 1.5vw)',
           fontWeight: '300',
@@ -689,7 +689,7 @@ const AllBooks = () => {
         }}>
           Coming Soon
         </h2>
-        <p style={{
+        <p className="upcoming-desc" style={{
           fontSize: '0.95rem',
           color: 'var(--text-muted)',
           maxWidth: '550px',
@@ -701,7 +701,7 @@ const AllBooks = () => {
         </p>
 
         {/* Silhouettes of Upcoming Books (Styled like the top Hero cover mockup) */}
-        <div style={{
+        <div className="upcoming-books-wrapper" style={{
           display: 'flex',
           justifyContent: 'center',
           gap: '5rem',
@@ -902,7 +902,7 @@ const AllBooks = () => {
         </div>
 
         {/* Minimalist Newsletter Form */}
-        <div style={{
+        <div className="upcoming-newsletter-form" style={{
           display: 'flex',
           width: '100%',
           maxWidth: '450px',
