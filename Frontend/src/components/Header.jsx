@@ -95,20 +95,58 @@ const Header = () => {
           zIndex: 999,
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           alignItems: 'center',
-          gap: '2.5rem',
+          padding: '110px 1.5rem 35px 1.5rem',
+          boxSizing: 'border-box',
           transform: isNavOpen ? 'translateY(0)' : 'translateY(-100%)',
           transition: 'transform 0.6s cubic-bezier(0.76, 0, 0.24, 1)',
           pointerEvents: isNavOpen ? 'auto' : 'none'
         }}
       >
-        <NavLink to="/work" style={mobileNavLinkStyle}>Works</NavLink>
-        <NavLink to="/services" style={mobileNavLinkStyle}>Services</NavLink>
-        <NavLink to="/special-books" style={mobileNavLinkStyle}>Books</NavLink>
-        <NavLink to="/case-studies" style={mobileNavLinkStyle}>Case Studies</NavLink>
-        <NavLink to="/about" style={mobileNavLinkStyle}>About</NavLink>
-        <NavLink to="/contact" style={mobileNavLinkStyle}>Contact</NavLink>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.6rem', alignItems: 'center', width: '100%', marginTop: 'auto', marginBottom: 'auto' }}>
+          <NavLink to="/work" style={mobileNavLinkStyle}>Works</NavLink>
+          <NavLink to="/services" style={mobileNavLinkStyle}>Services</NavLink>
+          <NavLink to="/special-books" style={mobileNavLinkStyle}>Books</NavLink>
+          <NavLink to="/case-studies" style={mobileNavLinkStyle}>Case Studies</NavLink>
+          <NavLink to="/about" style={mobileNavLinkStyle}>About</NavLink>
+          <NavLink to="/contact" style={mobileNavLinkStyle}>Contact</NavLink>
+        </div>
+
+        {/* Social Media Links Footer Block */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.85rem', width: '100%', borderTop: '1px solid rgba(255, 255, 255, 0.12)', paddingTop: '1.2rem', marginTop: 'auto' }}>
+          <span style={{ fontSize: '0.68rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#888888', fontWeight: '700', fontFamily: 'monospace' }}>
+            CONNECT WITH US
+          </span>
+          <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+            {[
+              { name: 'INSTAGRAM', url: 'https://instagram.com' },
+              { name: 'LINKEDIN', url: 'https://linkedin.com' },
+              { name: 'YOUTUBE', url: 'https://youtube.com' },
+              { name: 'TWITTER / X', url: 'https://x.com' }
+            ].map((social, idx) => (
+              <a
+                key={idx}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontSize: '0.75rem',
+                  fontWeight: '600',
+                  letterSpacing: '0.12em',
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  textDecoration: 'none',
+                  fontFamily: 'monospace',
+                  transition: 'color 0.3s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#0052ff'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)'}
+              >
+                {social.name}
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
 
       <style>{`
