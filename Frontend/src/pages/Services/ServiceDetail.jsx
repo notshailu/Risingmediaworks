@@ -280,18 +280,20 @@ const ServiceDetail = () => {
               const labelEl = col.querySelector('div');
 
               if (col === closestStep) {
-                col.style.backgroundColor = '#0052ff';
-                col.style.boxShadow = '0 10px 30px rgba(0, 82, 255, 0.45)';
-                col.style.transform = 'translateY(-4px) scale(1.03)';
-                col.style.borderRadius = '16px';
-                if (numEl) { numEl.style.color = '#ffffff'; numEl.style.transform = 'scale(1.08)'; }
+                col.style.backgroundColor = 'rgba(0, 82, 255, 0.04)';
+                col.style.border = '2px solid #0052ff';
+                col.style.boxShadow = '0 10px 25px rgba(0, 82, 255, 0.15)';
+                col.style.transform = 'translateY(-4px) scale(1.02)';
+                col.style.borderRadius = '18px';
+                if (numEl) { numEl.style.color = '#0052ff'; numEl.style.transform = 'scale(1.05)'; }
                 if (labelEl) {
-                  labelEl.style.color = '#ffffff';
+                  labelEl.style.color = '#18181b';
                   const childDivs = labelEl.querySelectorAll('div');
-                  childDivs.forEach(d => d.style.color = '#ffffff');
+                  childDivs.forEach(d => d.style.color = '#18181b');
                 }
               } else {
                 col.style.backgroundColor = 'transparent';
+                col.style.border = '2px solid transparent';
                 col.style.boxShadow = 'none';
                 col.style.transform = 'none';
                 if (numEl) { numEl.style.color = '#18181b'; numEl.style.transform = 'none'; }
