@@ -31,11 +31,14 @@ const AdminCaseStudies = () => {
     try {
       const saved = localStorage.getItem('rmw_case_studies');
       if (saved) {
-        setStudies(JSON.parse(saved));
-      } else {
-        setStudies(caseStudiesData);
-        localStorage.setItem('rmw_case_studies', JSON.stringify(caseStudiesData));
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setStudies(parsed);
+          return;
+        }
       }
+      setStudies(caseStudiesData);
+      localStorage.setItem('rmw_case_studies', JSON.stringify(caseStudiesData));
     } catch {
       setStudies(caseStudiesData);
     }

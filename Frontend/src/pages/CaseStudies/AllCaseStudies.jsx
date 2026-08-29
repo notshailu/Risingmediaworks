@@ -9,11 +9,19 @@ const AllCaseStudies = () => {
   const [caseStudies, setCaseStudies] = useState(() => {
     try {
       const saved = localStorage.getItem('rmw_case_studies');
-      return saved ? JSON.parse(saved) : caseStudiesData;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+      return caseStudiesData;
     } catch {
       return caseStudiesData;
     }
   });
+
+  const displayStudies = caseStudies && caseStudies.length > 0 ? caseStudies : caseStudiesData;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -149,7 +157,7 @@ const AllCaseStudies = () => {
           borderTop: '1px solid rgba(0, 0, 0, 0.12)',
           paddingTop: '4rem'
         }}>
-          {caseStudies.map((study, idx) => (
+          {displayStudies.map((study, idx) => (
             <Link
               key={study.id}
               to={`/case-studies/${study.id}`}
