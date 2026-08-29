@@ -104,9 +104,8 @@ const Home = () => {
     }
   };
 
-  // Preload image sequence in background (Desktop only to guarantee 60FPS mobile speed)
+  // Preload image sequence in background
   useEffect(() => {
-    if (window.innerWidth <= 1024) return;
     const totalFrames = 250;
     const loadedImages = [];
 
@@ -124,9 +123,8 @@ const Home = () => {
     setImages(loadedImages);
   }, []);
 
-  // Preload Hands image sequence in background (Desktop only)
+  // Preload Hands image sequence in background
   useEffect(() => {
-    if (window.innerWidth <= 1024) return;
     const totalFrames = 150;
     const loadedImages = [];
 
@@ -456,16 +454,14 @@ const Home = () => {
       }
     }
 
-    const isMobileDevice = window.innerWidth <= 1024;
-
     // Timeline for the pinned second section
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: secondSectionRef.current,
         start: 'top top',
-        end: isMobileDevice ? '+=1200' : '+=3000',
+        end: '+=3000', // Pinned scroll length for extended smooth scroll
         pin: true,
-        scrub: isMobileDevice ? 0.3 : 1.2,
+        scrub: 1.2,
         anticipatePin: 1,
       }
     });
@@ -562,7 +558,7 @@ const Home = () => {
     };
 
     const handleResize = () => {
-      const dpr = window.innerWidth <= 1024 ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       drawImage(sequence.frame);
@@ -580,15 +576,13 @@ const Home = () => {
       }
     }
 
-    const isMobileDevice = window.innerWidth <= 1024;
-
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: handsSectionRef.current,
         start: 'top top',
-        end: isMobileDevice ? '+=1200' : '+=4000',
+        end: '+=4000', // Pinned scroll distance for smooth frame steps
         pin: true,
-        scrub: isMobileDevice ? 0.3 : 1.2,
+        scrub: 1.2,
         anticipatePin: 1,
       }
     });
