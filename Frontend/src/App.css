@@ -767,6 +767,59 @@
     grid-template-columns: 1fr !important;
     gap: 2rem !important;
   }
+
+  /* Special Books Page Mobile Adaptations */
+  .books-hero-container {
+    height: auto !important;
+    min-height: auto !important;
+    padding: 1.5rem 1.25rem 3rem 1.25rem !important;
+    flex-direction: column !important;
+  }
+
+  .books-hero-eyebrow {
+    letter-spacing: 0.15em !important;
+    font-size: 0.68rem !important;
+    margin-bottom: 0.8rem !important;
+    text-align: center !important;
+  }
+
+  .hero-serif-line {
+    font-size: clamp(1.8rem, 6.5vw, 3.2rem) !important;
+    line-height: 1.15 !important;
+    text-align: center !important;
+  }
+
+  .all-books-mockup {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    margin: 2rem auto 1rem auto !important;
+    transform: rotate(10deg) scale(0.9) !important;
+  }
+
+  .books-scroll-down {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin-top: 1.5rem !important;
+  }
+
+  .all-books-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+    padding: 2rem 1.25rem 4rem 1.25rem !important;
+  }
+
+  .all-books-grid > a > div:first-child {
+    height: 350px !important;
+    padding: 2rem 1rem !important;
+  }
+
+  .book-3d-wrap-all {
+    width: 155px !important;
+    height: 220px !important;
+  }
 }
 
 /* Methodology Process Step Column Interactive Hover Animations */

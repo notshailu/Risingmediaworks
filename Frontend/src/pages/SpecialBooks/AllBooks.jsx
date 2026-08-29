@@ -144,7 +144,7 @@ const AllBooks = () => {
     >
 
       {/* Hero Big Typography Section */}
-      <div style={{
+      <div className="books-hero-container" style={{
         position: 'relative',
         width: '100%',
         height: '70vh',
@@ -163,7 +163,7 @@ const AllBooks = () => {
           alignItems: 'center',
           maxWidth: '900px'
         }}>
-          <span style={{
+          <span className="books-hero-eyebrow" style={{
             fontSize: '0.75rem',
             letterSpacing: '0.35em',
             textTransform: 'uppercase',
@@ -289,6 +289,7 @@ const AllBooks = () => {
 
         {/* Scroll Down Button */}
         <div
+          className="books-scroll-down"
           onClick={() => {
             const filterBar = document.getElementById('books-filter-bar');
             if (filterBar) {
