@@ -623,7 +623,7 @@
   .process-row-top,
   .process-row-bottom {
     grid-template-columns: 1fr !important;
-    gap: 2rem !important;
+    gap: 1.5rem !important;
   }
 
   .process-step-col {
@@ -631,7 +631,14 @@
     border-bottom: 1px solid #e4e4e7 !important;
     padding: 1.8rem 1rem !important;
     box-sizing: border-box !important;
-    transition: background-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease, border-radius 0.4s ease !important;
+    transition: background-color 0.4s ease, border 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease, border-radius 0.4s ease !important;
+  }
+
+  .process-step-col.is-active-step {
+    border: 2px solid #0052ff !important;
+    background-color: rgba(0, 82, 255, 0.03) !important;
+    box-shadow: 0 10px 25px rgba(0, 82, 255, 0.12) !important;
+    border-radius: 18px !important;
   }
 
   .process-step-col span,

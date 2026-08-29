@@ -1944,12 +1944,13 @@ const Home = () => {
                       textAlign: 'center',
                       padding: '1.25rem 1rem',
                       position: 'relative',
-                      borderRight: idx < 4 ? '1px solid #d4d4d8' : 'none',
+                      borderRight: !isActive && idx < 4 ? '1px solid #d4d4d8' : 'none',
                       minHeight: '140px',
                       justifyContent: 'flex-start',
-                      backgroundColor: isActive ? '#0052ff' : 'transparent',
-                      borderRadius: isActive ? '16px' : '0px',
-                      boxShadow: isActive ? '0 14px 35px rgba(0, 82, 255, 0.4)' : 'none',
+                      backgroundColor: isActive ? 'rgba(0, 82, 255, 0.04)' : 'transparent',
+                      border: isActive ? '2px solid #0052ff' : '2px solid transparent',
+                      borderRadius: isActive ? '18px' : '0px',
+                      boxShadow: isActive ? '0 10px 25px rgba(0, 82, 255, 0.15)' : 'none',
                       transform: isActive ? 'scale(1.02) translateY(-4px)' : 'none',
                       transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                       cursor: 'pointer'
@@ -1960,7 +1961,7 @@ const Home = () => {
                       style={{
                         fontSize: 'clamp(3.2rem, 5vw, 4.8rem)',
                         fontWeight: '600',
-                        color: isActive ? '#ffffff' : '#18181b',
+                        color: isActive ? '#0052ff' : '#18181b',
                         lineHeight: '1',
                         marginBottom: '1.2rem',
                         letterSpacing: '-0.02em',
@@ -1975,8 +1976,8 @@ const Home = () => {
                       style={{
                         fontSize: '1rem',
                         lineHeight: '1.35',
-                        color: isActive ? '#ffffff' : '#52525b',
-                        fontWeight: '400',
+                        color: isActive ? '#18181b' : '#52525b',
+                        fontWeight: isActive ? '600' : '400',
                         maxWidth: '160px',
                         transition: 'color 0.4s ease'
                       }}
@@ -2018,12 +2019,13 @@ const Home = () => {
                       textAlign: 'center',
                       padding: '1.25rem 1.5rem',
                       position: 'relative',
-                      borderRight: idx === 0 ? '1px solid #d4d4d8' : 'none',
+                      borderRight: !isActive && idx === 0 ? '1px solid #d4d4d8' : 'none',
                       minHeight: '140px',
                       justifyContent: 'flex-start',
-                      backgroundColor: isActive ? '#0052ff' : 'transparent',
-                      borderRadius: isActive ? '16px' : '0px',
-                      boxShadow: isActive ? '0 14px 35px rgba(0, 82, 255, 0.4)' : 'none',
+                      backgroundColor: isActive ? 'rgba(0, 82, 255, 0.04)' : 'transparent',
+                      border: isActive ? '2px solid #0052ff' : '2px solid transparent',
+                      borderRadius: isActive ? '18px' : '0px',
+                      boxShadow: isActive ? '0 10px 25px rgba(0, 82, 255, 0.15)' : 'none',
                       transform: isActive ? 'scale(1.02) translateY(-4px)' : 'none',
                       transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                       cursor: 'pointer'
@@ -2034,7 +2036,7 @@ const Home = () => {
                       style={{
                         fontSize: 'clamp(3.2rem, 5vw, 4.8rem)',
                         fontWeight: '600',
-                        color: isActive ? '#ffffff' : '#18181b',
+                        color: isActive ? '#0052ff' : '#18181b',
                         lineHeight: '1',
                         marginBottom: '1.2rem',
                         letterSpacing: '-0.02em',
@@ -2049,8 +2051,8 @@ const Home = () => {
                       style={{
                         fontSize: '1rem',
                         lineHeight: '1.35',
-                        color: isActive ? '#ffffff' : '#52525b',
-                        fontWeight: '400',
+                        color: isActive ? '#18181b' : '#52525b',
+                        fontWeight: isActive ? '600' : '400',
                         maxWidth: '160px',
                         transition: 'color 0.4s ease'
                       }}
