@@ -63,6 +63,15 @@ const AllCaseStudies = () => {
     }
   };
 
+  useEffect(() => {
+    if (document.querySelector('.case-study-card')) {
+      gsap.fromTo('.case-study-card',
+        { opacity: 0, y: 35 },
+        { opacity: 1, y: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out' }
+      );
+    }
+  }, [displayStudies]);
+
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
@@ -76,12 +85,6 @@ const AllCaseStudies = () => {
       opacity: 0,
       y: 30,
       duration: 1.2
-    }, '-=0.8')
-    .from('.case-study-card', {
-      opacity: 0,
-      y: 30,
-      duration: 1,
-      stagger: 0.15
     }, '-=0.8');
   }, { scope: containerRef });
 
@@ -170,6 +173,7 @@ const AllCaseStudies = () => {
                 backgroundColor: '#ffffff',
                 border: '1px solid rgba(0, 0, 0, 0.12)',
                 borderRadius: '20px',
+                opacity: 1,
                 overflow: 'hidden',
                 textDecoration: 'none',
                 color: 'inherit',
