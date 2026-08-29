@@ -10,7 +10,15 @@ const CaseStudyDetail = () => {
   const scrollContainerRef = useRef(null);
   const [activeSection, setActiveSection] = useState('');
 
-  const study = caseStudiesData.find((s) => s.id === id);
+  const [study, setStudy] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('rmw_case_studies') || '[]');
+      const all = [...saved, ...caseStudiesData];
+      return all.find((s) => s.id === id) || caseStudiesData.find((s) => s.id === id);
+    } catch {
+      return caseStudiesData.find((s) => s.id === id);
+    }
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);

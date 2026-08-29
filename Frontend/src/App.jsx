@@ -22,6 +22,8 @@ import AdminBooks from './pages/Admin/AdminBooks';
 import BookForm from './pages/Admin/BookForm';
 import AdminWorks from './pages/Admin/AdminWorks';
 import WorkForm from './pages/Admin/WorkForm';
+import AdminCaseStudies from './pages/Admin/AdminCaseStudies';
+import CaseStudyForm from './pages/Admin/CaseStudyForm';
 import AdminInquiries from './pages/Admin/AdminInquiries';
 
 // Dynamic wrappers to extract URL params for boilerplate titles
@@ -63,6 +65,9 @@ const App = () => {
           <Route path="works" element={<AdminWorks />} />
           <Route path="works/new" element={<WorkForm />} />
           <Route path="works/edit/:id" element={<WorkForm />} />
+          <Route path="case-studies" element={<AdminCaseStudies />} />
+          <Route path="case-studies/new" element={<CaseStudyForm />} />
+          <Route path="case-studies/edit/:id" element={<CaseStudyForm />} />
         </Route>
       </Routes>
     </BrowserRouter>

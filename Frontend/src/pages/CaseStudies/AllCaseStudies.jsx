@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
@@ -6,9 +6,32 @@ import { caseStudiesData } from '../../data/dummyData';
 
 const AllCaseStudies = () => {
   const containerRef = useRef(null);
+  const [caseStudies, setCaseStudies] = useState(() => {
+    try {
+      const saved = localStorage.getItem('rmw_case_studies');
+      return saved ? JSON.parse(saved) : caseStudiesData;
+    } catch {
+      return caseStudiesData;
+    }
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const fetchStudies = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/case-studies');
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.length > 0) {
+            setCaseStudies(data);
+            localStorage.setItem('rmw_case_studies', JSON.stringify(data));
+          }
+        }
+      } catch {
+        // Fallback to local storage
+      }
+    };
+    fetchStudies();
   }, []);
 
   const playHoverSound = () => {
@@ -126,7 +149,7 @@ const AllCaseStudies = () => {
           borderTop: '1px solid rgba(0, 0, 0, 0.12)',
           paddingTop: '4rem'
         }}>
-          {caseStudiesData.map((study, idx) => (
+          {caseStudies.map((study, idx) => (
             <Link
               key={study.id}
               to={`/case-studies/${study.id}`}

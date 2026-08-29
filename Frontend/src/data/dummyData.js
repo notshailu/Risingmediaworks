@@ -618,31 +618,123 @@ export const projectsData = [
 
 export const caseStudiesData = [
   {
-    id: 'case-study-1',
-    title: 'Revamping a Global Beauty Brand',
-    client: 'Aura Cosmetics',
-    image: '/assets/img1.webp',
-    overview: 'A complete brand overhaul, visual asset redesign, and multi-channel launch campaign for Aura Cosmetics, a leader in organic beauty.',
-    problem: 'Aura Cosmetics had a strong product line but struggled to connect with digital-native Gen Z consumers due to an outdated, text-heavy brand style.',
-    objective: 'Create an engaging, luxury visual identity, produce premium video assets, and launch a social-first digital identity to capture a modern market share.',
-    challenges: 'Balancing the brand heritage of organic ingredients with a high-end luxury editorial aesthetic, all within a compressed pre-launch timeline.',
-    research: 'Conducted in-depth audience mapping which revealed that Gen Z consumers prioritize minimalist design and authentic visual storytelling over traditional corporate advertising.',
-    strategy: 'Developed a "Minimal Luxury" roadmap shifting focus towards high-quality short-form video assets, dynamic motion graphics, and clean editorial photography.',
-    creativeDirection: 'Defined a new color palette (warm gold, beige, charcoal) with elegant serif typography, setting a cinematic, premium visual tone.',
-    script: 'Authored an emotive script focusing on raw ingredient close-ups and dynamic model shots, emphasizing natural elegance and minimalist beauty.',
-    storyboard: 'Sketched a 12-frame sequence with detailed camera angles, close-up transitions, and motion typography overlay layouts.',
-    preProduction: 'Managed set design using raw materials (sand, stone, glass), cast local fashion models, and scheduled a two-day cinematic shoot.',
-    production: 'Shot on location using RED V-Raptor cameras and Arri Signature Primes, with soft natural light setups to highlight raw skin textures.',
-    editing: 'Assembled rough cuts, color-graded using low-contrast warm palettes, and fine-tuned cuts to match the custom atmospheric soundscape.',
-    motionGraphics: 'Designed subtle gold vector typography overlays and logo transition animations to overlay the video intro and outro frames.',
-    soundDesign: 'Composed an ambient lo-fi track with organic foley sounds (wind, water droplets) and a soft, confident voice-over narration.',
-    finalOutput: 'Delivered 4K cinematic campaign masters, optimized social-first crop ratios, and a premium digital brand guideline document.',
+    id: 'case-mahindra-ev',
+    title: 'Mahindra EV Commercial Launch & Industrial Story',
+    client: 'Mahindra & Mahindra',
+    image: 'https://img.youtube.com/vi/w_xOxPuBmjk/hqdefault.jpg',
+    videoUrl: 'https://www.youtube.com/watch?v=w_xOxPuBmjk',
+    overview: 'A high-impact cinematic campaign showcasing Mahindra\'s manufacturing plant, tractor engineering, and clean electric vehicle innovation.',
+    problem: 'Mahindra needed to communicate their technological evolution from heavy agricultural machinery to cutting-edge electric vehicle engineering while maintaining brand trust.',
+    objective: 'Produce a world-class industrial documentary and commercial launch film highlighting manufacturing scale and sustainable EV technology.',
+    challenges: 'Capturing large-scale industrial operations and robotic assembly lines with cinematic lighting while maintaining strict safety standards.',
+    strategy: 'Developed a dual narrative blending heavy industrial precision with sleek motion typography and neural camera visual synthesis.',
+    creativeDirection: 'Cinematic wide-angle aerial sweeps paired with high-contrast industrial lighting and bold monospace technical callouts.',
+    production: 'Shot across multi-acre manufacturing facilities using RED digital cameras, drone cinema rigs, and precision tracking gimbals.',
+    editing: 'Dynamic rhythm-matched editing paired with heavy bass sound design and atmospheric score.',
+    results: 'Generated over 2.5M multi-platform views and established a landmark visual baseline for Mahindra\'s EV portfolio.',
     beforeAfter: {
-      before: 'Outdated, cluttered product labels, static product photography, and text-heavy social assets.',
-      after: 'Minimalist clean labels, cinematic close-up motion content, and an elegant warm gold color palette.'
-    },
-    results: 'Achieved a 400% increase in social media engagement, full collection sell-out within 48 hours of launch, and 3 global beauty design nominations.',
-    relatedProjectIds: ['proj-1', 'proj-2']
+      before: 'Standard corporate factory walkthroughs with basic narration.',
+      after: 'High-octane cinematic industrial storytelling with dynamic visual effects.'
+    }
+  },
+  {
+    id: 'case-greaves-cotton',
+    title: 'Greaves Cotton Corporate Brand Story & Mobility',
+    client: 'Greaves Cotton',
+    image: 'https://img.youtube.com/vi/nc7Dn7nzjHk/hqdefault.jpg',
+    videoUrl: 'https://www.youtube.com/watch?v=nc7Dn7nzjHk&t=73s',
+    overview: 'A corporate brand film documenting Greaves Cotton\'s transition towards clean mobility, electric powertrains, and sustainable transit.',
+    problem: 'Communicating a century-long engineering legacy while repositioning the brand as a leader in future electric mobility.',
+    objective: 'Craft an inspiring corporate documentary showcasing legacy, engineering rigor, and clean energy innovation.',
+    challenges: 'Condensing 160+ years of industrial legacy into a tight, engaging 3-minute executive narrative.',
+    strategy: 'Structured the film into three acts: Legacy of Trust, Technological Transformation, and Clean Mobility Tomorrow.',
+    creativeDirection: 'Warm golden sunlight tones for historical heritage contrasting with ultra-clean cool blues for electric mobility systems.',
+    production: 'On-location filming at corporate headquarters, assembly lines, and real-world urban electric transit test tracks.',
+    editing: 'Paced editing with subtle motion graphics overlays highlighting energy efficiency stats.',
+    results: 'Premiered at global shareholder meetings and utilized as the primary brand asset for green mobility initiatives.',
+    beforeAfter: {
+      before: 'Traditional static corporate presentation slides.',
+      after: 'Cinematic corporate brand identity film.'
+    }
+  },
+  {
+    id: 'case-ather-energy',
+    title: 'Ather Energy Motion Design & Clean Scooter Campaign',
+    client: 'Ather Energy',
+    image: 'https://img.youtube.com/vi/SGcGnys014E/hqdefault.jpg',
+    videoUrl: 'https://www.youtube.com/watch?v=SGcGnys014E',
+    overview: 'A futuristic motion design package and commercial series highlighting Ather\'s smart electric scooter features.',
+    problem: 'Standing out in a crowded EV market by showcasing complex smart digital dashboard features in a quick, intuitive format.',
+    objective: 'Create 3D kinetic typography and sleek UI motion overlays for digital marketing campaigns.',
+    challenges: 'Translating real-time software UI screens into high-framerate 3D rendered assets.',
+    strategy: 'Blended 3D CAD renders of scooter components with kinetic typography and neon UI callouts.',
+    creativeDirection: 'Minimalist neon-on-dark aesthetics, floating HUD elements, and smooth fluid camera movements.',
+    production: 'Hybrid workflow using 3D Maya render passes, After Effects compositing, and custom 4K particle engines.',
+    editing: 'Beat-synced kinetic pacing designed for vertical mobile screens and social ads.',
+    results: 'Delivered a 350% lift in digital ad click-through rates and high conversion for test ride bookings.',
+    beforeAfter: {
+      before: 'Static spec sheets and flat studio photos.',
+      after: '3D kinetic motion package bringing smart scooter features to life.'
+    }
+  },
+  {
+    id: 'case-new-holland',
+    title: 'New Holland Industrial Heavy Machinery Documentary',
+    client: 'NH Group',
+    image: 'https://img.youtube.com/vi/A1pwtdmXWtk/hqdefault.jpg',
+    videoUrl: 'https://www.youtube.com/watch?v=A1pwtdmXWtk',
+    overview: 'An in-depth industrial documentary capturing New Holland\'s heavy machinery production and agricultural engineering power.',
+    problem: 'Demonstrating the raw power and real-world field durability of heavy tractors across challenging terrains.',
+    objective: 'Produce a rugged yet highly polished video series capturing machines in active field environments.',
+    challenges: 'Extreme weather filming across dusty farmland and heavy industrial testing grounds.',
+    strategy: 'Combined ground-level high-speed camera tracking with aerial FPV drone sweeps.',
+    creativeDirection: 'High-contrast natural earth tones, bold typography, and cinematic slow-motion impact shots.',
+    production: 'Multi-camera crew equipped with dust-sealed cinema rigs and high-speed Phantom cameras.',
+    editing: 'Heavy rhythmic sound design emphasizing engine revs, hydraulic mechanisms, and field action.',
+    results: 'Distributed across dealer networks globally and adopted for international trade shows.',
+    beforeAfter: {
+      before: 'Standard field footage without professional color grading or audio mastering.',
+      after: 'Cinematic documentary showcasing agricultural engineering excellence.'
+    }
+  },
+  {
+    id: 'case-rising-publishing',
+    title: 'Rising Publishing Vol. 01 Edition & 3D Cover Design',
+    client: 'Rising Publishing',
+    image: 'https://i.pinimg.com/736x/59/8b/b5/598bb5309e1cac0e08e0b18dc4f4b6af.jpg',
+    overview: 'Editorial typesetting, 3D hardcover mockup design, and multi-format self-publishing framework for flagship print editions.',
+    problem: 'Authors needed an all-in-one publishing pipeline that produces print-ready cover art and KDP digital formatting.',
+    objective: 'Develop a luxury publishing standard for physical hardcovers, paperbacks, and digital Kindle editions.',
+    challenges: 'Aligning precise millimetric spine calculations for variable page counts and paperweights.',
+    strategy: 'Built an automated grid layout system matching global print-on-demand requirements.',
+    creativeDirection: 'Monochrome editorial typography paired with gold foil debossing accents.',
+    production: '3D Blender cover visualization and Adobe InDesign master grid templates.',
+    editing: 'Rigorous proofing, color calibration for CMYK offset printing, and IngramSpark distribution setup.',
+    results: 'Published over 50+ titles with 100% KDP & IngramSpark compliance rate.',
+    beforeAfter: {
+      before: 'Basic template book covers with misaligned margins.',
+      after: 'Bespoke 3D cover art and editorial typography standards.'
+    }
+  },
+  {
+    id: 'case-itoty-awards',
+    title: 'ITOTY Commercial Film & Awards Showcase',
+    client: 'ITOTY',
+    image: 'https://img.youtube.com/vi/rGHSwscmbZM/hqdefault.jpg',
+    videoUrl: 'https://www.youtube.com/shorts/rGHSwscmbZM',
+    overview: 'Commercial promo series and live award event highlights for the Indian Tractor Of The Year (ITOTY) ceremony.',
+    problem: 'Creating high-energy promo videos that build anticipation for annual industry award announcements.',
+    objective: 'Deliver fast-paced vertical and horizontal video edits for social media channels and broadcast.',
+    challenges: 'Tight turnaround times during live event coverage and instant multi-platform publishing.',
+    strategy: 'Deployed an on-site rapid editing bay for real-time clip cutting and social delivery.',
+    creativeDirection: 'Neon gold glowing title badges, energetic beats, and dynamic light leaks.',
+    production: 'Multi-operator live camera setups and mobile vertical gimbal rigs.',
+    editing: 'Same-day turnaround editing with custom lower-thirds and logo stingers.',
+    results: 'Achieved over 1.8M organic social views during event week.',
+    beforeAfter: {
+      before: 'Delayed post-event summary videos published weeks later.',
+      after: 'Real-time high-energy event coverage delivered within hours.'
+    }
   }
 ];
 
