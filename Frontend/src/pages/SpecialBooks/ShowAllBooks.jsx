@@ -38,6 +38,7 @@ const ShowAllBooks = () => {
 
   return (
     <div
+      className="show-all-books-page"
       style={{
         width: '100%',
         minHeight: '100vh',
@@ -84,7 +85,7 @@ const ShowAllBooks = () => {
           }}>
             Rising Media Works
           </span>
-          <h1 style={{
+          <h1 className="show-all-books-title" style={{
             fontSize: 'calc(2.2rem + 1.2vw)',
             fontWeight: '400',
             textTransform: 'uppercase',
@@ -97,7 +98,7 @@ const ShowAllBooks = () => {
         </div>
       </div>
 
-      <div style={{
+      <div className="show-all-books-grid" style={{
         maxWidth: '1200px',
         margin: '0 auto',
         width: '100%',

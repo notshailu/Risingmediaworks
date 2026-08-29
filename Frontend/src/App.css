@@ -876,6 +876,32 @@
     max-width: 100% !important;
     width: 100% !important;
   }
+
+  /* Complete Publications Archive Page Mobile Adaptations */
+  .show-all-books-page {
+    padding: 90px 1.25rem 40px 1.25rem !important;
+  }
+
+  .show-all-books-title {
+    font-size: clamp(1.8rem, 6.8vw, 2.8rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  .show-all-books-grid {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+    padding: 1rem 0 3rem 0 !important;
+  }
+
+  .show-all-books-grid > a > div:first-child {
+    height: 350px !important;
+    padding: 1.5rem 1rem !important;
+  }
+
+  .show-all-books-grid .book-3d-cover {
+    width: 175px !important;
+    height: 260px !important;
+  }
 }
 
 /* Methodology Process Step Column Interactive Hover Animations */
