@@ -103,56 +103,64 @@ const AllServices = () => {
     'book-design': 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=500&auto=format&fit=crop'
   };
 
-  // Mobile Active Scroll Highlight for Services List - Strictly ONE item at a time
+  // Mobile Active Scroll Highlight for Services List - Strictly ONE item at a time (rAF throttled for 60FPS)
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
       if (window.innerWidth > 1024) return;
-      const rows = containerRef.current?.querySelectorAll('.service-row-block');
-      if (!rows || rows.length === 0) return;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const rows = containerRef.current?.querySelectorAll('.service-row-block');
+          if (rows && rows.length > 0) {
+            const viewportCenter = window.innerHeight / 2;
+            let closestRow = null;
+            let minDistance = Infinity;
 
-      const viewportCenter = window.innerHeight / 2;
-      let closestRow = null;
-      let minDistance = Infinity;
+            rows.forEach((row) => {
+              const rect = row.getBoundingClientRect();
+              if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
+                const rowCenter = rect.top + rect.height / 2;
+                const distance = Math.abs(rowCenter - viewportCenter);
+                if (distance < minDistance) {
+                  minDistance = distance;
+                  closestRow = row;
+                }
+              }
+            });
 
-      rows.forEach((row) => {
-        const rect = row.getBoundingClientRect();
-        if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
-          const rowCenter = rect.top + rect.height / 2;
-          const distance = Math.abs(rowCenter - viewportCenter);
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestRow = row;
+            rows.forEach((row) => {
+              const content = row.querySelector('.row-content');
+              const numEl = row.querySelector('.service-num');
+              const titleEl = row.querySelector('.service-title');
+              const descEl = row.querySelector('.service-desc');
+              const arrowEl = row.querySelector('.service-arrow');
+
+              if (row === closestRow) {
+                row.style.backgroundColor = '#0052ff';
+                row.style.borderRadius = '12px';
+                row.style.boxShadow = '0 10px 30px rgba(0, 82, 255, 0.45)';
+                if (content) { content.style.color = '#ffffff'; content.style.padding = '1.8rem 1.25rem'; }
+                if (numEl) { numEl.style.color = '#ffffff'; numEl.style.opacity = '0.95'; }
+                if (titleEl) { titleEl.style.color = '#ffffff'; }
+                if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.95)'; }
+                if (arrowEl) { arrowEl.style.color = '#ffffff'; arrowEl.style.transform = 'translateX(5px)'; }
+              } else {
+                row.style.backgroundColor = 'transparent';
+                row.style.borderRadius = '0px';
+                row.style.boxShadow = 'none';
+                if (content) { content.style.color = '#000000'; content.style.padding = '1.8rem 0'; }
+                if (numEl) { numEl.style.color = '#000000'; numEl.style.opacity = '1'; }
+                if (titleEl) { titleEl.style.color = '#000000'; }
+                if (descEl) { descEl.style.color = '#444444'; }
+                if (arrowEl) { arrowEl.style.color = '#000000'; arrowEl.style.transform = 'none'; }
+              }
+            });
           }
-        }
-      });
-
-      rows.forEach((row) => {
-        const content = row.querySelector('.row-content');
-        const numEl = row.querySelector('.service-num');
-        const titleEl = row.querySelector('.service-title');
-        const descEl = row.querySelector('.service-desc');
-        const arrowEl = row.querySelector('.service-arrow');
-
-        if (row === closestRow) {
-          row.style.backgroundColor = '#0052ff';
-          row.style.borderRadius = '12px';
-          row.style.boxShadow = '0 10px 30px rgba(0, 82, 255, 0.45)';
-          if (content) { content.style.color = '#ffffff'; content.style.padding = '1.8rem 1.25rem'; }
-          if (numEl) { numEl.style.color = '#ffffff'; numEl.style.opacity = '0.95'; }
-          if (titleEl) { titleEl.style.color = '#ffffff'; }
-          if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.95)'; }
-          if (arrowEl) { arrowEl.style.color = '#ffffff'; arrowEl.style.transform = 'translateX(5px)'; }
-        } else {
-          row.style.backgroundColor = 'transparent';
-          row.style.borderRadius = '0px';
-          row.style.boxShadow = 'none';
-          if (content) { content.style.color = '#000000'; content.style.padding = '1.8rem 0'; }
-          if (numEl) { numEl.style.color = '#000000'; numEl.style.opacity = '1'; }
-          if (titleEl) { titleEl.style.color = '#000000'; }
-          if (descEl) { descEl.style.color = '#444444'; }
-          if (arrowEl) { arrowEl.style.color = '#000000'; arrowEl.style.transform = 'none'; }
-        }
-      });
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });

@@ -249,57 +249,65 @@ const ServiceDetail = () => {
     document.body.classList.remove('light-theme');
   }, [serviceId]);
 
-  // Mobile Active Scroll Highlight for Process Methodology Steps - Strictly ONE item at a time
+  // Mobile Active Scroll Highlight for Process Methodology Steps - Strictly ONE item at a time (rAF throttled)
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
       if (window.innerWidth > 1024) return;
-      const steps = document.querySelectorAll('.process-step-col');
-      if (steps.length === 0) return;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const steps = document.querySelectorAll('.process-step-col');
+          if (steps.length > 0) {
+            const viewportCenter = window.innerHeight / 2;
+            let closestStep = null;
+            let minDistance = Infinity;
 
-      const viewportCenter = window.innerHeight / 2;
-      let closestStep = null;
-      let minDistance = Infinity;
+            steps.forEach((col) => {
+              const rect = col.getBoundingClientRect();
+              if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
+                const colCenter = rect.top + rect.height / 2;
+                const distance = Math.abs(colCenter - viewportCenter);
+                if (distance < minDistance) {
+                  minDistance = distance;
+                  closestStep = col;
+                }
+              }
+            });
 
-      steps.forEach((col) => {
-        const rect = col.getBoundingClientRect();
-        if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
-          const colCenter = rect.top + rect.height / 2;
-          const distance = Math.abs(colCenter - viewportCenter);
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestStep = col;
+            steps.forEach((col) => {
+              const numEl = col.querySelector('span');
+              const labelEl = col.querySelector('div');
+
+              if (col === closestStep) {
+                col.style.backgroundColor = '#0052ff';
+                col.style.boxShadow = '0 10px 30px rgba(0, 82, 255, 0.45)';
+                col.style.transform = 'translateY(-4px) scale(1.03)';
+                col.style.borderRadius = '16px';
+                if (numEl) { numEl.style.color = '#ffffff'; numEl.style.transform = 'scale(1.08)'; }
+                if (labelEl) {
+                  labelEl.style.color = '#ffffff';
+                  const childDivs = labelEl.querySelectorAll('div');
+                  childDivs.forEach(d => d.style.color = '#ffffff');
+                }
+              } else {
+                col.style.backgroundColor = 'transparent';
+                col.style.boxShadow = 'none';
+                col.style.transform = 'none';
+                if (numEl) { numEl.style.color = '#18181b'; numEl.style.transform = 'none'; }
+                if (labelEl) {
+                  labelEl.style.color = '#52525b';
+                  const childDivs = labelEl.querySelectorAll('div');
+                  if (childDivs[0]) childDivs[0].style.color = '#18181b';
+                  if (childDivs[1]) childDivs[1].style.color = '#52525b';
+                }
+              }
+            });
           }
-        }
-      });
-
-      steps.forEach((col) => {
-        const numEl = col.querySelector('span');
-        const labelEl = col.querySelector('div');
-
-        if (col === closestStep) {
-          col.style.backgroundColor = '#0052ff';
-          col.style.boxShadow = '0 10px 30px rgba(0, 82, 255, 0.45)';
-          col.style.transform = 'translateY(-4px) scale(1.03)';
-          col.style.borderRadius = '16px';
-          if (numEl) { numEl.style.color = '#ffffff'; numEl.style.transform = 'scale(1.08)'; }
-          if (labelEl) {
-            labelEl.style.color = '#ffffff';
-            const childDivs = labelEl.querySelectorAll('div');
-            childDivs.forEach(d => d.style.color = '#ffffff');
-          }
-        } else {
-          col.style.backgroundColor = 'transparent';
-          col.style.boxShadow = 'none';
-          col.style.transform = 'none';
-          if (numEl) { numEl.style.color = '#18181b'; numEl.style.transform = 'none'; }
-          if (labelEl) {
-            labelEl.style.color = '#52525b';
-            const childDivs = labelEl.querySelectorAll('div');
-            if (childDivs[0]) childDivs[0].style.color = '#18181b';
-            if (childDivs[1]) childDivs[1].style.color = '#52525b';
-          }
-        }
-      });
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     const scrollContainer = document.getElementById('service-content-scroll-container');

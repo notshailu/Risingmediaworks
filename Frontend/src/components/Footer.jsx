@@ -32,6 +32,9 @@ const Footer = () => {
 
   // Interactive Blue Flame Tail Particle Physics on Cursor Movement
   useEffect(() => {
+    // Disable particle canvas render loop on mobile devices where mousemove is unavailable
+    if (window.innerWidth <= 1024 || 'ontouchstart' in window) return;
+
     const canvas = flameCanvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');

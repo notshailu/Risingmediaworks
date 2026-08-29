@@ -4,6 +4,9 @@ const WaterBackground = () => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    // Disable heavy WebGL shader loop on mobile screens to ensure 60FPS mobile performance
+    if (window.innerWidth <= 1024 || 'ontouchstart' in window) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 

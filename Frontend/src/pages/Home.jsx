@@ -640,50 +640,58 @@ const Home = () => {
     );
   }, []);
 
-  // Mobile Active Scroll Highlight for Capabilities (.cap-item-row) - ONE item at a time
+  // Mobile Active Scroll Highlight for Capabilities (.cap-item-row) - ONE item at a time (rAF throttled)
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
       if (window.innerWidth > 1024) return;
-      const rows = document.querySelectorAll('#services-overview .cap-item-row');
-      if (rows.length === 0) return;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const rows = document.querySelectorAll('#services-overview .cap-item-row');
+          if (rows.length > 0) {
+            const viewportCenter = window.innerHeight / 2;
+            let closestRow = null;
+            let minDistance = Infinity;
 
-      const viewportCenter = window.innerHeight / 2;
-      let closestRow = null;
-      let minDistance = Infinity;
+            rows.forEach((row) => {
+              const rect = row.getBoundingClientRect();
+              if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
+                const rowCenter = rect.top + rect.height / 2;
+                const distance = Math.abs(rowCenter - viewportCenter);
+                if (distance < minDistance) {
+                  minDistance = distance;
+                  closestRow = row;
+                }
+              }
+            });
 
-      rows.forEach((row) => {
-        const rect = row.getBoundingClientRect();
-        if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
-          const rowCenter = rect.top + rect.height / 2;
-          const distance = Math.abs(rowCenter - viewportCenter);
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestRow = row;
+            rows.forEach((row) => {
+              const capId = row.querySelector('.cap-id');
+              const capVal = row.querySelector('.cap-val-text');
+              const capArrow = row.querySelector('.cap-arrow');
+
+              if (row === closestRow) {
+                row.style.backgroundColor = '#0052ff';
+                row.style.boxShadow = '0 8px 25px rgba(0, 82, 255, 0.45)';
+                row.style.transform = 'scale(1.02)';
+                if (capId) { capId.style.color = '#ffffff'; capId.style.opacity = '0.95'; }
+                if (capVal) { capVal.style.color = 'rgba(255, 255, 255, 0.95)'; capVal.style.opacity = '1'; }
+                if (capArrow) { capArrow.style.opacity = '1'; capArrow.style.transform = 'translateX(4px)'; }
+              } else {
+                row.style.backgroundColor = 'transparent';
+                row.style.boxShadow = 'none';
+                row.style.transform = 'none';
+                if (capId) { capId.style.color = 'rgba(255, 255, 255, 0.5)'; capId.style.opacity = '1'; }
+                if (capVal) { capVal.style.color = 'rgba(255, 255, 255, 0.7)'; capVal.style.opacity = '0.85'; }
+                if (capArrow) { capArrow.style.opacity = '0'; capArrow.style.transform = 'none'; }
+              }
+            });
           }
-        }
-      });
-
-      rows.forEach((row) => {
-        const capId = row.querySelector('.cap-id');
-        const capVal = row.querySelector('.cap-val-text');
-        const capArrow = row.querySelector('.cap-arrow');
-
-        if (row === closestRow) {
-          row.style.backgroundColor = '#0052ff';
-          row.style.boxShadow = '0 8px 25px rgba(0, 82, 255, 0.45)';
-          row.style.transform = 'scale(1.02)';
-          if (capId) { capId.style.color = '#ffffff'; capId.style.opacity = '0.95'; }
-          if (capVal) { capVal.style.color = 'rgba(255, 255, 255, 0.95)'; capVal.style.opacity = '1'; }
-          if (capArrow) { capArrow.style.opacity = '1'; capArrow.style.transform = 'translateX(4px)'; }
-        } else {
-          row.style.backgroundColor = 'transparent';
-          row.style.boxShadow = 'none';
-          row.style.transform = 'none';
-          if (capId) { capId.style.color = 'rgba(255, 255, 255, 0.5)'; capId.style.opacity = '1'; }
-          if (capVal) { capVal.style.color = 'rgba(255, 255, 255, 0.7)'; capVal.style.opacity = '0.85'; }
-          if (capArrow) { capArrow.style.opacity = '0'; capArrow.style.transform = 'none'; }
-        }
-      });
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -691,53 +699,61 @@ const Home = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Mobile Active Scroll Highlight for Why Us (.why-row-item) - ONE item at a time
+  // Mobile Active Scroll Highlight for Why Us (.why-row-item) - ONE item at a time (rAF throttled)
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
       if (window.innerWidth > 1024) return;
-      const rows = document.querySelectorAll('#why-rising-media-works .why-row-item');
-      if (rows.length === 0) return;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const rows = document.querySelectorAll('#why-rising-media-works .why-row-item');
+          if (rows.length > 0) {
+            const viewportCenter = window.innerHeight / 2;
+            let closestRow = null;
+            let minDistance = Infinity;
 
-      const viewportCenter = window.innerHeight / 2;
-      let closestRow = null;
-      let minDistance = Infinity;
+            rows.forEach((row) => {
+              const rect = row.getBoundingClientRect();
+              if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
+                const rowCenter = rect.top + rect.height / 2;
+                const distance = Math.abs(rowCenter - viewportCenter);
+                if (distance < minDistance) {
+                  minDistance = distance;
+                  closestRow = row;
+                }
+              }
+            });
 
-      rows.forEach((row) => {
-        const rect = row.getBoundingClientRect();
-        if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
-          const rowCenter = rect.top + rect.height / 2;
-          const distance = Math.abs(rowCenter - viewportCenter);
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestRow = row;
+            rows.forEach((row) => {
+              const numEl = row.querySelector('.row-num');
+              const titleEl = row.querySelector('.row-title');
+              const descEl = row.querySelector('.why-row-desc');
+              const arrowEl = row.querySelector('.row-arrow');
+
+              if (row === closestRow) {
+                row.style.backgroundColor = '#0052ff';
+                row.style.boxShadow = '0 8px 25px rgba(0, 82, 255, 0.45)';
+                row.style.transform = 'scale(1.02)';
+                if (numEl) { numEl.style.color = '#ffffff'; numEl.style.opacity = '0.95'; }
+                if (titleEl) { titleEl.style.color = '#ffffff'; }
+                if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.95)'; }
+                if (arrowEl) { arrowEl.style.color = '#ffffff'; arrowEl.style.transform = 'rotate(45deg) translate(2px, -2px)'; }
+              } else {
+                row.style.backgroundColor = 'transparent';
+                row.style.boxShadow = 'none';
+                row.style.transform = 'none';
+                if (numEl) { numEl.style.color = 'rgba(255, 255, 255, 0.4)'; numEl.style.opacity = '1'; }
+                if (titleEl) { titleEl.style.color = 'rgba(255, 255, 255, 0.9)'; }
+                if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.6)'; }
+                if (arrowEl) { arrowEl.style.color = 'rgba(255, 255, 255, 0.6)'; arrowEl.style.transform = 'none'; }
+              }
+            });
           }
-        }
-      });
-
-      rows.forEach((row) => {
-        const numEl = row.querySelector('.row-num');
-        const titleEl = row.querySelector('.row-title');
-        const descEl = row.querySelector('.why-row-desc');
-        const arrowEl = row.querySelector('.row-arrow');
-
-        if (row === closestRow) {
-          row.style.backgroundColor = '#0052ff';
-          row.style.boxShadow = '0 8px 25px rgba(0, 82, 255, 0.45)';
-          row.style.transform = 'scale(1.02)';
-          if (numEl) { numEl.style.color = '#ffffff'; numEl.style.opacity = '0.95'; }
-          if (titleEl) { titleEl.style.color = '#ffffff'; }
-          if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.95)'; }
-          if (arrowEl) { arrowEl.style.color = '#ffffff'; arrowEl.style.transform = 'rotate(45deg) translate(2px, -2px)'; }
-        } else {
-          row.style.backgroundColor = 'transparent';
-          row.style.boxShadow = 'none';
-          row.style.transform = 'none';
-          if (numEl) { numEl.style.color = 'rgba(255, 255, 255, 0.4)'; numEl.style.opacity = '1'; }
-          if (titleEl) { titleEl.style.color = 'rgba(255, 255, 255, 0.9)'; }
-          if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.6)'; }
-          if (arrowEl) { arrowEl.style.color = 'rgba(255, 255, 255, 0.6)'; arrowEl.style.transform = 'none'; }
-        }
-      });
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -745,57 +761,65 @@ const Home = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Mobile Active Scroll Highlight for Process Methodology Steps (.process-step-col) - ONE item at a time
+  // Mobile Active Scroll Highlight for Process Methodology Steps (.process-step-col) - ONE item at a time (rAF throttled)
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
       if (window.innerWidth > 1024) return;
-      const steps = document.querySelectorAll('.process-step-col');
-      if (steps.length === 0) return;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const steps = document.querySelectorAll('.process-step-col');
+          if (steps.length > 0) {
+            const viewportCenter = window.innerHeight / 2;
+            let closestStep = null;
+            let minDistance = Infinity;
 
-      const viewportCenter = window.innerHeight / 2;
-      let closestStep = null;
-      let minDistance = Infinity;
+            steps.forEach((col) => {
+              const rect = col.getBoundingClientRect();
+              if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
+                const colCenter = rect.top + rect.height / 2;
+                const distance = Math.abs(colCenter - viewportCenter);
+                if (distance < minDistance) {
+                  minDistance = distance;
+                  closestStep = col;
+                }
+              }
+            });
 
-      steps.forEach((col) => {
-        const rect = col.getBoundingClientRect();
-        if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
-          const colCenter = rect.top + rect.height / 2;
-          const distance = Math.abs(colCenter - viewportCenter);
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestStep = col;
+            steps.forEach((col) => {
+              const numEl = col.querySelector('.method-num') || col.querySelector('span');
+              const labelEl = col.querySelector('.method-label') || col.querySelector('div');
+
+              if (col === closestStep) {
+                col.style.backgroundColor = '#0052ff';
+                col.style.boxShadow = '0 10px 30px rgba(0, 82, 255, 0.45)';
+                col.style.transform = 'translateY(-4px) scale(1.03)';
+                col.style.borderRadius = '16px';
+                if (numEl) { numEl.style.color = '#ffffff'; numEl.style.transform = 'scale(1.08)'; }
+                if (labelEl) {
+                  labelEl.style.color = '#ffffff';
+                  const childDivs = labelEl.querySelectorAll('div');
+                  childDivs.forEach(d => d.style.color = '#ffffff');
+                }
+              } else {
+                col.style.backgroundColor = 'transparent';
+                col.style.boxShadow = 'none';
+                col.style.transform = 'none';
+                if (numEl) { numEl.style.color = '#18181b'; numEl.style.transform = 'none'; }
+                if (labelEl) {
+                  labelEl.style.color = '#52525b';
+                  const childDivs = labelEl.querySelectorAll('div');
+                  if (childDivs[0]) childDivs[0].style.color = '#18181b';
+                  if (childDivs[1]) childDivs[1].style.color = '#52525b';
+                }
+              }
+            });
           }
-        }
-      });
-
-      steps.forEach((col) => {
-        const numEl = col.querySelector('.method-num') || col.querySelector('span');
-        const labelEl = col.querySelector('.method-label') || col.querySelector('div');
-
-        if (col === closestStep) {
-          col.style.backgroundColor = '#0052ff';
-          col.style.boxShadow = '0 10px 30px rgba(0, 82, 255, 0.45)';
-          col.style.transform = 'translateY(-4px) scale(1.03)';
-          col.style.borderRadius = '16px';
-          if (numEl) { numEl.style.color = '#ffffff'; numEl.style.transform = 'scale(1.08)'; }
-          if (labelEl) {
-            labelEl.style.color = '#ffffff';
-            const childDivs = labelEl.querySelectorAll('div');
-            childDivs.forEach(d => d.style.color = '#ffffff');
-          }
-        } else {
-          col.style.backgroundColor = 'transparent';
-          col.style.boxShadow = 'none';
-          col.style.transform = 'none';
-          if (numEl) { numEl.style.color = '#18181b'; numEl.style.transform = 'none'; }
-          if (labelEl) {
-            labelEl.style.color = '#52525b';
-            const childDivs = labelEl.querySelectorAll('div');
-            if (childDivs[0]) childDivs[0].style.color = '#18181b';
-            if (childDivs[1]) childDivs[1].style.color = '#52525b';
-          }
-        }
-      });
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
