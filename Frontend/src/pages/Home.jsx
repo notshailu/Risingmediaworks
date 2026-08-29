@@ -1882,6 +1882,315 @@ const Home = () => {
         </div>
       </section>
 
+      {/* FEATURED WORK / SELECTED SHOWCASE SECTION */}
+      <section id="featured-work-showcase" className="scroll-fade-in" style={{
+        width: '100%',
+        padding: '12vh 6vw',
+        boxSizing: 'border-box',
+        backgroundColor: '#000000',
+        color: '#ffffff',
+        fontFamily: 'sans-serif',
+        position: 'relative',
+        borderTop: '1px solid rgba(255, 255, 255, 0.15)'
+      }}>
+        <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
+          
+          {/* Header Row */}
+          <div className="showcase-header-row" style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+            marginBottom: '8vh',
+            flexWrap: 'wrap',
+            gap: '2rem'
+          }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.2rem' }}>
+                <span style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  backgroundColor: '#0052ff',
+                  boxShadow: '0 0 14px rgba(0, 82, 255, 0.9)',
+                  display: 'inline-block'
+                }} />
+                <span style={{
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.22em',
+                  textTransform: 'uppercase',
+                  fontWeight: '700',
+                  color: 'rgba(255, 255, 255, 0.6)',
+                  fontFamily: 'monospace'
+                }}>
+                  FEATURED WORK
+                </span>
+              </div>
+
+              <h2 style={{
+                fontSize: 'calc(2.4rem + 2vw)',
+                fontWeight: '300',
+                fontFamily: 'serif',
+                textTransform: 'uppercase',
+                margin: 0,
+                letterSpacing: '0.02em',
+                color: '#ffffff'
+              }}>
+                Selected Showcase
+              </h2>
+            </div>
+
+            <Link 
+              to="/work" 
+              style={{
+                fontSize: '0.85rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                fontWeight: '600',
+                color: '#ffffff',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                padding: '0.85rem 2rem',
+                borderRadius: '50px',
+                textDecoration: 'none',
+                transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.6rem',
+                backgroundColor: 'rgba(255, 255, 255, 0.03)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#0052ff';
+                e.currentTarget.style.borderColor = '#0052ff';
+                e.currentTarget.style.transform = 'translateY(-3px)';
+                e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 82, 255, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                e.currentTarget.style.transform = 'none';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              EXPLORE ALL PROJECTS →
+            </Link>
+          </div>
+
+          {/* Grid of Top Showcase Projects */}
+          <div className="showcase-projects-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+            gap: '2.5rem'
+          }}>
+            {[
+              {
+                id: 'ai-1',
+                title: 'AI Cinematic Universe',
+                category: 'AI & Visual Synthesis',
+                client: 'AI Studio',
+                image: 'https://img.youtube.com/vi/wOg8_fZstWU/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/watch?v=wOg8_fZstWU',
+                desc: 'Bespoke AI-generated cinematic visual production with neural camera synthesis.'
+              },
+              {
+                id: 'greaves-1',
+                title: 'Greaves Cotton Corporate Film',
+                category: 'Corporate Brand Film',
+                client: 'Greaves Cotton',
+                image: 'https://img.youtube.com/vi/w_xOxPuBmjk/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/watch?v=w_xOxPuBmjk&t=2s',
+                desc: 'Cinematic corporate brand identity and manufacturing story for Greaves.'
+              },
+              {
+                id: 'motion-1',
+                title: 'Rising Motion Graphics Reel',
+                category: '2D / 3D Motion Design',
+                client: 'Rising Media',
+                image: 'https://img.youtube.com/vi/8zBhYNs6usc/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/watch?v=8zBhYNs6usc',
+                desc: 'Showcase of 2D/3D kinetic typography, particle systems, and logo stingers.'
+              },
+              {
+                id: 'nh-1',
+                title: 'NH Corporate Documentary',
+                category: 'Documentary & Production',
+                client: 'NH Group',
+                image: 'https://img.youtube.com/vi/A1pwtdmXWtk/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/watch?v=A1pwtdmXWtk',
+                desc: 'Industrial engineering narrative capturing large-scale production facilities.'
+              },
+              {
+                id: 'book-vol1',
+                title: 'Rising Publishing Vol. 01',
+                category: 'Book Design & Publishing',
+                client: 'Rising Publishing',
+                image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80',
+                linkUrl: '/special-books',
+                desc: 'Modern 3D book cover art, editorial typesetting, and Kindle publishing.'
+              },
+              {
+                id: 'motion-2',
+                title: 'Dynamic Kinetic Systems',
+                category: 'Commercial Video',
+                client: 'Rising Media',
+                image: 'https://img.youtube.com/vi/3V9bYUBpF70/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/watch?v=3V9bYUBpF70&t=52s',
+                desc: 'High-energy commercial motion package for digital campaign launches.'
+              }
+            ].map((proj) => (
+              <div
+                key={proj.id}
+                className="showcase-card"
+                onClick={() => {
+                  if (proj.linkUrl) {
+                    window.location.href = proj.linkUrl;
+                  } else {
+                    handleCardClick(proj);
+                  }
+                }}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  borderRadius: '20px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                }}
+                onMouseEnter={(e) => {
+                  playHoverSound();
+                  e.currentTarget.style.transform = 'translateY(-8px)';
+                  e.currentTarget.style.borderColor = 'rgba(0, 82, 255, 0.6)';
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 82, 255, 0.25)';
+                  const img = e.currentTarget.querySelector('.showcase-img');
+                  if (img) img.style.transform = 'scale(1.08)';
+                  const playBtn = e.currentTarget.querySelector('.showcase-play');
+                  if (playBtn) {
+                    playBtn.style.backgroundColor = '#0052ff';
+                    playBtn.style.transform = 'translate(-50%, -50%) scale(1.1)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'none';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.boxShadow = 'none';
+                  const img = e.currentTarget.querySelector('.showcase-img');
+                  if (img) img.style.transform = 'scale(1)';
+                  const playBtn = e.currentTarget.querySelector('.showcase-play');
+                  if (playBtn) {
+                    playBtn.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+                    playBtn.style.transform = 'translate(-50%, -50%) scale(1)';
+                  }
+                }}
+              >
+                {/* Media Image Container with Play Overlay */}
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  paddingTop: '56.25%', // 16:9 ratio
+                  overflow: 'hidden',
+                  backgroundColor: '#111113'
+                }}>
+                  <img 
+                    className="showcase-img"
+                    src={proj.image} 
+                    alt={proj.title}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
+                    }} 
+                  />
+
+                  {/* Glassmorphic Play / Link Icon Overlay */}
+                  <div 
+                    className="showcase-play"
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      width: '56px',
+                      height: '56px',
+                      borderRadius: '50%',
+                      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.3)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#ffffff',
+                      fontSize: '1.2rem',
+                      transition: 'all 0.4s ease'
+                    }}
+                  >
+                    {proj.linkUrl ? '↗' : '▶'}
+                  </div>
+
+                  {/* Category Tag Badge */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '1rem',
+                    left: '1rem',
+                    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    padding: '0.35rem 0.85rem',
+                    borderRadius: '50px',
+                    fontSize: '0.7rem',
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    fontWeight: '600',
+                    color: '#ffffff'
+                  }}>
+                    {proj.category}
+                  </div>
+                </div>
+
+                {/* Card Content Details */}
+                <div style={{ padding: '1.8rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', flexGrow: 1 }}>
+                  <div style={{
+                    fontSize: '0.72rem',
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    fontWeight: '600',
+                    color: '#0052ff',
+                    fontFamily: 'monospace'
+                  }}>
+                    {proj.client}
+                  </div>
+
+                  <h3 style={{
+                    fontSize: '1.25rem',
+                    fontWeight: '400',
+                    fontFamily: 'serif',
+                    color: '#ffffff',
+                    margin: 0,
+                    lineHeight: '1.3'
+                  }}>
+                    {proj.title}
+                  </h3>
+
+                  <p style={{
+                    fontSize: '0.88rem',
+                    lineHeight: '1.55',
+                    color: 'rgba(255, 255, 255, 0.6)',
+                    margin: 0,
+                    fontWeight: '300'
+                  }}>
+                    {proj.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
       {/* OUR PROCESS SECTION (08. OUR PROCESS) */}
       <section id="our-process" className="scroll-fade-in" style={{
         width: '100%',
