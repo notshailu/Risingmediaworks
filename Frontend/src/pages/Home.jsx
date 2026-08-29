@@ -558,7 +558,7 @@ const Home = () => {
     };
 
     const handleResize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = window.innerWidth <= 1024 ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       drawImage(sequence.frame);
@@ -576,13 +576,15 @@ const Home = () => {
       }
     }
 
+    const isMobileDevice = window.innerWidth <= 1024;
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: handsSectionRef.current,
         start: 'top top',
-        end: '+=4000', // Pinned scroll distance for smooth frame steps
+        end: isMobileDevice ? '+=1200' : '+=4000',
         pin: true,
-        scrub: 1.2,
+        scrub: isMobileDevice ? 0.3 : 1.2,
         anticipatePin: 1,
       }
     });

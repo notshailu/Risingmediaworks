@@ -7,6 +7,9 @@ const CustomCursor = () => {
   const [hasMoved, setHasMoved] = useState(false);
 
   useEffect(() => {
+    // Disable custom cursor on mobile devices to prevent layout thrashing
+    if (window.innerWidth <= 1024 || 'ontouchstart' in window) return;
+
     const dot = dotRef.current;
     const ring = ringRef.current;
 

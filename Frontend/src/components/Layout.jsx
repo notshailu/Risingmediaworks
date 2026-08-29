@@ -10,7 +10,10 @@ const Layout = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Initialize Lenis smooth inertia scrolling
+    // Disable Lenis inertia smooth scroll on mobile devices to use native hardware 60FPS touch scroll
+    if (window.innerWidth <= 1024 || 'ontouchstart' in window) return;
+
+    // Initialize Lenis smooth inertia scrolling for desktop
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -18,7 +21,6 @@ const Layout = () => {
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1,
-      touchMultiplier: 2,
     });
 
     // Synchronize Lenis with GSAP ScrollTrigger updates
