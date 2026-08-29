@@ -2183,11 +2183,6 @@ const Home = () => {
                   e.currentTarget.style.transform = 'translateY(-6px)';
                   const img = e.currentTarget.querySelector('.case-img');
                   if (img) img.style.transform = 'scale(1.06)';
-                  const playBtn = e.currentTarget.querySelector('.case-play-btn');
-                  if (playBtn) {
-                    playBtn.style.backgroundColor = '#0052ff';
-                    playBtn.style.transform = 'translate(-50%, -50%) scale(1.1)';
-                  }
                   const title = e.currentTarget.querySelector('.case-title');
                   if (title) title.style.color = '#0052ff';
                 }}
@@ -2195,11 +2190,6 @@ const Home = () => {
                   e.currentTarget.style.transform = 'none';
                   const img = e.currentTarget.querySelector('.case-img');
                   if (img) img.style.transform = 'scale(1)';
-                  const playBtn = e.currentTarget.querySelector('.case-play-btn');
-                  if (playBtn) {
-                    playBtn.style.backgroundColor = 'rgba(0, 0, 0, 0.65)';
-                    playBtn.style.transform = 'translate(-50%, -50%) scale(1)';
-                  }
                   const title = e.currentTarget.querySelector('.case-title');
                   if (title) title.style.color = '#000000';
                 }}
@@ -2228,32 +2218,6 @@ const Home = () => {
                       display: 'block'
                     }} 
                   />
-
-                  {/* Play Video / Open Link Overlay Icon */}
-                  <div 
-                    className="case-play-btn"
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      width: '54px',
-                      height: '54px',
-                      borderRadius: '50%',
-                      backgroundColor: 'rgba(0, 0, 0, 0.65)',
-                      backdropFilter: 'blur(8px)',
-                      border: '1px solid rgba(255, 255, 255, 0.4)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#ffffff',
-                      fontSize: '1.2rem',
-                      transition: 'all 0.35s ease',
-                      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)'
-                    }}
-                  >
-                    {item.linkUrl ? '↗' : '▶'}
-                  </div>
                 </div>
 
                 {/* Typography Label Underneath matching Reference Screenshot */}
