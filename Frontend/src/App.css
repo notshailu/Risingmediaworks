@@ -641,6 +641,15 @@
     border-radius: 18px !important;
   }
 
+  .process-step-col.is-active-step span,
+  .process-step-col.is-active-step div,
+  .process-step-col.is-active-step .method-num,
+  .process-step-col.is-active-step .method-label {
+    color: #000000 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
   .process-step-col span,
   .process-step-col div {
     transition: color 0.4s ease, transform 0.4s ease !important;
@@ -946,6 +955,15 @@
 
 .process-step-col:hover .method-label {
   color: #000000 !important;
+}
+
+.process-step-col.is-active-step .method-num,
+.process-step-col.is-active-step .method-label,
+.process-step-col.is-active-step span,
+.process-step-col.is-active-step div {
+  color: #000000 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .process-step-col .method-num,
