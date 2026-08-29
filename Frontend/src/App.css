@@ -635,9 +635,9 @@
   }
 
   .process-step-col.is-active-step {
-    border: 2px solid #0052ff !important;
-    background-color: rgba(0, 82, 255, 0.03) !important;
-    box-shadow: 0 10px 25px rgba(0, 82, 255, 0.12) !important;
+    border: 2.5px solid #000000 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1) !important;
     border-radius: 18px !important;
   }
 

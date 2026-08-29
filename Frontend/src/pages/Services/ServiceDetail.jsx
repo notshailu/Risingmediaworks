@@ -280,12 +280,12 @@ const ServiceDetail = () => {
               const labelEl = col.querySelector('div');
 
               if (col === closestStep) {
-                col.style.backgroundColor = 'rgba(0, 82, 255, 0.04)';
-                col.style.border = '2px solid #0052ff';
-                col.style.boxShadow = '0 10px 25px rgba(0, 82, 255, 0.15)';
+                col.style.backgroundColor = '#ffffff';
+                col.style.border = '2.5px solid #000000';
+                col.style.boxShadow = '0 12px 30px rgba(0, 0, 0, 0.1)';
                 col.style.transform = 'translateY(-4px) scale(1.02)';
                 col.style.borderRadius = '18px';
-                if (numEl) { numEl.style.color = '#0052ff'; numEl.style.transform = 'scale(1.05)'; }
+                if (numEl) { numEl.style.color = '#18181b'; numEl.style.transform = 'scale(1.05)'; }
                 if (labelEl) {
                   labelEl.style.color = '#18181b';
                   const childDivs = labelEl.querySelectorAll('div');
