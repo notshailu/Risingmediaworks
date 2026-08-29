@@ -32,11 +32,11 @@ const Header = () => {
     color: '#ffffff',
     textDecoration: isActive ? 'underline' : 'none',
     textUnderlineOffset: '8px',
-    fontSize: '2rem',
-    fontWeight: '300',
+    fontSize: '1.85rem',
+    fontWeight: isActive ? '700' : '500',
     textTransform: 'uppercase',
-    letterSpacing: '0.05em',
-    fontFamily: 'serif',
+    letterSpacing: '-0.01em',
+    fontFamily: "'Manrope', sans-serif",
     transition: 'all 0.3s ease',
     display: 'block'
   });
