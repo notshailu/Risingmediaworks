@@ -104,10 +104,9 @@ const Home = () => {
     }
   };
 
-  // Preload image sequence in background (optimized frame stepping on mobile to save 90% memory)
+  // Preload image sequence in background (Desktop only to guarantee 60FPS mobile speed)
   useEffect(() => {
-    const isMobile = window.innerWidth <= 1024;
-    const step = isMobile ? 8 : 1;
+    if (window.innerWidth <= 1024) return;
     const totalFrames = 250;
     const loadedImages = [];
 
@@ -117,7 +116,7 @@ const Home = () => {
       return s;
     };
 
-    for (let i = 1; i <= totalFrames; i += step) {
+    for (let i = 1; i <= totalFrames; i++) {
       const img = new Image();
       img.src = `/Animation/frame_${pad(i, 4)}.jpeg`;
       loadedImages.push(img);
@@ -125,10 +124,9 @@ const Home = () => {
     setImages(loadedImages);
   }, []);
 
-  // Preload Hands image sequence in background (optimized frame stepping on mobile)
+  // Preload Hands image sequence in background (Desktop only)
   useEffect(() => {
-    const isMobile = window.innerWidth <= 1024;
-    const step = isMobile ? 6 : 1;
+    if (window.innerWidth <= 1024) return;
     const totalFrames = 150;
     const loadedImages = [];
 
@@ -138,7 +136,7 @@ const Home = () => {
       return s;
     };
 
-    for (let i = 1; i <= totalFrames; i += step) {
+    for (let i = 1; i <= totalFrames; i++) {
       const img = new Image();
       img.src = `/Hands/frame_${pad(i, 4)}.jpeg`;
       loadedImages.push(img);
