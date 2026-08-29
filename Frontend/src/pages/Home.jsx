@@ -102,6 +102,16 @@ const Home = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Smooth GSAP micro-animation when user switches project category filters
+  useEffect(() => {
+    if (document.querySelector('.selected-case-card')) {
+      gsap.fromTo('.selected-case-card',
+        { opacity: 0, y: 30, scale: 0.95 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.65, stagger: 0.08, ease: 'power3.out' }
+      );
+    }
+  }, [activeShowcaseFilter]);
+
   const getYoutubeId = (url) => {
     if (!url) return null;
     const match = url.match(/(?:v=|\/shorts\/|\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
@@ -282,6 +292,41 @@ const Home = () => {
         }
       );
     });
+
+    // Staggered ScrollTrigger entrance animation when entering Selected Cases section
+    if (document.querySelector('#featured-work-showcase')) {
+      gsap.fromTo('.selected-cases-header',
+        { opacity: 0, y: 45 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '#featured-work-showcase',
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+
+      gsap.fromTo('.selected-case-card',
+        { opacity: 0, y: 65, scale: 0.94 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1.1,
+          stagger: 0.14,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.selected-cases-grid',
+            start: 'top 82%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }
 
     // Contact Section Animations (Only execute if present in DOM)
     if (document.querySelector('#contact')) {
