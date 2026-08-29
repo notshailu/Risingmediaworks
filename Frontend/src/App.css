@@ -659,6 +659,22 @@
     border-bottom: none !important;
   }
 
+  /* Selected Cases Minimalist Showcase Mobile Layout */
+  .selected-cases-header {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    margin-bottom: 5vh !important;
+  }
+
+  .selected-cases-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+
+  .selected-case-card {
+    margin-top: 0px !important;
+  }
+
   /* Footer Mobile Adaptations */
   footer#footer {
     padding: 0.75rem !important;

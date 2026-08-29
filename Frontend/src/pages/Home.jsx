@@ -38,6 +38,7 @@ const Home = () => {
   const [hoveredWhyUsImage, setHoveredWhyUsImage] = useState(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [activeProcessStep, setActiveProcessStep] = useState('01');
+  const [activeShowcaseFilter, setActiveShowcaseFilter] = useState('ALL');
 
   // Fetch real works from the database (fallback gracefully if offline)
   useEffect(() => {
@@ -1882,307 +1883,285 @@ const Home = () => {
         </div>
       </section>
 
-      {/* FEATURED WORK / SELECTED SHOWCASE SECTION */}
+      {/* FEATURED WORK / SELECTED CASES SECTION (Light Minimalist Editorial Design) */}
       <section id="featured-work-showcase" className="scroll-fade-in" style={{
         width: '100%',
         padding: '12vh 6vw',
         boxSizing: 'border-box',
-        backgroundColor: '#000000',
-        color: '#ffffff',
-        fontFamily: 'sans-serif',
+        backgroundColor: '#ffffff',
+        color: '#000000',
+        fontFamily: "'Manrope', sans-serif",
         position: 'relative',
-        borderTop: '1px solid rgba(255, 255, 255, 0.15)'
+        borderTop: '1px solid #e4e4e7'
       }}>
         <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
           
-          {/* Header Row */}
-          <div className="showcase-header-row" style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-            marginBottom: '8vh',
-            flexWrap: 'wrap',
-            gap: '2rem'
+          {/* Header Row: Category List + Selected Cases Title */}
+          <div className="selected-cases-header" style={{
+            display: 'grid',
+            gridTemplateColumns: '220px 1fr auto',
+            alignItems: 'flex-start',
+            marginBottom: '10vh',
+            gap: '2.5rem'
           }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.2rem' }}>
-                <span style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  backgroundColor: '#0052ff',
-                  boxShadow: '0 0 14px rgba(0, 82, 255, 0.9)',
-                  display: 'inline-block'
-                }} />
-                <span style={{
-                  fontSize: '0.75rem',
-                  letterSpacing: '0.22em',
-                  textTransform: 'uppercase',
-                  fontWeight: '700',
-                  color: 'rgba(255, 255, 255, 0.6)',
-                  fontFamily: 'monospace'
-                }}>
-                  FEATURED WORK
-                </span>
-              </div>
-
-              <h2 style={{
-                fontSize: 'calc(2.4rem + 2vw)',
-                fontWeight: '300',
-                fontFamily: 'serif',
-                textTransform: 'uppercase',
-                margin: 0,
-                letterSpacing: '0.02em',
-                color: '#ffffff'
-              }}>
-                Selected Showcase
-              </h2>
+            {/* Category Counts Column */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.4rem',
+              fontSize: '0.78rem',
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              fontWeight: '600',
+              fontFamily: 'monospace',
+              color: '#18181b',
+              paddingTop: '0.8rem'
+            }}>
+              {[
+                { key: 'ALL', label: 'ALL', count: 15 },
+                { key: 'BRANDING', label: 'BRANDING', count: 7 },
+                { key: 'WEB', label: 'WEB & APP', count: 13 },
+                { key: 'PRODUCT', label: 'PRODUCT & MOTION', count: 5 }
+              ].map(cat => (
+                <div 
+                  key={cat.key}
+                  onClick={() => setActiveShowcaseFilter(cat.key)}
+                  style={{
+                    cursor: 'pointer',
+                    color: activeShowcaseFilter === cat.key ? '#000000' : '#71717a',
+                    fontWeight: activeShowcaseFilter === cat.key ? '700' : '500',
+                    transition: 'color 0.3s ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.4rem'
+                  }}
+                >
+                  {cat.label} ({cat.count})
+                  {activeShowcaseFilter === cat.key && (
+                    <span style={{ fontSize: '0.8rem', color: '#10b981' }}>●</span>
+                  )}
+                </div>
+              ))}
             </div>
 
+            {/* Giant Title + Accent Dot */}
+            <div>
+              <h2 style={{
+                fontSize: 'clamp(3rem, 6.5vw, 6.2rem)',
+                fontWeight: '500',
+                fontFamily: "'Manrope', sans-serif",
+                margin: 0,
+                letterSpacing: '-0.035em',
+                lineHeight: '1.05',
+                color: '#000000'
+              }}>
+                Selected Cases
+              </h2>
+
+              <div style={{ marginTop: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <span style={{
+                  width: '10px',
+                  height: '10px',
+                  borderRadius: '50%',
+                  backgroundColor: '#10b981',
+                  boxShadow: '0 0 12px rgba(16, 185, 129, 0.8)',
+                  display: 'inline-block'
+                }} />
+              </div>
+            </div>
+
+            {/* Top Right Link */}
             <Link 
               to="/work" 
               style={{
-                fontSize: '0.85rem',
-                letterSpacing: '0.15em',
+                fontSize: '0.82rem',
+                letterSpacing: '0.14em',
                 textTransform: 'uppercase',
-                fontWeight: '600',
-                color: '#ffffff',
-                border: '1px solid rgba(255, 255, 255, 0.3)',
-                padding: '0.85rem 2rem',
+                fontWeight: '700',
+                color: '#000000',
+                border: '1.5px solid #000000',
+                padding: '0.75rem 1.8rem',
                 borderRadius: '50px',
                 textDecoration: 'none',
                 transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.6rem',
-                backgroundColor: 'rgba(255, 255, 255, 0.03)'
+                gap: '0.5rem',
+                backgroundColor: '#ffffff',
+                marginTop: '0.8rem'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#0052ff';
-                e.currentTarget.style.borderColor = '#0052ff';
+                e.currentTarget.style.backgroundColor = '#000000';
+                e.currentTarget.style.color = '#ffffff';
                 e.currentTarget.style.transform = 'translateY(-3px)';
-                e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 82, 255, 0.4)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                e.currentTarget.style.backgroundColor = '#ffffff';
+                e.currentTarget.style.color = '#000000';
                 e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = 'none';
               }}
             >
-              EXPLORE ALL PROJECTS →
+              ALL CASES →
             </Link>
           </div>
 
-          {/* Grid of Top Showcase Projects */}
-          <div className="showcase-projects-grid" style={{
+          {/* Staggered Asymmetric Cases Cards Grid */}
+          <div className="selected-cases-grid" style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
-            gap: '2.5rem'
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '4rem 2.5rem',
+            alignItems: 'start'
           }}>
             {[
               {
-                id: 'ai-1',
-                title: 'AI Cinematic Universe',
-                category: 'AI & Visual Synthesis',
-                client: 'AI Studio',
-                image: 'https://img.youtube.com/vi/wOg8_fZstWU/hqdefault.jpg',
+                id: 'case-1',
+                title: 'BRIDGE HEALTH',
+                subtitle: 'Healthcare Platform & Brand System',
+                category: 'WEB',
+                image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
                 videoUrl: 'https://www.youtube.com/watch?v=wOg8_fZstWU',
-                desc: 'Bespoke AI-generated cinematic visual production with neural camera synthesis.'
+                aspectRatio: '16/10',
+                staggerOffset: '0px'
               },
               {
-                id: 'greaves-1',
-                title: 'Greaves Cotton Corporate Film',
-                category: 'Corporate Brand Film',
-                client: 'Greaves Cotton',
+                id: 'case-2',
+                title: 'BRINC LIVEOPS',
+                subtitle: 'Autonomous Hardware & Drone System',
+                category: 'PRODUCT',
+                image: 'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=800&q=80',
+                videoUrl: 'https://www.youtube.com/watch?v=A1pwtdmXWtk',
+                aspectRatio: '1/1',
+                staggerOffset: '4rem' // Staggered vertical displacement matching reference
+              },
+              {
+                id: 'case-3',
+                title: 'DV COMMODITIES',
+                subtitle: 'Market Analytics & Mobile App Platform',
+                category: 'BRANDING',
+                image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80',
+                videoUrl: 'https://www.youtube.com/watch?v=w_xOxPuBmjk',
+                bgColor: '#e6eff7', // Soft sky blue background container matching reference
+                aspectRatio: '4/5',
+                staggerOffset: '0px'
+              },
+              {
+                id: 'case-4',
+                title: 'MAHINDRA EV // MOTION CAMPAIGN',
+                subtitle: 'Automotive Electric Mobility Launch',
+                category: 'BRANDING',
                 image: 'https://img.youtube.com/vi/w_xOxPuBmjk/hqdefault.jpg',
                 videoUrl: 'https://www.youtube.com/watch?v=w_xOxPuBmjk&t=2s',
-                desc: 'Cinematic corporate brand identity and manufacturing story for Greaves.'
+                aspectRatio: '16/10',
+                staggerOffset: '0px'
               },
               {
-                id: 'motion-1',
-                title: 'Rising Motion Graphics Reel',
-                category: '2D / 3D Motion Design',
-                client: 'Rising Media',
-                image: 'https://img.youtube.com/vi/8zBhYNs6usc/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/watch?v=8zBhYNs6usc',
-                desc: 'Showcase of 2D/3D kinetic typography, particle systems, and logo stingers.'
-              },
-              {
-                id: 'nh-1',
-                title: 'NH Corporate Documentary',
-                category: 'Documentary & Production',
-                client: 'NH Group',
-                image: 'https://img.youtube.com/vi/A1pwtdmXWtk/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/watch?v=A1pwtdmXWtk',
-                desc: 'Industrial engineering narrative capturing large-scale production facilities.'
-              },
-              {
-                id: 'book-vol1',
-                title: 'Rising Publishing Vol. 01',
-                category: 'Book Design & Publishing',
-                client: 'Rising Publishing',
+                id: 'case-5',
+                title: 'RISING PUBLISHING // VOL 01',
+                subtitle: '3D Cover Art & Typesetting Edition',
+                category: 'PRODUCT',
                 image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80',
                 linkUrl: '/special-books',
-                desc: 'Modern 3D book cover art, editorial typesetting, and Kindle publishing.'
+                aspectRatio: '1/1',
+                staggerOffset: '4rem'
               },
               {
-                id: 'motion-2',
-                title: 'Dynamic Kinetic Systems',
-                category: 'Commercial Video',
-                client: 'Rising Media',
-                image: 'https://img.youtube.com/vi/3V9bYUBpF70/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/watch?v=3V9bYUBpF70&t=52s',
-                desc: 'High-energy commercial motion package for digital campaign launches.'
+                id: 'case-6',
+                title: 'RISING MOTION // GRAPHICS REEL',
+                subtitle: '2D & 3D Particle Simulation Systems',
+                category: 'WEB',
+                image: 'https://img.youtube.com/vi/8zBhYNs6usc/hqdefault.jpg',
+                videoUrl: 'https://www.youtube.com/watch?v=8zBhYNs6usc',
+                aspectRatio: '4/5',
+                staggerOffset: '0px'
               }
-            ].map((proj) => (
+            ]
+            .filter(item => activeShowcaseFilter === 'ALL' || item.category === activeShowcaseFilter)
+            .map((item) => (
               <div
-                key={proj.id}
-                className="showcase-card"
+                key={item.id}
+                className="selected-case-card"
                 onClick={() => {
-                  if (proj.linkUrl) {
-                    window.location.href = proj.linkUrl;
+                  if (item.linkUrl) {
+                    window.location.href = item.linkUrl;
                   } else {
-                    handleCardClick(proj);
+                    handleCardClick(item);
                   }
                 }}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  borderRadius: '20px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  overflow: 'hidden',
+                  gap: '1.2rem',
+                  marginTop: item.staggerOffset,
                   cursor: 'pointer',
-                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                  transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
                 }}
                 onMouseEnter={(e) => {
                   playHoverSound();
-                  e.currentTarget.style.transform = 'translateY(-8px)';
-                  e.currentTarget.style.borderColor = 'rgba(0, 82, 255, 0.6)';
-                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 82, 255, 0.25)';
-                  const img = e.currentTarget.querySelector('.showcase-img');
-                  if (img) img.style.transform = 'scale(1.08)';
-                  const playBtn = e.currentTarget.querySelector('.showcase-play');
-                  if (playBtn) {
-                    playBtn.style.backgroundColor = '#0052ff';
-                    playBtn.style.transform = 'translate(-50%, -50%) scale(1.1)';
-                  }
+                  e.currentTarget.style.transform = 'translateY(-6px)';
+                  const img = e.currentTarget.querySelector('.case-img');
+                  if (img) img.style.transform = 'scale(1.05)';
+                  const title = e.currentTarget.querySelector('.case-title');
+                  if (title) title.style.color = '#0052ff';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'none';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                  e.currentTarget.style.boxShadow = 'none';
-                  const img = e.currentTarget.querySelector('.showcase-img');
+                  const img = e.currentTarget.querySelector('.case-img');
                   if (img) img.style.transform = 'scale(1)';
-                  const playBtn = e.currentTarget.querySelector('.showcase-play');
-                  if (playBtn) {
-                    playBtn.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
-                    playBtn.style.transform = 'translate(-50%, -50%) scale(1)';
-                  }
+                  const title = e.currentTarget.querySelector('.case-title');
+                  if (title) title.style.color = '#000000';
                 }}
               >
-                {/* Media Image Container with Play Overlay */}
+                {/* Media Wrapper */}
                 <div style={{
-                  position: 'relative',
                   width: '100%',
-                  paddingTop: '56.25%', // 16:9 ratio
+                  aspectRatio: item.aspectRatio || '16/10',
                   overflow: 'hidden',
-                  backgroundColor: '#111113'
+                  borderRadius: '8px',
+                  backgroundColor: item.bgColor || '#f4f4f5',
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
                 }}>
                   <img 
-                    className="showcase-img"
-                    src={proj.image} 
-                    alt={proj.title}
+                    className="case-img"
+                    src={item.image} 
+                    alt={item.title}
                     style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
+                      transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                      display: 'block'
                     }} 
                   />
-
-                  {/* Glassmorphic Play / Link Icon Overlay */}
-                  <div 
-                    className="showcase-play"
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '50%',
-                      backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                      backdropFilter: 'blur(10px)',
-                      border: '1px solid rgba(255, 255, 255, 0.3)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#ffffff',
-                      fontSize: '1.2rem',
-                      transition: 'all 0.4s ease'
-                    }}
-                  >
-                    {proj.linkUrl ? '↗' : '▶'}
-                  </div>
-
-                  {/* Category Tag Badge */}
-                  <div style={{
-                    position: 'absolute',
-                    top: '1rem',
-                    left: '1rem',
-                    backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                    backdropFilter: 'blur(8px)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    padding: '0.35rem 0.85rem',
-                    borderRadius: '50px',
-                    fontSize: '0.7rem',
-                    letterSpacing: '0.12em',
-                    textTransform: 'uppercase',
-                    fontWeight: '600',
-                    color: '#ffffff'
-                  }}>
-                    {proj.category}
-                  </div>
                 </div>
 
-                {/* Card Content Details */}
-                <div style={{ padding: '1.8rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', flexGrow: 1 }}>
-                  <div style={{
-                    fontSize: '0.72rem',
-                    letterSpacing: '0.15em',
-                    textTransform: 'uppercase',
-                    fontWeight: '600',
-                    color: '#0052ff',
-                    fontFamily: 'monospace'
-                  }}>
-                    {proj.client}
-                  </div>
-
-                  <h3 style={{
-                    fontSize: '1.25rem',
-                    fontWeight: '400',
-                    fontFamily: 'serif',
-                    color: '#ffffff',
-                    margin: 0,
-                    lineHeight: '1.3'
-                  }}>
-                    {proj.title}
+                {/* Typography Label Underneath matching Reference Screenshot */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                  <h3 
+                    className="case-title"
+                    style={{
+                      fontSize: '0.85rem',
+                      fontWeight: '700',
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      color: '#000000',
+                      margin: 0,
+                      fontFamily: 'monospace',
+                      transition: 'color 0.3s ease'
+                    }}
+                  >
+                    {item.title}
                   </h3>
-
-                  <p style={{
+                  <div style={{
                     fontSize: '0.88rem',
-                    lineHeight: '1.55',
-                    color: 'rgba(255, 255, 255, 0.6)',
-                    margin: 0,
-                    fontWeight: '300'
+                    color: '#52525b',
+                    fontWeight: '400',
+                    lineHeight: '1.4'
                   }}>
-                    {proj.desc}
-                  </p>
+                    {item.subtitle}
+                  </div>
                 </div>
               </div>
             ))}
