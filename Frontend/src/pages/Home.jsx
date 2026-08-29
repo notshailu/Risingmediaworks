@@ -641,9 +641,9 @@ const Home = () => {
       const imageWidth = img1.width;
       const imageHeight = img1.height;
 
-      // Smart aspect ratio calculation so hands fill the phone canvas beautifully without black gaps
+      // Smart aspect ratio calculation with breathing room on mobile view
       const scale = isMobile
-        ? Math.max(canvasWidth / imageWidth, (canvasHeight * 0.85) / imageHeight)
+        ? (canvasWidth / imageWidth) * 0.82
         : Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight);
 
       const nw = imageWidth * scale;
