@@ -1943,7 +1943,7 @@ const Home = () => {
             marginBottom: '10vh',
             gap: '2.5rem'
           }}>
-            {/* Category Counts Column */}
+            {/* Category Counts Column - Dynamically calculated from real project cases */}
             <div style={{
               display: 'flex',
               flexDirection: 'column',
@@ -1957,10 +1957,54 @@ const Home = () => {
               paddingTop: '0.8rem'
             }}>
               {[
-                { key: 'ALL', label: 'ALL', count: 15 },
-                { key: 'BRANDING', label: 'BRANDING', count: 7 },
-                { key: 'WEB', label: 'WEB & APP', count: 13 },
-                { key: 'PRODUCT', label: 'PRODUCT & MOTION', count: 5 }
+                { 
+                  key: 'ALL', 
+                  label: 'ALL', 
+                  count: [
+                    { id: 'case-mahindra-1', category: 'BRANDING' },
+                    { id: 'case-mahindra-2', category: 'PRODUCT' },
+                    { id: 'case-greaves', category: 'BRANDING' },
+                    { id: 'case-ather', category: 'BRANDING' },
+                    { id: 'case-publishing', category: 'PRODUCT' },
+                    { id: 'case-nh', category: 'WEB' }
+                  ].length 
+                },
+                { 
+                  key: 'BRANDING', 
+                  label: 'BRANDING', 
+                  count: [
+                    { id: 'case-mahindra-1', category: 'BRANDING' },
+                    { id: 'case-mahindra-2', category: 'PRODUCT' },
+                    { id: 'case-greaves', category: 'BRANDING' },
+                    { id: 'case-ather', category: 'BRANDING' },
+                    { id: 'case-publishing', category: 'PRODUCT' },
+                    { id: 'case-nh', category: 'WEB' }
+                  ].filter(i => i.category === 'BRANDING').length 
+                },
+                { 
+                  key: 'WEB', 
+                  label: 'WEB & APP', 
+                  count: [
+                    { id: 'case-mahindra-1', category: 'BRANDING' },
+                    { id: 'case-mahindra-2', category: 'PRODUCT' },
+                    { id: 'case-greaves', category: 'BRANDING' },
+                    { id: 'case-ather', category: 'BRANDING' },
+                    { id: 'case-publishing', category: 'PRODUCT' },
+                    { id: 'case-nh', category: 'WEB' }
+                  ].filter(i => i.category === 'WEB').length 
+                },
+                { 
+                  key: 'PRODUCT', 
+                  label: 'PRODUCT & MOTION', 
+                  count: [
+                    { id: 'case-mahindra-1', category: 'BRANDING' },
+                    { id: 'case-mahindra-2', category: 'PRODUCT' },
+                    { id: 'case-greaves', category: 'BRANDING' },
+                    { id: 'case-ather', category: 'BRANDING' },
+                    { id: 'case-publishing', category: 'PRODUCT' },
+                    { id: 'case-nh', category: 'WEB' }
+                  ].filter(i => i.category === 'PRODUCT').length 
+                }
               ].map(cat => (
                 <div 
                   key={cat.key}
