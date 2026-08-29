@@ -178,10 +178,8 @@ const Home = () => {
     setImages(loadedImages);
   }, []);
 
-  // Preload Hands image sequence with mobile downsampling & GPU decoding
+  // Preload Hands image sequence with GPU decoding for smooth 60fps touch scroll
   useEffect(() => {
-    const isMobile = window.innerWidth <= 768;
-    const step = isMobile ? 3 : 1;
     const totalFrames = 150;
     const loadedImages = [];
 
@@ -191,7 +189,7 @@ const Home = () => {
       return s;
     };
 
-    for (let i = 1; i <= totalFrames; i += step) {
+    for (let i = 1; i <= totalFrames; i++) {
       const img = new Image();
       img.src = `/Hands/frame_${pad(i, 4)}.webp`;
       if (img.decode) {
@@ -625,10 +623,6 @@ const Home = () => {
       const idx1 = Math.floor(clamped);
       const isMobile = window.innerWidth <= 768;
 
-      // Frame guard: skip duplicate draws when frame index has not changed
-      if (lastDrawnFrame === idx1 && isMobile) return;
-      lastDrawnFrame = idx1;
-
       const idx2 = Math.min(maxIdx, idx1 + 1);
       const progress = clamped - idx1;
 
@@ -636,31 +630,31 @@ const Home = () => {
       const img2 = handsImages[idx2];
       if (!img1 || !img1.complete) return;
 
-      context.imageSmoothingEnabled = !isMobile;
-      if (!isMobile) {
-        context.imageSmoothingQuality = 'high';
-      }
+      context.fillStyle = '#000000';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      context.imageSmoothingEnabled = true;
+      context.imageSmoothingQuality = 'high';
 
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
       const imageWidth = img1.width;
       const imageHeight = img1.height;
 
-      const aspect = canvasWidth / canvasHeight;
-      const isMobileAspect = canvasWidth < 1000 || aspect < 0.85;
-
-      const r = isMobileAspect
-        ? (canvasWidth / imageWidth) * 1.05
+      // Smart aspect ratio calculation so hands fill the phone canvas beautifully without black gaps
+      const scale = isMobile
+        ? Math.max(canvasWidth / imageWidth, (canvasHeight * 0.85) / imageHeight)
         : Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight);
 
-      const nw = imageWidth * r;
-      const nh = imageHeight * r;
+      const nw = imageWidth * scale;
+      const nh = imageHeight * scale;
       const cx = (canvasWidth - nw) / 2;
       const cy = (canvasHeight - nh) / 2;
 
       context.drawImage(img1, cx, cy, nw, nh);
 
-      if (!isMobile && progress > 0.05 && img2 && img2.complete) {
+      // Smooth frame alpha interpolation on touch scroll
+      if (progress > 0.02 && img2 && img2.complete) {
         context.globalAlpha = progress;
         context.drawImage(img2, cx, cy, nw, nh);
         context.globalAlpha = 1.0;
@@ -669,7 +663,7 @@ const Home = () => {
 
     const handleResize = () => {
       const isMobile = window.innerWidth <= 768;
-      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = isMobile ? Math.min(window.devicePixelRatio || 1, 1.5) : Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       drawImage(sequence.frame);
@@ -687,13 +681,14 @@ const Home = () => {
       }
     }
 
+    const isMobile = window.innerWidth <= 768;
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: handsSectionRef.current,
         start: 'top top',
-        end: '+=4000', // Pinned scroll distance for smooth frame steps
+        end: isMobile ? '+=1800' : '+=3500', // Responsive scroll distance for smooth mobile touch response
         pin: true,
-        scrub: 1.2,
+        scrub: isMobile ? 0.35 : 1.0, // Instant responsive touch scrub on phone screen
         anticipatePin: 1,
       }
     });
