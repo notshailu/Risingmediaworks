@@ -68,7 +68,7 @@ export const ProjectLaunchProvider = ({ children }) => {
 
       // Create 240 explosive particles radiating from click coordinates
       const particles = [];
-      const colors = ['#0052ff', '#ffffff', '#3b82f6', '#60a5fa', '#1d4ed8'];
+      const colors = ['#ffffff', '#f4f4f5', '#e4e4e7', '#d4d4d8', '#ffffff'];
 
       for (let i = 0; i < 240; i++) {
         const angle = Math.random() * Math.PI * 2;
@@ -78,7 +78,7 @@ export const ProjectLaunchProvider = ({ children }) => {
           y: startY,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
-          size: Math.random() * 4 + 25,
+          size: Math.random() * 4 + 2.5,
           color: colors[Math.floor(Math.random() * colors.length)],
           alpha: 1,
           decay: Math.random() * 0.02 + 0.015,
@@ -219,11 +219,11 @@ export const ProjectLaunchProvider = ({ children }) => {
                   width: '105%',
                   height: '100%',
                   backgroundColor: '#000000',
-                  background: 'linear-gradient(180deg, #09090b 0%, #000000 100%)',
+                  background: 'linear-gradient(180deg, #18181b 0%, #000000 100%)',
                   transformOrigin: i % 2 === 0 ? 'top center' : 'bottom center',
                   transform: 'scaleY(0)',
-                  boxShadow: '0 0 50px rgba(0, 82, 255, 0.3)',
-                  borderRight: '1px solid rgba(255, 255, 255, 0.08)'
+                  boxShadow: '0 0 50px rgba(255, 255, 255, 0.15)',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.1)'
                 }}
               />
             ))}
@@ -251,13 +251,13 @@ export const ProjectLaunchProvider = ({ children }) => {
               fontSize: '0.78rem',
               letterSpacing: '0.35em',
               textTransform: 'uppercase',
-              color: '#ffffff',
-              fontWeight: '700',
+              color: '#000000',
+              fontWeight: '800',
               fontFamily: "'Valley Sans', 'Manrope', sans-serif",
-              backgroundColor: '#0052ff',
+              backgroundColor: '#ffffff',
               padding: '0.5rem 1.6rem',
               borderRadius: '50px',
-              boxShadow: '0 0 35px rgba(0, 82, 255, 0.8)'
+              boxShadow: '0 0 35px rgba(255, 255, 255, 0.6)'
             }}>
               RISING MEDIA WORKS ⚡
             </span>
@@ -282,8 +282,8 @@ export const ProjectLaunchProvider = ({ children }) => {
               style={{
                 width: '180px',
                 height: '3px',
-                backgroundColor: '#0052ff',
-                boxShadow: '0 0 20px #0052ff, 0 0 40px #0052ff',
+                backgroundColor: '#ffffff',
+                boxShadow: '0 0 20px #ffffff, 0 0 40px #ffffff',
                 borderRadius: '3px',
                 marginTop: '0.5rem',
                 transform: 'scaleX(0)',
