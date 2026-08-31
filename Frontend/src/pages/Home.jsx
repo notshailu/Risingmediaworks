@@ -797,6 +797,7 @@ const Home = () => {
               const capVal = row.querySelector('.cap-val-text');
               const capArrow = row.querySelector('.cap-arrow');
               const capLabel = row.querySelector('.cap-label');
+              const imgWrap = row.querySelector('.cap-img-wrapper');
 
               if (row === closestRow) {
                 row.style.backgroundColor = '#0052ff';
@@ -807,6 +808,7 @@ const Home = () => {
                 if (capLabel) { capLabel.style.color = '#ffffff'; }
                 if (capVal) { capVal.style.color = 'rgba(255, 255, 255, 0.95)'; capVal.style.opacity = '1'; }
                 if (capArrow) { capArrow.style.opacity = '1'; capArrow.style.transform = 'translateX(4px)'; }
+                if (imgWrap) { imgWrap.style.display = 'block'; }
               } else {
                 row.style.backgroundColor = 'transparent';
                 row.style.boxShadow = 'none';
@@ -816,6 +818,7 @@ const Home = () => {
                 if (capLabel) { capLabel.style.color = '#ffffff'; }
                 if (capVal) { capVal.style.color = 'rgba(255, 255, 255, 0.7)'; capVal.style.opacity = '0.85'; }
                 if (capArrow) { capArrow.style.opacity = '0'; capArrow.style.transform = 'none'; }
+                if (imgWrap) { imgWrap.style.display = 'none'; }
               }
             });
 
@@ -826,6 +829,7 @@ const Home = () => {
               const numEl = row.querySelector('.row-num');
               const titleEl = row.querySelector('.row-title');
               const descEl = row.querySelector('.why-row-desc');
+              const imgWrap = row.querySelector('.why-img-wrapper');
 
               if (row === closestRow) {
                 row.style.backgroundColor = '#0052ff';
@@ -834,6 +838,7 @@ const Home = () => {
                 if (numEl) { numEl.style.color = '#ffffff'; numEl.style.opacity = '0.95'; }
                 if (titleEl) { titleEl.style.color = '#ffffff'; }
                 if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.95)'; }
+                if (imgWrap) { imgWrap.style.display = 'block'; }
               } else {
                 row.style.backgroundColor = 'transparent';
                 row.style.boxShadow = 'none';
@@ -841,6 +846,7 @@ const Home = () => {
                 if (numEl) { numEl.style.color = 'rgba(255, 255, 255, 0.4)'; numEl.style.opacity = '1'; }
                 if (titleEl) { titleEl.style.color = 'rgba(255, 255, 255, 0.9)'; }
                 if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.6)'; }
+                if (imgWrap) { imgWrap.style.display = 'none'; }
               }
             });
           }
@@ -1619,14 +1625,14 @@ const Home = () => {
             {/* Right Capabilities Table List with Interactive Highlights */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {[
-                { id: '[01]', serviceId: 'video-production', label: 'Video Production:', val: 'Brand Films, Corporate, Commercial & Social Media Video Experiences' },
-                { id: '[02]', serviceId: 'video-editing', label: 'Video Editing:', val: 'Short-Form Reels, YouTube, Colour Grading & Post-Production' },
-                { id: '[03]', serviceId: 'motion-graphics', label: 'Motion Graphics:', val: '2D/3D Motion, Logo Animation, Explainer Videos & Title Sequences' },
-                { id: '[04]', serviceId: 'branding', label: 'Branding & Creative Design:', val: 'Brand Identity, Logo Design, Guidelines & Campaign Design' },
-                { id: '[05]', serviceId: 'web-design', label: 'Web Design & Development:', val: 'Modern UI/UX, Custom Web Architectures & High-Conversion Landing Pages' },
-                { id: '[06]', serviceId: 'digital-content', label: 'Digital Content & Social Media:', val: 'Content Strategy, Social Media Management & Creative Promotion' },
-                { id: '[07]', serviceId: 'photography', label: 'Photography & Visual Production:', val: 'Product, Campaign & Marketing Visual Photography' },
-                { id: '[08]', serviceId: 'book-design', label: 'Book Design & Publishing:', val: 'Cover Design, Interior Layout, Print-Ready Files & KDP Publishing' }
+                { id: '[01]', serviceId: 'video-production', label: 'Video Production:', val: 'Brand Films, Corporate, Commercial & Social Media Video Experiences', image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80' },
+                { id: '[02]', serviceId: 'video-editing', label: 'Video Editing:', val: 'Short-Form Reels, YouTube, Colour Grading & Post-Production', image: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=800&q=80' },
+                { id: '[03]', serviceId: 'motion-graphics', label: 'Motion Graphics:', val: '2D/3D Motion, Logo Animation, Explainer Videos & Title Sequences', image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80' },
+                { id: '[04]', serviceId: 'branding', label: 'Branding & Creative Design:', val: 'Brand Identity, Logo Design, Guidelines & Campaign Design', image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80' },
+                { id: '[05]', serviceId: 'web-design', label: 'Web Design & Development:', val: 'Modern UI/UX, Custom Web Architectures & High-Conversion Landing Pages', image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80' },
+                { id: '[06]', serviceId: 'digital-content', label: 'Digital Content & Social Media:', val: 'Content Strategy, Social Media Management & Creative Promotion', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80' },
+                { id: '[07]', serviceId: 'photography', label: 'Photography & Visual Production:', val: 'Product, Campaign & Marketing Visual Photography', image: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=800&q=80' },
+                { id: '[08]', serviceId: 'book-design', label: 'Book Design & Publishing:', val: 'Cover Design, Interior Layout, Print-Ready Files & KDP Publishing', image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80' }
               ].map((item) => (
                 <Link
                   key={item.id}
@@ -1663,6 +1669,8 @@ const Home = () => {
                         arrowEl.style.opacity = '1';
                         arrowEl.style.transform = 'translateX(4px)';
                       }
+                      const imgWrap = e.currentTarget.querySelector('.cap-img-wrapper');
+                      if (imgWrap) imgWrap.style.display = 'block';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.backgroundColor = 'transparent';
@@ -1677,6 +1685,8 @@ const Home = () => {
                         arrowEl.style.opacity = '0';
                         arrowEl.style.transform = 'none';
                       }
+                      const imgWrap = e.currentTarget.querySelector('.cap-img-wrapper');
+                      if (imgWrap) imgWrap.style.display = 'none';
                     }}
                   >
                     <span className="cap-id" style={{ color: 'rgba(255, 255, 255, 0.5)', fontWeight: '600', fontFamily: 'monospace', fontSize: '0.9rem', transition: 'color 0.3s' }}>
@@ -1691,6 +1701,27 @@ const Home = () => {
                     <span className="cap-arrow" style={{ opacity: 0, color: '#ffffff', transition: 'all 0.3s ease', fontSize: '1.1rem', fontWeight: 'bold' }}>
                       →
                     </span>
+
+                    {/* Active Highlight Image Banner */}
+                    <div 
+                      className="cap-img-wrapper" 
+                      style={{ 
+                        display: 'none',
+                        gridColumn: '1 / -1',
+                        marginTop: '0.85rem',
+                        width: '100%',
+                        height: '140px',
+                        borderRadius: '10px',
+                        overflow: 'hidden',
+                        boxShadow: '0 8px 25px rgba(0, 0, 0, 0.4)'
+                      }}
+                    >
+                      <img 
+                        src={item.image} 
+                        alt={item.label} 
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
+                      />
+                    </div>
                   </div>
                 </Link>
               ))}
@@ -1858,6 +1889,27 @@ const Home = () => {
                 }}>
                   {item.desc}
                 </p>
+
+                {/* Active Highlight Image Banner */}
+                <div 
+                  className="why-img-wrapper" 
+                  style={{ 
+                    display: 'none',
+                    gridColumn: '1 / -1',
+                    marginTop: '0.85rem',
+                    width: '100%',
+                    height: '160px',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.4)'
+                  }}
+                >
+                  <img 
+                    src={item.image} 
+                    alt={item.title} 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
+                  />
+                </div>
               </div>
             ))}
           </div>
