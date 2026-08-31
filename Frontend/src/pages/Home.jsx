@@ -649,6 +649,21 @@ const Home = () => {
         context.drawImage(img2, cx, cy, nw, nh);
         context.globalAlpha = 1.0;
       }
+
+      // Mask Gemini AI Sparkle Logo on lower-right side of the hands sequence
+      const maskX = cx + (nw * 0.675);
+      const maskY = cy + (nh * 0.585);
+      const maskRadius = Math.max(35, nw * 0.05);
+
+      const grad = context.createRadialGradient(maskX, maskY, 0, maskX, maskY, maskRadius);
+      grad.addColorStop(0, '#000000');
+      grad.addColorStop(0.75, '#000000');
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+      context.fillStyle = grad;
+      context.beginPath();
+      context.arc(maskX, maskY, maskRadius, 0, Math.PI * 2);
+      context.fill();
     };
 
     const handleResize = () => {
