@@ -1782,7 +1782,7 @@ const Home = () => {
             <h2 className="why-main-title" style={{
               fontSize: 'calc(2.4rem + 2vw)',
               fontWeight: '300',
-              fontFamily: 'serif',
+              fontFamily: "'Valley Sans', 'Manrope', sans-serif",
               textTransform: 'uppercase',
               margin: 0,
               letterSpacing: '0.02em',
@@ -1874,10 +1874,10 @@ const Home = () => {
                 {/* Title */}
                 <h3 className="row-title" style={{
                   fontSize: 'calc(1.3rem + 0.5vw)',
-                  fontWeight: '400',
+                  fontWeight: '500',
                   textTransform: 'uppercase',
                   margin: 0,
-                  fontFamily: 'serif',
+                  fontFamily: "'Valley Sans', 'Manrope', sans-serif",
                   color: 'rgba(255, 255, 255, 0.9)',
                   letterSpacing: '-0.01em',
                   transition: 'color 0.4s ease'
@@ -2312,7 +2312,7 @@ const Home = () => {
               textTransform: 'uppercase',
               fontWeight: '700',
               color: 'rgba(255, 255, 255, 0.5)',
-              fontFamily: "'Manrope', sans-serif",
+              fontFamily: "'Valley Sans', 'Manrope', sans-serif",
               display: 'block',
               marginBottom: '0.6rem'
             }}>
