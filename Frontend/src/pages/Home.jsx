@@ -1658,7 +1658,6 @@ const Home = () => {
               {[
                 { id: '[01]', serviceId: 'video-production', label: 'Video Production:', val: 'Brand Films, Corporate, Commercial & Social Media Video Experiences', image: 'https://i.pinimg.com/1200x/df/03/93/df0393965c6fdce90e8843efd9a9bc69.jpg' },
                 { id: '[02]', serviceId: 'video-editing', label: 'Video Editing:', val: 'Short-Form Reels, YouTube, Colour Grading & Post-Production', image: 'https://i.pinimg.com/736x/12/a3/81/12a381aa8035415c33511ae7d0c76edf.jpg' },
-                {/* Motion Graphics */}
                 { id: '[03]', serviceId: 'motion-graphics', label: 'Motion Graphics:', val: '2D/3D Motion, Logo Animation, Explainer Videos & Title Sequences', image: 'https://i.pinimg.com/736x/17/32/a2/1732a2c3d3af087ba755a97b145c3103.jpg' },
                 { id: '[04]', serviceId: 'branding', label: 'Branding & Creative Design:', val: 'Brand Identity, Logo Design, Guidelines & Campaign Design', image: 'https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?auto=format&fit=crop&w=800&q=80' },
                 { id: '[05]', serviceId: 'web-design', label: 'Web Design & Development:', val: 'Modern UI/UX, Custom Web Architectures & High-Conversion Landing Pages', image: 'https://i.pinimg.com/736x/0c/e8/08/0ce80850ca4f8ca3b3c367e370323a0e.jpg' },
