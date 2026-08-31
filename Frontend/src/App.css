@@ -560,25 +560,14 @@
     text-align: center !important;
   }
 
-  .why-row-item {
+  .why-row-item,
+  .cap-item-row {
     grid-template-columns: 1fr !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 0.75rem !important;
     padding: 1.5rem 1rem !important;
-    border-radius: 14px !important;
-    box-sizing: border-box !important;
-    transition: background-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease !important;
-  }
-
-  .cap-item-row {
-    grid-template-columns: 1fr !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 0.5rem !important;
-    padding: 1.25rem 1rem !important;
     border-radius: 14px !important;
     box-sizing: border-box !important;
     transition: background-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease !important;

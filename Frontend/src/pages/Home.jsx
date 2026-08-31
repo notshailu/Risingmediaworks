@@ -797,7 +797,7 @@ const Home = () => {
               const capVal = row.querySelector('.cap-val-text');
               const capArrow = row.querySelector('.cap-arrow');
               const capLabel = row.querySelector('.cap-label');
-              const imgWrap = row.querySelector('.cap-img-wrapper');
+              const mobileImg = row.querySelector('.mobile-active-img');
 
               if (row === closestRow) {
                 row.style.backgroundColor = '#0052ff';
@@ -808,7 +808,11 @@ const Home = () => {
                 if (capLabel) { capLabel.style.color = '#ffffff'; }
                 if (capVal) { capVal.style.color = 'rgba(255, 255, 255, 0.95)'; capVal.style.opacity = '1'; }
                 if (capArrow) { capArrow.style.opacity = '1'; capArrow.style.transform = 'translateX(4px)'; }
-                if (imgWrap) { imgWrap.style.display = 'block'; }
+                if (mobileImg && window.innerWidth <= 1024) {
+                  mobileImg.style.maxHeight = '200px';
+                  mobileImg.style.opacity = '1';
+                  mobileImg.style.marginTop = '1rem';
+                }
               } else {
                 row.style.backgroundColor = 'transparent';
                 row.style.boxShadow = 'none';
@@ -818,7 +822,11 @@ const Home = () => {
                 if (capLabel) { capLabel.style.color = '#ffffff'; }
                 if (capVal) { capVal.style.color = 'rgba(255, 255, 255, 0.7)'; capVal.style.opacity = '0.85'; }
                 if (capArrow) { capArrow.style.opacity = '0'; capArrow.style.transform = 'none'; }
-                if (imgWrap) { imgWrap.style.display = 'none'; }
+                if (mobileImg) {
+                  mobileImg.style.maxHeight = '0px';
+                  mobileImg.style.opacity = '0';
+                  mobileImg.style.marginTop = '0px';
+                }
               }
             });
 
@@ -829,7 +837,7 @@ const Home = () => {
               const numEl = row.querySelector('.row-num');
               const titleEl = row.querySelector('.row-title');
               const descEl = row.querySelector('.why-row-desc');
-              const imgWrap = row.querySelector('.why-img-wrapper');
+              const mobileImg = row.querySelector('.mobile-active-img');
 
               if (row === closestRow) {
                 row.style.backgroundColor = '#0052ff';
@@ -838,7 +846,11 @@ const Home = () => {
                 if (numEl) { numEl.style.color = '#ffffff'; numEl.style.opacity = '0.95'; }
                 if (titleEl) { titleEl.style.color = '#ffffff'; }
                 if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.95)'; }
-                if (imgWrap) { imgWrap.style.display = 'block'; }
+                if (mobileImg && window.innerWidth <= 1024) {
+                  mobileImg.style.maxHeight = '200px';
+                  mobileImg.style.opacity = '1';
+                  mobileImg.style.marginTop = '1.2rem';
+                }
               } else {
                 row.style.backgroundColor = 'transparent';
                 row.style.boxShadow = 'none';
@@ -846,7 +858,11 @@ const Home = () => {
                 if (numEl) { numEl.style.color = 'rgba(255, 255, 255, 0.4)'; numEl.style.opacity = '1'; }
                 if (titleEl) { titleEl.style.color = 'rgba(255, 255, 255, 0.9)'; }
                 if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.6)'; }
-                if (imgWrap) { imgWrap.style.display = 'none'; }
+                if (mobileImg) {
+                  mobileImg.style.maxHeight = '0px';
+                  mobileImg.style.opacity = '0';
+                  mobileImg.style.marginTop = '0px';
+                }
               }
             });
           }
@@ -1625,14 +1641,14 @@ const Home = () => {
             {/* Right Capabilities Table List with Interactive Highlights */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {[
-                { id: '[01]', serviceId: 'video-production', label: 'Video Production:', val: 'Brand Films, Corporate, Commercial & Social Media Video Experiences', image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80' },
-                { id: '[02]', serviceId: 'video-editing', label: 'Video Editing:', val: 'Short-Form Reels, YouTube, Colour Grading & Post-Production', image: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=800&q=80' },
-                { id: '[03]', serviceId: 'motion-graphics', label: 'Motion Graphics:', val: '2D/3D Motion, Logo Animation, Explainer Videos & Title Sequences', image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80' },
-                { id: '[04]', serviceId: 'branding', label: 'Branding & Creative Design:', val: 'Brand Identity, Logo Design, Guidelines & Campaign Design', image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80' },
+                { id: '[01]', serviceId: 'video-production', label: 'Video Production:', val: 'Brand Films, Corporate, Commercial & Social Media Video Experiences', image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80' },
+                { id: '[02]', serviceId: 'video-editing', label: 'Video Editing:', val: 'Short-Form Reels, YouTube, Colour Grading & Post-Production', image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80' },
+                { id: '[03]', serviceId: 'motion-graphics', label: 'Motion Graphics:', val: '2D/3D Motion, Logo Animation, Explainer Videos & Title Sequences', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80' },
+                { id: '[04]', serviceId: 'branding', label: 'Branding & Creative Design:', val: 'Brand Identity, Logo Design, Guidelines & Campaign Design', image: 'https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?auto=format&fit=crop&w=800&q=80' },
                 { id: '[05]', serviceId: 'web-design', label: 'Web Design & Development:', val: 'Modern UI/UX, Custom Web Architectures & High-Conversion Landing Pages', image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80' },
-                { id: '[06]', serviceId: 'digital-content', label: 'Digital Content & Social Media:', val: 'Content Strategy, Social Media Management & Creative Promotion', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80' },
-                { id: '[07]', serviceId: 'photography', label: 'Photography & Visual Production:', val: 'Product, Campaign & Marketing Visual Photography', image: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=800&q=80' },
-                { id: '[08]', serviceId: 'book-design', label: 'Book Design & Publishing:', val: 'Cover Design, Interior Layout, Print-Ready Files & KDP Publishing', image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80' }
+                { id: '[06]', serviceId: 'digital-content', label: 'Digital Content & Social Media:', val: 'Content Strategy, Social Media Management & Creative Promotion', image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=800&q=80' },
+                { id: '[07]', serviceId: 'photography', label: 'Photography & Visual Production:', val: 'Product, Campaign & Marketing Visual Photography', image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80' },
+                { id: '[08]', serviceId: 'book-design', label: 'Book Design & Publishing:', val: 'Cover Design, Interior Layout, Print-Ready Files & KDP Publishing', image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=800&q=80' }
               ].map((item) => (
                 <Link
                   key={item.id}
@@ -1669,8 +1685,6 @@ const Home = () => {
                         arrowEl.style.opacity = '1';
                         arrowEl.style.transform = 'translateX(4px)';
                       }
-                      const imgWrap = e.currentTarget.querySelector('.cap-img-wrapper');
-                      if (imgWrap) imgWrap.style.display = 'block';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.backgroundColor = 'transparent';
@@ -1685,8 +1699,6 @@ const Home = () => {
                         arrowEl.style.opacity = '0';
                         arrowEl.style.transform = 'none';
                       }
-                      const imgWrap = e.currentTarget.querySelector('.cap-img-wrapper');
-                      if (imgWrap) imgWrap.style.display = 'none';
                     }}
                   >
                     <span className="cap-id" style={{ color: 'rgba(255, 255, 255, 0.5)', fontWeight: '600', fontFamily: 'monospace', fontSize: '0.9rem', transition: 'color 0.3s' }}>
@@ -1702,24 +1714,27 @@ const Home = () => {
                       →
                     </span>
 
-                    {/* Active Highlight Image Banner */}
-                    <div 
-                      className="cap-img-wrapper" 
-                      style={{ 
-                        display: 'none',
-                        gridColumn: '1 / -1',
-                        marginTop: '0.85rem',
-                        width: '100%',
-                        height: '140px',
-                        borderRadius: '10px',
-                        overflow: 'hidden',
-                        boxShadow: '0 8px 25px rgba(0, 0, 0, 0.4)'
-                      }}
-                    >
+                    {/* Mobile Phone View Active Image Highlight Container */}
+                    <div className="mobile-active-img" style={{
+                      width: '100%',
+                      maxHeight: '0px',
+                      opacity: 0,
+                      overflow: 'hidden',
+                      borderRadius: '10px',
+                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                      marginTop: '0px',
+                      gridColumn: '1 / -1'
+                    }}>
                       <img 
                         src={item.image} 
                         alt={item.label} 
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
+                        style={{
+                          width: '100%',
+                          height: '150px',
+                          objectFit: 'cover',
+                          borderRadius: '10px',
+                          display: 'block'
+                        }} 
                       />
                     </div>
                   </div>
@@ -1890,24 +1905,27 @@ const Home = () => {
                   {item.desc}
                 </p>
 
-                {/* Active Highlight Image Banner */}
-                <div 
-                  className="why-img-wrapper" 
-                  style={{ 
-                    display: 'none',
-                    gridColumn: '1 / -1',
-                    marginTop: '0.85rem',
-                    width: '100%',
-                    height: '160px',
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.4)'
-                  }}
-                >
+                {/* Mobile Phone View Active Image Highlight Container */}
+                <div className="mobile-active-img" style={{
+                  width: '100%',
+                  maxHeight: '0px',
+                  opacity: 0,
+                  overflow: 'hidden',
+                  borderRadius: '10px',
+                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                  marginTop: '0px',
+                  gridColumn: '1 / -1'
+                }}>
                   <img 
                     src={item.image} 
                     alt={item.title} 
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
+                    style={{
+                      width: '100%',
+                      height: '160px',
+                      objectFit: 'cover',
+                      borderRadius: '10px',
+                      display: 'block'
+                    }} 
                   />
                 </div>
               </div>
