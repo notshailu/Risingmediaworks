@@ -5,8 +5,20 @@ const CustomCursor = () => {
   const dotRef = useRef(null);
   const ringRef = useRef(null);
   const [hasMoved, setHasMoved] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 1024 || 'ontouchstart' in window;
+      setIsMobile(mobile);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
     const dot = dotRef.current;
     const ring = ringRef.current;
 
@@ -96,6 +108,8 @@ const CustomCursor = () => {
       });
     };
   }, [hasMoved]);
+
+  if (isMobile) return null;
 
   return (
     <>

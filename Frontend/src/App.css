@@ -444,6 +444,31 @@
 }
 
 /* ================= MOBILE RESPONSIVE ADAPTATIONS (MAX-WIDTH: 768PX) ================= */
+@media (max-width: 1024px) {
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none !important;
+  }
+
+  .all-projects-page {
+    padding: 90px 1.25rem 50px 1.25rem !important;
+  }
+
+  .all-projects-title {
+    font-size: calc(1.8rem + 1.5vw) !important;
+  }
+
+  .all-projects-filter-bar {
+    gap: 0.55rem !important;
+    margin-bottom: 2.5rem !important;
+  }
+
+  .all-projects-filter-bar button {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.72rem !important;
+  }
+}
+
 @media (max-width: 768px) {
   /* Brand Logo Marquee Ticker Mobile Optimization */
   .brand-marquee-container {
