@@ -650,10 +650,10 @@ const Home = () => {
         context.globalAlpha = 1.0;
       }
 
-      // Mask Gemini AI Sparkle Logo on lower-right side of the hands sequence
-      const maskX = cx + (nw * 0.675);
-      const maskY = cy + (nh * 0.585);
-      const maskRadius = Math.max(35, nw * 0.05);
+      // Mask Gemini AI Sparkle Logo below the hands on pure black background
+      const maskX = cx + (nw * 0.70);
+      const maskY = cy + (nh * 0.675);
+      const maskRadius = Math.max(35, nw * 0.045);
 
       const grad = context.createRadialGradient(maskX, maskY, 0, maskX, maskY, maskRadius);
       grad.addColorStop(0, '#000000');
