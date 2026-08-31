@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { notifyNativeNewInquiry } from '../utils/nativeBridge';
 
 const Contact = () => {
   const containerRef = useRef(null);
@@ -39,6 +40,32 @@ const Contact = () => {
       const existing = JSON.parse(localStorage.getItem('rmw_inquiries') || '[]');
       existing.unshift(newInquiry);
       localStorage.setItem('rmw_inquiries', JSON.stringify(existing));
+
+      // 1. Real-time Broadcast to Admin across browser tabs & windows
+      if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+        const channel = new BroadcastChannel('rmw_inquiries_channel');
+        channel.postMessage({ type: 'NEW_INQUIRY', inquiry: newInquiry });
+        channel.close();
+      }
+
+      // 2. Trigger React Native Mobile App Container Event & Haptics
+      notifyNativeNewInquiry(newInquiry);
+
+      // 3. Trigger Browser Native Push Notification if permitted
+      if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
+        new Notification('📩 New Project Inquiry Received!', {
+          body: `${newInquiry.name} requested ${newInquiry.projectType}`,
+          icon: '/favicon.svg'
+        });
+      }
+
+      // 3. Post to backend API endpoint
+      fetch('http://localhost:5000/api/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newInquiry)
+      }).catch(err => console.warn('Backend inquiry sync:', err.message));
+
     } catch (err) {
       console.error('Error saving inquiry:', err);
     }

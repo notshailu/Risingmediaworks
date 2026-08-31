@@ -63,31 +63,32 @@ const AdminCaseStudies = () => {
   };
 
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+    <div style={{ fontFamily: "'Manrope', -apple-system, sans-serif", maxWidth: '1200px', margin: '0 auto' }}>
+      <div className="admin-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1.25rem', marginBottom: '2rem' }}>
         <div>
-          <h1 style={{ fontSize: '2rem', fontWeight: '800', color: '#000', letterSpacing: '-1px', margin: 0 }}>
+          <h1 style={{ fontSize: '1.85rem', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.03em', margin: 0 }}>
             Case Studies Directory
           </h1>
-          <p style={{ color: '#666', margin: '0.4rem 0 0 0', fontSize: '0.9rem' }}>
-            Manage, add, edit, and publish deep-dive agency case studies.
+          <p style={{ color: '#64748b', fontSize: '0.9rem', margin: '0.4rem 0 0 0', fontWeight: '500' }}>
+            Manage, edit, and publish deep-dive client success stories and campaign breakdowns.
           </p>
         </div>
 
         <Link 
           to="/admin/case-studies/new" 
           style={{ 
-            padding: '0.85rem 1.6rem', 
-            backgroundColor: '#000000', 
+            padding: '0.65rem 1.4rem', 
+            backgroundColor: '#0052ff', 
             color: '#ffffff', 
             textDecoration: 'none', 
-            borderRadius: '8px', 
+            borderRadius: '10px', 
             fontWeight: '700', 
-            fontSize: '0.9rem',
+            fontSize: '0.88rem',
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.5rem',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+            gap: '0.4rem',
+            boxShadow: '0 4px 14px rgba(0, 82, 255, 0.25)',
+            transition: 'transform 0.15s ease'
           }}
         >
           + Add New Case Study
@@ -95,26 +96,28 @@ const AdminCaseStudies = () => {
       </div>
 
       {loading ? (
-        <p style={{ color: '#666' }}>Loading case studies...</p>
+        <div style={{ padding: '3rem', textAlign: 'center', color: '#64748b', fontWeight: '600' }}>Loading case studies...</div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '2rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' }}>
           {studies.length === 0 ? (
-            <p style={{ color: '#666' }}>No case studies found. Click "+ Add New Case Study" to create one.</p>
+            <div style={{ gridColumn: '1 / -1', padding: '3rem', textAlign: 'center', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px dashed #cbd5e1' }}>
+              <p style={{ color: '#64748b', fontSize: '0.95rem', margin: 0, fontWeight: '600' }}>No case studies found. Click "+ Add New Case Study" to create one.</p>
+            </div>
           ) : (
             studies.map((study) => (
               <div 
                 key={study._id || study.id} 
                 style={{ 
                   backgroundColor: '#ffffff', 
-                  borderRadius: '12px', 
+                  borderRadius: '16px', 
                   overflow: 'hidden', 
-                  border: '1px solid #e0e0e0', 
+                  border: '1px solid #e2e8f0', 
                   display: 'flex', 
                   flexDirection: 'column',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.04)'
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.03)'
                 }}
               >
-                <div style={{ height: '200px', backgroundColor: '#f0f0f0', position: 'relative' }}>
+                <div style={{ height: '190px', backgroundColor: '#f1f5f9', position: 'relative' }}>
                   <img 
                     src={study.image} 
                     alt={study.title} 
@@ -124,33 +127,34 @@ const AdminCaseStudies = () => {
                     position: 'absolute',
                     top: '12px',
                     left: '12px',
-                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                    backdropFilter: 'blur(6px)',
                     color: '#ffffff',
-                    padding: '0.3rem 0.8rem',
+                    padding: '0.25rem 0.75rem',
                     borderRadius: '20px',
-                    fontSize: '0.7rem',
-                    fontWeight: '700',
+                    fontSize: '0.68rem',
+                    fontWeight: '800',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.1em'
+                    letterSpacing: '0.08em'
                   }}>
                     {study.client}
                   </span>
                 </div>
 
-                <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#000000', margin: '0 0 0.5rem 0', lineHeight: '1.3' }}>
+                <div style={{ padding: '1.4rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#0f172a', margin: '0 0 0.5rem 0', lineHeight: '1.3' }}>
                     {study.title}
                   </h3>
 
-                  <p style={{ color: '#555555', fontSize: '0.88rem', lineHeight: '1.55', margin: '0 0 1.5rem 0', flex: 1 }}>
-                    {study.overview ? study.overview.substring(0, 110) + '...' : 'No overview available.'}
+                  <p style={{ color: '#334155', fontSize: '0.85rem', lineHeight: '1.55', margin: '0 0 1.2rem 0', flex: 1, fontWeight: '500' }}>
+                    {study.overview ? study.overview.substring(0, 100) + '...' : 'No overview available.'}
                   </p>
 
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '1rem', borderTop: '1px solid #eeeeee' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.85rem', borderTop: '1px solid #f1f5f9', marginTop: 'auto' }}>
                     <Link 
                       to={`/case-studies/${study.id}`} 
                       target="_blank"
-                      style={{ fontSize: '0.8rem', color: '#0052ff', textDecoration: 'none', fontWeight: '600' }}
+                      style={{ fontSize: '0.8rem', color: '#0052ff', textDecoration: 'none', fontWeight: '700' }}
                     >
                       View Live ↗
                     </Link>
@@ -159,11 +163,10 @@ const AdminCaseStudies = () => {
                       <Link 
                         to={`/admin/case-studies/edit/${study._id || study.id}`} 
                         style={{
-                          padding: '0.45rem 0.9rem',
-                          backgroundColor: '#ffffff',
-                          color: '#000000',
-                          border: '1px solid #000000',
-                          borderRadius: '6px',
+                          padding: '0.45rem 0.95rem',
+                          backgroundColor: '#f1f5f9',
+                          color: '#0f172a',
+                          borderRadius: '8px',
                           textDecoration: 'none',
                           fontSize: '0.8rem',
                           fontWeight: '700'
@@ -175,11 +178,11 @@ const AdminCaseStudies = () => {
                       <button 
                         onClick={() => handleDelete(study._id || study.id)} 
                         style={{
-                          padding: '0.45rem 0.9rem',
-                          backgroundColor: '#ffffff',
-                          color: '#d32f2f',
-                          border: '1px solid #d32f2f',
-                          borderRadius: '6px',
+                          padding: '0.45rem 0.95rem',
+                          backgroundColor: '#fef2f2',
+                          color: '#dc2626',
+                          border: '1px solid #fecaca',
+                          borderRadius: '8px',
                           cursor: 'pointer',
                           fontSize: '0.8rem',
                           fontWeight: '700'
@@ -200,3 +203,4 @@ const AdminCaseStudies = () => {
 };
 
 export default AdminCaseStudies;
+

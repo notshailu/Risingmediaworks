@@ -727,7 +727,7 @@ const About = () => {
         <section 
           className="scroll-reveal" 
           onMouseMove={handlePhilosophyMouseMove}
-          style={{ display: 'flex', flexDirection: 'column', gap: '4rem', borderTop: '1px solid #e0e0e0', paddingTop: '5rem', position: 'relative', marginBottom: '8rem' }}
+          style={{ display: 'flex', flexDirection: 'column', gap: '4rem', borderTop: 'none', paddingTop: '5rem', position: 'relative', marginBottom: '8rem' }}
         >
           <div style={{ maxWidth: '950px' }}>
             <span style={{ fontSize: '0.75rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#0052ff', fontWeight: '700', fontFamily: 'monospace', display: 'block', marginBottom: '1.2rem' }}>
@@ -795,7 +795,7 @@ const About = () => {
         </section>
 
         {/* ================= OUR CAPABILITIES ================= */}
-        <section className="scroll-reveal" style={{ display: 'flex', flexWrap: 'wrap', gap: '4rem 6rem', borderTop: '1px solid #e0e0e0', paddingTop: '5rem', marginBottom: '8rem' }}>
+        <section className="scroll-reveal" style={{ display: 'flex', flexWrap: 'wrap', gap: '4rem 6rem', borderTop: 'none', paddingTop: '5rem', marginBottom: '8rem' }}>
           <div style={{ flex: '1 1 300px' }}>
             <span style={{ fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#888888', fontWeight: '600', display: 'block', marginBottom: '0.5rem', fontFamily: 'sans-serif' }}>
               Service Offerings
@@ -910,7 +910,7 @@ const About = () => {
         <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%', display: 'block', padding: '0 2rem', boxSizing: 'border-box' }}>
 
         {/* ================= FINAL CTA ================= */}
-        <section className="scroll-reveal" style={{ borderTop: '1px solid #e0e0e0', paddingTop: '6rem', paddingBottom: '4rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '2rem' }}>
+        <section className="scroll-reveal" style={{ borderTop: 'none', paddingTop: '6rem', paddingBottom: '4rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '2rem' }}>
           <h2 className="final-cta-title" style={{
             fontSize: 'calc(1.8rem + 1.8vw)',
             fontWeight: '300',

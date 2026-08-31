@@ -29,7 +29,19 @@ const getBookById = async (req, res) => {
 // @desc    Create a book
 // @route   POST /api/books
 const createBook = async (req, res) => {
-  const { title, author, description, price } = req.body;
+  const {
+    title,
+    author,
+    description,
+    price,
+    buyUrl,
+    category,
+    printSpecs,
+    gridSpec,
+    publishingSpec,
+    paperSpec,
+    finalBookUrl
+  } = req.body;
   let coverImage = req.body.coverImage; // Fallback to URL if provided
 
   if (req.file) {
@@ -42,7 +54,14 @@ const createBook = async (req, res) => {
       author,
       description,
       price,
-      coverImage
+      coverImage,
+      buyUrl,
+      category,
+      printSpecs,
+      gridSpec,
+      publishingSpec,
+      paperSpec,
+      finalBookUrl
     });
 
     const createdBook = await book.save();
@@ -55,7 +74,19 @@ const createBook = async (req, res) => {
 // @desc    Update a book
 // @route   PUT /api/books/:id
 const updateBook = async (req, res) => {
-  const { title, author, description, price } = req.body;
+  const {
+    title,
+    author,
+    description,
+    price,
+    buyUrl,
+    category,
+    printSpecs,
+    gridSpec,
+    publishingSpec,
+    paperSpec,
+    finalBookUrl
+  } = req.body;
   let coverImage = req.body.coverImage;
 
   if (req.file) {
@@ -66,10 +97,17 @@ const updateBook = async (req, res) => {
     const book = await Book.findById(req.params.id);
 
     if (book) {
-      book.title = title || book.title;
-      book.author = author || book.author;
-      book.description = description || book.description;
-      book.price = price || book.price;
+      book.title = title !== undefined ? title : book.title;
+      book.author = author !== undefined ? author : book.author;
+      book.description = description !== undefined ? description : book.description;
+      book.price = price !== undefined ? price : book.price;
+      book.buyUrl = buyUrl !== undefined ? buyUrl : book.buyUrl;
+      book.category = category !== undefined ? category : book.category;
+      book.printSpecs = printSpecs !== undefined ? printSpecs : book.printSpecs;
+      book.gridSpec = gridSpec !== undefined ? gridSpec : book.gridSpec;
+      book.publishingSpec = publishingSpec !== undefined ? publishingSpec : book.publishingSpec;
+      book.paperSpec = paperSpec !== undefined ? paperSpec : book.paperSpec;
+      book.finalBookUrl = finalBookUrl !== undefined ? finalBookUrl : book.finalBookUrl;
       if (coverImage) book.coverImage = coverImage;
 
       const updatedBook = await book.save();

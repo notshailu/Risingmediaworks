@@ -154,10 +154,8 @@ const Home = () => {
     }
   };
 
-  // Mobile-optimized high performance image sequence preloader with GPU background decoding
+  // High performance 60fps continuous image sequence preloader
   useEffect(() => {
-    const isMobile = window.innerWidth <= 768;
-    const step = isMobile ? 3 : 1; // Downsample 3x on mobile to save 70% RAM & GPU memory
     const totalFrames = 250;
     const loadedImages = [];
 
@@ -167,7 +165,7 @@ const Home = () => {
       return s;
     };
 
-    for (let i = 1; i <= totalFrames; i += step) {
+    for (let i = 1; i <= totalFrames; i++) {
       const img = new Image();
       img.src = `/Animation/frame_${pad(i, 4)}.webp`;
       if (img.decode) {
@@ -178,7 +176,7 @@ const Home = () => {
     setImages(loadedImages);
   }, []);
 
-  // Preload Hands image sequence with GPU decoding for smooth 60fps touch scroll
+  // Preload Hands image sequence for continuous 60fps touch scroll
   useEffect(() => {
     const totalFrames = 150;
     const loadedImages = [];
@@ -495,23 +493,16 @@ const Home = () => {
       const maxIdx = images.length - 1;
       const clamped = Math.max(0, Math.min(maxIdx, frameIndex));
       const idx1 = Math.floor(clamped);
-      const isMobile = window.innerWidth <= 768;
-
-      // Frame guard: skip duplicate draws when frame index has not changed
-      if (lastDrawnFrame === idx1 && isMobile) return;
-      lastDrawnFrame = idx1;
-
       const idx2 = Math.min(maxIdx, idx1 + 1);
       const progress = clamped - idx1;
+      const isMobile = window.innerWidth <= 768;
 
       const img1 = images[idx1];
       const img2 = images[idx2];
       if (!img1 || !img1.complete) return;
 
-      context.imageSmoothingEnabled = !isMobile;
-      if (!isMobile) {
-        context.imageSmoothingQuality = 'high';
-      }
+      context.imageSmoothingEnabled = true;
+      context.imageSmoothingQuality = 'high';
 
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
@@ -525,10 +516,11 @@ const Home = () => {
       const cyOffset = isMobile ? 0 : 80;
       const cy = ((canvasHeight - nh) / 2) + cyOffset;
 
+      // Base frame draw
       context.drawImage(img1, cx, cy, nw, nh);
 
-      // Only perform alpha crossfade on desktop GPUs to eliminate mobile draw overhead
-      if (!isMobile && progress > 0.05 && img2 && img2.complete) {
+      // Liquid sub-frame fractional crossfade interpolation for 120Hz liquid motion
+      if (progress > 0.02 && img2 && img2.complete) {
         context.globalAlpha = progress;
         context.drawImage(img2, cx, cy, nw, nh);
         context.globalAlpha = 1.0;
@@ -555,14 +547,16 @@ const Home = () => {
       }
     }
 
-    // Timeline for the pinned second section
+    const isMobile = window.innerWidth <= 1024 || (typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+
+    // Timeline for the pinned second section with smooth lerp physics
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: secondSectionRef.current,
         start: 'top top',
-        end: '+=3000', // Pinned scroll length for extended smooth scroll
+        end: isMobile ? '+=1600' : '+=3000',
         pin: true,
-        scrub: 1.2,
+        scrub: isMobile ? 0.4 : 0.8, // Liquid momentum lerp physics for ultra-smooth scroll
         anticipatePin: 1,
       }
     });
@@ -621,17 +615,13 @@ const Home = () => {
       const maxIdx = handsImages.length - 1;
       const clamped = Math.max(0, Math.min(maxIdx, frameIndex));
       const idx1 = Math.floor(clamped);
-      const isMobile = window.innerWidth <= 768;
-
       const idx2 = Math.min(maxIdx, idx1 + 1);
       const progress = clamped - idx1;
+      const isMobile = window.innerWidth <= 768;
 
       const img1 = handsImages[idx1];
       const img2 = handsImages[idx2];
       if (!img1 || !img1.complete) return;
-
-      context.fillStyle = '#000000';
-      context.fillRect(0, 0, canvas.width, canvas.height);
 
       context.imageSmoothingEnabled = true;
       context.imageSmoothingQuality = 'high';
@@ -653,7 +643,7 @@ const Home = () => {
 
       context.drawImage(img1, cx, cy, nw, nh);
 
-      // Smooth frame alpha interpolation on touch scroll
+      // Liquid sub-frame fractional crossfade interpolation
       if (progress > 0.02 && img2 && img2.complete) {
         context.globalAlpha = progress;
         context.drawImage(img2, cx, cy, nw, nh);
@@ -663,7 +653,7 @@ const Home = () => {
 
     const handleResize = () => {
       const isMobile = window.innerWidth <= 768;
-      const dpr = isMobile ? Math.min(window.devicePixelRatio || 1, 1.5) : Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       drawImage(sequence.frame);
@@ -681,14 +671,14 @@ const Home = () => {
       }
     }
 
-    const isMobile = window.innerWidth <= 768;
+    const isMobile = window.innerWidth <= 1024 || (typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: handsSectionRef.current,
         start: 'top top',
-        end: isMobile ? '+=1800' : '+=3500', // Responsive scroll distance for smooth mobile touch response
+        end: isMobile ? '+=1600' : '+=3500',
         pin: true,
-        scrub: isMobile ? 0.35 : 1.0, // Instant responsive touch scrub on phone screen
+        scrub: isMobile ? 0.4 : 0.8, // Liquid momentum lerp physics for ultra-smooth scroll
         anticipatePin: 1,
       }
     });
@@ -746,12 +736,36 @@ const Home = () => {
     );
   }, []);
 
-  // Mobile Active Scroll Highlight for Capabilities (.cap-item-row) - ONE item at a time (rAF throttled)
+  // One-scroll snap from Section 1 (Hero) to Section 2 (#showcase)
+  useEffect(() => {
+    let isSnapping = false;
+
+    const handleWheel = (e) => {
+      if (window.scrollY < 120 && e.deltaY > 5 && !isSnapping) {
+        const secondSec = document.querySelector('#showcase');
+        if (secondSec) {
+          e.preventDefault();
+          isSnapping = true;
+          window.scrollTo({
+            top: secondSec.offsetTop,
+            behavior: 'smooth'
+          });
+          setTimeout(() => {
+            isSnapping = false;
+          }, 900);
+        }
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, []);
+
+  // Active Scroll Highlight for Capabilities (.cap-item-row) - Dynamic bg color change on scroll
   useEffect(() => {
     let ticking = false;
 
     const handleScroll = () => {
-      if (window.innerWidth > 1024) return;
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const rows = document.querySelectorAll('#services-overview .cap-item-row');
@@ -762,7 +776,7 @@ const Home = () => {
 
             rows.forEach((row) => {
               const rect = row.getBoundingClientRect();
-              if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
+              if (rect.bottom > 80 && rect.top < window.innerHeight - 80) {
                 const rowCenter = rect.top + rect.height / 2;
                 const distance = Math.abs(rowCenter - viewportCenter);
                 if (distance < minDistance) {
@@ -773,22 +787,31 @@ const Home = () => {
             });
 
             rows.forEach((row) => {
+              if (window.innerWidth > 1024 && row.matches(':hover')) {
+                return;
+              }
+
               const capId = row.querySelector('.cap-id');
               const capVal = row.querySelector('.cap-val-text');
               const capArrow = row.querySelector('.cap-arrow');
+              const capLabel = row.querySelector('.cap-label');
 
               if (row === closestRow) {
                 row.style.backgroundColor = '#0052ff';
                 row.style.boxShadow = '0 8px 25px rgba(0, 82, 255, 0.45)';
-                row.style.transform = 'scale(1.02)';
+                row.style.transform = window.innerWidth <= 1024 ? 'scale(1.02)' : 'translateX(10px)';
+                row.style.borderBottomColor = '#ffffff';
                 if (capId) { capId.style.color = '#ffffff'; capId.style.opacity = '0.95'; }
+                if (capLabel) { capLabel.style.color = '#ffffff'; }
                 if (capVal) { capVal.style.color = 'rgba(255, 255, 255, 0.95)'; capVal.style.opacity = '1'; }
                 if (capArrow) { capArrow.style.opacity = '1'; capArrow.style.transform = 'translateX(4px)'; }
               } else {
                 row.style.backgroundColor = 'transparent';
                 row.style.boxShadow = 'none';
                 row.style.transform = 'none';
+                row.style.borderBottomColor = 'rgba(255, 255, 255, 0.08)';
                 if (capId) { capId.style.color = 'rgba(255, 255, 255, 0.5)'; capId.style.opacity = '1'; }
+                if (capLabel) { capLabel.style.color = '#ffffff'; }
                 if (capVal) { capVal.style.color = 'rgba(255, 255, 255, 0.7)'; capVal.style.opacity = '0.85'; }
                 if (capArrow) { capArrow.style.opacity = '0'; capArrow.style.transform = 'none'; }
               }
@@ -1057,7 +1080,17 @@ const Home = () => {
         </div>
 
         {/* Scroll Down Indicator */}
-        <a href="#showcase" className="scroll-down-btn" style={{
+        <a 
+          href="#showcase" 
+          className="scroll-down-btn" 
+          onClick={(e) => {
+            e.preventDefault();
+            const secondSec = document.querySelector('#showcase');
+            if (secondSec) {
+              window.scrollTo({ top: secondSec.offsetTop, behavior: 'smooth' });
+            }
+          }}
+          style={{
           position: 'absolute',
           bottom: '40px',
           display: 'flex',
@@ -1168,7 +1201,8 @@ const Home = () => {
             height: '100%',
             display: 'block',
             zIndex: 2,
-            filter: 'contrast(1.08) saturate(1.05) brightness(1.02) drop-shadow(0 0 60px rgba(255, 255, 255, 0.95))',
+            willChange: 'transform',
+            transform: 'translate3d(0,0,0)',
             imageRendering: '-webkit-optimize-contrast'
           }}
         />
@@ -1256,7 +1290,8 @@ const Home = () => {
             height: '100%',
             display: 'block',
             zIndex: 2,
-            filter: 'contrast(1.08) brightness(1.02) saturate(1.08)',
+            willChange: 'transform',
+            transform: 'translate3d(0,0,0)',
             imageRendering: '-webkit-optimize-contrast'
           }}
         />
@@ -1333,8 +1368,8 @@ const Home = () => {
         color: '#ffffff',
         fontFamily: 'sans-serif',
         position: 'relative',
-        borderTop: '1px solid rgba(255, 255, 255, 0.15)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.15)'
+        borderTop: 'none',
+        borderBottom: 'none'
       }}>
         <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
           
@@ -1587,7 +1622,7 @@ const Home = () => {
           <div 
             className="capabilities-grid-layout"
             style={{
-              borderTop: '1px solid rgba(255, 255, 255, 0.2)',
+              borderTop: 'none',
               paddingTop: '4rem',
               display: 'grid',
               gridTemplateColumns: '1fr 2.5fr',
@@ -1714,7 +1749,7 @@ const Home = () => {
           color: '#ffffff',
           fontFamily: 'sans-serif',
           position: 'relative',
-          borderTop: '1px solid rgba(255, 255, 255, 0.15)'
+          borderTop: 'none'
         }}
       >
         <div style={{ maxWidth: '1500px', margin: '0 auto' }}>
@@ -1755,7 +1790,7 @@ const Home = () => {
           </div>
 
           {/* Non-Card Typographic Rows List */}
-          <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.15)' }}>
+          <div style={{ borderTop: 'none' }}>
             {[
               {
                 num: '01',
@@ -1926,7 +1961,7 @@ const Home = () => {
         color: '#000000',
         fontFamily: "'Manrope', sans-serif",
         position: 'relative',
-        borderTop: '1px solid #e4e4e7'
+        borderTop: 'none'
       }}>
         <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
           
@@ -2257,7 +2292,7 @@ const Home = () => {
         color: '#ffffff',
         fontFamily: 'sans-serif',
         position: 'relative',
-        borderTop: '1px solid rgba(255, 255, 255, 0.15)'
+        borderTop: 'none'
       }}>
         <div style={{ maxWidth: '1500px', margin: '0 auto' }}>
           
@@ -2471,7 +2506,7 @@ const Home = () => {
         color: '#ffffff',
         fontFamily: 'sans-serif',
         position: 'relative',
-        borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+        borderTop: 'none',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
@@ -2630,7 +2665,7 @@ const Home = () => {
         color: '#ffffff',
         fontFamily: 'sans-serif',
         position: 'relative',
-        borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+        borderTop: 'none',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',

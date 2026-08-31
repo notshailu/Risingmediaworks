@@ -987,10 +987,12 @@
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* Admin Panel Native Mobile App UI Adaptations */
+/* Admin Panel React Native & Mobile App Integration Rules */
 @media (max-width: 768px) {
   .admin-layout-container {
     flex-direction: column !important;
+    min-height: 100vh !important;
+    min-height: -webkit-fill-available !important;
   }
 
   .admin-sidebar {
@@ -999,22 +1001,40 @@
 
   .mobile-admin-app-header {
     display: flex !important;
+    padding-top: max(1rem, env(safe-area-inset-top)) !important;
   }
 
   .mobile-admin-bottom-nav {
     display: flex !important;
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom)) !important;
+    height: max(68px, calc(68px + env(safe-area-inset-bottom))) !important;
   }
 
   .admin-main-content {
-    padding: 1.25rem 1rem 90px 1rem !important;
+    padding: 1.25rem 1rem max(95px, calc(85px + env(safe-area-inset-bottom))) 1rem !important;
     width: 100% !important;
     box-sizing: border-box !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 
   .admin-header-row {
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 1rem !important;
+  }
+
+  /* React Native Touch Targets & Form Input Ergonomics */
+  .admin-panel input,
+  .admin-panel select,
+  .admin-panel textarea,
+  .admin-panel button {
+    font-size: 16px !important; /* Prevents auto-zoom on mobile webviews */
+    touch-action: manipulation !important;
+  }
+
+  .admin-panel button,
+  .admin-panel a {
+    min-height: 44px; /* Recommended mobile touch target height */
   }
 }
 

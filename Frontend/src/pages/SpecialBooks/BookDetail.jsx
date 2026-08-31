@@ -10,26 +10,63 @@ const BookDetail = () => {
   const containerRef = useRef(null);
   const bookCoverRef = useRef(null);
   
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
 
-  const book = booksData.find((b) => b.id === id);
-
-  const currentIndex = booksData.findIndex((b) => b.id === id);
-  const prevBook = currentIndex > 0 ? booksData[currentIndex - 1] : null;
-  const nextBook = currentIndex < booksData.length - 1 ? booksData[currentIndex + 1] : null;
-  
-  const otherBooks = booksData.filter((b) => b.id !== id).slice(0, 3);
-
   useEffect(() => {
     window.scrollTo(0, 0);
     document.body.classList.add('light-theme');
+    
+    // Fetch book from API, fallback to dummyData if not found or off-grid
+    const fetchBookData = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`http://localhost:5000/api/books/${id}`);
+        if (res.ok) {
+          const apiBook = await res.json();
+          setBook({
+            id: apiBook._id,
+            title: apiBook.title,
+            author: apiBook.author,
+            description: apiBook.description,
+            overview: apiBook.description,
+            price: apiBook.price,
+            image: apiBook.coverImage || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=1000',
+            buyUrl: apiBook.buyUrl,
+            category: apiBook.category || 'Special Book',
+            printSpecs: apiBook.printSpecs || '6x9 inch • Hardcover',
+            gridSpec: apiBook.gridSpec || '12-Column Editorial',
+            publishingSpec: apiBook.publishingSpec || 'KDP & IngramSpark',
+            paperSpec: apiBook.paperSpec || 'Cream 120gsm / Matte',
+            finalBookUrl: apiBook.finalBookUrl
+          });
+        } else {
+          const found = booksData.find((b) => b.id === id);
+          setBook(found || null);
+        }
+      } catch (err) {
+        const found = booksData.find((b) => b.id === id);
+        setBook(found || null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBookData();
+
     return () => {
       document.body.classList.remove('light-theme');
     };
   }, [id]);
+
+  const currentIndex = booksData.findIndex((b) => b.id === id);
+  const prevBook = currentIndex > 0 ? booksData[currentIndex - 1] : null;
+  const nextBook = currentIndex < booksData.length - 1 ? booksData[currentIndex + 1] : null;
+  const otherBooks = booksData.filter((b) => b.id !== id).slice(0, 3);
 
   // Entrance animations
   useGSAP(() => {
@@ -123,15 +160,13 @@ const BookDetail = () => {
           <Link
             to="/special-books"
             style={{
-              fontSize: '0.8rem',
+              fontSize: '0.85rem',
               color: '#000000',
-              textTransform: 'uppercase',
-              letterSpacing: '0.2em',
               textDecoration: 'none',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.6rem',
-              fontFamily: 'sans-serif',
+              fontFamily: "'Manrope', sans-serif",
               fontWeight: '600',
               transition: 'transform 0.2s ease'
             }}
@@ -145,35 +180,34 @@ const BookDetail = () => {
             display: 'flex',
             alignItems: 'center',
             gap: '1.5rem',
-            fontFamily: 'sans-serif',
-            fontSize: '0.75rem',
-            fontWeight: '600',
-            letterSpacing: '0.15em'
+            fontFamily: "'Manrope', sans-serif",
+            fontSize: '0.82rem',
+            fontWeight: '600'
           }}>
             {prevBook ? (
               <Link
                 to={`/special-books/${prevBook.id}`}
-                style={{ color: '#000000', textDecoration: 'none', textTransform: 'uppercase', transition: 'opacity 0.2s' }}
+                style={{ color: '#000000', textDecoration: 'none', transition: 'opacity 0.2s' }}
                 onMouseEnter={(e) => e.currentTarget.style.opacity = 0.6}
                 onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
               >
                 ← Prev Book
               </Link>
             ) : (
-              <span style={{ color: '#cccccc', cursor: 'not-allowed', textTransform: 'uppercase' }}>← Prev Book</span>
+              <span style={{ color: '#cccccc', cursor: 'not-allowed' }}>← Prev Book</span>
             )}
             <span style={{ color: '#d1d5db' }}>|</span>
             {nextBook ? (
               <Link
                 to={`/special-books/${nextBook.id}`}
-                style={{ color: '#000000', textDecoration: 'none', textTransform: 'uppercase', transition: 'opacity 0.2s' }}
+                style={{ color: '#000000', textDecoration: 'none', transition: 'opacity 0.2s' }}
                 onMouseEnter={(e) => e.currentTarget.style.opacity = 0.6}
                 onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
               >
                 Next Book →
               </Link>
             ) : (
-              <span style={{ color: '#cccccc', cursor: 'not-allowed', textTransform: 'uppercase' }}>Next Book →</span>
+              <span style={{ color: '#cccccc', cursor: 'not-allowed' }}>Next Book →</span>
             )}
           </div>
         </div>
@@ -264,10 +298,8 @@ const BookDetail = () => {
                     color: '#ffffff',
                     padding: '0.5rem 1.2rem',
                     borderRadius: '20px',
-                    fontSize: '0.7rem',
-                    letterSpacing: '0.15em',
-                    textTransform: 'uppercase',
-                    fontFamily: 'sans-serif',
+                    fontSize: '0.72rem',
+                    fontFamily: "'Manrope', sans-serif",
                     backdropFilter: 'blur(8px)',
                     boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
                     whiteSpace: 'nowrap'
@@ -291,71 +323,6 @@ const BookDetail = () => {
               </div>
             </div>
 
-            {/* ACTION BUTTONS UNDER COVER */}
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '2.5rem', width: '100%', maxWidth: '320px' }}>
-              <button
-                onClick={() => setIsOpen(true)}
-                style={{
-                  flex: 1,
-                  backgroundColor: '#2563eb',
-                  color: '#ffffff',
-                  border: 'none',
-                  padding: '0.9rem 1.2rem',
-                  borderRadius: '6px',
-                  fontWeight: '600',
-                  fontSize: '0.78rem',
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                  fontFamily: 'sans-serif',
-                  boxShadow: '0 8px 20px rgba(37, 99, 235, 0.3)',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#1d4ed8';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#2563eb';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                }}
-              >
-                Open 3D Reader
-              </button>
-
-              <a
-                href={book.finalBookUrl || book.image}
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  padding: '0.9rem 1.2rem',
-                  backgroundColor: '#ffffff',
-                  color: '#000000',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '6px',
-                  fontWeight: '600',
-                  fontSize: '0.78rem',
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                  fontFamily: 'sans-serif',
-                  textDecoration: 'none',
-                  display: 'inline-block',
-                  textAlign: 'center',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#000000';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = '#e5e7eb';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                }}
-              >
-                High-Res Cover ↗
-              </a>
-            </div>
           </div>
 
           {/* RIGHT: EDITORIAL DETAILS & METADATA */}
@@ -364,59 +331,91 @@ const BookDetail = () => {
               <span style={{
                 backgroundColor: '#eff6ff',
                 color: '#2563eb',
-                fontSize: '0.7rem',
-                fontWeight: '700',
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
+                fontSize: '0.75rem',
+                fontWeight: '600',
                 padding: '0.35rem 0.9rem',
                 borderRadius: '50px',
-                fontFamily: 'sans-serif',
+                fontFamily: "'Manrope', sans-serif",
                 border: '1px solid #bfdbfe'
               }}>
                 {book.category ? book.category.replace('-', ' ') : 'Special Book'}
               </span>
               
-              <span style={{ fontSize: '0.75rem', color: '#6b7280', fontFamily: 'sans-serif', fontWeight: '500' }}>
+              <span style={{ fontSize: '0.78rem', color: '#6b7280', fontFamily: "'Manrope', sans-serif", fontWeight: '500' }}>
                 • Hardcover & KDP Edition
               </span>
             </div>
 
             <h1 style={{
               fontSize: 'calc(2.2rem + 1.8vw)',
-              fontWeight: '300',
-              textTransform: 'uppercase',
+              fontWeight: '500',
               margin: 0,
               letterSpacing: '-0.02em',
-              lineHeight: '1.1',
-              fontFamily: 'serif',
+              lineHeight: '1.15',
+              fontFamily: "'Manrope', sans-serif",
               color: '#000000'
             }}>
               {book.title}
             </h1>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', fontFamily: 'sans-serif' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', fontFamily: "'Manrope', sans-serif" }}>
               <div>
-                <span style={{ fontSize: '0.7rem', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block' }}>Author</span>
+                <span style={{ fontSize: '0.72rem', color: '#9ca3af', display: 'block', marginBottom: '0.2rem' }}>Author</span>
                 <span style={{ fontSize: '1rem', fontWeight: '600', color: '#111827' }}>{book.author}</span>
               </div>
               <div style={{ width: '1px', height: '30px', backgroundColor: '#e5e7eb' }} />
               <div>
-                <span style={{ fontSize: '0.7rem', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block' }}>Format Specs</span>
+                <span style={{ fontSize: '0.72rem', color: '#9ca3af', display: 'block', marginBottom: '0.2rem' }}>Format Specs</span>
                 <span style={{ fontSize: '0.95rem', fontWeight: '500', color: '#374151' }}>{book.printSpecs || '6x9 inch • Hardcover'}</span>
               </div>
             </div>
 
             <p style={{
-              fontSize: '1.15rem',
+              fontSize: '1.1rem',
               lineHeight: '1.8',
               color: '#4b5563',
               fontWeight: '300',
               margin: 0,
-              fontFamily: 'serif',
+              fontFamily: "'Manrope', sans-serif",
               maxWidth: '650px'
             }}>
               {book.description || book.overview}
             </p>
+
+            <a
+              href={book.buyUrl || book.finalBookUrl || 'https://www.amazon.com'}
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.6rem',
+                backgroundColor: '#000000',
+                color: '#ffffff',
+                padding: '0.85rem 2.2rem',
+                borderRadius: '6px',
+                fontSize: '0.85rem',
+                fontWeight: '600',
+                textDecoration: 'none',
+                fontFamily: "'Manrope', sans-serif",
+                marginTop: '0.4rem',
+                width: 'fit-content',
+                boxShadow: '0 4px 18px rgba(0, 0, 0, 0.15)',
+                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#2563eb';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 10px 25px rgba(37, 99, 235, 0.35)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#000000';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 18px rgba(0, 0, 0, 0.15)';
+              }}
+            >
+              Buy Book ↗
+            </a>
 
             {/* KEY HIGHLIGHTS SPEC GRID */}
             <div style={{
@@ -434,8 +433,8 @@ const BookDetail = () => {
                 border: '1px solid #e5e7eb',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
               }}>
-                <span style={{ fontSize: '0.68rem', letterSpacing: '0.15em', color: '#9ca3af', textTransform: 'uppercase', fontFamily: 'sans-serif', fontWeight: '600', display: 'block', marginBottom: '0.3rem' }}>Grid Layout</span>
-                <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'sans-serif', fontWeight: '600' }}>12-Column Editorial</span>
+                <span style={{ fontSize: '0.72rem', color: '#9ca3af', fontFamily: "'Manrope', sans-serif", fontWeight: '500', display: 'block', marginBottom: '0.3rem' }}>Grid Layout</span>
+                <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: "'Manrope', sans-serif", fontWeight: '600' }}>{book.gridSpec || '12-Column Editorial'}</span>
               </div>
 
               <div className="animate-spec-card" style={{
@@ -445,8 +444,8 @@ const BookDetail = () => {
                 border: '1px solid #e5e7eb',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
               }}>
-                <span style={{ fontSize: '0.68rem', letterSpacing: '0.15em', color: '#9ca3af', textTransform: 'uppercase', fontFamily: 'sans-serif', fontWeight: '600', display: 'block', marginBottom: '0.3rem' }}>Publishing</span>
-                <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'sans-serif', fontWeight: '600' }}>KDP & IngramSpark</span>
+                <span style={{ fontSize: '0.72rem', color: '#9ca3af', fontFamily: "'Manrope', sans-serif", fontWeight: '500', display: 'block', marginBottom: '0.3rem' }}>Publishing</span>
+                <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: "'Manrope', sans-serif", fontWeight: '600' }}>{book.publishingSpec || 'KDP & IngramSpark'}</span>
               </div>
 
               <div className="animate-spec-card" style={{
@@ -456,130 +455,8 @@ const BookDetail = () => {
                 border: '1px solid #e5e7eb',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
               }}>
-                <span style={{ fontSize: '0.68rem', letterSpacing: '0.15em', color: '#9ca3af', textTransform: 'uppercase', fontFamily: 'sans-serif', fontWeight: '600', display: 'block', marginBottom: '0.3rem' }}>Paper & Finish</span>
-                <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: 'sans-serif', fontWeight: '600' }}>Cream 120gsm / Matte</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* SECTION TABS & INTERACTIVE DESIGN SHOWCASE */}
-        <div style={{
-          backgroundColor: '#ffffff',
-          borderRadius: '16px',
-          padding: '3rem',
-          border: '1px solid #e5e7eb',
-          boxShadow: '0 10px 30px rgba(0,0,0,0.04)',
-          marginBottom: '6rem'
-        }}>
-          <div style={{
-            display: 'flex',
-            justify: 'space-between',
-            alignItems: 'center',
-            marginBottom: '2.5rem',
-            paddingBottom: '1.5rem',
-            borderBottom: '1px solid #f3f4f6',
-            flexWrap: 'wrap',
-            gap: '1rem'
-          }}>
-            <div>
-              <span style={{ fontSize: '0.72rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: '#2563eb', fontWeight: '700', fontFamily: 'sans-serif', display: 'block', marginBottom: '0.3rem' }}>
-                EDITORIAL ARCHITECTURE
-              </span>
-              <h2 style={{ fontSize: '1.8rem', fontWeight: '400', margin: 0, textTransform: 'uppercase', fontFamily: 'serif' }}>
-                Design & Production Specifications
-              </h2>
-            </div>
-
-            {/* TAB SELECTION */}
-            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-              {sections.map((sec, idx) => {
-                const isActive = activeTab === sec.id;
-                return (
-                  <button
-                    key={sec.id}
-                    onClick={() => {
-                      setActiveTab(sec.id);
-                      setActiveSectionIndex(idx);
-                    }}
-                    style={{
-                      padding: '0.55rem 1.1rem',
-                      borderRadius: '30px',
-                      fontSize: '0.75rem',
-                      fontWeight: isActive ? '600' : '500',
-                      fontFamily: 'sans-serif',
-                      cursor: 'pointer',
-                      border: isActive ? '1px solid #2563eb' : '1px solid #e5e7eb',
-                      backgroundColor: isActive ? '#2563eb' : 'transparent',
-                      color: isActive ? '#ffffff' : '#4b5563',
-                      transition: 'all 0.25s ease'
-                    }}
-                  >
-                    {sec.label.split('. ')[1]}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* ACTIVE TAB CONTENT */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 300px',
-            gap: '4rem',
-            alignItems: 'start'
-          }}>
-            <div>
-              <span style={{ fontSize: '0.8rem', color: '#9ca3af', fontFamily: 'sans-serif', fontWeight: '600', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-                {sections[activeSectionIndex].label}
-              </span>
-              <h3 style={{ fontSize: '1.6rem', fontWeight: '400', margin: '0.5rem 0 1.5rem 0', fontFamily: 'serif', textTransform: 'uppercase', color: '#111827' }}>
-                {sections[activeSectionIndex].title}
-              </h3>
-              <p style={{ fontSize: '1.1rem', lineHeight: '1.85', color: '#374151', fontWeight: '300', fontFamily: 'serif', margin: 0 }}>
-                {sections[activeSectionIndex].content || 'Comprehensive design details crafted specifically for this publication volume.'}
-              </p>
-            </div>
-
-            <div style={{
-              backgroundColor: '#fafafa',
-              padding: '2rem',
-              borderRadius: '12px',
-              border: '1px solid #f3f4f6',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1.2rem'
-            }}>
-              <h4 style={{ fontSize: '0.8rem', letterSpacing: '0.18em', textTransform: 'uppercase', fontFamily: 'sans-serif', margin: 0, color: '#111827' }}>
-                PROJECT INDEX
-              </h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                {sections.map((sec, idx) => (
-                  <div
-                    key={sec.id}
-                    onClick={() => {
-                      setActiveTab(sec.id);
-                      setActiveSectionIndex(idx);
-                    }}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      fontSize: '0.82rem',
-                      fontFamily: 'sans-serif',
-                      padding: '0.4rem 0.6rem',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      color: activeSectionIndex === idx ? '#2563eb' : '#6b7280',
-                      backgroundColor: activeSectionIndex === idx ? '#eff6ff' : 'transparent',
-                      fontWeight: activeSectionIndex === idx ? '600' : '400',
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    <span>{sec.label}</span>
-                    <span>→</span>
-                  </div>
-                ))}
+                <span style={{ fontSize: '0.72rem', color: '#9ca3af', fontFamily: "'Manrope', sans-serif", fontWeight: '500', display: 'block', marginBottom: '0.3rem' }}>Paper & Finish</span>
+                <span style={{ fontSize: '0.9rem', color: '#111827', fontFamily: "'Manrope', sans-serif", fontWeight: '600' }}>{book.paperSpec || 'Cream 120gsm / Matte'}</span>
               </div>
             </div>
           </div>
@@ -596,23 +473,21 @@ const BookDetail = () => {
             paddingBottom: '1.2rem'
           }}>
             <div>
-              <span style={{ fontSize: '0.72rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: '#6b7280', fontWeight: '600', fontFamily: 'sans-serif', display: 'block', marginBottom: '0.3rem' }}>
-                EXPLORE PUBLISHING ARCHIVE
+              <span style={{ fontSize: '0.75rem', color: '#6b7280', fontWeight: '600', fontFamily: "'Manrope', sans-serif", display: 'block', marginBottom: '0.3rem' }}>
+                Explore Publishing Archive
               </span>
-              <h2 style={{ fontSize: '2rem', fontWeight: '300', margin: 0, textTransform: 'uppercase', fontFamily: 'serif' }}>
+              <h2 style={{ fontSize: '2rem', fontWeight: '500', margin: 0, fontFamily: "'Manrope', sans-serif", color: '#111827' }}>
                 Other Special Books
               </h2>
             </div>
             <Link
               to="/special-books"
               style={{
-                fontSize: '0.8rem',
+                fontSize: '0.82rem',
                 color: '#2563eb',
                 fontWeight: '600',
-                fontFamily: 'sans-serif',
-                textDecoration: 'none',
-                textTransform: 'uppercase',
-                letterSpacing: '0.15em'
+                fontFamily: "'Manrope', sans-serif",
+                textDecoration: 'none'
               }}
             >
               View All Books →
@@ -670,10 +545,10 @@ const BookDetail = () => {
                   />
                 </div>
                 <div>
-                  <span style={{ fontSize: '0.68rem', letterSpacing: '0.18em', color: '#2563eb', fontWeight: '700', textTransform: 'uppercase', fontFamily: 'sans-serif' }}>
+                  <span style={{ fontSize: '0.72rem', color: '#2563eb', fontWeight: '600', fontFamily: "'Manrope', sans-serif" }}>
                     {other.author}
                   </span>
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: '400', margin: '0.4rem 0 0 0', textTransform: 'uppercase', fontFamily: 'serif' }}>
+                  <h3 style={{ fontSize: '1.15rem', fontWeight: '500', margin: '0.4rem 0 0 0', fontFamily: "'Manrope', sans-serif", color: '#111827' }}>
                     {other.title}
                   </h3>
                 </div>
@@ -722,10 +597,10 @@ const BookDetail = () => {
               backgroundColor: '#f9fafb'
             }}>
               <div>
-                <span style={{ fontSize: '0.68rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#2563eb', fontWeight: '700', fontFamily: 'sans-serif' }}>
-                  INTERACTIVE SPREAD READER
+                <span style={{ fontSize: '0.72rem', color: '#2563eb', fontWeight: '600', fontFamily: "'Manrope', sans-serif" }}>
+                  Interactive Spread Reader
                 </span>
-                <h3 style={{ fontSize: '1.1rem', margin: 0, textTransform: 'uppercase', fontFamily: 'serif' }}>
+                <h3 style={{ fontSize: '1.1rem', margin: 0, fontWeight: '500', fontFamily: "'Manrope', sans-serif", color: '#111827' }}>
                   {book.title}
                 </h3>
               </div>
@@ -770,8 +645,8 @@ const BookDetail = () => {
                 backgroundColor: '#ffffff'
               }}>
                 <div>
-                  <h4 style={{ fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9ca3af', fontFamily: 'sans-serif', margin: '0 0 1.5rem 0' }}>
-                    TABLE OF CONTENTS
+                  <h4 style={{ fontSize: '0.78rem', color: '#9ca3af', fontFamily: "'Manrope', sans-serif", fontWeight: '600', margin: '0 0 1.5rem 0' }}>
+                    Table of Contents
                   </h4>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                     {sections.map((sec, idx) => (
@@ -782,7 +657,7 @@ const BookDetail = () => {
                           background: 'transparent',
                           border: 'none',
                           textAlign: 'left',
-                          fontFamily: 'serif',
+                          fontFamily: "'Manrope', sans-serif",
                           fontSize: '0.95rem',
                           color: activeSectionIndex === idx ? '#2563eb' : '#4b5563',
                           fontWeight: activeSectionIndex === idx ? '600' : '400',
@@ -797,7 +672,7 @@ const BookDetail = () => {
                   </div>
                 </div>
 
-                <div style={{ fontSize: '0.7rem', color: '#9ca3af', fontFamily: 'sans-serif', textTransform: 'uppercase', letterSpacing: '0.15em' }}>
+                <div style={{ fontSize: '0.72rem', color: '#9ca3af', fontFamily: "'Manrope', sans-serif" }}>
                   Rising Media Works Editorial © 2026
                 </div>
               </div>
@@ -811,13 +686,13 @@ const BookDetail = () => {
                 backgroundColor: '#fbfbfb'
               }}>
                 <div style={{ overflowY: 'auto', paddingRight: '0.5rem' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.18em', fontFamily: 'sans-serif' }}>
+                  <span style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: '600', fontFamily: "'Manrope', sans-serif" }}>
                     {sections[activeSectionIndex].label}
                   </span>
-                  <h2 style={{ fontSize: '1.6rem', fontWeight: '400', margin: '0.6rem 0 1.2rem 0', textTransform: 'uppercase', fontFamily: 'serif', color: '#111827' }}>
+                  <h2 style={{ fontSize: '1.5rem', fontWeight: '500', margin: '0.6rem 0 1.2rem 0', fontFamily: "'Manrope', sans-serif", color: '#111827' }}>
                     {sections[activeSectionIndex].title}
                   </h2>
-                  <p style={{ fontSize: '1.05rem', lineHeight: '1.8', color: '#374151', fontWeight: '300', fontFamily: 'serif', margin: 0 }}>
+                  <p style={{ fontSize: '1rem', lineHeight: '1.75', color: '#374151', fontWeight: '300', fontFamily: "'Manrope', sans-serif", margin: 0 }}>
                     {sections[activeSectionIndex].content || 'Comprehensive specifications for layout, margins, type hierarchy, and print-ready publishing.'}
                   </p>
                 </div>
@@ -825,7 +700,7 @@ const BookDetail = () => {
                 {/* PAGE FOOTER NAV */}
                 <div style={{
                   display: 'flex',
-                  justify: 'space-between',
+                  justifyContent: 'space-between',
                   alignItems: 'center',
                   borderTop: '1px solid #e5e7eb',
                   paddingTop: '1.2rem'
@@ -836,10 +711,9 @@ const BookDetail = () => {
                     style={{
                       background: 'transparent',
                       border: 'none',
-                      fontSize: '0.78rem',
-                      fontFamily: 'sans-serif',
+                      fontSize: '0.82rem',
+                      fontFamily: "'Manrope', sans-serif",
                       fontWeight: '600',
-                      textTransform: 'uppercase',
                       color: activeSectionIndex === 0 ? '#d1d5db' : '#000000',
                       cursor: activeSectionIndex === 0 ? 'not-allowed' : 'pointer'
                     }}
@@ -847,7 +721,7 @@ const BookDetail = () => {
                     ← Previous
                   </button>
 
-                  <span style={{ fontSize: '0.75rem', fontFamily: 'sans-serif', color: '#9ca3af' }}>
+                  <span style={{ fontSize: '0.78rem', fontFamily: "'Manrope', sans-serif", color: '#9ca3af' }}>
                     Page {activeSectionIndex + 1} of {sections.length}
                   </span>
 
@@ -857,10 +731,9 @@ const BookDetail = () => {
                     style={{
                       background: 'transparent',
                       border: 'none',
-                      fontSize: '0.78rem',
-                      fontFamily: 'sans-serif',
+                      fontSize: '0.82rem',
+                      fontFamily: "'Manrope', sans-serif",
                       fontWeight: '600',
-                      textTransform: 'uppercase',
                       color: activeSectionIndex === sections.length - 1 ? '#d1d5db' : '#000000',
                       cursor: activeSectionIndex === sections.length - 1 ? 'not-allowed' : 'pointer'
                     }}

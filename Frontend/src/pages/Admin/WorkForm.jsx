@@ -79,39 +79,61 @@ const WorkForm = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div style={{ padding: '3rem', textAlign: 'center', color: '#64748b', fontWeight: '600' }}>Loading form...</div>;
 
   const inputStyle = {
     width: '100%',
-    padding: '0.85rem 1rem',
-    marginBottom: '1.5rem',
-    backgroundColor: '#fff',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    color: '#000',
+    padding: '0.75rem 1rem',
+    marginBottom: '1.25rem',
+    backgroundColor: '#f8fafc',
+    border: '1px solid #cbd5e1',
+    borderRadius: '10px',
+    color: '#0f172a',
     fontFamily: 'inherit',
-    fontSize: '1rem',
-    transition: 'border-color 0.2s',
-    outline: 'none'
+    fontSize: '0.9rem',
+    outline: 'none',
+    boxSizing: 'border-box'
   };
 
   const labelStyle = {
     display: 'block',
-    marginBottom: '0.5rem',
-    color: '#333',
-    fontWeight: '600',
-    fontSize: '0.9rem'
+    marginBottom: '0.4rem',
+    color: '#334155',
+    fontWeight: '700',
+    fontSize: '0.82rem',
+    textTransform: 'uppercase',
+    letterSpacing: '0.04em'
   };
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2.5rem', gap: '1rem' }}>
-        <button onClick={() => navigate('/admin/works')} style={{ background: 'transparent', border: 'none', color: '#000', fontSize: '1.5rem', cursor: 'pointer', padding: '0.5rem' }}>←</button>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#000', letterSpacing: '-1px' }}>{isEditMode ? 'Edit Work' : 'Add New Work'}</h1>
+    <div style={{ fontFamily: "'Manrope', -apple-system, sans-serif", maxWidth: '800px', margin: '0 auto' }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2rem', gap: '0.75rem' }}>
+        <button 
+          onClick={() => navigate('/admin/works')} 
+          style={{ 
+            background: '#ffffff', 
+            border: '1px solid #cbd5e1', 
+            color: '#0f172a', 
+            fontSize: '1rem', 
+            cursor: 'pointer', 
+            width: '36px',
+            height: '36px',
+            borderRadius: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontWeight: '700'
+          }}
+        >
+          ←
+        </button>
+        <h1 style={{ fontSize: '1.85rem', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.03em', margin: 0 }}>
+          {isEditMode ? 'Edit Work' : 'Add New Work'}
+        </h1>
       </div>
 
-      <form onSubmit={handleSubmit} style={{ backgroundColor: '#fff', padding: '2.5rem', borderRadius: '8px', border: '1px solid #e0e0e0', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '1.5rem' }}>
+      <form onSubmit={handleSubmit} style={{ backgroundColor: '#ffffff', padding: '2.5rem', borderRadius: '18px', border: '1px solid #e2e8f0', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '1.25rem' }}>
           <div>
             <label style={labelStyle}>Title *</label>
             <input type="text" name="title" value={formData.title} onChange={handleChange} required style={inputStyle} placeholder="Enter work title" />
@@ -128,13 +150,13 @@ const WorkForm = () => {
           </div>
         </div>
         
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
           <div>
             <label style={labelStyle}>Client / Producer</label>
             <input type="text" name="client" value={formData.client} onChange={handleChange} style={inputStyle} placeholder="e.g. Greaves Cotton" />
           </div>
           <div>
-            <label style={labelStyle}>Video Link (YouTube, Instagram or Drive)</label>
+            <label style={labelStyle}>Video Link (YouTube, Vimeo or Drive)</label>
             <input type="url" name="videoUrl" value={formData.videoUrl} onChange={handleChange} style={inputStyle} placeholder="https://www.youtube.com/watch?..." />
           </div>
         </div>
@@ -145,17 +167,45 @@ const WorkForm = () => {
         </div>
 
         <div>
-          <label style={labelStyle}>Thumbnail / Image</label>
-          <input type="file" name="image" accept="image/*" onChange={handleFileChange} style={{...inputStyle, padding: '0.65rem 1rem'}} />
+          <label style={labelStyle}>Thumbnail Image</label>
+          <input type="file" name="image" accept="image/*" onChange={handleFileChange} style={{ ...inputStyle, backgroundColor: '#ffffff' }} />
           {isEditMode && formData.image && (
-            <p style={{ fontSize: '0.8rem', color: '#666', marginTop: '-1rem', marginBottom: '1.5rem' }}>Current thumbnail will be kept if no new file is selected.</p>
+            <p style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '-0.8rem', marginBottom: '1.25rem' }}>Current thumbnail will be preserved if no new file is selected.</p>
           )}
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
-          <button type="submit" style={{ padding: '0.85rem 2rem', backgroundColor: '#000', color: '#fff', borderRadius: '4px', border: 'none', fontWeight: '600', fontSize: '1rem', cursor: 'pointer', transition: 'background 0.2s' }}
-            onMouseOver={(e) => e.target.style.backgroundColor = '#333'}
-            onMouseOut={(e) => e.target.style.backgroundColor = '#000'}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1rem', borderTop: '1px solid #f1f5f9', paddingTop: '1.25rem' }}>
+          <button 
+            type="button"
+            onClick={() => navigate('/admin/works')}
+            style={{ 
+              padding: '0.65rem 1.4rem', 
+              backgroundColor: '#f1f5f9', 
+              color: '#334155', 
+              borderRadius: '10px', 
+              border: 'none', 
+              fontWeight: '700', 
+              fontSize: '0.88rem', 
+              cursor: 'pointer' 
+            }}
+          >
+            Cancel
+          </button>
+          
+          <button 
+            type="submit" 
+            style={{ 
+              padding: '0.65rem 1.6rem', 
+              backgroundColor: '#0052ff', 
+              color: '#ffffff', 
+              borderRadius: '10px', 
+              border: 'none', 
+              fontWeight: '700', 
+              fontSize: '0.88rem', 
+              cursor: 'pointer', 
+              boxShadow: '0 4px 14px rgba(0, 82, 255, 0.25)' 
+            }}
+          >
             {isEditMode ? 'Save Changes' : 'Create Work'}
           </button>
         </div>
@@ -165,3 +215,4 @@ const WorkForm = () => {
 };
 
 export default WorkForm;
+

@@ -103,12 +103,11 @@ const AllServices = () => {
     'book-design': 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=500&auto=format&fit=crop'
   };
 
-  // Mobile Active Scroll Highlight for Services List - Strictly ONE item at a time (rAF throttled for 60FPS)
+  // Active Scroll Highlight for Services List - Dynamic bg color change on scroll
   useEffect(() => {
     let ticking = false;
 
     const handleScroll = () => {
-      if (window.innerWidth > 1024) return;
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const rows = containerRef.current?.querySelectorAll('.service-row-block');
@@ -119,7 +118,7 @@ const AllServices = () => {
 
             rows.forEach((row) => {
               const rect = row.getBoundingClientRect();
-              if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
+              if (rect.bottom > 80 && rect.top < window.innerHeight - 80) {
                 const rowCenter = rect.top + rect.height / 2;
                 const distance = Math.abs(rowCenter - viewportCenter);
                 if (distance < minDistance) {
@@ -130,6 +129,10 @@ const AllServices = () => {
             });
 
             rows.forEach((row) => {
+              if (window.innerWidth > 1024 && row.matches(':hover')) {
+                return;
+              }
+
               const content = row.querySelector('.row-content');
               const numEl = row.querySelector('.service-num');
               const titleEl = row.querySelector('.service-title');
@@ -375,7 +378,7 @@ const AllServices = () => {
         </section>
 
         {/* ================= FINAL CTA SECTION ================= */}
-        <section style={{ borderTop: '1px solid #e0e0e0', paddingTop: '6rem', paddingBottom: '4rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '2rem', width: '100%', boxSizing: 'border-box' }}>
+        <section style={{ borderTop: 'none', paddingTop: '6rem', paddingBottom: '4rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '2rem', width: '100%', boxSizing: 'border-box' }}>
           <h2 style={{
             fontSize: 'calc(1.8rem + 1.8vw)',
             fontWeight: '700',
