@@ -1518,14 +1518,6 @@ const Home = () => {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
               <span style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                backgroundColor: '#ffffff',
-                boxShadow: '0 0 12px rgba(255, 255, 255, 0.6)',
-                display: 'inline-block'
-              }} />
-              <span style={{
                 fontSize: '0.75rem',
                 letterSpacing: '0.22em',
                 textTransform: 'uppercase',
@@ -1633,14 +1625,6 @@ const Home = () => {
           >
             {/* Left Header with Glowing Dot Badge */}
             <div className="services-what-we-do-header" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', height: 'fit-content' }}>
-              <span style={{
-                width: '10px',
-                height: '10px',
-                borderRadius: '50%',
-                backgroundColor: '#ffffff',
-                boxShadow: '0 0 14px rgba(255, 255, 255, 0.6)',
-                display: 'inline-block'
-              }} />
               <span style={{
                 fontSize: '0.8rem',
                 letterSpacing: '0.22em',
@@ -1783,13 +1767,6 @@ const Home = () => {
           {/* Eyebrow and Section Header */}
           <div className="why-header-wrapper" style={{ marginBottom: '10vh' }}>
             <div className="why-eyebrow-container" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.2rem' }}>
-              <span style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                backgroundColor: '#ffffff',
-                display: 'inline-block'
-              }} />
               <span style={{
                 fontSize: '0.72rem',
                 letterSpacing: '0.22em',
