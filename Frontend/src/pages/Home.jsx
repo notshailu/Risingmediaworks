@@ -1656,7 +1656,7 @@ const Home = () => {
             {/* Right Capabilities Table List with Interactive Highlights */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {[
-                { id: '[01]', serviceId: 'video-production', label: 'Video Production:', val: 'Brand Films, Corporate, Commercial & Social Media Video Experiences', image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80' },
+                { id: '[01]', serviceId: 'video-production', label: 'Video Production:', val: 'Brand Films, Corporate, Commercial & Social Media Video Experiences', image: 'https://i.pinimg.com/1200x/df/03/93/df0393965c6fdce90e8843efd9a9bc69.jpg' },
                 { id: '[02]', serviceId: 'video-editing', label: 'Video Editing:', val: 'Short-Form Reels, YouTube, Colour Grading & Post-Production', image: 'https://i.pinimg.com/736x/12/a3/81/12a381aa8035415c33511ae7d0c76edf.jpg' },
                 { id: '[03]', serviceId: 'motion-graphics', label: 'Motion Graphics:', val: '2D/3D Motion, Logo Animation, Explainer Videos & Title Sequences', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80' },
                 { id: '[04]', serviceId: 'branding', label: 'Branding & Creative Design:', val: 'Brand Identity, Logo Design, Guidelines & Campaign Design', image: 'https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?auto=format&fit=crop&w=800&q=80' },
