@@ -48,7 +48,7 @@ const BeforeAfterSlider = () => {
     >
       {/* Before Image (Raw footage) */}
       <img 
-        src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=600&auto=format&fit=crop" 
+        src="https://i.pinimg.com/736x/12/a3/81/12a381aa8035415c33511ae7d0c76edf.jpg" 
         alt="Before Post Production" 
         style={{
           position: 'absolute',
@@ -76,7 +76,7 @@ const BeforeAfterSlider = () => {
         pointerEvents: 'none'
       }}>
         <img 
-          src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=600&auto=format&fit=crop" 
+          src="https://i.pinimg.com/736x/12/a3/81/12a381aa8035415c33511ae7d0c76edf.jpg" 
           alt="After Post Production" 
           style={{
             position: 'absolute',

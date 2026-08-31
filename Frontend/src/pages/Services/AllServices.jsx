@@ -94,13 +94,13 @@ const AllServices = () => {
   // Explicit hover preview images corresponding to each service index
   const hoverImages = {
     'video-production': 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=500&auto=format&fit=crop',
-    'video-editing': 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=500&auto=format&fit=crop',
+    'video-editing': 'https://i.pinimg.com/736x/12/a3/81/12a381aa8035415c33511ae7d0c76edf.jpg',
     'motion-graphics': 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=500&auto=format&fit=crop',
     'branding-design': 'https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?q=80&w=500&auto=format&fit=crop',
-    'web-design': 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=500&auto=format&fit=crop',
-    'digital-content': 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=500&auto=format&fit=crop',
-    'photography': 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=500&auto=format&fit=crop',
-    'book-design': 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=500&auto=format&fit=crop'
+    'web-design': 'https://i.pinimg.com/736x/0c/e8/08/0ce80850ca4f8ca3b3c367e370323a0e.jpg',
+    'digital-content': 'https://i.pinimg.com/736x/1b/f0/b7/1bf0b79fc9d6a8c78bf528f83ccdb316.jpg',
+    'photography': 'https://i.pinimg.com/736x/92/fd/f8/92fdf83f9ba8db832d81d0b486a2490d.jpg',
+    'book-design': 'https://i.pinimg.com/1200x/3c/e7/4b/3ce74bc3ae3f60eeac738835773f2f47.jpg'
   };
 
   // Active Scroll Highlight for Services List - Dynamic bg color change on scroll
