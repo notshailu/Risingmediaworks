@@ -390,7 +390,7 @@ const BookDetail = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.6rem',
-                backgroundColor: '#0052ff',
+                backgroundColor: '#000000',
                 color: '#ffffff',
                 padding: '0.85rem 2.4rem',
                 borderRadius: '50px',
@@ -402,19 +402,21 @@ const BookDetail = () => {
                 fontFamily: "'Valley Sans', 'Manrope', sans-serif",
                 marginTop: '0.4rem',
                 width: 'fit-content',
-                boxShadow: '0 4px 20px rgba(0, 82, 255, 0.4)',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25)',
                 transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
+                border: '1px solid #000000'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#000000';
+                e.currentTarget.style.backgroundColor = '#0052ff';
+                e.currentTarget.style.borderColor = '#0052ff';
                 e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)';
-                e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.4)';
+                e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 82, 255, 0.4)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#0052ff';
+                e.currentTarget.style.backgroundColor = '#000000';
+                e.currentTarget.style.borderColor = '#000000';
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 82, 255, 0.4)';
+                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.25)';
               }}
             >
               BUY NOW ↗
