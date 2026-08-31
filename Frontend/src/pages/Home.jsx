@@ -5,6 +5,7 @@ import { useGSAP } from '@gsap/react';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { servicesData, projectsData, booksData } from '../data/dummyData';
 import Footer from '../components/Footer';
+import { useProjectLaunch } from '../components/ProjectLaunchPortal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,6 +27,7 @@ const brandLogos = [
 ];
 
 const Home = () => {
+  const { triggerLaunch } = useProjectLaunch();
   const containerRef = useRef(null);
   const secondSectionRef = useRef(null);
   const canvasRef = useRef(null);
@@ -1044,6 +1046,7 @@ const Home = () => {
               e.currentTarget.style.transform = 'none';
               e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.15)';
             }}
+            onClick={(e) => triggerLaunch(e, '/contact')}
             >
               Start A Project →
             </Link>
@@ -2772,6 +2775,7 @@ const Home = () => {
                 e.currentTarget.style.transform = 'none';
                 e.currentTarget.style.boxShadow = '0 10px 40px rgba(255, 255, 255, 0.15)';
               }}
+              onClick={(e) => triggerLaunch(e, '/contact')}
             >
               Start A Project →
             </Link>

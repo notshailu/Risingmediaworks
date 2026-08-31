@@ -26,6 +26,8 @@ import AdminCaseStudies from './pages/Admin/AdminCaseStudies';
 import CaseStudyForm from './pages/Admin/CaseStudyForm';
 import AdminInquiries from './pages/Admin/AdminInquiries';
 
+import { ProjectLaunchProvider } from './components/ProjectLaunchPortal';
+
 // Dynamic wrappers to extract URL params for boilerplate titles
 const WorkCategory = () => {
   const { category } = useParams();
@@ -36,40 +38,42 @@ const WorkCategory = () => {
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          
-          <Route path="work" element={<AllProjects />} />
-          <Route path="work/:category" element={<WorkCategory />} />
-          
-          <Route path="services" element={<AllServices />} />
-          <Route path="services/:serviceId" element={<ServiceDetail />} />
-          
-          <Route path="case-studies" element={<AllCaseStudies />} />
-          <Route path="case-studies/:id" element={<CaseStudyDetail />} />
-          
-          <Route path="special-books" element={<AllBooks />} />
-          <Route path="special-books/all" element={<ShowAllBooks />} />
-          <Route path="special-books/:id" element={<BookDetail />} />
-          
-          <Route path="about" element={<About />} />
-          <Route path="contact" element={<Contact />} />
-        </Route>
+      <ProjectLaunchProvider>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            
+            <Route path="work" element={<AllProjects />} />
+            <Route path="work/:category" element={<WorkCategory />} />
+            
+            <Route path="services" element={<AllServices />} />
+            <Route path="services/:serviceId" element={<ServiceDetail />} />
+            
+            <Route path="case-studies" element={<AllCaseStudies />} />
+            <Route path="case-studies/:id" element={<CaseStudyDetail />} />
+            
+            <Route path="special-books" element={<AllBooks />} />
+            <Route path="special-books/all" element={<ShowAllBooks />} />
+            <Route path="special-books/:id" element={<BookDetail />} />
+            
+            <Route path="about" element={<About />} />
+            <Route path="contact" element={<Contact />} />
+          </Route>
 
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route path="inquiries" element={<AdminInquiries />} />
-          <Route path="books" element={<AdminBooks />} />
-          <Route path="books/new" element={<BookForm />} />
-          <Route path="books/edit/:id" element={<BookForm />} />
-          <Route path="works" element={<AdminWorks />} />
-          <Route path="works/new" element={<WorkForm />} />
-          <Route path="works/edit/:id" element={<WorkForm />} />
-          <Route path="case-studies" element={<AdminCaseStudies />} />
-          <Route path="case-studies/new" element={<CaseStudyForm />} />
-          <Route path="case-studies/edit/:id" element={<CaseStudyForm />} />
-        </Route>
-      </Routes>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="inquiries" element={<AdminInquiries />} />
+            <Route path="books" element={<AdminBooks />} />
+            <Route path="books/new" element={<BookForm />} />
+            <Route path="books/edit/:id" element={<BookForm />} />
+            <Route path="works" element={<AdminWorks />} />
+            <Route path="works/new" element={<WorkForm />} />
+            <Route path="works/edit/:id" element={<WorkForm />} />
+            <Route path="case-studies" element={<AdminCaseStudies />} />
+            <Route path="case-studies/new" element={<CaseStudyForm />} />
+            <Route path="case-studies/edit/:id" element={<CaseStudyForm />} />
+          </Route>
+        </Routes>
+      </ProjectLaunchProvider>
     </BrowserRouter>
   );
 };
