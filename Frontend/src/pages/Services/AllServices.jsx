@@ -95,7 +95,7 @@ const AllServices = () => {
   const hoverImages = {
     'video-production': 'https://i.pinimg.com/1200x/df/03/93/df0393965c6fdce90e8843efd9a9bc69.jpg',
     'video-editing': 'https://i.pinimg.com/736x/12/a3/81/12a381aa8035415c33511ae7d0c76edf.jpg',
-    'motion-graphics': 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=500&auto=format&fit=crop',
+    'motion-graphics': 'https://i.pinimg.com/736x/17/32/a2/1732a2c3d3af087ba755a97b145c3103.jpg',
     'branding-design': 'https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?q=80&w=500&auto=format&fit=crop',
     'web-design': 'https://i.pinimg.com/736x/0c/e8/08/0ce80850ca4f8ca3b3c367e370323a0e.jpg',
     'digital-content': 'https://i.pinimg.com/736x/1b/f0/b7/1bf0b79fc9d6a8c78bf528f83ccdb316.jpg',
