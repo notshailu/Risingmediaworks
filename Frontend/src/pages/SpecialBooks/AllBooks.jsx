@@ -610,6 +610,56 @@ const AllBooks = () => {
               }}>
                 {book.description}
               </p>
+
+              {/* Buy Now Action Button Row */}
+              <div style={{ marginTop: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
+                <a
+                  href={book.buyUrl || book.finalBookUrl || 'https://www.amazon.com'}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    backgroundColor: '#0052ff',
+                    color: '#ffffff',
+                    padding: '0.55rem 1.3rem',
+                    borderRadius: '50px',
+                    fontSize: '0.72rem',
+                    fontWeight: '700',
+                    letterSpacing: '0.14em',
+                    textTransform: 'uppercase',
+                    textDecoration: 'none',
+                    fontFamily: "'Valley Sans', 'Manrope', sans-serif",
+                    boxShadow: '0 4px 15px rgba(0, 82, 255, 0.35)',
+                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#000000';
+                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.4)';
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#0052ff';
+                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 82, 255, 0.35)';
+                    e.currentTarget.style.transform = 'none';
+                  }}
+                >
+                  BUY NOW ↗
+                </a>
+
+                <span style={{
+                  fontSize: '0.75rem',
+                  fontWeight: '600',
+                  color: '#9a7b56',
+                  fontFamily: "'Valley Sans', 'Manrope', sans-serif",
+                  letterSpacing: '0.08em'
+                }}>
+                  Details →
+                </span>
+              </div>
             </div>
           </Link>
         ))}

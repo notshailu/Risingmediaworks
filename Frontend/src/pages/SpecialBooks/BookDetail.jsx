@@ -390,31 +390,34 @@ const BookDetail = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.6rem',
-                backgroundColor: '#000000',
+                backgroundColor: '#0052ff',
                 color: '#ffffff',
-                padding: '0.85rem 2.2rem',
-                borderRadius: '6px',
-                fontSize: '0.85rem',
-                fontWeight: '600',
+                padding: '0.85rem 2.4rem',
+                borderRadius: '50px',
+                fontSize: '0.82rem',
+                fontWeight: '700',
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
                 textDecoration: 'none',
-                fontFamily: "'Manrope', sans-serif",
+                fontFamily: "'Valley Sans', 'Manrope', sans-serif",
                 marginTop: '0.4rem',
                 width: 'fit-content',
-                boxShadow: '0 4px 18px rgba(0, 0, 0, 0.15)',
-                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                boxShadow: '0 4px 20px rgba(0, 82, 255, 0.4)',
+                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#2563eb';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 10px 25px rgba(37, 99, 235, 0.35)';
+                e.currentTarget.style.backgroundColor = '#000000';
+                e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)';
+                e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.4)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#000000';
+                e.currentTarget.style.backgroundColor = '#0052ff';
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 18px rgba(0, 0, 0, 0.15)';
+                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 82, 255, 0.4)';
               }}
             >
-              Buy Book ↗
+              BUY NOW ↗
             </a>
 
             {/* KEY HIGHLIGHTS SPEC GRID */}

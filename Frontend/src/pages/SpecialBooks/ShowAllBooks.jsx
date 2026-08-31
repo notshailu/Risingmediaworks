@@ -226,6 +226,43 @@ const ShowAllBooks = () => {
               }}>
                 {book.description}
               </p>
+
+              {/* Buy Now Action Button Row */}
+              <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <a
+                  href={book.buyUrl || book.finalBookUrl || 'https://www.amazon.com'}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    backgroundColor: '#0052ff',
+                    color: '#ffffff',
+                    padding: '0.55rem 1.3rem',
+                    borderRadius: '50px',
+                    fontSize: '0.72rem',
+                    fontWeight: '700',
+                    letterSpacing: '0.14em',
+                    textTransform: 'uppercase',
+                    textDecoration: 'none',
+                    fontFamily: "'Valley Sans', 'Manrope', sans-serif",
+                    boxShadow: '0 4px 15px rgba(0, 82, 255, 0.35)',
+                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#000000';
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#0052ff';
+                    e.currentTarget.style.transform = 'none';
+                  }}
+                >
+                  BUY NOW ↗
+                </a>
+              </div>
             </div>
           </Link>
         ))}
