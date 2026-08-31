@@ -761,22 +761,25 @@ const Home = () => {
     return () => window.removeEventListener('wheel', handleWheel);
   }, []);
 
-  // Active Scroll Highlight for Capabilities (.cap-item-row) - Dynamic bg color change on scroll
+  // Unified Global Active Scroll Highlight - ONLY ONE item blue across the ENTIRE viewport at any time
   useEffect(() => {
     let ticking = false;
 
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const rows = document.querySelectorAll('#services-overview .cap-item-row');
-          if (rows.length > 0) {
+          const capRows = Array.from(document.querySelectorAll('#services-overview .cap-item-row'));
+          const whyRows = Array.from(document.querySelectorAll('#why-rising-media-works .why-row-item'));
+          const allRows = [...capRows, ...whyRows];
+
+          if (allRows.length > 0) {
             const viewportCenter = window.innerHeight / 2;
             let closestRow = null;
             let minDistance = Infinity;
 
-            rows.forEach((row) => {
+            allRows.forEach((row) => {
               const rect = row.getBoundingClientRect();
-              if (rect.bottom > 80 && rect.top < window.innerHeight - 80) {
+              if (rect.bottom > 40 && rect.top < window.innerHeight - 40) {
                 const rowCenter = rect.top + rect.height / 2;
                 const distance = Math.abs(rowCenter - viewportCenter);
                 if (distance < minDistance) {
@@ -786,10 +789,9 @@ const Home = () => {
               }
             });
 
-            rows.forEach((row) => {
-              if (window.innerWidth > 1024 && row.matches(':hover')) {
-                return;
-              }
+            // Update all capability rows
+            capRows.forEach((row) => {
+              if (window.innerWidth > 1024 && row.matches(':hover')) return;
 
               const capId = row.querySelector('.cap-id');
               const capVal = row.querySelector('.cap-val-text');
@@ -816,58 +818,22 @@ const Home = () => {
                 if (capArrow) { capArrow.style.opacity = '0'; capArrow.style.transform = 'none'; }
               }
             });
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+            // Update all why us rows
+            whyRows.forEach((row) => {
+              if (window.innerWidth > 1024 && row.matches(':hover')) return;
 
-  // Mobile Active Scroll Highlight for Why Us (.why-row-item) - ONE item at a time (rAF throttled)
-  useEffect(() => {
-    let ticking = false;
-
-    const handleScroll = () => {
-      if (window.innerWidth > 1024) return;
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const rows = document.querySelectorAll('#why-rising-media-works .why-row-item');
-          if (rows.length > 0) {
-            const viewportCenter = window.innerHeight / 2;
-            let closestRow = null;
-            let minDistance = Infinity;
-
-            rows.forEach((row) => {
-              const rect = row.getBoundingClientRect();
-              if (rect.bottom > 50 && rect.top < window.innerHeight - 50) {
-                const rowCenter = rect.top + rect.height / 2;
-                const distance = Math.abs(rowCenter - viewportCenter);
-                if (distance < minDistance) {
-                  minDistance = distance;
-                  closestRow = row;
-                }
-              }
-            });
-
-            rows.forEach((row) => {
               const numEl = row.querySelector('.row-num');
               const titleEl = row.querySelector('.row-title');
               const descEl = row.querySelector('.why-row-desc');
-              const arrowEl = row.querySelector('.row-arrow');
 
               if (row === closestRow) {
                 row.style.backgroundColor = '#0052ff';
                 row.style.boxShadow = '0 8px 25px rgba(0, 82, 255, 0.45)';
-                row.style.transform = 'scale(1.02)';
+                row.style.transform = window.innerWidth <= 1024 ? 'scale(1.02)' : 'translateX(10px)';
                 if (numEl) { numEl.style.color = '#ffffff'; numEl.style.opacity = '0.95'; }
                 if (titleEl) { titleEl.style.color = '#ffffff'; }
                 if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.95)'; }
-                if (arrowEl) { arrowEl.style.color = '#ffffff'; arrowEl.style.transform = 'rotate(45deg) translate(2px, -2px)'; }
               } else {
                 row.style.backgroundColor = 'transparent';
                 row.style.boxShadow = 'none';
@@ -875,7 +841,6 @@ const Home = () => {
                 if (numEl) { numEl.style.color = 'rgba(255, 255, 255, 0.4)'; numEl.style.opacity = '1'; }
                 if (titleEl) { titleEl.style.color = 'rgba(255, 255, 255, 0.9)'; }
                 if (descEl) { descEl.style.color = 'rgba(255, 255, 255, 0.6)'; }
-                if (arrowEl) { arrowEl.style.color = 'rgba(255, 255, 255, 0.6)'; arrowEl.style.transform = 'none'; }
               }
             });
           }
@@ -1830,7 +1795,7 @@ const Home = () => {
                   padding: '3.5rem 2rem',
                   borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
                   display: 'grid',
-                  gridTemplateColumns: '80px 1fr 1.2fr 40px',
+                  gridTemplateColumns: '60px 1fr 1.2fr',
                   alignItems: 'center',
                   gap: '3rem',
                   transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -1846,11 +1811,6 @@ const Home = () => {
                   if (title) title.style.color = '#ffffff';
                   const num = e.currentTarget.querySelector('.row-num');
                   if (num) num.style.color = '#0052ff';
-                  const arrow = e.currentTarget.querySelector('.row-arrow');
-                  if (arrow) {
-                    arrow.style.color = '#0052ff';
-                    arrow.style.transform = 'rotate(45deg) translate(2px, -2px)';
-                  }
                 }}
                 onMouseLeave={(e) => {
                   setHoveredWhyUsImage(null);
@@ -1860,11 +1820,6 @@ const Home = () => {
                   if (title) title.style.color = 'rgba(255, 255, 255, 0.9)';
                   const num = e.currentTarget.querySelector('.row-num');
                   if (num) num.style.color = 'rgba(255, 255, 255, 0.4)';
-                  const arrow = e.currentTarget.querySelector('.row-arrow');
-                  if (arrow) {
-                    arrow.style.color = 'rgba(255, 255, 255, 0.6)';
-                    arrow.style.transform = 'none';
-                  }
                 }}
               >
                 {/* Number */}
@@ -1875,7 +1830,7 @@ const Home = () => {
                   letterSpacing: '0.1em',
                   transition: 'color 0.4s'
                 }}>
-                  // {item.num}
+                  {item.num}
                 </span>
 
                 {/* Title */}
@@ -1903,15 +1858,6 @@ const Home = () => {
                 }}>
                   {item.desc}
                 </p>
-
-                {/* Arrow */}
-                <div className="row-arrow" style={{
-                  fontSize: '1.4rem',
-                  color: 'rgba(255, 255, 255, 0.6)',
-                  transition: 'transform 0.4s ease'
-                }}>
-                  →
-                </div>
               </div>
             ))}
           </div>
@@ -2617,7 +2563,7 @@ const Home = () => {
                     letterSpacing: '0.1em',
                     transition: 'color 0.4s'
                   }}>
-                    // {item.num}
+                    {item.num}
                   </span>
                 </div>
 

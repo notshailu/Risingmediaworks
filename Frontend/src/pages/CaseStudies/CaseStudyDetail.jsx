@@ -193,7 +193,7 @@ const CaseStudyDetail = () => {
               fontWeight: '600',
               fontFamily: 'monospace'
             }}>
-              CLIENT // {study.client}
+              CLIENT • {study.client}
             </span>
           </div>
 
@@ -279,7 +279,7 @@ const CaseStudyDetail = () => {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
                       <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.03)', border: '1px solid rgba(0, 0, 0, 0.12)', padding: '2.5rem', borderRadius: '16px' }}>
                         <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'rgba(0, 0, 0, 0.5)', letterSpacing: '0.15em', display: 'block', marginBottom: '0.8rem', fontFamily: 'monospace' }}>
-                          BEFORE // LEGACY STATE
+                          BEFORE STATE
                         </span>
                         <p style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: '1rem', lineHeight: '1.7', margin: 0, fontWeight: '300' }}>
                           {study.beforeAfter?.before}
@@ -287,7 +287,7 @@ const CaseStudyDetail = () => {
                       </div>
                       <div style={{ backgroundColor: 'rgba(0, 82, 255, 0.04)', border: '1px solid #0052ff', padding: '2.5rem', borderRadius: '16px' }}>
                         <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: '#0052ff', letterSpacing: '0.15em', display: 'block', marginBottom: '0.8rem', fontFamily: 'monospace' }}>
-                          AFTER // RISING MEDIA TRANSFORMATION
+                          AFTER TRANSFORMATION
                         </span>
                         <p style={{ color: '#000000', fontSize: '1rem', lineHeight: '1.7', margin: 0, fontWeight: '300' }}>
                           {study.beforeAfter?.after}

@@ -225,7 +225,7 @@ const AllCaseStudies = () => {
                   color: 'rgba(0, 0, 0, 0.5)',
                   transition: 'color 0.4s'
                 }}>
-                  // 0{idx + 1}
+                  0{idx + 1}
                 </span>
               </div>
 
