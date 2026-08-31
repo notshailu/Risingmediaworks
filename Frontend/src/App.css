@@ -1,3 +1,15 @@
+/* Valley Sans Typography Rules for Section Eyebrows, Badges & Action Buttons */
+.valley-sans,
+.services-explore-link,
+.services-what-we-do-header span,
+.why-eyebrow-container span,
+.process-eyebrow-container span,
+.eyebrow-badge,
+.section-label,
+.btn-valley {
+  font-family: 'Valley Sans', 'Manrope', sans-serif !important;
+}
+
 .app-container {
   position: relative;
   width: 100%;

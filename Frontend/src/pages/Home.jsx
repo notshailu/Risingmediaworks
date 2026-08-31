@@ -1531,7 +1531,7 @@ const Home = () => {
                 textTransform: 'uppercase',
                 fontWeight: '700',
                 color: '#ffffff',
-                fontFamily: 'monospace'
+                fontFamily: "'Valley Sans', 'Manrope', sans-serif"
               }}>
                 CAPABILITIES
               </span>
@@ -1550,7 +1550,7 @@ const Home = () => {
                 padding: '0.6rem 1.4rem',
                 borderRadius: '50px',
                 textDecoration: 'none',
-                fontFamily: 'sans-serif',
+                fontFamily: "'Valley Sans', 'Manrope', sans-serif",
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
@@ -1647,7 +1647,7 @@ const Home = () => {
                 textTransform: 'uppercase',
                 fontWeight: '700',
                 color: '#ffffff',
-                fontFamily: 'monospace'
+                fontFamily: "'Valley Sans', 'Manrope', sans-serif"
               }}>
                 WHAT WE DO
               </span>
@@ -1796,7 +1796,7 @@ const Home = () => {
                 textTransform: 'uppercase',
                 fontWeight: '600',
                 color: 'rgba(255, 255, 255, 0.5)',
-                fontFamily: 'sans-serif'
+                fontFamily: "'Valley Sans', 'Manrope', sans-serif"
               }}>
                 WHY RISING MEDIA WORKS
               </span>
