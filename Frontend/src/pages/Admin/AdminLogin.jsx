@@ -376,28 +376,6 @@ const AdminLogin = () => {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </form>
-
-        {/* Initial Credentials Hint Box */}
-        <div style={{
-          marginTop: '2rem',
-          padding: '0.85rem 1rem',
-          backgroundColor: '#f8fafc',
-          border: '1px solid #e2e8f0',
-          borderRadius: '14px',
-          textAlign: 'center',
-          fontSize: '0.75rem',
-          color: '#64748b',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '0.4rem',
-          flexWrap: 'wrap'
-        }}>
-          <span>Default Access:</span>
-          <span style={{ color: '#0f172a', fontWeight: '700', fontFamily: 'monospace', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.15rem 0.45rem', borderRadius: '6px' }}>admin</span>
-          <span>/</span>
-          <span style={{ color: '#0f172a', fontWeight: '700', fontFamily: 'monospace', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.15rem 0.45rem', borderRadius: '6px' }}>admin123</span>
-        </div>
       </div>
     </div>
   );
