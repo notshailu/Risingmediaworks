@@ -63,147 +63,223 @@ const AdminLogin = () => {
     <div style={{
       width: '100vw',
       minHeight: '100vh',
-      backgroundColor: '#000000',
+      minHeight: '100dvh',
+      backgroundColor: '#050508',
       color: '#ffffff',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      fontFamily: "'Manrope', sans-serif",
+      fontFamily: "'Manrope', -apple-system, BlinkMacSystemFont, sans-serif",
       position: 'relative',
       overflow: 'hidden',
-      padding: '1.5rem'
+      padding: '1.25rem',
+      boxSizing: 'border-box'
     }}>
-      {/* Background Ambient Glow */}
+      {/* Background Architectural Grid Accent Pattern */}
       <div style={{
         position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '600px',
-        height: '600px',
-        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0) 70%)',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundImage: `
+          linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
+        `,
+        backgroundSize: '40px 40px',
+        maskImage: 'radial-gradient(circle at 50% 50%, black 40%, transparent 80%)',
+        WebkitMaskImage: 'radial-gradient(circle at 50% 50%, black 40%, transparent 80%)',
         pointerEvents: 'none'
       }} />
 
-      {/* Login Container Box */}
+      {/* Soft Ambient Electric Blue & Violet Spotlights */}
+      <div style={{
+        position: 'absolute',
+        top: '25%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '500px',
+        height: '500px',
+        background: 'radial-gradient(circle, rgba(0, 82, 255, 0.18) 0%, rgba(124, 58, 237, 0.08) 50%, rgba(0, 0, 0, 0) 75%)',
+        filter: 'blur(50px)',
+        pointerEvents: 'none'
+      }} />
+
+      {/* Redesigned Floating Glassmorphism Container */}
       <div style={{
         width: '100%',
-        maxWidth: '440px',
-        backgroundColor: '#09090b',
+        maxWidth: '420px',
+        backgroundColor: 'rgba(15, 15, 20, 0.85)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
         border: '1px solid rgba(255, 255, 255, 0.12)',
-        borderRadius: '24px',
-        padding: '3rem 2.5rem',
+        borderRadius: '28px',
+        padding: '2.5rem 2rem',
         boxSizing: 'border-box',
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8)',
+        boxShadow: '0 30px 70px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
         zIndex: 10,
         position: 'relative'
       }}>
-        {/* Header Branding */}
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+        {/* Top Header Branding */}
+        <div style={{ textAlign: 'center', marginBottom: '2.2rem' }}>
+          {/* Logo Badge */}
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
             width: '56px',
             height: '56px',
-            borderRadius: '16px',
-            backgroundColor: '#ffffff',
-            color: '#000000',
+            borderRadius: '18px',
+            background: 'linear-gradient(135deg, #0052ff 0%, #7c3aed 100%)',
+            color: '#ffffff',
             fontWeight: '900',
-            fontSize: '1.4rem',
+            fontSize: '1.45rem',
             marginBottom: '1.25rem',
-            boxShadow: '0 10px 25px rgba(255, 255, 255, 0.15)'
+            boxShadow: '0 10px 30px rgba(0, 82, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
+            letterSpacing: '-0.03em'
           }}>
             R
           </div>
-          <h1 style={{
-            fontSize: '1.65rem',
-            fontWeight: '700',
-            margin: '0 0 0.5rem 0',
-            letterSpacing: '-0.02em',
-            color: '#ffffff'
-          }}>
-            Admin Authentication
-          </h1>
+
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', marginBottom: '0.4rem' }}>
+            <h1 style={{
+              fontSize: '1.55rem',
+              fontWeight: '800',
+              margin: 0,
+              letterSpacing: '-0.02em',
+              color: '#ffffff'
+            }}>
+              Rising Admin
+            </h1>
+            <span style={{
+              fontSize: '0.62rem',
+              fontWeight: '800',
+              padding: '0.15rem 0.5rem',
+              borderRadius: '8px',
+              backgroundColor: 'rgba(0, 82, 255, 0.15)',
+              color: '#60a5fa',
+              border: '1px solid rgba(0, 82, 255, 0.3)',
+              letterSpacing: '0.06em'
+            }}>
+              PRO
+            </span>
+          </div>
+
           <p style={{
-            fontSize: '0.85rem',
+            fontSize: '0.83rem',
             color: 'rgba(255, 255, 255, 0.5)',
-            margin: 0
+            margin: 0,
+            lineHeight: '1.4'
           }}>
-            Enter your credentials to access the management portal
+            Secure management portal authentication
           </p>
         </div>
 
         {/* Error Alert Box */}
         {error && (
           <div style={{
-            backgroundColor: 'rgba(239, 68, 68, 0.1)',
-            border: '1px solid rgba(239, 68, 68, 0.3)',
-            color: '#f87171',
-            padding: '0.85rem 1rem',
-            borderRadius: '12px',
-            fontSize: '0.85rem',
+            backgroundColor: 'rgba(239, 68, 68, 0.12)',
+            border: '1px solid rgba(239, 68, 68, 0.35)',
+            color: '#fca5a5',
+            padding: '0.8rem 1rem',
+            borderRadius: '14px',
+            fontSize: '0.82rem',
             marginBottom: '1.5rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.6rem'
+            gap: '0.6rem',
+            animation: 'fadeIn 0.3s ease'
           }}>
-            <span>⚠️</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             <span>{error}</span>
           </div>
         )}
 
-        {/* Form */}
+        {/* Login Form */}
         <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          {/* USERNAME FIELD */}
           <div>
             <label style={{
               display: 'block',
-              fontSize: '0.78rem',
-              fontWeight: '600',
+              fontSize: '0.72rem',
+              fontWeight: '700',
               textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: 'rgba(255, 255, 255, 0.6)',
-              marginBottom: '0.5rem'
+              letterSpacing: '0.1em',
+              color: 'rgba(255, 255, 255, 0.55)',
+              marginBottom: '0.45rem'
             }}>
               Username
             </label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="e.g. admin"
-              required
-              autoFocus
-              style={{
-                width: '100%',
-                padding: '0.85rem 1.1rem',
-                backgroundColor: '#18181b',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
-                borderRadius: '12px',
-                color: '#ffffff',
-                fontSize: '0.95rem',
-                outline: 'none',
-                boxSizing: 'border-box',
-                transition: 'border-color 0.2s, box-shadow 0.2s'
-              }}
-              onFocus={(e) => e.target.style.borderColor = '#ffffff'}
-              onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.15)'}
-            />
+            <div style={{ position: 'relative' }}>
+              <span style={{
+                position: 'absolute',
+                left: '1rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: 'rgba(255, 255, 255, 0.35)',
+                display: 'flex',
+                alignItems: 'center'
+              }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </span>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="e.g. admin"
+                required
+                autoFocus
+                style={{
+                  width: '100%',
+                  padding: '0.85rem 1rem 0.85rem 2.8rem',
+                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  borderRadius: '14px',
+                  color: '#ffffff',
+                  fontSize: '0.92rem',
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                  transition: 'all 0.2s ease'
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#0052ff';
+                  e.target.style.backgroundColor = 'rgba(0, 82, 255, 0.08)';
+                  e.target.style.boxShadow = '0 0 0 4px rgba(0, 82, 255, 0.15)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+                  e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                  e.target.style.boxShadow = 'none';
+                }}
+              />
+            </div>
           </div>
 
+          {/* PASSWORD FIELD */}
           <div>
             <label style={{
               display: 'block',
-              fontSize: '0.78rem',
-              fontWeight: '600',
+              fontSize: '0.72rem',
+              fontWeight: '700',
               textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: 'rgba(255, 255, 255, 0.6)',
-              marginBottom: '0.5rem'
+              letterSpacing: '0.1em',
+              color: 'rgba(255, 255, 255, 0.55)',
+              marginBottom: '0.45rem'
             }}>
               Password
             </label>
             <div style={{ position: 'relative' }}>
+              <span style={{
+                position: 'absolute',
+                left: '1rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: 'rgba(255, 255, 255, 0.35)',
+                display: 'flex',
+                alignItems: 'center'
+              }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
               <input
                 type={showPassword ? 'text' : 'password'}
                 value={password}
@@ -212,74 +288,121 @@ const AdminLogin = () => {
                 required
                 style={{
                   width: '100%',
-                  padding: '0.85rem 3rem 0.85rem 1.1rem',
-                  backgroundColor: '#18181b',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  borderRadius: '12px',
+                  padding: '0.85rem 3.2rem 0.85rem 2.8rem',
+                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  borderRadius: '14px',
                   color: '#ffffff',
-                  fontSize: '0.95rem',
+                  fontSize: '0.92rem',
                   outline: 'none',
                   boxSizing: 'border-box',
-                  transition: 'border-color 0.2s, box-shadow 0.2s'
+                  transition: 'all 0.2s ease'
                 }}
-                onFocus={(e) => e.target.style.borderColor = '#ffffff'}
-                onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.15)'}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#0052ff';
+                  e.target.style.backgroundColor = 'rgba(0, 82, 255, 0.08)';
+                  e.target.style.boxShadow = '0 0 0 4px rgba(0, 82, 255, 0.15)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+                  e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                  e.target.style.boxShadow = 'none';
+                }}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
+                title={showPassword ? 'Hide Password' : 'Show Password'}
                 style={{
                   position: 'absolute',
-                  right: '1rem',
+                  right: '0.85rem',
                   top: '50%',
                   transform: 'translateY(-50%)',
                   background: 'none',
                   border: 'none',
-                  color: 'rgba(255, 255, 255, 0.5)',
+                  color: 'rgba(255, 255, 255, 0.45)',
                   cursor: 'pointer',
-                  fontSize: '0.85rem',
-                  padding: 0
+                  padding: '0.35rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  borderRadius: '8px',
+                  transition: 'color 0.2s'
                 }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.45)'}
               >
-                {showPassword ? 'Hide' : 'Show'}
+                {showPassword ? (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                )}
               </button>
             </div>
           </div>
 
+          {/* SUBMIT BUTTON */}
           <button
             type="submit"
             disabled={loading}
             style={{
               width: '100%',
-              padding: '1rem',
+              padding: '0.95rem',
               backgroundColor: '#ffffff',
               color: '#000000',
-              fontWeight: '700',
-              fontSize: '0.95rem',
-              borderRadius: '12px',
+              fontWeight: '800',
+              fontSize: '0.92rem',
+              borderRadius: '14px',
               border: 'none',
               cursor: loading ? 'not-allowed' : 'pointer',
-              marginTop: '0.75rem',
-              transition: 'transform 0.2s, background-color 0.2s, opacity 0.2s',
-              opacity: loading ? 0.7 : 1
+              marginTop: '0.5rem',
+              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              boxShadow: '0 10px 25px rgba(255, 255, 255, 0.15)',
+              opacity: loading ? 0.7 : 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem'
             }}
-            onMouseEnter={(e) => { if (!loading) e.currentTarget.style.backgroundColor = '#e4e4e7'; }}
-            onMouseLeave={(e) => { if (!loading) e.currentTarget.style.backgroundColor = '#ffffff'; }}
+            onMouseEnter={(e) => {
+              if (!loading) {
+                e.currentTarget.style.backgroundColor = '#0052ff';
+                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.boxShadow = '0 12px 30px rgba(0, 82, 255, 0.4)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!loading) {
+                e.currentTarget.style.backgroundColor = '#ffffff';
+                e.currentTarget.style.color = '#000000';
+                e.currentTarget.style.boxShadow = '0 10px 25px rgba(255, 255, 255, 0.15)';
+              }
+            }}
           >
-            {loading ? 'Authenticating...' : 'Sign In to Dashboard →'}
+            <span>{loading ? 'Authenticating...' : 'Sign In to Dashboard'}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </form>
 
-        {/* Initial Credentials Hint */}
+        {/* Initial Credentials Hint Box */}
         <div style={{
           marginTop: '2rem',
-          paddingTop: '1.5rem',
-          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+          padding: '0.85rem 1rem',
+          backgroundColor: 'rgba(255, 255, 255, 0.03)',
+          border: '1px solid rgba(255, 255, 255, 0.07)',
+          borderRadius: '14px',
           textAlign: 'center',
           fontSize: '0.75rem',
-          color: 'rgba(255, 255, 255, 0.4)'
+          color: 'rgba(255, 255, 255, 0.45)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.4rem',
+          flexWrap: 'wrap'
         }}>
-          Initial Default Credentials: <span style={{ color: '#ffffff', fontFamily: 'monospace' }}>admin</span> / <span style={{ color: '#ffffff', fontFamily: 'monospace' }}>admin123</span>
+          <span>Default Access:</span>
+          <span style={{ color: '#ffffff', fontWeight: '700', fontFamily: 'monospace', backgroundColor: 'rgba(255, 255, 255, 0.1)', padding: '0.15rem 0.45rem', borderRadius: '6px' }}>admin</span>
+          <span>/</span>
+          <span style={{ color: '#ffffff', fontWeight: '700', fontFamily: 'monospace', backgroundColor: 'rgba(255, 255, 255, 0.1)', padding: '0.15rem 0.45rem', borderRadius: '6px' }}>admin123</span>
         </div>
       </div>
     </div>
