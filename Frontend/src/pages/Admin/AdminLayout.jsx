@@ -203,29 +203,55 @@ const AdminLayout = () => {
           </div>
         </div>
 
-        {/* Live Preview Toggle Button on Mobile Top Header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+        {/* Live Preview & Logout Buttons on Mobile Top Header */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <button 
             onClick={() => {
               triggerNativeHaptic('light');
               setShowWebsitePreview(true);
             }} 
             style={{ 
-              fontSize: '0.78rem', 
+              fontSize: '0.75rem', 
               fontWeight: '700', 
               color: '#0052ff', 
               backgroundColor: '#eff6ff', 
               border: '1px solid #bfdbfe',
-              padding: '0.4rem 0.85rem', 
+              padding: '0.38rem 0.75rem', 
               borderRadius: '20px',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.35rem',
+              gap: '0.3rem',
               cursor: 'pointer'
             }}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             <span>Live Site</span>
+          </button>
+
+          <button 
+            onClick={() => {
+              triggerNativeHaptic('medium');
+              localStorage.removeItem('admin_token');
+              localStorage.removeItem('admin_authenticated');
+              localStorage.removeItem('admin_user');
+              window.location.href = '/admin/login';
+            }} 
+            style={{ 
+              fontSize: '0.75rem', 
+              fontWeight: '700', 
+              color: '#ef4444', 
+              backgroundColor: '#fef2f2', 
+              border: '1px solid #fecaca',
+              padding: '0.38rem 0.75rem', 
+              borderRadius: '20px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.3rem',
+              cursor: 'pointer'
+            }}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>Logout</span>
           </button>
         </div>
       </header>
@@ -673,7 +699,7 @@ const AdminLayout = () => {
           }}
         >
           <div style={{
-            padding: '0.35rem 1.25rem',
+            padding: '0.35rem 1rem',
             borderRadius: '20px',
             backgroundColor: showWebsitePreview ? '#eff6ff' : 'transparent',
             display: 'flex',
@@ -684,6 +710,42 @@ const AdminLayout = () => {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
           </div>
           Website
+        </button>
+
+        <button 
+          onClick={() => {
+            triggerNativeHaptic('medium');
+            localStorage.removeItem('admin_token');
+            localStorage.removeItem('admin_authenticated');
+            localStorage.removeItem('admin_user');
+            window.location.href = '/admin/login';
+          }}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.2rem',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            color: '#ef4444',
+            fontSize: '0.72rem',
+            fontWeight: '600',
+            flex: 1
+          }}
+        >
+          <div style={{
+            padding: '0.35rem 1rem',
+            borderRadius: '20px',
+            backgroundColor: '#fef2f2',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.2s ease'
+          }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </div>
+          Logout
         </button>
       </nav>
 
