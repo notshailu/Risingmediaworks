@@ -50,11 +50,11 @@ const loginAdmin = async (req, res) => {
     admin.lastLogin = new Date();
     await admin.save();
 
-    // Generate JWT Token (valid for 30 days)
+    // Generate JWT Token (Strictly valid for 7 days)
     const token = jwt.sign(
       { id: admin._id, username: admin.username, role: admin.role },
       JWT_SECRET,
-      { expiresIn: '30d' }
+      { expiresIn: '7d' }
     );
 
     res.json({

@@ -33,6 +33,7 @@ const AdminLogin = () => {
         localStorage.setItem('admin_token', data.token);
         localStorage.setItem('admin_user', JSON.stringify(data.user));
         localStorage.setItem('admin_authenticated', 'true');
+        localStorage.setItem('admin_login_time', Date.now().toString());
         navigate('/admin/inquiries');
         return;
       } else if (response) {
@@ -48,6 +49,7 @@ const AdminLogin = () => {
         localStorage.setItem('admin_token', 'local_offline_admin_token_2026');
         localStorage.setItem('admin_user', JSON.stringify(mockUser));
         localStorage.setItem('admin_authenticated', 'true');
+        localStorage.setItem('admin_login_time', Date.now().toString());
         navigate('/admin/inquiries');
       } else {
         setError('Invalid username or password.');
