@@ -524,7 +524,7 @@ const Home = () => {
       const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
-      context.imageSmoothingEnabled = true;
+      context.imageSmoothingEnabled = !isMobile;
       lastDrawnFrame = -1;
       drawImage(sequence.frame);
     };
@@ -543,14 +543,14 @@ const Home = () => {
 
     const isMobile = window.innerWidth <= 1024 || (typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
 
-    // Timeline for the pinned second section with instant responsive 0.1 scrub physics
+    // Timeline for the pinned second section with native 1:1 mobile touch scrub
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: secondSectionRef.current,
         start: 'top top',
-        end: isMobile ? '+=1600' : '+=2800',
+        end: isMobile ? '+=1100' : '+=2800',
         pin: true,
-        scrub: 0.1, // Ultra-fast zero-lag instant scroll sync
+        scrub: isMobile ? true : 0.1, // Native 1:1 direct touch sync on mobile
         anticipatePin: 1,
       }
     });
@@ -640,7 +640,7 @@ const Home = () => {
       const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
-      context.imageSmoothingEnabled = true;
+      context.imageSmoothingEnabled = !isMobile;
       lastDrawnFrame = -1;
       drawImage(sequence.frame);
     };
@@ -662,9 +662,9 @@ const Home = () => {
       scrollTrigger: {
         trigger: handsSectionRef.current,
         start: 'top top',
-        end: isMobile ? '+=1400' : '+=2800',
+        end: isMobile ? '+=1000' : '+=2800',
         pin: true,
-        scrub: 0.1, // Ultra-fast zero-lag instant scroll sync
+        scrub: isMobile ? true : 0.1, // Native 1:1 direct touch sync on mobile
         anticipatePin: 1,
       }
     });

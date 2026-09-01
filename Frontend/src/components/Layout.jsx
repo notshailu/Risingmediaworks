@@ -10,15 +10,18 @@ const Layout = () => {
   const location = useLocation();
 
   useEffect(() => {
+    const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
     // Initialize Lenis smooth inertia scrolling
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: isTouch ? 0.8 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1,
-      touchMultiplier: 2,
+      touchMultiplier: 1,
+      syncTouch: true
     });
 
     // Synchronize Lenis with GSAP ScrollTrigger updates
