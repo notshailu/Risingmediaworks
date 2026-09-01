@@ -660,42 +660,38 @@
   }
 
   /* Process Steps Minimal Column Layout Mobile Optimization - Exact UI Preservation */
-  .process-row-top {
-    display: flex !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory !important;
-    -webkit-overflow-scrolling: touch !important;
-    gap: 1.25rem !important;
-    padding: 0.5rem 0.5rem 1.5rem 0.5rem !important;
-    width: 100% !important;
-    scrollbar-width: none !important;
-  }
-  .process-row-top::-webkit-scrollbar {
-    display: none !important;
+  .process-card-container {
+    padding: 2rem 0.85rem !important;
+    gap: 1.5rem !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
   }
 
+  .process-row-top,
   .process-row-bottom {
     display: flex !important;
     overflow-x: auto !important;
     scroll-snap-type: x mandatory !important;
     -webkit-overflow-scrolling: touch !important;
-    gap: 1.25rem !important;
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem !important;
+    gap: 1rem !important;
+    padding: 0.5rem 0.5rem 1.25rem 0.5rem !important;
     width: 100% !important;
-    justify-content: flex-start !important;
     scrollbar-width: none !important;
+    box-sizing: border-box !important;
   }
+  .process-row-top::-webkit-scrollbar,
   .process-row-bottom::-webkit-scrollbar {
     display: none !important;
   }
 
   .process-step-col {
-    flex: 0 0 74% !important;
-    min-width: 220px !important;
+    flex: 0 0 85% !important;
+    min-width: 240px !important;
+    max-width: 320px !important;
     scroll-snap-align: center !important;
     border-right: none !important;
     border-bottom: none !important;
-    padding: 1.6rem 1.25rem !important;
+    padding: 1.8rem 1.35rem !important;
     box-sizing: border-box !important;
     background-color: #ffffff !important;
     border-radius: 18px !important;
@@ -708,7 +704,7 @@
     border: 2px solid #000000 !important;
     background-color: #ffffff !important;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12) !important;
-    transform: scale(1.02) translateY(-2px) !important;
+    transform: scale(1.01) translateY(-2px) !important;
   }
 
   .process-step-col.is-active-step span,

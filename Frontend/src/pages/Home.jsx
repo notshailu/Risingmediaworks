@@ -2337,6 +2337,7 @@ const Home = () => {
 
           {/* 100% Exact Methodology UI matching reference image */}
           <div 
+            className="process-card-container"
             style={{
               backgroundColor: '#fafaf9',
               borderRadius: '24px',
