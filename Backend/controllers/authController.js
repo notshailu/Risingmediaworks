@@ -1,8 +1,91 @@
+const crypto = require('crypto');
 const AdminUser = require('../models/AdminUser');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'rising_media_works_admin_jwt_secret_key_2026';
+
+// Safe require for bcryptjs with built-in crypto fallback
+let bcrypt = null;
+try {
+  bcrypt = require('bcryptjs');
+} catch (e) {
+  console.warn('[AUTH SYSTEM]: bcryptjs module not installed on server, using native Node crypto fallback.');
+}
+
+// Safe require for jsonwebtoken with built-in HMAC fallback
+let jwt = null;
+try {
+  jwt = require('jsonwebtoken');
+} catch (e) {
+  console.warn('[AUTH SYSTEM]: jsonwebtoken module not installed on server, using native Node HMAC fallback.');
+}
+
+// Password hashing helper (supports bcryptjs & native crypto pbkdf2)
+const hashPassword = async (password) => {
+  if (bcrypt) {
+    return await bcrypt.hash(password, 10);
+  }
+  const salt = crypto.randomBytes(16).toString('hex');
+  const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
+  return `pbkdf2:${salt}:${hash}`;
+};
+
+// Password verification helper (supports bcryptjs & native crypto pbkdf2)
+const comparePassword = async (password, storedHash) => {
+  if (!storedHash) return false;
+
+  if (storedHash.startsWith('$2a$') || storedHash.startsWith('$2b$') || storedHash.startsWith('$2y$')) {
+    if (bcrypt) {
+      return await bcrypt.compare(password, storedHash);
+    }
+    console.error('[AUTH ERROR]: Password was hashed with bcryptjs but bcryptjs module is missing on server.');
+    return false;
+  }
+
+  if (storedHash.startsWith('pbkdf2:')) {
+    const parts = storedHash.split(':');
+    const salt = parts[1];
+    const originalHash = parts[2];
+    const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
+    return hash === originalHash;
+  }
+
+  // Plaintext fallback safety check (if unhashed initial legacy password)
+  return password === storedHash;
+};
+
+// JWT Token Generator helper (supports jsonwebtoken & native HMAC SHA256)
+const signToken = (payload, expiresInDays = 7) => {
+  if (jwt) {
+    return jwt.sign(payload, JWT_SECRET, { expiresIn: `${expiresInDays}d` });
+  }
+
+  // Native HMAC JWT Fallback
+  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
+  const exp = Math.floor(Date.now() / 1000) + (expiresInDays * 24 * 60 * 60);
+  const body = Buffer.from(JSON.stringify({ ...payload, exp })).toString('base64url');
+  const signature = crypto.createHmac('sha256', JWT_SECRET).update(`${header}.${body}`).digest('base64url');
+  return `${header}.${body}.${signature}`;
+};
+
+// JWT Token Verifier helper (supports jsonwebtoken & native HMAC SHA256)
+const verifyToken = (token) => {
+  if (jwt) {
+    return jwt.verify(token, JWT_SECRET);
+  }
+
+  // Native HMAC JWT Verifier
+  const parts = token.split('.');
+  if (parts.length !== 3) throw new Error('Invalid token structure');
+  const [header, body, signature] = parts;
+  const expectedSig = crypto.createHmac('sha256', JWT_SECRET).update(`${header}.${body}`).digest('base64url');
+  if (signature !== expectedSig) throw new Error('Invalid token signature');
+
+  const payload = JSON.parse(Buffer.from(body, 'base64url').toString('utf8'));
+  if (payload.exp && Math.floor(Date.now() / 1000) > payload.exp) {
+    throw new Error('Token expired');
+  }
+  return payload;
+};
 
 // Seed initial default admin on server startup if none exists
 const seedDefaultAdmin = async () => {
@@ -11,7 +94,7 @@ const seedDefaultAdmin = async () => {
     if (adminCount === 0) {
       const defaultUsername = process.env.ADMIN_USERNAME || 'admin';
       const defaultPassword = process.env.ADMIN_PASSWORD || 'admin123';
-      const hashedPassword = await bcrypt.hash(defaultPassword, 10);
+      const hashedPassword = await hashPassword(defaultPassword);
 
       await AdminUser.create({
         username: defaultUsername,
@@ -41,7 +124,7 @@ const loginAdmin = async (req, res) => {
       return res.status(401).json({ message: 'Invalid username or password.' });
     }
 
-    const isMatch = await bcrypt.compare(password, admin.password);
+    const isMatch = await comparePassword(password, admin.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid username or password.' });
     }
@@ -51,11 +134,7 @@ const loginAdmin = async (req, res) => {
     await admin.save();
 
     // Generate JWT Token (Strictly valid for 7 days)
-    const token = jwt.sign(
-      { id: admin._id, username: admin.username, role: admin.role },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+    const token = signToken({ id: admin._id, username: admin.username, role: admin.role }, 7);
 
     res.json({
       success: true,
@@ -84,7 +163,7 @@ const verifyAdmin = async (req, res) => {
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = verifyToken(token);
 
     const admin = await AdminUser.findById(decoded.id).select('-password');
     if (!admin) {
@@ -111,14 +190,14 @@ const changePassword = async (req, res) => {
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = verifyToken(token);
 
     const admin = await AdminUser.findById(decoded.id);
     if (!admin) {
       return res.status(404).json({ message: 'Admin not found.' });
     }
 
-    const isMatch = await bcrypt.compare(currentPassword, admin.password);
+    const isMatch = await comparePassword(currentPassword, admin.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Current password is incorrect.' });
     }
@@ -127,7 +206,7 @@ const changePassword = async (req, res) => {
       return res.status(400).json({ message: 'New password must be at least 5 characters.' });
     }
 
-    admin.password = await bcrypt.hash(newPassword, 10);
+    admin.password = await hashPassword(newPassword);
     await admin.save();
 
     res.json({ success: true, message: 'Password updated successfully.' });
