@@ -446,7 +446,9 @@
 /* ================= MOBILE RESPONSIVE ADAPTATIONS (MAX-WIDTH: 768PX) ================= */
 @media (max-width: 1024px) {
   .custom-cursor-dot,
-  .custom-cursor-ring {
+  .custom-cursor-ring,
+  .trail-image,
+  .why-us-hover-img-container {
     display: none !important;
   }
 

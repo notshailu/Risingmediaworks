@@ -401,8 +401,9 @@ const Home = () => {
     }
   }, []);
 
-  // Cursor trailing image gallery effect in the Hero section
+  // Cursor trailing image gallery effect in the Hero section (Desktop only)
   useEffect(() => {
+    if (window.innerWidth <= 1024) return;
     const hero = document.getElementById('hero');
     if (!hero || images.length === 0) return;
 
