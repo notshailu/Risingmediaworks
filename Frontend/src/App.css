@@ -452,6 +452,14 @@
     display: none !important;
   }
 
+  .gemini-mask-mobile {
+    top: 52% !important;
+    right: -15px !important;
+    width: 260px !important;
+    height: 260px !important;
+    filter: blur(25px) !important;
+  }
+
   .all-projects-page {
     padding: 90px 1.25rem 50px 1.25rem !important;
   }

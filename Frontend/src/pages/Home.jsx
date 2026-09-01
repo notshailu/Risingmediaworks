@@ -1315,15 +1315,15 @@ const Home = () => {
         }} />
 
         {/* Black Blur Overlay Mask to 100% Hide Gemini AI Logo across all devices */}
-        <div style={{
+        <div className="gemini-mask-mobile" style={{
           position: 'absolute',
-          bottom: '22%',
-          right: '5%',
-          width: '260px',
-          height: '260px',
+          top: '54%',
+          right: '-10px',
+          width: '280px',
+          height: '280px',
           backgroundColor: '#000000',
           borderRadius: '50%',
-          filter: 'blur(35px)',
+          filter: 'blur(30px)',
           zIndex: 5,
           pointerEvents: 'none'
         }} />
