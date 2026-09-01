@@ -13,6 +13,10 @@ const bookRoutes = require('./routes/bookRoutes');
 const workRoutes = require('./routes/workRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const inquiryRoutes = require('./routes/inquiryRoutes');
+const { seedDefaultAdmin } = require('./controllers/authController');
+
+// Seed default admin account
+seedDefaultAdmin();
 
 // HTTP Request Logger Middleware
 app.use((req, res, next) => {

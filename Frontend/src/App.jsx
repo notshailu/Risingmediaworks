@@ -17,6 +17,9 @@ import './App.css';
 // Import Dummy Data
 import { servicesData, projectsData, caseStudiesData, booksData } from './data/dummyData';
 
+import AdminLogin from './pages/Admin/AdminLogin';
+import AdminProtected from './components/AdminProtected';
+
 import AdminLayout from './pages/Admin/AdminLayout';
 import AdminBooks from './pages/Admin/AdminBooks';
 import BookForm from './pages/Admin/BookForm';
@@ -60,17 +63,24 @@ const App = () => {
             <Route path="contact" element={<Contact />} />
           </Route>
 
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="inquiries" element={<AdminInquiries />} />
-            <Route path="books" element={<AdminBooks />} />
-            <Route path="books/new" element={<BookForm />} />
-            <Route path="books/edit/:id" element={<BookForm />} />
-            <Route path="works" element={<AdminWorks />} />
-            <Route path="works/new" element={<WorkForm />} />
-            <Route path="works/edit/:id" element={<WorkForm />} />
-            <Route path="case-studies" element={<AdminCaseStudies />} />
-            <Route path="case-studies/new" element={<CaseStudyForm />} />
-            <Route path="case-studies/edit/:id" element={<CaseStudyForm />} />
+          {/* Admin Authentication Login Route */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+
+          {/* Protected Admin Routes */}
+          <Route path="/admin" element={<AdminProtected />}>
+            <Route element={<AdminLayout />}>
+              <Route index element={<AdminInquiries />} />
+              <Route path="inquiries" element={<AdminInquiries />} />
+              <Route path="books" element={<AdminBooks />} />
+              <Route path="books/new" element={<BookForm />} />
+              <Route path="books/edit/:id" element={<BookForm />} />
+              <Route path="works" element={<AdminWorks />} />
+              <Route path="works/new" element={<WorkForm />} />
+              <Route path="works/edit/:id" element={<WorkForm />} />
+              <Route path="case-studies" element={<AdminCaseStudies />} />
+              <Route path="case-studies/new" element={<CaseStudyForm />} />
+              <Route path="case-studies/edit/:id" element={<CaseStudyForm />} />
+            </Route>
           </Route>
         </Routes>
       </ProjectLaunchProvider>
