@@ -157,8 +157,8 @@ const AdminLayout = () => {
         display: 'none',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '0.85rem 1.25rem',
-        backgroundColor: 'rgba(255, 255, 255, 0.92)',
+        padding: '0.75rem 1rem',
+        backgroundColor: 'rgba(255, 255, 255, 0.95)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
         borderBottom: '1px solid #e2e8f0',
@@ -167,64 +167,53 @@ const AdminLayout = () => {
         zIndex: 1000,
         boxShadow: '0 1px 3px rgba(0,0,0,0.03)'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <div style={{
-            width: '34px',
-            height: '34px',
-            borderRadius: '10px',
+            width: '32px',
+            height: '32px',
+            borderRadius: '9px',
             background: 'linear-gradient(135deg, #0052ff 0%, #7c3aed 100%)',
             color: '#ffffff',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontWeight: '800',
-            fontSize: '0.95rem',
-            boxShadow: '0 4px 10px rgba(0, 82, 255, 0.25)'
+            fontSize: '0.9rem',
+            boxShadow: '0 3px 8px rgba(0, 82, 255, 0.25)',
+            flexShrink: 0
           }}>
             R
           </div>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <span style={{ fontSize: '1.05rem', fontWeight: '800', letterSpacing: '-0.02em', color: '#0f172a' }}>
-                Rising Admin
-              </span>
-              <span style={{
-                fontSize: '0.6rem',
-                fontWeight: '800',
-                padding: '0.15rem 0.45rem',
-                borderRadius: '6px',
-                backgroundColor: '#e0e7ff',
-                color: '#4338ca',
-                letterSpacing: '0.05em'
-              }}>
-                PRO
-              </span>
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+            <span style={{ fontSize: '0.95rem', fontWeight: '800', letterSpacing: '-0.02em', color: '#0f172a', whiteSpace: 'nowrap' }}>
+              Rising Admin
+            </span>
           </div>
         </div>
 
-        {/* Live Preview & Logout Buttons on Mobile Top Header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        {/* Action Buttons Group */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
           <button 
             onClick={() => {
               triggerNativeHaptic('light');
               setShowWebsitePreview(true);
             }} 
             style={{ 
-              fontSize: '0.75rem', 
+              fontSize: '0.72rem', 
               fontWeight: '700', 
               color: '#0052ff', 
               backgroundColor: '#eff6ff', 
               border: '1px solid #bfdbfe',
-              padding: '0.38rem 0.75rem', 
+              padding: '0.35rem 0.65rem', 
               borderRadius: '20px',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.3rem',
-              cursor: 'pointer'
+              gap: '0.25rem',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap'
             }}
           >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             <span>Live Site</span>
           </button>
 
@@ -237,20 +226,21 @@ const AdminLayout = () => {
               window.location.href = '/admin/login';
             }} 
             style={{ 
-              fontSize: '0.75rem', 
+              fontSize: '0.72rem', 
               fontWeight: '700', 
               color: '#ef4444', 
               backgroundColor: '#fef2f2', 
               border: '1px solid #fecaca',
-              padding: '0.38rem 0.75rem', 
+              padding: '0.35rem 0.65rem', 
               borderRadius: '20px',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.3rem',
-              cursor: 'pointer'
+              gap: '0.25rem',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap'
             }}
           >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             <span>Logout</span>
           </button>
         </div>
@@ -699,7 +689,7 @@ const AdminLayout = () => {
           }}
         >
           <div style={{
-            padding: '0.35rem 1rem',
+            padding: '0.35rem 1.25rem',
             borderRadius: '20px',
             backgroundColor: showWebsitePreview ? '#eff6ff' : 'transparent',
             display: 'flex',
@@ -710,42 +700,6 @@ const AdminLayout = () => {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
           </div>
           Website
-        </button>
-
-        <button 
-          onClick={() => {
-            triggerNativeHaptic('medium');
-            localStorage.removeItem('admin_token');
-            localStorage.removeItem('admin_authenticated');
-            localStorage.removeItem('admin_user');
-            window.location.href = '/admin/login';
-          }}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '0.2rem',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            color: '#ef4444',
-            fontSize: '0.72rem',
-            fontWeight: '600',
-            flex: 1
-          }}
-        >
-          <div style={{
-            padding: '0.35rem 1rem',
-            borderRadius: '20px',
-            backgroundColor: '#fef2f2',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'all 0.2s ease'
-          }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-          </div>
-          Logout
         </button>
       </nav>
 
