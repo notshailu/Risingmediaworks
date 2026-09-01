@@ -64,8 +64,8 @@ const AdminLogin = () => {
       width: '100vw',
       minHeight: '100vh',
       minHeight: '100dvh',
-      backgroundColor: '#050508',
-      color: '#ffffff',
+      backgroundColor: '#f8fafc',
+      color: '#0f172a',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -83,40 +83,38 @@ const AdminLogin = () => {
         right: 0,
         bottom: 0,
         backgroundImage: `
-          linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
+          linear-gradient(to right, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(15, 23, 42, 0.03) 1px, transparent 1px)
         `,
         backgroundSize: '40px 40px',
-        maskImage: 'radial-gradient(circle at 50% 50%, black 40%, transparent 80%)',
-        WebkitMaskImage: 'radial-gradient(circle at 50% 50%, black 40%, transparent 80%)',
+        maskImage: 'radial-gradient(circle at 50% 50%, black 50%, transparent 85%)',
+        WebkitMaskImage: 'radial-gradient(circle at 50% 50%, black 50%, transparent 85%)',
         pointerEvents: 'none'
       }} />
 
-      {/* Soft Ambient Electric Blue & Violet Spotlights */}
+      {/* Soft Ambient Electric Blue Spotlight */}
       <div style={{
         position: 'absolute',
         top: '25%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: '500px',
-        height: '500px',
-        background: 'radial-gradient(circle, rgba(0, 82, 255, 0.18) 0%, rgba(124, 58, 237, 0.08) 50%, rgba(0, 0, 0, 0) 75%)',
-        filter: 'blur(50px)',
+        width: '550px',
+        height: '550px',
+        background: 'radial-gradient(circle, rgba(0, 82, 255, 0.08) 0%, rgba(124, 58, 237, 0.04) 50%, rgba(0, 0, 0, 0) 75%)',
+        filter: 'blur(60px)',
         pointerEvents: 'none'
       }} />
 
-      {/* Redesigned Floating Glassmorphism Container */}
+      {/* Redesigned Floating White Light Theme Container */}
       <div style={{
         width: '100%',
         maxWidth: '420px',
-        backgroundColor: 'rgba(15, 15, 20, 0.85)',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
-        border: '1px solid rgba(255, 255, 255, 0.12)',
+        backgroundColor: '#ffffff',
+        border: '1px solid #e2e8f0',
         borderRadius: '28px',
         padding: '2.5rem 2rem',
         boxSizing: 'border-box',
-        boxShadow: '0 30px 70px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 20px 50px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02)',
         zIndex: 10,
         position: 'relative'
       }}>
@@ -135,7 +133,7 @@ const AdminLogin = () => {
             fontWeight: '900',
             fontSize: '1.45rem',
             marginBottom: '1.25rem',
-            boxShadow: '0 10px 30px rgba(0, 82, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
+            boxShadow: '0 10px 25px rgba(0, 82, 255, 0.3)',
             letterSpacing: '-0.03em'
           }}>
             R
@@ -147,7 +145,7 @@ const AdminLogin = () => {
               fontWeight: '800',
               margin: 0,
               letterSpacing: '-0.02em',
-              color: '#ffffff'
+              color: '#0f172a'
             }}>
               Rising Admin
             </h1>
@@ -156,9 +154,8 @@ const AdminLogin = () => {
               fontWeight: '800',
               padding: '0.15rem 0.5rem',
               borderRadius: '8px',
-              backgroundColor: 'rgba(0, 82, 255, 0.15)',
-              color: '#60a5fa',
-              border: '1px solid rgba(0, 82, 255, 0.3)',
+              backgroundColor: '#e0e7ff',
+              color: '#4338ca',
               letterSpacing: '0.06em'
             }}>
               PRO
@@ -167,7 +164,7 @@ const AdminLogin = () => {
 
           <p style={{
             fontSize: '0.83rem',
-            color: 'rgba(255, 255, 255, 0.5)',
+            color: '#64748b',
             margin: 0,
             lineHeight: '1.4'
           }}>
@@ -178,17 +175,16 @@ const AdminLogin = () => {
         {/* Error Alert Box */}
         {error && (
           <div style={{
-            backgroundColor: 'rgba(239, 68, 68, 0.12)',
-            border: '1px solid rgba(239, 68, 68, 0.35)',
-            color: '#fca5a5',
+            backgroundColor: '#fef2f2',
+            border: '1px solid #fecaca',
+            color: '#dc2626',
             padding: '0.8rem 1rem',
             borderRadius: '14px',
             fontSize: '0.82rem',
             marginBottom: '1.5rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.6rem',
-            animation: 'fadeIn 0.3s ease'
+            gap: '0.6rem'
           }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             <span>{error}</span>
@@ -205,7 +201,7 @@ const AdminLogin = () => {
               fontWeight: '700',
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
-              color: 'rgba(255, 255, 255, 0.55)',
+              color: '#475569',
               marginBottom: '0.45rem'
             }}>
               Username
@@ -216,7 +212,7 @@ const AdminLogin = () => {
                 left: '1rem',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                color: 'rgba(255, 255, 255, 0.35)',
+                color: '#94a3b8',
                 display: 'flex',
                 alignItems: 'center'
               }}>
@@ -232,10 +228,10 @@ const AdminLogin = () => {
                 style={{
                   width: '100%',
                   padding: '0.85rem 1rem 0.85rem 2.8rem',
-                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #cbd5e1',
                   borderRadius: '14px',
-                  color: '#ffffff',
+                  color: '#0f172a',
                   fontSize: '0.92rem',
                   outline: 'none',
                   boxSizing: 'border-box',
@@ -243,12 +239,12 @@ const AdminLogin = () => {
                 }}
                 onFocus={(e) => {
                   e.target.style.borderColor = '#0052ff';
-                  e.target.style.backgroundColor = 'rgba(0, 82, 255, 0.08)';
-                  e.target.style.boxShadow = '0 0 0 4px rgba(0, 82, 255, 0.15)';
+                  e.target.style.backgroundColor = '#ffffff';
+                  e.target.style.boxShadow = '0 0 0 4px rgba(0, 82, 255, 0.12)';
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = 'rgba(255, 255, 255, 0.12)';
-                  e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                  e.target.style.borderColor = '#cbd5e1';
+                  e.target.style.backgroundColor = '#f8fafc';
                   e.target.style.boxShadow = 'none';
                 }}
               />
@@ -263,7 +259,7 @@ const AdminLogin = () => {
               fontWeight: '700',
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
-              color: 'rgba(255, 255, 255, 0.55)',
+              color: '#475569',
               marginBottom: '0.45rem'
             }}>
               Password
@@ -274,7 +270,7 @@ const AdminLogin = () => {
                 left: '1rem',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                color: 'rgba(255, 255, 255, 0.35)',
+                color: '#94a3b8',
                 display: 'flex',
                 alignItems: 'center'
               }}>
@@ -289,10 +285,10 @@ const AdminLogin = () => {
                 style={{
                   width: '100%',
                   padding: '0.85rem 3.2rem 0.85rem 2.8rem',
-                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #cbd5e1',
                   borderRadius: '14px',
-                  color: '#ffffff',
+                  color: '#0f172a',
                   fontSize: '0.92rem',
                   outline: 'none',
                   boxSizing: 'border-box',
@@ -300,12 +296,12 @@ const AdminLogin = () => {
                 }}
                 onFocus={(e) => {
                   e.target.style.borderColor = '#0052ff';
-                  e.target.style.backgroundColor = 'rgba(0, 82, 255, 0.08)';
-                  e.target.style.boxShadow = '0 0 0 4px rgba(0, 82, 255, 0.15)';
+                  e.target.style.backgroundColor = '#ffffff';
+                  e.target.style.boxShadow = '0 0 0 4px rgba(0, 82, 255, 0.12)';
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = 'rgba(255, 255, 255, 0.12)';
-                  e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                  e.target.style.borderColor = '#cbd5e1';
+                  e.target.style.backgroundColor = '#f8fafc';
                   e.target.style.boxShadow = 'none';
                 }}
               />
@@ -320,7 +316,7 @@ const AdminLogin = () => {
                   transform: 'translateY(-50%)',
                   background: 'none',
                   border: 'none',
-                  color: 'rgba(255, 255, 255, 0.45)',
+                  color: '#64748b',
                   cursor: 'pointer',
                   padding: '0.35rem',
                   display: 'flex',
@@ -328,8 +324,8 @@ const AdminLogin = () => {
                   borderRadius: '8px',
                   transition: 'color 0.2s'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
-                onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.45)'}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#0052ff'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#64748b'}
               >
                 {showPassword ? (
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
@@ -347,8 +343,8 @@ const AdminLogin = () => {
             style={{
               width: '100%',
               padding: '0.95rem',
-              backgroundColor: '#ffffff',
-              color: '#000000',
+              backgroundColor: '#0052ff',
+              color: '#ffffff',
               fontWeight: '800',
               fontSize: '0.92rem',
               borderRadius: '14px',
@@ -356,7 +352,7 @@ const AdminLogin = () => {
               cursor: loading ? 'not-allowed' : 'pointer',
               marginTop: '0.5rem',
               transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-              boxShadow: '0 10px 25px rgba(255, 255, 255, 0.15)',
+              boxShadow: '0 10px 25px rgba(0, 82, 255, 0.25)',
               opacity: loading ? 0.7 : 1,
               display: 'flex',
               alignItems: 'center',
@@ -365,16 +361,14 @@ const AdminLogin = () => {
             }}
             onMouseEnter={(e) => {
               if (!loading) {
-                e.currentTarget.style.backgroundColor = '#0052ff';
-                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.backgroundColor = '#0040d0';
                 e.currentTarget.style.boxShadow = '0 12px 30px rgba(0, 82, 255, 0.4)';
               }
             }}
             onMouseLeave={(e) => {
               if (!loading) {
-                e.currentTarget.style.backgroundColor = '#ffffff';
-                e.currentTarget.style.color = '#000000';
-                e.currentTarget.style.boxShadow = '0 10px 25px rgba(255, 255, 255, 0.15)';
+                e.currentTarget.style.backgroundColor = '#0052ff';
+                e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 82, 255, 0.25)';
               }
             }}
           >
@@ -387,12 +381,12 @@ const AdminLogin = () => {
         <div style={{
           marginTop: '2rem',
           padding: '0.85rem 1rem',
-          backgroundColor: 'rgba(255, 255, 255, 0.03)',
-          border: '1px solid rgba(255, 255, 255, 0.07)',
+          backgroundColor: '#f8fafc',
+          border: '1px solid #e2e8f0',
           borderRadius: '14px',
           textAlign: 'center',
           fontSize: '0.75rem',
-          color: 'rgba(255, 255, 255, 0.45)',
+          color: '#64748b',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -400,9 +394,9 @@ const AdminLogin = () => {
           flexWrap: 'wrap'
         }}>
           <span>Default Access:</span>
-          <span style={{ color: '#ffffff', fontWeight: '700', fontFamily: 'monospace', backgroundColor: 'rgba(255, 255, 255, 0.1)', padding: '0.15rem 0.45rem', borderRadius: '6px' }}>admin</span>
+          <span style={{ color: '#0f172a', fontWeight: '700', fontFamily: 'monospace', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.15rem 0.45rem', borderRadius: '6px' }}>admin</span>
           <span>/</span>
-          <span style={{ color: '#ffffff', fontWeight: '700', fontFamily: 'monospace', backgroundColor: 'rgba(255, 255, 255, 0.1)', padding: '0.15rem 0.45rem', borderRadius: '6px' }}>admin123</span>
+          <span style={{ color: '#0f172a', fontWeight: '700', fontFamily: 'monospace', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.15rem 0.45rem', borderRadius: '6px' }}>admin123</span>
         </div>
       </div>
     </div>
