@@ -1308,20 +1308,22 @@ const Home = () => {
           bottom: 0,
           left: 0,
           width: '100%',
-          height: '220px',
-          background: 'linear-gradient(to top, #000000 40%, rgba(0,0,0,0.85) 75%, transparent 100%)',
+          height: '40vh',
+          background: 'linear-gradient(to top, #000000 50%, rgba(0,0,0,0.9) 80%, transparent 100%)',
           zIndex: 4,
           pointerEvents: 'none'
         }} />
 
-        {/* Corner Mask to Hide Gemini AI Logo */}
+        {/* Black Blur Overlay Mask to 100% Hide Gemini AI Logo across all devices */}
         <div style={{
           position: 'absolute',
-          bottom: 0,
-          right: 0,
-          width: '320px',
-          height: '180px',
-          background: 'radial-gradient(circle at 100% 100%, #000000 65%, rgba(0,0,0,0.95) 85%, transparent 100%)',
+          bottom: '22%',
+          right: '5%',
+          width: '260px',
+          height: '260px',
+          backgroundColor: '#000000',
+          borderRadius: '50%',
+          filter: 'blur(35px)',
           zIndex: 5,
           pointerEvents: 'none'
         }} />
