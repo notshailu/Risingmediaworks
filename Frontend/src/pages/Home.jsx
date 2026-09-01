@@ -2369,14 +2369,10 @@ const Home = () => {
                 { num: '04', line1: 'UI Design.', line2: '' },
                 { num: '05', line1: 'MVP.', line2: '' }
               ].map((step, idx) => {
-                const isActive = activeProcessStep === step.num;
                 return (
                   <div 
                     key={step.num}
-                    className={`process-step-col ${isActive ? 'is-active-step' : ''}`}
-                    data-step-num={step.num}
-                    onMouseEnter={() => { setActiveProcessStep(step.num); playHoverSound(); }}
-                    onClick={() => setActiveProcessStep(step.num)}
+                    className="process-step-col"
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -2384,16 +2380,10 @@ const Home = () => {
                       textAlign: 'center',
                       padding: '1.25rem 1rem',
                       position: 'relative',
-                      borderRight: !isActive && idx < 4 ? '1px solid #d4d4d8' : 'none',
+                      borderRight: idx < 4 ? '1px solid #d4d4d8' : 'none',
                       minHeight: '140px',
                       justifyContent: 'flex-start',
-                      backgroundColor: isActive ? '#ffffff' : 'transparent',
-                      border: isActive ? '2px solid #000000' : '2px solid transparent',
-                      borderRadius: isActive ? '18px' : '0px',
-                      boxShadow: isActive ? '0 12px 30px rgba(0, 0, 0, 0.1)' : 'none',
-                      transform: isActive ? 'scale(1.02) translateY(-4px)' : 'none',
-                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                      cursor: 'pointer'
+                      backgroundColor: 'transparent'
                     }}
                   >
                     <span 
@@ -2404,8 +2394,7 @@ const Home = () => {
                         color: '#18181b',
                         lineHeight: '1',
                         marginBottom: '1.2rem',
-                        letterSpacing: '-0.02em',
-                        transition: 'color 0.4s ease'
+                        letterSpacing: '-0.02em'
                       }}
                     >
                       {step.num}
@@ -2416,10 +2405,9 @@ const Home = () => {
                       style={{
                         fontSize: '1rem',
                         lineHeight: '1.35',
-                        color: isActive ? '#18181b' : '#52525b',
-                        fontWeight: isActive ? '600' : '400',
-                        maxWidth: '160px',
-                        transition: 'color 0.4s ease'
+                        color: '#52525b',
+                        fontWeight: '400',
+                        maxWidth: '160px'
                       }}
                     >
                       <div>{step.line1}</div>
@@ -2444,14 +2432,10 @@ const Home = () => {
                 { num: '06', line1: 'Metrics.', line2: '' },
                 { num: '07', line1: 'How do I', line2: 'really work?' }
               ].map((step, idx) => {
-                const isActive = activeProcessStep === step.num;
                 return (
                   <div 
                     key={step.num}
-                    className={`process-step-col ${isActive ? 'is-active-step' : ''}`}
-                    data-step-num={step.num}
-                    onMouseEnter={() => { setActiveProcessStep(step.num); playHoverSound(); }}
-                    onClick={() => setActiveProcessStep(step.num)}
+                    className="process-step-col"
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -2459,16 +2443,10 @@ const Home = () => {
                       textAlign: 'center',
                       padding: '1.25rem 1.5rem',
                       position: 'relative',
-                      borderRight: !isActive && idx === 0 ? '1px solid #d4d4d8' : 'none',
+                      borderRight: idx === 0 ? '1px solid #d4d4d8' : 'none',
                       minHeight: '140px',
                       justifyContent: 'flex-start',
-                      backgroundColor: isActive ? '#ffffff' : 'transparent',
-                      border: isActive ? '2px solid #000000' : '2px solid transparent',
-                      borderRadius: isActive ? '18px' : '0px',
-                      boxShadow: isActive ? '0 12px 30px rgba(0, 0, 0, 0.1)' : 'none',
-                      transform: isActive ? 'scale(1.02) translateY(-4px)' : 'none',
-                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                      cursor: 'pointer'
+                      backgroundColor: 'transparent'
                     }}
                   >
                     <span 
@@ -2479,8 +2457,7 @@ const Home = () => {
                         color: '#18181b',
                         lineHeight: '1',
                         marginBottom: '1.2rem',
-                        letterSpacing: '-0.02em',
-                        transition: 'color 0.4s ease'
+                        letterSpacing: '-0.02em'
                       }}
                     >
                       {step.num}
@@ -2491,10 +2468,9 @@ const Home = () => {
                       style={{
                         fontSize: '1rem',
                         lineHeight: '1.35',
-                        color: isActive ? '#18181b' : '#52525b',
-                        fontWeight: isActive ? '600' : '400',
-                        maxWidth: '160px',
-                        transition: 'color 0.4s ease'
+                        color: '#52525b',
+                        fontWeight: '400',
+                        maxWidth: '160px'
                       }}
                     >
                       <div>{step.line1}</div>

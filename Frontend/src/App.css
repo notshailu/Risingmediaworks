@@ -711,14 +711,6 @@
     border-right: none !important;
   }
 
-  .process-step-col.is-active-step {
-    border: 1.5px solid #000000 !important;
-    background-color: #ffffff !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
-    border-radius: 12px !important;
-    transform: scale(1.02) !important;
-  }
-
   .method-num {
     font-size: clamp(1.4rem, 4.5vw, 2.4rem) !important;
     margin-bottom: 0.3rem !important;
