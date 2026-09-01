@@ -170,7 +170,7 @@ const Footer = () => {
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
               color: '#0052ff',
-              fontFamily: "'Valley Sans', 'Manrope', sans-serif",
+              fontFamily: 'monospace',
               fontWeight: '700',
               display: 'block',
               marginBottom: '1.2rem'
@@ -210,7 +210,7 @@ const Footer = () => {
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
               color: 'rgba(255, 255, 255, 0.4)',
-              fontFamily: "'Valley Sans', 'Manrope', sans-serif",
+              fontFamily: 'monospace',
               display: 'block',
               marginBottom: '1.8rem'
             }}>
@@ -260,7 +260,7 @@ const Footer = () => {
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
               color: 'rgba(255, 255, 255, 0.4)',
-              fontFamily: "'Valley Sans', 'Manrope', sans-serif",
+              fontFamily: 'monospace',
               display: 'block',
               marginBottom: '1.8rem'
             }}>
@@ -291,7 +291,7 @@ const Footer = () => {
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
               color: 'rgba(255, 255, 255, 0.4)',
-              fontFamily: "'Valley Sans', 'Manrope', sans-serif",
+              fontFamily: 'monospace',
               display: 'block',
               marginBottom: '1.8rem'
             }}>
@@ -305,7 +305,7 @@ const Footer = () => {
               
               <div>
                 <h4 style={{ fontSize: '0.88rem', fontWeight: '600', color: '#ffffff', margin: '0 0 0.2rem 0' }}>PHONE</h4>
-                <a href="tel:+918741975000" style={{ fontSize: '0.85rem', color: '#3b6cff', textDecoration: 'none', fontFamily: "'Valley Sans', 'Manrope', sans-serif" }}>+91 87419 75000</a>
+                <a href="tel:+918741975000" style={{ fontSize: '0.85rem', color: '#3b6cff', textDecoration: 'none', fontFamily: 'monospace' }}>+91 87419 75000</a>
               </div>
 
               <div style={{ marginTop: '0.5rem' }}>
@@ -316,7 +316,7 @@ const Footer = () => {
                     fontSize: '0.85rem',
                     color: '#3b6cff',
                     textDecoration: 'none',
-                    fontFamily: "'Valley Sans', 'Manrope', sans-serif",
+                    fontFamily: 'monospace',
                     fontWeight: '500'
                   }}
                 >
@@ -373,7 +373,7 @@ const Footer = () => {
           padding: '2.5rem 0',
           borderTop: '1px solid rgba(255, 255, 255, 0.1)',
           fontSize: '0.75rem',
-          fontFamily: "'Valley Sans', 'Manrope', sans-serif",
+          fontFamily: 'monospace',
           color: 'rgba(255, 255, 255, 0.6)',
           flexWrap: 'wrap',
           gap: '1rem'
@@ -390,7 +390,7 @@ const Footer = () => {
               color: '#ffffff',
               padding: '0.5rem 1.4rem',
               borderRadius: '20px',
-              fontFamily: "'Valley Sans', 'Manrope', sans-serif",
+              fontFamily: 'monospace',
               fontSize: '0.72rem',
               cursor: 'pointer',
               transition: 'all 0.3s ease'
