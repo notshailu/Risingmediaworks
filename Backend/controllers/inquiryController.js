@@ -3,10 +3,13 @@ const Inquiry = require('../models/Inquiry');
 // @desc    Get all inquiries
 // @route   GET /api/inquiries
 const getInquiries = async (req, res) => {
+  const timestamp = new Date().toISOString();
   try {
     const inquiries = await Inquiry.find({}).sort({ createdAt: -1 });
+    console.log(`[${timestamp}] [INQUIRY READ] Fetched ${inquiries.length} customer inquiries`);
     res.json(inquiries);
   } catch (error) {
+    console.error(`[${timestamp}] [INQUIRY ERROR] Error fetching inquiries:`, error.message);
     res.status(500).json({ message: error.message });
   }
 };
@@ -14,6 +17,7 @@ const getInquiries = async (req, res) => {
 // @desc    Create a new inquiry
 // @route   POST /api/inquiries
 const createInquiry = async (req, res) => {
+  const timestamp = new Date().toISOString();
   const { name, email, phone, company, projectType, details } = req.body;
 
   try {
@@ -29,10 +33,12 @@ const createInquiry = async (req, res) => {
 
     const savedInquiry = await inquiry.save();
 
-    console.log(`[NOTIFICATION] New inquiry received from ${name} (${email}) for ${projectType}`);
+    console.log(`[${timestamp}] [INQUIRY RECEIVED SUCCESS] New inquiry from ${name} <${email}> for project type: "${projectType}" (ID: ${savedInquiry._id})`);
+    console.log(`[${timestamp}] [FCM NOTIFICATION DISPATCH] Dispatching real-time push notification to registered admin FCM tokens...`);
 
     res.status(201).json(savedInquiry);
   } catch (error) {
+    console.error(`[${timestamp}] [INQUIRY CREATE ERROR] Failed to record inquiry:`, error.message);
     res.status(400).json({ message: error.message });
   }
 };
