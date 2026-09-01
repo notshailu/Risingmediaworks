@@ -482,35 +482,32 @@ const Home = () => {
     };
   }, [images]);
 
-  // Set up canvas drawing on scroll pinned to second section
+  // Set up canvas drawing on scroll pinned to second section (Ultra-smooth 60fps)
   useGSAP(() => {
     if (!canvasRef.current || !secondSectionRef.current || images.length === 0) return;
 
     const canvas = canvasRef.current;
-    const context = canvas.getContext('2d', { alpha: false, desynchronized: true });
+    const context = canvas.getContext('2d', { alpha: false });
     const sequence = { frame: 0 };
     let lastDrawnFrame = -1;
 
     const drawImage = (frameIndex) => {
       if (images.length === 0) return;
+      const targetFrame = Math.round(frameIndex);
       const maxIdx = images.length - 1;
-      const clamped = Math.max(0, Math.min(maxIdx, frameIndex));
-      const idx1 = Math.floor(clamped);
-      const idx2 = Math.min(maxIdx, idx1 + 1);
-      const progress = clamped - idx1;
+      const clampedIdx = Math.max(0, Math.min(maxIdx, targetFrame));
+
+      if (clampedIdx === lastDrawnFrame) return;
+      lastDrawnFrame = clampedIdx;
+
+      const img = images[clampedIdx];
+      if (!img || !img.complete) return;
+
       const isMobile = window.innerWidth <= 768;
-
-      const img1 = images[idx1];
-      const img2 = images[idx2];
-      if (!img1 || !img1.complete) return;
-
-      context.imageSmoothingEnabled = true;
-      context.imageSmoothingQuality = 'high';
-
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
-      const imageWidth = img1.width;
-      const imageHeight = img1.height;
+      const imageWidth = img.width;
+      const imageHeight = img.height;
 
       const r = Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight);
       const nw = imageWidth * r;
@@ -519,15 +516,7 @@ const Home = () => {
       const cyOffset = isMobile ? 0 : 80;
       const cy = ((canvasHeight - nh) / 2) + cyOffset;
 
-      // Base frame draw
-      context.drawImage(img1, cx, cy, nw, nh);
-
-      // Liquid sub-frame fractional crossfade interpolation for 120Hz liquid motion
-      if (progress > 0.02 && img2 && img2.complete) {
-        context.globalAlpha = progress;
-        context.drawImage(img2, cx, cy, nw, nh);
-        context.globalAlpha = 1.0;
-      }
+      context.drawImage(img, cx, cy, nw, nh);
     };
 
     const handleResize = () => {
@@ -535,6 +524,8 @@ const Home = () => {
       const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
+      context.imageSmoothingEnabled = true;
+      lastDrawnFrame = -1;
       drawImage(sequence.frame);
     };
 
@@ -552,14 +543,14 @@ const Home = () => {
 
     const isMobile = window.innerWidth <= 1024 || (typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
 
-    // Timeline for the pinned second section with smooth lerp physics
+    // Timeline for the pinned second section with instant responsive 0.1 scrub physics
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: secondSectionRef.current,
         start: 'top top',
-        end: isMobile ? '+=1600' : '+=3000',
+        end: isMobile ? '+=1600' : '+=2800',
         pin: true,
-        scrub: isMobile ? 0.4 : 0.8, // Liquid momentum lerp physics for ultra-smooth scroll
+        scrub: 0.1, // Ultra-fast zero-lag instant scroll sync
         anticipatePin: 1,
       }
     });
@@ -604,35 +595,32 @@ const Home = () => {
     };
   }, [images]);
 
-  // Set up canvas drawing on scroll pinned to Hands section
+  // Set up canvas drawing on scroll pinned to Hands section (Zero-Lag 60fps)
   useGSAP(() => {
     if (!handsCanvasRef.current || !handsSectionRef.current || handsImages.length === 0) return;
 
     const canvas = handsCanvasRef.current;
-    const context = canvas.getContext('2d', { alpha: false, desynchronized: true });
+    const context = canvas.getContext('2d', { alpha: false });
     const sequence = { frame: 0 };
     let lastDrawnFrame = -1;
 
     const drawImage = (frameIndex) => {
       if (handsImages.length === 0) return;
+      const targetFrame = Math.round(frameIndex);
       const maxIdx = handsImages.length - 1;
-      const clamped = Math.max(0, Math.min(maxIdx, frameIndex));
-      const idx1 = Math.floor(clamped);
-      const idx2 = Math.min(maxIdx, idx1 + 1);
-      const progress = clamped - idx1;
+      const clampedIdx = Math.max(0, Math.min(maxIdx, targetFrame));
+
+      if (clampedIdx === lastDrawnFrame) return;
+      lastDrawnFrame = clampedIdx;
+
+      const img = handsImages[clampedIdx];
+      if (!img || !img.complete) return;
+
       const isMobile = window.innerWidth <= 768;
-
-      const img1 = handsImages[idx1];
-      const img2 = handsImages[idx2];
-      if (!img1 || !img1.complete) return;
-
-      context.imageSmoothingEnabled = true;
-      context.imageSmoothingQuality = 'high';
-
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
-      const imageWidth = img1.width;
-      const imageHeight = img1.height;
+      const imageWidth = img.width;
+      const imageHeight = img.height;
 
       // Smart aspect ratio calculation so hands fill screen width grandly on mobile view
       const scale = isMobile
@@ -644,29 +632,7 @@ const Home = () => {
       const cx = (canvasWidth - nw) / 2;
       const cy = (canvasHeight - nh) / 2;
 
-      context.drawImage(img1, cx, cy, nw, nh);
-
-      // Liquid sub-frame fractional crossfade interpolation
-      if (progress > 0.02 && img2 && img2.complete) {
-        context.globalAlpha = progress;
-        context.drawImage(img2, cx, cy, nw, nh);
-        context.globalAlpha = 1.0;
-      }
-
-      // Mask Gemini AI Sparkle Logo below the hands on pure black background
-      const maskX = cx + (nw * 0.70);
-      const maskY = cy + (nh * 0.675);
-      const maskRadius = Math.max(35, nw * 0.045);
-
-      const grad = context.createRadialGradient(maskX, maskY, 0, maskX, maskY, maskRadius);
-      grad.addColorStop(0, '#000000');
-      grad.addColorStop(0.75, '#000000');
-      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-      context.fillStyle = grad;
-      context.beginPath();
-      context.arc(maskX, maskY, maskRadius, 0, Math.PI * 2);
-      context.fill();
+      context.drawImage(img, cx, cy, nw, nh);
     };
 
     const handleResize = () => {
@@ -674,6 +640,8 @@ const Home = () => {
       const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
+      context.imageSmoothingEnabled = true;
+      lastDrawnFrame = -1;
       drawImage(sequence.frame);
     };
 
@@ -694,9 +662,9 @@ const Home = () => {
       scrollTrigger: {
         trigger: handsSectionRef.current,
         start: 'top top',
-        end: isMobile ? '+=1600' : '+=3500',
+        end: isMobile ? '+=1400' : '+=2800',
         pin: true,
-        scrub: isMobile ? 0.4 : 0.8, // Liquid momentum lerp physics for ultra-smooth scroll
+        scrub: 0.1, // Ultra-fast zero-lag instant scroll sync
         anticipatePin: 1,
       }
     });
