@@ -448,7 +448,9 @@
   .custom-cursor-dot,
   .custom-cursor-ring,
   .trail-image,
-  .why-us-hover-img-container {
+  .why-us-hover-img-container,
+  #showcase,
+  #hands-showcase {
     display: none !important;
   }
 

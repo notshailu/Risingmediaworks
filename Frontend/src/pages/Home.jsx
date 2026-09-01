@@ -156,8 +156,9 @@ const Home = () => {
     }
   };
 
-  // High performance 60fps continuous image sequence preloader
+  // Preload Image sequence for continuous 60fps touch scroll (Desktop only)
   useEffect(() => {
+    if (window.innerWidth <= 1024) return;
     const totalFrames = 250;
     const loadedImages = [];
 
@@ -178,8 +179,9 @@ const Home = () => {
     setImages(loadedImages);
   }, []);
 
-  // Preload Hands image sequence for continuous 60fps touch scroll
+  // Preload Hands image sequence for continuous 60fps touch scroll (Desktop only)
   useEffect(() => {
+    if (window.innerWidth <= 1024) return;
     const totalFrames = 150;
     const loadedImages = [];
 
@@ -482,9 +484,9 @@ const Home = () => {
     };
   }, [images]);
 
-  // Set up canvas drawing on scroll pinned to second section
+  // Set up canvas drawing on scroll pinned to second section (Desktop only)
   useGSAP(() => {
-    if (!canvasRef.current || !secondSectionRef.current || images.length === 0) return;
+    if (window.innerWidth <= 1024 || !canvasRef.current || !secondSectionRef.current || images.length === 0) return;
 
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d', { alpha: false, desynchronized: true });
@@ -604,9 +606,9 @@ const Home = () => {
     };
   }, [images]);
 
-  // Set up canvas drawing on scroll pinned to Hands section
+  // Set up canvas drawing on scroll pinned to Hands section (Desktop only)
   useGSAP(() => {
-    if (!handsCanvasRef.current || !handsSectionRef.current || handsImages.length === 0) return;
+    if (window.innerWidth <= 1024 || !handsCanvasRef.current || !handsSectionRef.current || handsImages.length === 0) return;
 
     const canvas = handsCanvasRef.current;
     const context = canvas.getContext('2d', { alpha: false, desynchronized: true });
