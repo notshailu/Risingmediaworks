@@ -448,9 +448,7 @@
   .custom-cursor-dot,
   .custom-cursor-ring,
   .trail-image,
-  .why-us-hover-img-container,
-  #showcase,
-  #hands-showcase {
+  .why-us-hover-img-container {
     display: none !important;
   }
 
@@ -470,6 +468,70 @@
   .all-projects-filter-bar button {
     padding: 0.5rem 1rem !important;
     font-size: 0.72rem !important;
+  }
+
+  /* Mobile Alternative Screen Text Cards (Replaces heavy iPhone & Hands 3D Canvas Animations on phone view) */
+  #showcase canvas,
+  #hands-showcase canvas {
+    display: none !important;
+  }
+
+  #showcase {
+    height: auto !important;
+    min-height: auto !important;
+    padding: 3.5rem 1.25rem !important;
+    background-color: #ffffff !important;
+  }
+
+  .showcase-text-wrapper {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  .showcase-text {
+    opacity: 1 !important;
+    transform: none !important;
+    position: relative !important;
+    background-color: #fafaf9 !important;
+    border-radius: 20px !important;
+    padding: 2.5rem 1.5rem !important;
+    border: 1px solid #e4e4e7 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #hands-showcase {
+    height: auto !important;
+    min-height: auto !important;
+    padding: 3.5rem 1.25rem !important;
+    background-color: #000000 !important;
+  }
+
+  .hands-showcase-text-wrapper {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  .hands-showcase-text {
+    opacity: 1 !important;
+    transform: none !important;
+    position: relative !important;
+    background-color: #09090b !important;
+    border-radius: 20px !important;
+    padding: 2.5rem 1.5rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 }
 

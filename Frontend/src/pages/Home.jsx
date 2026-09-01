@@ -156,9 +156,8 @@ const Home = () => {
     }
   };
 
-  // Preload Image sequence for continuous 60fps touch scroll (Desktop only)
+  // High performance 60fps continuous image sequence preloader
   useEffect(() => {
-    if (window.innerWidth <= 1024) return;
     const totalFrames = 250;
     const loadedImages = [];
 
@@ -179,9 +178,8 @@ const Home = () => {
     setImages(loadedImages);
   }, []);
 
-  // Preload Hands image sequence for continuous 60fps touch scroll (Desktop only)
+  // Preload Hands image sequence for continuous 60fps touch scroll
   useEffect(() => {
-    if (window.innerWidth <= 1024) return;
     const totalFrames = 150;
     const loadedImages = [];
 
@@ -486,7 +484,8 @@ const Home = () => {
 
   // Set up canvas drawing on scroll pinned to second section (Desktop only)
   useGSAP(() => {
-    if (window.innerWidth <= 1024 || !canvasRef.current || !secondSectionRef.current || images.length === 0) return;
+    if (window.innerWidth <= 1024) return;
+    if (!canvasRef.current || !secondSectionRef.current || images.length === 0) return;
 
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d', { alpha: false, desynchronized: true });
@@ -608,7 +607,8 @@ const Home = () => {
 
   // Set up canvas drawing on scroll pinned to Hands section (Desktop only)
   useGSAP(() => {
-    if (window.innerWidth <= 1024 || !handsCanvasRef.current || !handsSectionRef.current || handsImages.length === 0) return;
+    if (window.innerWidth <= 1024) return;
+    if (!handsCanvasRef.current || !handsSectionRef.current || handsImages.length === 0) return;
 
     const canvas = handsCanvasRef.current;
     const context = canvas.getContext('2d', { alpha: false, desynchronized: true });
@@ -1240,7 +1240,7 @@ const Home = () => {
         }} />
 
         {/* Text overlay appearing only after rotation and zoom completes */}
-        <div style={{
+        <div className="showcase-text-wrapper" style={{
           position: 'absolute',
           top: 0,
           left: 0,
@@ -1329,7 +1329,7 @@ const Home = () => {
         }} />
 
         {/* Text overlay appearing near the end of the handshake sequence (Positioned cleanly above the hands) */}
-        <div style={{
+        <div className="hands-showcase-text-wrapper" style={{
           position: 'absolute',
           top: 0,
           left: 0,
@@ -1350,18 +1350,21 @@ const Home = () => {
             maxWidth: '860px',
             opacity: 0
           }}>
-            <p style={{
-              fontSize: 'calc(1.1rem + 0.5vw)',
-              lineHeight: '1.5',
-              color: 'rgba(255, 255, 255, 0.95)',
-              margin: 0,
-              fontFamily: 'sans-serif',
+            <span style={{ fontSize: '0.78rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(255, 255, 255, 0.6)', display: 'block', marginBottom: '1.2rem', fontFamily: "'Valley Sans', 'Manrope', sans-serif", fontWeight: '700' }}>CREATIVE PARTNERSHIP</span>
+            <h2 style={{
+              fontSize: 'calc(1.3rem + 1vw)',
+              lineHeight: '1.4',
+              color: '#ffffff',
+              margin: '0 0 1rem 0',
+              fontFamily: "'Valley Sans', 'Manrope', sans-serif",
               fontWeight: '300',
-              letterSpacing: '0.04em',
-              textTransform: 'uppercase',
-              textShadow: '0 4px 30px rgba(0, 0, 0, 0.95)'
+              letterSpacing: '0.02em',
+              textTransform: 'uppercase'
             }}>
               WE PARTNER WITH INDUSTRY LEADERS TO BUILD SOMETHING WORTH REMEMBERING
+            </h2>
+            <p style={{ fontSize: '0.92rem', lineHeight: '1.6', color: 'rgba(255, 255, 255, 0.65)', margin: 0, fontWeight: '300', fontFamily: "'Manrope', sans-serif" }}>
+              Uniting brand strategy, visual storytelling, publishing, and digital production for global impact.
             </p>
           </div>
         </div>
