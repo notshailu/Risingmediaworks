@@ -659,52 +659,75 @@
     line-height: 1.15 !important;
   }
 
-  /* Process Steps Minimal Column Layout Mobile Optimization - Exact UI Preservation */
+  /* Process Steps Mobile Optimization - 100% Identical Desktop Grid Layout */
   .process-card-container {
-    padding: 2rem 0.85rem !important;
-    gap: 1.5rem !important;
+    padding: 2rem 0.4rem !important;
+    gap: 1.8rem !important;
     border-radius: 20px !important;
     overflow: hidden !important;
-  }
-
-  .process-row-top,
-  .process-row-bottom {
-    display: flex !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory !important;
-    -webkit-overflow-scrolling: touch !important;
-    gap: 1rem !important;
-    padding: 0.5rem 0.5rem 1.25rem 0.5rem !important;
     width: 100% !important;
-    scrollbar-width: none !important;
     box-sizing: border-box !important;
   }
-  .process-row-top::-webkit-scrollbar,
-  .process-row-bottom::-webkit-scrollbar {
-    display: none !important;
+
+  .process-row-top {
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    width: 100% !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .process-row-bottom {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    width: 100% !important;
+    max-width: 220px !important;
+    margin: 0 auto !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
   }
 
   .process-step-col {
-    flex: 0 0 85% !important;
-    min-width: 240px !important;
-    max-width: 320px !important;
-    scroll-snap-align: center !important;
-    border-right: none !important;
-    border-bottom: none !important;
-    padding: 1.8rem 1.35rem !important;
+    flex: none !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    padding: 0.65rem 0.15rem !important;
+    min-height: 95px !important;
     box-sizing: border-box !important;
-    background-color: #ffffff !important;
-    border-radius: 18px !important;
-    border: 1px solid #e4e4e7 !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
-    transition: background-color 0.4s ease, border 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease, border-radius 0.4s ease !important;
+    border-right: 1px solid #d4d4d8 !important;
+    border-bottom: none !important;
+    border-radius: 0px !important;
+    background-color: transparent !important;
+    border-top: none !important;
+    border-left: none !important;
+    box-shadow: none !important;
+  }
+
+  .process-row-top .process-step-col:last-child,
+  .process-row-bottom .process-step-col:last-child {
+    border-right: none !important;
   }
 
   .process-step-col.is-active-step {
-    border: 2px solid #000000 !important;
+    border: 1.5px solid #000000 !important;
     background-color: #ffffff !important;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12) !important;
-    transform: scale(1.01) translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 12px !important;
+    transform: scale(1.02) !important;
+  }
+
+  .method-num {
+    font-size: clamp(1.4rem, 4.5vw, 2.4rem) !important;
+    margin-bottom: 0.3rem !important;
+  }
+
+  .method-label {
+    font-size: clamp(0.52rem, 1.6vw, 0.75rem) !important;
+    line-height: 1.2 !important;
+    max-width: 100% !important;
   }
 
   .process-step-col.is-active-step span,
