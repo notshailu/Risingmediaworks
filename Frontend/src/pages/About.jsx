@@ -425,8 +425,8 @@ const About = () => {
               padding: 90px 1.25rem 40px 1.25rem !important;
             }
             .typo-eyebrow { top: 18% !important; }
-            .typo-bg-text { font-size: clamp(2.5rem, 10vw, 4rem) !important; top: 32% !important; left: 0 !important; }
-            .typo-fg-text { font-size: clamp(3.5rem, 14vw, 5.5rem) !important; top: 48% !important; right: 0 !important; }
+            .typo-bg-text { font-size: 14.5vw !important; top: 28% !important; left: 0 !important; }
+            .typo-fg-text { font-size: 22vw !important; top: 46% !important; right: 0 !important; }
             
             .cinematic-story-wrapper {
               padding: 2rem 1.25rem !important;
@@ -660,7 +660,7 @@ const About = () => {
           <div 
             className="typo-bg-text"
             style={{
-              fontSize: 'clamp(6.3rem, 19.5vw, 20.25rem)',
+              fontSize: '14.5vw',
               fontWeight: '800',
               color: '#1a1a1a', // dark gray outline text
               textTransform: 'lowercase',
@@ -669,7 +669,7 @@ const About = () => {
               lineHeight: '1',
               letterSpacing: '-0.04em',
               position: 'absolute',
-              top: '22%',
+              top: '24%',
               left: 0,
               width: '100%',
               textAlign: 'center',
@@ -685,7 +685,7 @@ const About = () => {
           <div 
             className="typo-fg-text"
             style={{
-              fontSize: 'clamp(6.5rem, 22vw, 22rem)',
+              fontSize: '22vw',
               fontWeight: '800',
               color: '#1a1a1a', // dark gray to match rising media
               WebkitTextStroke: '1px #333333',
