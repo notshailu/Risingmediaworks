@@ -720,6 +720,8 @@ const Home = () => {
     }
 
     const isMobile = window.innerWidth <= 1024 || (typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+    const maxHandFrame = Math.min(205, handsImages.length - 1);
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: handsSectionRef.current,
@@ -733,7 +735,7 @@ const Home = () => {
     });
 
     tl.to(sequence, {
-      frame: handsImages.length - 1,
+      frame: maxHandFrame,
       ease: 'none',
       duration: 0.70,
       onUpdate: () => {
