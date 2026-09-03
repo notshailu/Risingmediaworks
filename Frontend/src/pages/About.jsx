@@ -116,14 +116,13 @@ const About = () => {
     });
 
     // Pin and Parallax drift scroll timeline for interstitial typography section
-    const isMobile = window.innerWidth < 768;
     const typoTl = gsap.timeline({
       scrollTrigger: {
         trigger: '.interstitial-typo-section',
         start: 'top top',
-        end: isMobile ? '+=400' : '+=1000',
-        pin: !isMobile,
-        scrub: isMobile ? 0.3 : 1.5
+        end: '+=1000',
+        pin: true,
+        scrub: 1.5 // Increased scrub time for smoother catch-up
       }
     });
 
@@ -134,12 +133,12 @@ const About = () => {
     .fromTo('.typo-bg-text', 
       { opacity: 0, y: 50 },
       { opacity: 1, y: 0, ease: 'power2.out', duration: 1 }, 
-      "-=0.3"
+      "-=0.3" // Overlap animations for continuous flow
     )
     .fromTo('.typo-fg-text', 
       { opacity: 0, y: 50 },
       { opacity: 1, y: 0, ease: 'power2.out', duration: 1 }, 
-      "-=0.3"
+      "-=0.3" // Overlap animations for continuous flow
     );
 
     // Cinematic Our Story Pinned Scroll
@@ -425,38 +424,9 @@ const About = () => {
             .about-hero-container {
               padding: 90px 1.25rem 40px 1.25rem !important;
             }
-            .interstitial-typo-section {
-              height: auto !important;
-              min-height: 50vh !important;
-              padding: 4rem 1.25rem !important;
-              box-sizing: border-box !important;
-              justify-content: center !important;
-            }
-            .typo-eyebrow {
-              position: relative !important;
-              top: auto !important;
-              margin-bottom: 1.25rem !important;
-              color: #94a3b8 !important;
-              font-size: 0.8rem !important;
-              opacity: 1 !important;
-            }
-            .typo-bg-text {
-              position: relative !important;
-              top: auto !important;
-              font-size: clamp(2.6rem, 11vw, 4.2rem) !important;
-              color: rgba(255, 255, 255, 0.9) !important;
-              -webkit-text-stroke: none !important;
-              margin-bottom: 0.4rem !important;
-              white-space: normal !important;
-            }
-            .typo-fg-text {
-              position: relative !important;
-              top: auto !important;
-              font-size: clamp(3.8rem, 16vw, 6rem) !important;
-              color: #ffffff !important;
-              -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5) !important;
-              white-space: normal !important;
-            }
+            .typo-eyebrow { top: 15% !important; font-size: 0.85rem !important; color: #a1a1aa !important; letter-spacing: 0.3em !important; }
+            .typo-bg-text { font-size: clamp(3.2rem, 14vw, 5.5rem) !important; color: #ffffff !important; top: 28% !important; left: 0 !important; font-weight: 800 !important; -webkit-text-stroke: 0px !important; }
+            .typo-fg-text { font-size: clamp(5.5rem, 24vw, 9.5rem) !important; color: #ffffff !important; top: 44% !important; right: 0 !important; font-weight: 900 !important; -webkit-text-stroke: 0px !important; }
             
             .cinematic-story-wrapper {
               padding: 2rem 1.25rem !important;
@@ -466,10 +436,13 @@ const About = () => {
               opacity: 0.04 !important;
             }
             .story-chapter-title {
-              font-size: 2.2rem !important;
+              font-size: 2.8rem !important;
+              color: #ffffff !important;
             }
             .story-chapter-desc {
-              font-size: 0.95rem !important;
+              font-size: 1.1rem !important;
+              color: #e4e4e7 !important;
+              line-height: 1.65 !important;
             }
             .cinematic-progress-bar-container, .cinematic-progress-label {
               display: none !important;
@@ -484,13 +457,14 @@ const About = () => {
               gap: 0.75rem !important;
               flex-direction: column !important;
             }
-            .phil-title { font-size: 1.35rem !important; }
+            .phil-title { font-size: 1.6rem !important; }
+            .phil-desc { font-size: 1.05rem !important; }
             
             .why-works-wrapper {
-              padding: 3rem 1.25rem !important;
+              padding: 3.5rem 1.25rem !important;
             }
             .why-works-title {
-              font-size: 2.2rem !important;
+              font-size: 2.8rem !important;
             }
             .why-works-grid {
               grid-template-columns: 1fr !important;
@@ -498,7 +472,7 @@ const About = () => {
             }
             
             .final-cta-title {
-              font-size: 1.8rem !important;
+              font-size: 2.2rem !important;
             }
             
             .floating-image-overlay {
@@ -677,7 +651,7 @@ const About = () => {
               fontSize: '0.75rem',
               letterSpacing: '0.4em',
               textTransform: 'uppercase',
-              color: '#94a3b8',
+              color: '#666666',
               fontFamily: 'sans-serif',
               zIndex: 5,
               opacity: 0
@@ -686,13 +660,13 @@ const About = () => {
             who we are
           </span>
 
-          {/* Background text (Bright High-Contrast White) */}
+          {/* Background text (Outlined/Dark Gray) */}
           <div 
             className="typo-bg-text"
             style={{
               fontSize: 'clamp(4.2rem, 13vw, 13.5rem)',
               fontWeight: '800',
-              color: 'rgba(255, 255, 255, 0.85)',
+              color: '#1a1a1a', // dark gray outline text
               textTransform: 'lowercase',
               fontFamily: "'Manrope', sans-serif",
               whiteSpace: 'nowrap',
@@ -705,20 +679,20 @@ const About = () => {
               textAlign: 'center',
               pointerEvents: 'none',
               userSelect: 'none',
-              WebkitTextStroke: '1px rgba(255, 255, 255, 0.2)'
+              WebkitTextStroke: '1px #333333'
             }}
           >
             rising media
           </div>
 
-          {/* Foreground text (Bright White Outlined) */}
+          {/* Foreground text (Dark Gray to match) */}
           <div 
             className="typo-fg-text"
             style={{
               fontSize: 'clamp(6.5rem, 22vw, 22rem)',
               fontWeight: '800',
-              color: '#ffffff',
-              WebkitTextStroke: '1px rgba(255, 255, 255, 0.5)',
+              color: '#1a1a1a', // dark gray to match rising media
+              WebkitTextStroke: '1px #333333',
               textTransform: 'lowercase',
               fontFamily: "'Manrope', sans-serif",
               whiteSpace: 'nowrap',
