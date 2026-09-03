@@ -381,8 +381,8 @@ const About = () => {
             transition: background-color 0.3s ease, border-color 0.3s ease;
           }
           .philosophy-card:hover {
-            background-color: #0047FF !important;
-            border-bottom: 1px solid #0047FF !important;
+            background-color: #0f172a !important;
+            border-bottom: 1px solid #0f172a !important;
           }
           .philosophy-card .phil-num {
             font-size: 1.25rem;
@@ -500,7 +500,7 @@ const About = () => {
               fontSize: '0.75rem',
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
-              color: '#0052ff',
+              color: '#475569',
               fontWeight: '700',
               fontFamily: 'monospace',
               display: 'block',
@@ -803,7 +803,7 @@ const About = () => {
           style={{ display: 'flex', flexDirection: 'column', gap: '4rem', borderTop: 'none', paddingTop: '5rem', position: 'relative', marginBottom: '8rem' }}
         >
           <div style={{ maxWidth: '950px' }}>
-            <span style={{ fontSize: '0.75rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#0052ff', fontWeight: '700', fontFamily: 'monospace', display: 'block', marginBottom: '1.2rem' }}>
+            <span style={{ fontSize: '0.75rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#475569', fontWeight: '700', fontFamily: 'monospace', display: 'block', marginBottom: '1.2rem' }}>
               ABOUT RISING MEDIA WORKS
             </span>
             <h2 style={{
@@ -824,7 +824,7 @@ const About = () => {
             <div style={{ marginTop: '2.5rem', display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem', margin: '1rem 0' }}>
                 {['It should communicate.', 'It should create recognition.', 'It should build trust.', 'And help a brand move forward.'].map((pt, i) => (
-                  <div key={i} style={{ borderLeft: '2px solid #0052ff', paddingLeft: '1.2rem', fontSize: '1.05rem', fontWeight: '600', color: '#111827', fontFamily: 'sans-serif' }}>
+                  <div key={i} style={{ borderLeft: '2px solid #0f172a', paddingLeft: '1.2rem', fontSize: '1.05rem', fontWeight: '600', color: '#111827', fontFamily: 'sans-serif' }}>
                     {pt}
                   </div>
                 ))}
