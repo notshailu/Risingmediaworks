@@ -115,40 +115,43 @@ const About = () => {
       observer.observe(el);
     });
 
-    // Pin and Parallax drift scroll timeline for interstitial typography section
-    const typoTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.interstitial-typo-section',
-        start: 'top top',
-        end: '+=1000',
-        pin: true,
-        scrub: 1.5 // Increased scrub time for smoother catch-up
-      }
-    });
+    // Pin and Parallax drift scroll timeline for interstitial typography section (Desktop Only)
+    if (window.innerWidth > 768) {
+      const typoTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.interstitial-typo-section',
+          start: 'top top',
+          end: '+=1000',
+          pin: true,
+          scrub: 1.5
+        }
+      });
 
-    typoTl.fromTo('.typo-eyebrow',
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, ease: 'power2.out', duration: 1 }
-    )
-    .fromTo('.typo-bg-text', 
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, ease: 'power2.out', duration: 1 }, 
-      "-=0.3" // Overlap animations for continuous flow
-    )
-    .fromTo('.typo-fg-text', 
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, ease: 'power2.out', duration: 1 }, 
-      "-=0.3" // Overlap animations for continuous flow
-    );
+      typoTl.fromTo('.typo-eyebrow',
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, ease: 'power2.out', duration: 1 }
+      )
+      .fromTo('.typo-bg-text', 
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, ease: 'power2.out', duration: 1 }, 
+        "-=0.3"
+      )
+      .fromTo('.typo-fg-text', 
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, ease: 'power2.out', duration: 1 }, 
+        "-=0.3"
+      );
+    }
 
     // Cinematic Our Story Pinned Scroll
+    const isMobileView = window.innerWidth <= 768;
     const storyTl = gsap.timeline({
       scrollTrigger: {
         trigger: '.cinematic-story-wrapper',
         start: 'top top',
-        end: '+=3000', // 3000px of scrolling for 4 items
+        end: isMobileView ? '+=1400' : '+=3000',
         pin: true,
-        scrub: 1
+        scrub: isMobileView ? 0.4 : 1
       }
     });
     
@@ -626,7 +629,8 @@ const About = () => {
           className="interstitial-typo-section"
           style={{ 
             width: '100vw', 
-            height: '100vh', 
+            height: isMobile ? 'auto' : '100vh', 
+            padding: isMobile ? '5rem 1.5rem' : '0',
             backgroundColor: '#000000', 
             display: 'flex', 
             flexDirection: 'column', 
@@ -636,13 +640,25 @@ const About = () => {
             overflow: 'hidden',
             zIndex: 10,
             marginLeft: 'calc(-50vw + 50%)',
-            marginRight: 'calc(-50vw + 50%)'
+            marginRight: 'calc(-50vw + 50%)',
+            boxSizing: 'border-box'
           }}
         >
           {/* Eyebrow Label */}
           <span 
             className="typo-eyebrow"
-            style={{
+            style={isMobile ? {
+              position: 'relative',
+              fontSize: '0.75rem',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: '#94a3b8',
+              fontFamily: 'monospace',
+              fontWeight: '700',
+              marginBottom: '1.25rem',
+              opacity: 1,
+              top: 'auto'
+            } : {
               position: 'absolute',
               top: '18%',
               left: 0,
@@ -660,56 +676,86 @@ const About = () => {
             who we are
           </span>
 
-          {/* Background text (Outlined/Dark Gray) */}
-          <div 
-            className="typo-bg-text"
-            style={{
-              fontSize: 'clamp(4.2rem, 13vw, 13.5rem)',
-              fontWeight: '800',
-              color: '#1a1a1a', // dark gray outline text
-              textTransform: 'lowercase',
-              fontFamily: "'Manrope', sans-serif",
-              whiteSpace: 'nowrap',
-              lineHeight: '1',
-              letterSpacing: '-0.04em',
-              position: 'absolute',
-              top: '24%',
-              left: 0,
-              width: '100%',
-              textAlign: 'center',
-              pointerEvents: 'none',
-              userSelect: 'none',
-              WebkitTextStroke: '1px #333333'
-            }}
-          >
-            rising media
-          </div>
+          {isMobile ? (
+            /* Mobile High-Impact Branding Card */
+            <div style={{ textAlign: 'center', maxWidth: '360px', width: '100%' }}>
+              <h2 style={{
+                fontSize: '2.6rem',
+                fontWeight: '900',
+                fontFamily: "'Manrope', sans-serif",
+                lineHeight: '1.1',
+                letterSpacing: '-0.04em',
+                margin: '0 0 1.25rem 0',
+                background: 'linear-gradient(135deg, #ffffff 40%, #94a3b8 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}>
+                Rising Media Works
+              </h2>
+              <p style={{
+                fontSize: '0.98rem',
+                color: '#a1a1aa',
+                fontFamily: 'sans-serif',
+                lineHeight: '1.6',
+                margin: 0,
+                fontWeight: '400'
+              }}>
+                Crafting cinematic media, bespoke digital architectures, and authoritative brand identities that demand attention.
+              </p>
+            </div>
+          ) : (
+            /* Desktop Parallax Dual-Layer Text */
+            <>
+              <div 
+                className="typo-bg-text"
+                style={{
+                  fontSize: 'clamp(4.2rem, 13vw, 13.5rem)',
+                  fontWeight: '800',
+                  color: '#1a1a1a',
+                  textTransform: 'lowercase',
+                  fontFamily: "'Manrope', sans-serif",
+                  whiteSpace: 'nowrap',
+                  lineHeight: '1',
+                  letterSpacing: '-0.04em',
+                  position: 'absolute',
+                  top: '24%',
+                  left: 0,
+                  width: '100%',
+                  textAlign: 'center',
+                  pointerEvents: 'none',
+                  userSelect: 'none',
+                  WebkitTextStroke: '1px #333333'
+                }}
+              >
+                rising media
+              </div>
 
-          {/* Foreground text (Dark Gray to match) */}
-          <div 
-            className="typo-fg-text"
-            style={{
-              fontSize: 'clamp(6.5rem, 22vw, 22rem)',
-              fontWeight: '800',
-              color: '#1a1a1a', // dark gray to match rising media
-              WebkitTextStroke: '1px #333333',
-              textTransform: 'lowercase',
-              fontFamily: "'Manrope', sans-serif",
-              whiteSpace: 'nowrap',
-              lineHeight: '1',
-              letterSpacing: '-0.05em',
-              position: 'absolute',
-              top: '42%',
-              left: 0,
-              width: '100%',
-              textAlign: 'center',
-              pointerEvents: 'none',
-              userSelect: 'none',
-              zIndex: 2
-            }}
-          >
-            works
-          </div>
+              <div 
+                className="typo-fg-text"
+                style={{
+                  fontSize: 'clamp(6.5rem, 22vw, 22rem)',
+                  fontWeight: '800',
+                  color: '#1a1a1a',
+                  WebkitTextStroke: '1px #333333',
+                  textTransform: 'lowercase',
+                  fontFamily: "'Manrope', sans-serif",
+                  whiteSpace: 'nowrap',
+                  lineHeight: '1',
+                  letterSpacing: '-0.05em',
+                  position: 'absolute',
+                  top: '42%',
+                  left: 0,
+                  width: '100%',
+                  textAlign: 'center',
+                  pointerEvents: 'none',
+                  userSelect: 'none',
+                  zIndex: 2
+                }}
+              >
+                works
+              </div>
+            </>
+          )}
         </section>
 
         {/* ================= OUR STORY (CINEMATIC) ================= */}
