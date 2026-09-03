@@ -41,16 +41,16 @@ const About = () => {
   }, [isMobile]);
 
   const awardsData = [
-    { id: 0, title: <>Addawards <br /> 2023</>, desc: <>1st place in the competition <br /> "Space", "Garden Ring"</> },
-    { id: 1, title: <>Best Office <br /> Awards 2023 <br /> Office Next</>, desc: <>1st place in the nomination <br /> "Developers' Sales Office"</> },
-    { id: 2, title: <>Beautiful Homes <br /> Press Fireplace <br /> Design 2024</>, desc: <>1st place in the nomination <br /> "Modern fireplace" — Pevchee</> },
-    { id: 3, title: <>Interia Public <br /> Space Award <br /> 2024</>, desc: <>Top 100 best public spaces in <br /> Russia 2024 — Restaurant "Krasa" <br /> in Nizhny Novgorod</> },
-    { id: 4, title: <>MosBuild <br /> Architecture & <br /> Design Award <br /> (MADA) 2025</>, desc: <>Finalist in the nomination "Public interiors <br /> HoReCa" — Restaurant "Krasa"</> },
-    { id: 5, title: <>Kukha Design <br /> Award 2025</>, desc: <>1st place in the category "Public <br /> Building Architecture" — Riverside</> },
-    { id: 6, title: <>Interia Public <br /> Space Award <br /> 2023</>, desc: <>1st place in the nomination "HoReCa" <br /> — Restaurant "Pevchee" in Nizhny Novgorod</> },
-    { id: 7, title: <>MosBuild Design <br /> Award 2024</>, desc: <>Nominee in the category "Residential <br /> Building Architecture" — Modern Mansion</> },
-    { id: 8, title: <>Beautiful Homes <br /> Design 2025</>, desc: <>Best Interior Concept nomination <br /> — The Glass Pavilion</> },
-    { id: 9, title: <>ArchDaily <br /> Building of <br /> The Year 2026</>, desc: <>Nominated for Public Architecture <br /> — Media Library Center</> }
+    { id: 0, titleStr: 'Addawards 2023', title: <>Addawards <br /> 2023</>, descStr: '1st place in the competition "Space", "Garden Ring"', desc: <>1st place in the competition <br /> "Space", "Garden Ring"</> },
+    { id: 1, titleStr: 'Best Office Awards 2023 Office Next', title: <>Best Office <br /> Awards 2023 <br /> Office Next</>, descStr: '1st place in the nomination "Developers\' Sales Office"', desc: <>1st place in the nomination <br /> "Developers' Sales Office"</> },
+    { id: 2, titleStr: 'Beautiful Homes Press Fireplace Design 2024', title: <>Beautiful Homes <br /> Press Fireplace <br /> Design 2024</>, descStr: '1st place in the nomination "Modern fireplace" — Pevchee', desc: <>1st place in the nomination <br /> "Modern fireplace" — Pevchee</> },
+    { id: 3, titleStr: 'Interia Public Space Award 2024', title: <>Interia Public <br /> Space Award <br /> 2024</>, descStr: 'Top 100 best public spaces in Russia 2024 — Restaurant "Krasa" in Nizhny Novgorod', desc: <>Top 100 best public spaces in <br /> Russia 2024 — Restaurant "Krasa" <br /> in Nizhny Novgorod</> },
+    { id: 4, titleStr: 'MosBuild Architecture & Design Award (MADA) 2025', title: <>MosBuild <br /> Architecture & <br /> Design Award <br /> (MADA) 2025</>, descStr: 'Finalist in the nomination "Public interiors HoReCa" — Restaurant "Krasa"', desc: <>Finalist in the nomination "Public interiors <br /> HoReCa" — Restaurant "Krasa"</> },
+    { id: 5, titleStr: 'Kukha Design Award 2025', title: <>Kukha Design <br /> Award 2025</>, descStr: '1st place in the category "Public Building Architecture" — Riverside', desc: <>1st place in the category "Public <br /> Building Architecture" — Riverside</> },
+    { id: 6, titleStr: 'Interia Public Space Award 2023', title: <>Interia Public <br /> Space Award <br /> 2023</>, descStr: '1st place in the nomination "HoReCa" — Restaurant "Pevchee" in Nizhny Novgorod', desc: <>1st place in the nomination "HoReCa" <br /> — Restaurant "Pevchee" in Nizhny Novgorod</> },
+    { id: 7, titleStr: 'MosBuild Design Award 2024', title: <>MosBuild Design <br /> Award 2024</>, descStr: 'Nominee in the category "Residential Building Architecture" — Modern Mansion', desc: <>Nominee in the category "Residential <br /> Building Architecture" — Modern Mansion</> },
+    { id: 8, titleStr: 'Beautiful Homes Design 2025', title: <>Beautiful Homes <br /> Design 2025</>, descStr: 'Best Interior Concept nomination — The Glass Pavilion', desc: <>Best Interior Concept nomination <br /> — The Glass Pavilion</> },
+    { id: 9, titleStr: 'ArchDaily Building of The Year 2026', title: <>ArchDaily <br /> Building of <br /> The Year 2026</>, descStr: 'Nominated for Public Architecture — Media Library Center', desc: <>Nominated for Public Architecture <br /> — Media Library Center</> }
   ];
 
   const slots = [
@@ -478,14 +478,60 @@ const About = () => {
         `}</style>
 
         {/* ================= HERO SECTION ================= */}
-        <section style={{ minHeight: '150vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', marginBottom: '8rem', padding: '0 6vw', boxSizing: 'border-box' }}>
+        <section style={{ 
+          minHeight: isMobile ? 'auto' : '150vh', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          justifyContent: 'center', 
+          position: 'relative', 
+          marginBottom: isMobile ? '4rem' : '8rem', 
+          padding: isMobile ? '0' : '0 6vw', 
+          boxSizing: 'border-box' 
+        }}>
+
+          {/* Section Header */}
+          <div style={{ marginBottom: isMobile ? '2rem' : '3rem', width: '100%' }}>
+            <span style={{
+              fontSize: '0.75rem',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: '#0052ff',
+              fontWeight: '700',
+              fontFamily: 'monospace',
+              display: 'block',
+              marginBottom: '0.6rem'
+            }}>
+              HONORS & RECOGNITION
+            </span>
+            <h1 style={{
+              fontSize: isMobile ? '2.1rem' : '3.6rem',
+              fontWeight: '300',
+              fontFamily: 'serif',
+              color: '#000000',
+              margin: 0,
+              lineHeight: '1.15',
+              letterSpacing: '-0.02em'
+            }}>
+              Awards & Editorial Features
+            </h1>
+            <p style={{
+              fontSize: isMobile ? '0.92rem' : '1.1rem',
+              color: '#64748b',
+              marginTop: '0.6rem',
+              lineHeight: '1.5',
+              maxWidth: '650px',
+              margin: '0.6rem 0 0 0'
+            }}>
+              Selected international recognitions, public architecture awards, and editorial honors.
+            </p>
+          </div>
 
           <div style={isMobile ? {
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '3rem',
+            display: 'grid',
+            gridTemplateColumns: '1fr',
+            gap: '1.2rem',
             width: '100%',
-            marginTop: '2rem'
+            marginTop: '1rem'
           } : {
             position: 'relative',
             width: '100%',
@@ -500,7 +546,16 @@ const About = () => {
                   key={award.id}
                   className="award-card"
                   style={isMobile ? {
-                    width: '100%'
+                    width: '100%',
+                    padding: '1.35rem 1.25rem',
+                    backgroundColor: '#f8fafc',
+                    borderRadius: '16px',
+                    border: '1px solid #e2e8f0',
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.5rem',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
                   } : {
                     position: 'absolute',
                     left: slot.left,
@@ -509,11 +564,38 @@ const About = () => {
                     transition: 'left 2.5s cubic-bezier(0.76, 0, 0.24, 1), top 2.5s cubic-bezier(0.76, 0, 0.24, 1)',
                   }}
                 >
-                  <h3 style={{ fontSize: '1.75rem', fontWeight: '300', fontFamily: 'serif', lineHeight: '1.25', color: '#000000', margin: '0 0 0.75rem 0', letterSpacing: '-0.3px' }}>
-                    {award.title}
+                  {isMobile && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#0052ff', fontSize: '0.78rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                      <span>🏆 Award {String(index + 1).padStart(2, '0')}</span>
+                    </div>
+                  )}
+                  <h3 style={isMobile ? {
+                    fontSize: '1.3rem',
+                    fontWeight: '400',
+                    fontFamily: 'serif',
+                    lineHeight: '1.25',
+                    color: '#0f172a',
+                    margin: 0
+                  } : {
+                    fontSize: '1.75rem',
+                    fontWeight: '300',
+                    fontFamily: 'serif',
+                    lineHeight: '1.25',
+                    color: '#000000',
+                    margin: '0 0 0.75rem 0',
+                    letterSpacing: '-0.3px'
+                  }}>
+                    {isMobile ? award.titleStr : award.title}
                   </h3>
-                  <p style={{ fontSize: '0.85rem', color: '#666666', fontFamily: 'sans-serif', lineHeight: '1.5', fontWeight: '400', margin: 0 }}>
-                    {award.desc}
+                  <p style={{
+                    fontSize: '0.85rem',
+                    color: '#64748b',
+                    fontFamily: 'sans-serif',
+                    lineHeight: '1.5',
+                    fontWeight: '400',
+                    margin: 0
+                  }}>
+                    {isMobile ? award.descStr : award.desc}
                   </p>
                 </div>
               );
@@ -524,19 +606,20 @@ const About = () => {
                 <button 
                   onClick={() => setShowAllAwards(!showAllAwards)}
                   style={{
-                    padding: '0.75rem 2.5rem',
-                    backgroundColor: '#000000',
+                    padding: '0.85rem 2.5rem',
+                    backgroundColor: '#0f172a',
                     color: '#ffffff',
                     border: 'none',
                     borderRadius: '50px',
-                    fontSize: '0.75rem',
+                    fontSize: '0.78rem',
                     textTransform: 'uppercase',
                     letterSpacing: '0.15em',
                     cursor: 'pointer',
-                    fontWeight: '500'
+                    fontWeight: '700',
+                    boxShadow: '0 4px 12px rgba(15, 23, 42, 0.15)'
                   }}
                 >
-                  {showAllAwards ? 'Show Less' : 'See All Awards'}
+                  {showAllAwards ? 'Show Less' : 'See All 10 Awards'}
                 </button>
               </div>
             )}
