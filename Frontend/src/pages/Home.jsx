@@ -544,11 +544,12 @@ const Home = () => {
     };
 
     const handleResize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const isMobile = window.innerWidth <= 1024;
+      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       context.imageSmoothingEnabled = true;
-      context.imageSmoothingQuality = 'high';
+      context.imageSmoothingQuality = isMobile ? 'medium' : 'high';
       lastDrawnFrame = -1;
       drawImage(sequence.frame);
     };
@@ -696,11 +697,12 @@ const Home = () => {
     };
 
     const handleResize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const isMobile = window.innerWidth <= 1024;
+      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       context.imageSmoothingEnabled = true;
-      context.imageSmoothingQuality = 'high';
+      context.imageSmoothingQuality = isMobile ? 'medium' : 'high';
       lastDrawnFrame = -1;
       drawImage(sequence.frame);
     };
@@ -1389,7 +1391,7 @@ const Home = () => {
       </section>
 
       {/* BRAND PARTNERS SHOWCASE SECTION (Showcasing all 14 brand logos right after handshake sequence) */}
-      <section id="brand-partners" className="scroll-fade-in" style={{
+      <section id="brand-partners" style={{
         width: '100%',
         padding: '6vh 6vw',
         boxSizing: 'border-box',
