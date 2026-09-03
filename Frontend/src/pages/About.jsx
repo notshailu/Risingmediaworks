@@ -424,9 +424,9 @@ const About = () => {
             .about-hero-container {
               padding: 90px 1.25rem 40px 1.25rem !important;
             }
-            .typo-eyebrow { top: 18% !important; }
-            .typo-bg-text { font-size: 14.5vw !important; top: 28% !important; left: 0 !important; }
-            .typo-fg-text { font-size: 22vw !important; top: 46% !important; right: 0 !important; }
+            .typo-eyebrow { top: 14% !important; }
+            .typo-bg-text { font-size: 17.5vw !important; top: 24% !important; left: 0 !important; }
+            .typo-fg-text { font-size: 25vw !important; top: 46% !important; right: 0 !important; }
             
             .cinematic-story-wrapper {
               padding: 2rem 1.25rem !important;
@@ -660,22 +660,22 @@ const About = () => {
           <div 
             className="typo-bg-text"
             style={{
-              fontSize: '14.5vw',
+              fontSize: '17.5vw',
               fontWeight: '800',
               color: '#1a1a1a', // dark gray outline text
               textTransform: 'lowercase',
               fontFamily: "'Manrope', sans-serif",
               whiteSpace: 'nowrap',
-              lineHeight: '1',
-              letterSpacing: '-0.04em',
+              lineHeight: '0.9',
+              letterSpacing: '-0.06em',
               position: 'absolute',
-              top: '24%',
+              top: '20%',
               left: 0,
               width: '100%',
               textAlign: 'center',
               pointerEvents: 'none',
               userSelect: 'none',
-              WebkitTextStroke: '1px #333333'
+              WebkitTextStroke: '1.5px #333333'
             }}
           >
             rising media
@@ -685,17 +685,17 @@ const About = () => {
           <div 
             className="typo-fg-text"
             style={{
-              fontSize: '22vw',
+              fontSize: '25vw',
               fontWeight: '800',
               color: '#1a1a1a', // dark gray to match rising media
-              WebkitTextStroke: '1px #333333',
+              WebkitTextStroke: '1.5px #333333',
               textTransform: 'lowercase',
               fontFamily: "'Manrope', sans-serif",
               whiteSpace: 'nowrap',
-              lineHeight: '1',
-              letterSpacing: '-0.05em',
+              lineHeight: '0.9',
+              letterSpacing: '-0.06em',
               position: 'absolute',
-              top: '42%',
+              top: '44%',
               left: 0,
               width: '100%',
               textAlign: 'center',
