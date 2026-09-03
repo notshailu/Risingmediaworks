@@ -1525,7 +1525,7 @@ const Home = () => {
       </section>
 
       {/* SERVICES / AGENCY OVERVIEW SECTION (Modern Editorial UI matching Reference) */}
-      <section id="services-overview" className="scroll-fade-in" style={{
+      <section id="services-overview" style={{
         width: '100%',
         minHeight: '100vh',
         padding: '12vh 6vw',
@@ -1539,6 +1539,7 @@ const Home = () => {
           
           {/* Top Eyebrow Header Row */}
           <div className="services-eyebrow-row" style={{
+            borderTop: 'none',
             paddingTop: '2.5rem',
             marginBottom: '6vh',
             display: 'flex',
