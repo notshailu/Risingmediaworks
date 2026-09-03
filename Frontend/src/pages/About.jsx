@@ -424,9 +424,9 @@ const About = () => {
             .about-hero-container {
               padding: 90px 1.25rem 40px 1.25rem !important;
             }
-            .typo-eyebrow { top: 14% !important; }
-            .typo-bg-text { font-size: 17.5vw !important; top: 24% !important; left: 0 !important; }
-            .typo-fg-text { font-size: 25vw !important; top: 46% !important; right: 0 !important; }
+            .typo-eyebrow { top: 26% !important; }
+            .typo-bg-text { font-size: 16.5vw !important; top: 34% !important; left: 0 !important; }
+            .typo-fg-text { font-size: 28vw !important; top: 46% !important; right: 0 !important; }
             
             .cinematic-story-wrapper {
               padding: 2rem 1.25rem !important;
