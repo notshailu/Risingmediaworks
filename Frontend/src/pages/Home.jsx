@@ -180,7 +180,7 @@ const Home = () => {
 
   // Preload Hands image sequence for continuous 60fps touch scroll
   useEffect(() => {
-    const totalFrames = 150;
+    const totalFrames = 250;
     const loadedImages = [];
 
     const pad = (num, size) => {
@@ -491,23 +491,15 @@ const Home = () => {
     const sequence = { frame: 0 };
     let lastDrawnFrame = -1;
 
-    const drawImage = (frameIndex) => {
-      if (images.length === 0) return;
-      const targetFrame = Math.round(frameIndex);
-      const maxIdx = images.length - 1;
-      const clampedIdx = Math.max(0, Math.min(maxIdx, targetFrame));
-
-      if (clampedIdx === lastDrawnFrame) return;
-      lastDrawnFrame = clampedIdx;
-
-      const img = images[clampedIdx];
-      if (!img || !img.complete) return;
-
+    const drawSingleImage = (img) => {
+      if (!img || !img.complete || !img.naturalWidth) return false;
       const isMobile = window.innerWidth <= 768;
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
-      const imageWidth = img.width;
-      const imageHeight = img.height;
+      const imageWidth = img.naturalWidth || img.width;
+      const imageHeight = img.naturalHeight || img.height;
+
+      if (!canvasWidth || !canvasHeight || !imageWidth || !imageHeight) return false;
 
       const r = Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight);
       const nw = imageWidth * r;
@@ -517,14 +509,46 @@ const Home = () => {
       const cy = ((canvasHeight - nh) / 2) + cyOffset;
 
       context.drawImage(img, cx, cy, nw, nh);
+      return true;
+    };
+
+    const drawImage = (frameIndex) => {
+      if (!images || images.length === 0) return;
+      const targetFrame = Math.round(frameIndex);
+      const maxIdx = images.length - 1;
+      const clampedIdx = Math.max(0, Math.min(maxIdx, targetFrame));
+
+      if (clampedIdx === lastDrawnFrame) return;
+
+      const img = images[clampedIdx];
+      let drawn = drawSingleImage(img);
+
+      if (!drawn) {
+        for (let offset = 1; offset < 25; offset++) {
+          const prev = images[clampedIdx - offset];
+          if (prev && drawSingleImage(prev)) {
+            drawn = true;
+            break;
+          }
+          const next = images[clampedIdx + offset];
+          if (next && drawSingleImage(next)) {
+            drawn = true;
+            break;
+          }
+        }
+      }
+
+      if (drawn) {
+        lastDrawnFrame = clampedIdx;
+      }
     };
 
     const handleResize = () => {
-      const isMobile = window.innerWidth <= 768;
-      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
-      context.imageSmoothingEnabled = !isMobile;
+      context.imageSmoothingEnabled = true;
+      context.imageSmoothingQuality = 'high';
       lastDrawnFrame = -1;
       drawImage(sequence.frame);
     };
@@ -543,15 +567,16 @@ const Home = () => {
 
     const isMobile = window.innerWidth <= 1024 || (typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
 
-    // Timeline for the pinned second section with native 1:1 mobile touch scrub
+    // Timeline for the pinned second section with smooth mobile scrub dampening
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: secondSectionRef.current,
         start: 'top top',
-        end: isMobile ? '+=1100' : '+=2800',
+        end: isMobile ? '+=2200' : '+=2800',
         pin: true,
-        scrub: isMobile ? true : 0.1, // Native 1:1 direct touch sync on mobile
+        scrub: isMobile ? 0.3 : 0.1, // Smooth dampening on mobile touch
         anticipatePin: 1,
+        refreshPriority: 2
       }
     });
 
@@ -604,28 +629,17 @@ const Home = () => {
     const sequence = { frame: 0 };
     let lastDrawnFrame = -1;
 
-    const drawImage = (frameIndex) => {
-      if (handsImages.length === 0) return;
-      const targetFrame = Math.round(frameIndex);
-      const maxIdx = handsImages.length - 1;
-      const clampedIdx = Math.max(0, Math.min(maxIdx, targetFrame));
-
-      if (clampedIdx === lastDrawnFrame) return;
-      lastDrawnFrame = clampedIdx;
-
-      const img = handsImages[clampedIdx];
-      if (!img || !img.complete) return;
-
-      const isMobile = window.innerWidth <= 768;
+    const drawSingleImage = (img) => {
+      if (!img || !img.complete || !img.naturalWidth) return false;
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
-      const imageWidth = img.width;
-      const imageHeight = img.height;
+      const imageWidth = img.naturalWidth || img.width;
+      const imageHeight = img.naturalHeight || img.height;
 
-      // Smart aspect ratio calculation so hands fill screen width grandly on mobile view
-      const scale = isMobile
-        ? (canvasWidth / imageWidth) * 1.02
-        : Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight);
+      if (!canvasWidth || !canvasHeight || !imageWidth || !imageHeight) return false;
+
+      // Fill screen proportionally covering canvas dimensions cleanly on mobile and desktop
+      const scale = Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight);
 
       const nw = imageWidth * scale;
       const nh = imageHeight * scale;
@@ -633,14 +647,60 @@ const Home = () => {
       const cy = (canvasHeight - nh) / 2;
 
       context.drawImage(img, cx, cy, nw, nh);
+
+      // Mask Gemini Logo at bottom right corner seamlessly on canvas
+      const logoX = cx + nw * 0.908;
+      const logoY = cy + nh * 0.88;
+      const logoRadius = Math.max(nw * 0.05, 45);
+
+      context.save();
+      context.fillStyle = '#000000';
+      context.beginPath();
+      context.arc(logoX, logoY, logoRadius, 0, Math.PI * 2);
+      context.fill();
+      context.restore();
+
+      return true;
+    };
+
+    const drawImage = (frameIndex) => {
+      if (!handsImages || handsImages.length === 0) return;
+      const targetFrame = Math.round(frameIndex);
+      const maxIdx = handsImages.length - 1;
+      const clampedIdx = Math.max(0, Math.min(maxIdx, targetFrame));
+
+      if (clampedIdx === lastDrawnFrame) return;
+
+      const img = handsImages[clampedIdx];
+      let drawn = drawSingleImage(img);
+
+      // Mobile network fallback: if target frame is still downloading, find closest loaded frame
+      if (!drawn) {
+        for (let offset = 1; offset < 25; offset++) {
+          const prev = handsImages[clampedIdx - offset];
+          if (prev && drawSingleImage(prev)) {
+            drawn = true;
+            break;
+          }
+          const next = handsImages[clampedIdx + offset];
+          if (next && drawSingleImage(next)) {
+            drawn = true;
+            break;
+          }
+        }
+      }
+
+      if (drawn) {
+        lastDrawnFrame = clampedIdx;
+      }
     };
 
     const handleResize = () => {
-      const isMobile = window.innerWidth <= 768;
-      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
-      context.imageSmoothingEnabled = !isMobile;
+      context.imageSmoothingEnabled = true;
+      context.imageSmoothingQuality = 'high';
       lastDrawnFrame = -1;
       drawImage(sequence.frame);
     };
@@ -662,10 +722,11 @@ const Home = () => {
       scrollTrigger: {
         trigger: handsSectionRef.current,
         start: 'top top',
-        end: isMobile ? '+=1000' : '+=2800',
+        end: isMobile ? '+=2200' : '+=2800',
         pin: true,
-        scrub: isMobile ? true : 0.1, // Native 1:1 direct touch sync on mobile
+        scrub: isMobile ? 0.3 : 0.1, // Smooth dampening on mobile touch
         anticipatePin: 1,
+        refreshPriority: 1
       }
     });
 
@@ -682,8 +743,14 @@ const Home = () => {
     tl.fromTo('.hands-showcase-text',
       { opacity: 0, y: 35, scale: 0.92 },
       { opacity: 1, y: 0, scale: 1, duration: 0.2, ease: 'power3.out' },
-      0.72
+      0.80
     );
+
+    // Refresh and sort all ScrollTriggers after layout metrics stabilize
+    setTimeout(() => {
+      ScrollTrigger.sort();
+      ScrollTrigger.refresh();
+    }, 150);
 
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -1241,14 +1308,14 @@ const Home = () => {
         backgroundColor: '#000000',
         overflow: 'hidden'
       }}>
-        {/* Top Blend Overlay (Pure Black Fog) */}
+        {/* Top Blend Overlay (Subtle Edge Fade) */}
         <div style={{
           position: 'absolute',
           top: 0,
           left: 0,
           width: '100%',
-          height: '200px',
-          background: 'linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0.85) 65%, transparent 100%)',
+          height: '100px',
+          background: 'linear-gradient(to bottom, #000000 0%, transparent 100%)',
           zIndex: 4,
           pointerEvents: 'none'
         }} />
@@ -1270,29 +1337,15 @@ const Home = () => {
           }}
         />
 
-        {/* Bottom Black Shade Overlay */}
+        {/* Bottom Subtle Edge Blend Overlay */}
         <div style={{
           position: 'absolute',
           bottom: 0,
           left: 0,
           width: '100%',
-          height: '40vh',
-          background: 'linear-gradient(to top, #000000 50%, rgba(0,0,0,0.9) 80%, transparent 100%)',
+          height: '100px',
+          background: 'linear-gradient(to top, #000000 0%, transparent 100%)',
           zIndex: 4,
-          pointerEvents: 'none'
-        }} />
-
-        {/* Black Blur Overlay Mask to 100% Hide Gemini AI Logo across all devices */}
-        <div className="gemini-mask-mobile" style={{
-          position: 'absolute',
-          top: '54%',
-          right: '-10px',
-          width: '280px',
-          height: '280px',
-          backgroundColor: '#000000',
-          borderRadius: '50%',
-          filter: 'blur(30px)',
-          zIndex: 5,
           pointerEvents: 'none'
         }} />
 

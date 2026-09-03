@@ -41,20 +41,29 @@ export const getMessagingInstance = async () => {
   return null;
 };
 
-// Request FCM Token for Push Notifications using VAPID Key
-export const requestForToken = async () => {
+// Request FCM Token for Push Notifications using VAPID Key (only prompt browser permission if userInitiated is true)
+export const requestForToken = async (userInitiated = false) => {
   try {
     const msg = await getMessagingInstance();
     if (!msg) {
       console.warn("Firebase Messaging is not supported in this browser.");
       return null;
     }
+    if (typeof window !== 'undefined' && 'Notification' in window) {
+      if (Notification.permission !== 'granted' && !userInitiated) {
+        return null;
+      }
+      if (Notification.permission === 'default' && userInitiated) {
+        const perm = await Notification.requestPermission();
+        if (perm !== 'granted') return null;
+      }
+    }
     const currentToken = await getToken(msg, { vapidKey });
     if (currentToken) {
       console.log("FCM Token:", currentToken);
       return currentToken;
     } else {
-      console.warn("No registration token available. Request permission to generate one.");
+      console.warn("No registration token available.");
       return null;
     }
   } catch (err) {
@@ -64,9 +73,9 @@ export const requestForToken = async () => {
 };
 
 // Request and store Admin Token (in localStorage and backend)
-export const storeAdminToken = async () => {
+export const storeAdminToken = async (userInitiated = false) => {
   try {
-    const token = await requestForToken();
+    const token = await requestForToken(userInitiated);
     if (token) {
       localStorage.setItem('admin_fcm_token', token);
       
