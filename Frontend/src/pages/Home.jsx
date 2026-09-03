@@ -735,17 +735,17 @@ const Home = () => {
     tl.to(sequence, {
       frame: handsImages.length - 1,
       ease: 'none',
-      duration: 1,
+      duration: 0.70,
       onUpdate: () => {
         drawImage(sequence.frame);
       }
     }, 0);
 
-    // Text overlay fades in over the hands towards the end of the handshake sequence
+    // Text overlay fades in and completes right as the handshake sequence reaches its final position
     tl.fromTo('.hands-showcase-text',
-      { opacity: 0, y: 35, scale: 0.92 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.2, ease: 'power3.out' },
-      0.80
+      { opacity: 0, y: 25, scale: 0.95 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.20, ease: 'power2.out' },
+      0.50
     );
 
     // Refresh and sort all ScrollTriggers after layout metrics stabilize
