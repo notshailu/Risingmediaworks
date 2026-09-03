@@ -120,9 +120,9 @@ const About = () => {
       scrollTrigger: {
         trigger: '.interstitial-typo-section',
         start: 'top top',
-        end: '+=1000',
-        pin: true,
-        scrub: 1.5 // Increased scrub time for smoother catch-up
+        end: isMobile ? '+=300' : '+=450',
+        pin: !isMobile,
+        scrub: 0.2
       }
     });
 
@@ -146,9 +146,9 @@ const About = () => {
       scrollTrigger: {
         trigger: '.cinematic-story-wrapper',
         start: 'top top',
-        end: '+=3000', // 3000px of scrolling for 4 items
+        end: isMobile ? '+=900' : '+=1500',
         pin: true,
-        scrub: 1
+        scrub: 0.3
       }
     });
     

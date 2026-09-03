@@ -572,9 +572,9 @@ const Home = () => {
       scrollTrigger: {
         trigger: secondSectionRef.current,
         start: 'top top',
-        end: isMobile ? '+=2200' : '+=2800',
+        end: isMobile ? '+=600' : '+=1400',
         pin: true,
-        scrub: isMobile ? 0.3 : 0.1, // Smooth dampening on mobile touch
+        scrub: 0.1, // Zero-lag smooth direct scroll tracking
         anticipatePin: 1,
         refreshPriority: 2
       }
@@ -722,9 +722,9 @@ const Home = () => {
       scrollTrigger: {
         trigger: handsSectionRef.current,
         start: 'top top',
-        end: isMobile ? '+=2200' : '+=2800',
+        end: isMobile ? '+=650' : '+=1400',
         pin: true,
-        scrub: isMobile ? 0.3 : 0.1, // Smooth dampening on mobile touch
+        scrub: 0.1, // Zero-lag smooth direct scroll tracking
         anticipatePin: 1,
         refreshPriority: 1
       }
