@@ -116,13 +116,14 @@ const About = () => {
     });
 
     // Pin and Parallax drift scroll timeline for interstitial typography section
+    const isMobile = window.innerWidth < 768;
     const typoTl = gsap.timeline({
       scrollTrigger: {
         trigger: '.interstitial-typo-section',
         start: 'top top',
-        end: '+=1000',
-        pin: true,
-        scrub: 1.5 // Increased scrub time for smoother catch-up
+        end: isMobile ? '+=400' : '+=1000',
+        pin: !isMobile,
+        scrub: isMobile ? 0.3 : 1.5
       }
     });
 
@@ -133,12 +134,12 @@ const About = () => {
     .fromTo('.typo-bg-text', 
       { opacity: 0, y: 50 },
       { opacity: 1, y: 0, ease: 'power2.out', duration: 1 }, 
-      "-=0.3" // Overlap animations for continuous flow
+      "-=0.3"
     )
     .fromTo('.typo-fg-text', 
       { opacity: 0, y: 50 },
       { opacity: 1, y: 0, ease: 'power2.out', duration: 1 }, 
-      "-=0.3" // Overlap animations for continuous flow
+      "-=0.3"
     );
 
     // Cinematic Our Story Pinned Scroll
@@ -424,9 +425,38 @@ const About = () => {
             .about-hero-container {
               padding: 90px 1.25rem 40px 1.25rem !important;
             }
-            .typo-eyebrow { top: 18% !important; }
-            .typo-bg-text { font-size: clamp(2.5rem, 10vw, 4rem) !important; top: 32% !important; left: 0 !important; }
-            .typo-fg-text { font-size: clamp(3.5rem, 14vw, 5.5rem) !important; top: 48% !important; right: 0 !important; }
+            .interstitial-typo-section {
+              height: auto !important;
+              min-height: 50vh !important;
+              padding: 4rem 1.25rem !important;
+              box-sizing: border-box !important;
+              justify-content: center !important;
+            }
+            .typo-eyebrow {
+              position: relative !important;
+              top: auto !important;
+              margin-bottom: 1.25rem !important;
+              color: #94a3b8 !important;
+              font-size: 0.8rem !important;
+              opacity: 1 !important;
+            }
+            .typo-bg-text {
+              position: relative !important;
+              top: auto !important;
+              font-size: clamp(2.6rem, 11vw, 4.2rem) !important;
+              color: rgba(255, 255, 255, 0.9) !important;
+              -webkit-text-stroke: none !important;
+              margin-bottom: 0.4rem !important;
+              white-space: normal !important;
+            }
+            .typo-fg-text {
+              position: relative !important;
+              top: auto !important;
+              font-size: clamp(3.8rem, 16vw, 6rem) !important;
+              color: #ffffff !important;
+              -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5) !important;
+              white-space: normal !important;
+            }
             
             .cinematic-story-wrapper {
               padding: 2rem 1.25rem !important;
@@ -647,7 +677,7 @@ const About = () => {
               fontSize: '0.75rem',
               letterSpacing: '0.4em',
               textTransform: 'uppercase',
-              color: '#666666',
+              color: '#94a3b8',
               fontFamily: 'sans-serif',
               zIndex: 5,
               opacity: 0
@@ -656,13 +686,13 @@ const About = () => {
             who we are
           </span>
 
-          {/* Background text (Outlined/Dark Gray) */}
+          {/* Background text (Bright High-Contrast White) */}
           <div 
             className="typo-bg-text"
             style={{
               fontSize: 'clamp(4.2rem, 13vw, 13.5rem)',
               fontWeight: '800',
-              color: '#1a1a1a', // dark gray outline text
+              color: 'rgba(255, 255, 255, 0.85)',
               textTransform: 'lowercase',
               fontFamily: "'Manrope', sans-serif",
               whiteSpace: 'nowrap',
@@ -675,20 +705,20 @@ const About = () => {
               textAlign: 'center',
               pointerEvents: 'none',
               userSelect: 'none',
-              WebkitTextStroke: '1px #333333'
+              WebkitTextStroke: '1px rgba(255, 255, 255, 0.2)'
             }}
           >
             rising media
           </div>
 
-          {/* Foreground text (Dark Gray to match) */}
+          {/* Foreground text (Bright White Outlined) */}
           <div 
             className="typo-fg-text"
             style={{
               fontSize: 'clamp(6.5rem, 22vw, 22rem)',
               fontWeight: '800',
-              color: '#1a1a1a', // dark gray to match rising media
-              WebkitTextStroke: '1px #333333',
+              color: '#ffffff',
+              WebkitTextStroke: '1px rgba(255, 255, 255, 0.5)',
               textTransform: 'lowercase',
               fontFamily: "'Manrope', sans-serif",
               whiteSpace: 'nowrap',
