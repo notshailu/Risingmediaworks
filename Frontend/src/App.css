@@ -1127,3 +1127,8 @@
 
 
 
+
+/* Fix subpixel gap white lines during Lenis scroll */
+section.scroll-fade-in {
+  margin-top: -1px;
+}

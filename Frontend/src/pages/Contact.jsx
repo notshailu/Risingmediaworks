@@ -12,8 +12,9 @@ const Contact = () => {
     company: '',
     email: '',
     phone: '',
-    projectType: 'Video Production',
-    details: ''
+    projectType: 'Branding',
+    details: '',
+    budget: ''
   });
   const [submitted, setSubmitted] = useState(false);
 
@@ -32,6 +33,7 @@ const Contact = () => {
       phone: formData.phone,
       projectType: formData.projectType,
       details: formData.details,
+      budget: formData.budget,
       createdAt: new Date().toISOString(),
       status: 'New'
     };
@@ -41,17 +43,14 @@ const Contact = () => {
       existing.unshift(newInquiry);
       localStorage.setItem('rmw_inquiries', JSON.stringify(existing));
 
-      // 1. Real-time Broadcast to Admin across browser tabs & windows
       if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
         const channel = new BroadcastChannel('rmw_inquiries_channel');
         channel.postMessage({ type: 'NEW_INQUIRY', inquiry: newInquiry });
         channel.close();
       }
 
-      // 2. Trigger React Native Mobile App Container Event & Haptics
       notifyNativeNewInquiry(newInquiry);
 
-      // 3. Trigger Browser Native Push Notification if permitted
       if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
         new Notification('📩 New Project Inquiry Received!', {
           body: `${newInquiry.name} requested ${newInquiry.projectType}`,
@@ -59,7 +58,6 @@ const Contact = () => {
         });
       }
 
-      // 3. Post to backend API endpoint
       fetch('http://localhost:5000/api/inquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -75,17 +73,14 @@ const Contact = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Add light theme class on mount
     document.body.classList.add('light-theme');
     
-    // Clean up on unmount
     return () => {
       document.body.classList.remove('light-theme');
     };
   }, []);
 
   useGSAP(() => {
-    // 1. Entrance Animations for page elements
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
     tl.from('.animate-label', {
@@ -113,7 +108,6 @@ const Contact = () => {
       stagger: 0.15
     }, '-=1');
 
-    // 2. Mouse follow ambient glow effect
     const handleMouseMove = (e) => {
       if (!glowRef.current) return;
       
@@ -153,7 +147,6 @@ const Contact = () => {
         transition: 'background-color 0.4s ease, color 0.4s ease'
       }}
     >
-      {/* Ambient background glow */}
       <div 
         ref={glowRef}
         style={{
@@ -183,7 +176,7 @@ const Contact = () => {
             marginBottom: '1rem',
             fontFamily: "'Manrope', sans-serif"
           }}>
-            START A PROJECT
+            HAVE A PROJECT IN MIND?
           </span>
           <h1 className="animate-title" style={{
             fontSize: 'calc(2.4rem + 2vw)',
@@ -195,8 +188,8 @@ const Contact = () => {
             color: '#000000',
             fontFamily: "'Manrope', sans-serif"
           }}>
-            Have An Idea? <br />
-            <span style={{ fontStyle: 'italic', fontWeight: '300', borderBottom: '2px solid #000', paddingBottom: '4px' }}>Let's Build It.</span>
+            Tell us what you're building. <br />
+            <span style={{ fontStyle: 'italic', fontWeight: '300', borderBottom: '2px solid #000', paddingBottom: '4px' }}>We'll figure out the rest.</span>
           </h1>
           <p style={{
             fontSize: '1.1rem',
@@ -207,7 +200,7 @@ const Contact = () => {
             fontFamily: "'Manrope', sans-serif",
             fontWeight: '300'
           }}>
-            Whether you need a brand video, website, social media content, motion graphics, branding, or book design, tell us what you're working on. We'll help you shape the idea into a clear creative direction.
+            Tell us about your project, timeline and what you need.
           </p>
         </div>
 
@@ -219,8 +212,8 @@ const Contact = () => {
         }}>
           {/* Form Side */}
           <div style={{ flex: '1 1 550px' }}>
-            <h3 style={{ fontSize: '0.85rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#000000', fontWeight: '700', fontFamily: "'Manrope', sans-serif", marginBottom: '2.5rem' }}>
-              TELL US ABOUT YOUR PROJECT.
+            <h3 className="animate-label" style={{ fontSize: '0.85rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#000000', fontWeight: '700', fontFamily: "'Manrope', sans-serif", marginBottom: '2.5rem' }}>
+              START A PROJECT →
             </h3>
 
             {submitted ? (
@@ -230,7 +223,7 @@ const Contact = () => {
                   Thank you, <strong>{formData.name}</strong>. Your project details have been successfully submitted to our team. We'll review your enquiry and get back to you within 24 hours.
                 </p>
                 <button 
-                  onClick={() => { setSubmitted(false); setFormData({ name: '', company: '', email: '', phone: '', projectType: 'Video Production', details: '' }); }}
+                  onClick={() => { setSubmitted(false); setFormData({ name: '', company: '', email: '', phone: '', projectType: 'Branding', details: '', budget: '' }); }}
                   style={{ marginTop: '1.5rem', padding: '0.6rem 1.2rem', backgroundColor: '#166534', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600' }}
                 >
                   Submit Another Enquiry
@@ -240,10 +233,10 @@ const Contact = () => {
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
                 <div style={{ display: 'flex', gap: '2.5rem', flexWrap: 'wrap' }}>
                   <div className="animate-input" style={{ flex: '1 1 240px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Name *</label>
+                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Name</label>
                     <input 
                       type="text" 
-                      placeholder="Your Full Name" 
+                      placeholder="Your name" 
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       required
@@ -263,10 +256,10 @@ const Contact = () => {
                     />
                   </div>
                   <div className="animate-input" style={{ flex: '1 1 240px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Company / Brand</label>
+                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Business / Brand</label>
                     <input 
                       type="text" 
-                      placeholder="Your Brand Name" 
+                      placeholder="Your business or brand name" 
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                       style={{
@@ -288,10 +281,10 @@ const Contact = () => {
 
                 <div style={{ display: 'flex', gap: '2.5rem', flexWrap: 'wrap' }}>
                   <div className="animate-input" style={{ flex: '1 1 240px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Email Address *</label>
+                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Email</label>
                     <input 
                       type="email" 
-                      placeholder="name@domain.com" 
+                      placeholder="Your email address" 
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       required
@@ -311,10 +304,10 @@ const Contact = () => {
                     />
                   </div>
                   <div className="animate-input" style={{ flex: '1 1 240px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Phone Number</label>
+                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Phone / WhatsApp</label>
                     <input 
                       type="tel" 
-                      placeholder="+91 00000 00000" 
+                      placeholder="Your contact number" 
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       style={{
@@ -336,7 +329,7 @@ const Contact = () => {
 
                 <div style={{ display: 'flex', gap: '2.5rem', flexWrap: 'wrap' }}>
                   <div className="animate-input" style={{ flex: '1 1 100%', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Project Type</label>
+                    <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>What do you need?</label>
                     <div style={{ position: 'relative', width: '100%' }}>
                       <select 
                         value={formData.projectType}
@@ -359,14 +352,14 @@ const Contact = () => {
                         onFocus={(e) => e.target.style.borderBottomColor = '#000000'}
                         onBlur={(e) => e.target.style.borderBottomColor = '#e0e0e0'}
                       >
-                        <option value="Video Production">Video Production</option>
-                        <option value="Video Editing">Video Editing</option>
-                        <option value="Motion Graphics">Motion Graphics</option>
-                        <option value="Branding & Identity">Branding & Identity</option>
-                        <option value="Web Design & Development">Web Design & Development</option>
-                        <option value="Digital Content & Social Media">Digital Content & Social Media</option>
-                        <option value="Photography & Visual Production">Photography & Visual Production</option>
-                        <option value="Book Design & Publishing">Book Design & Publishing</option>
+                        <option value="Branding">Branding</option>
+                        <option value="Video">Video</option>
+                        <option value="Social Media">Social Media</option>
+                        <option value="Website">Website</option>
+                        <option value="Product Shoot">Product Shoot</option>
+                        <option value="Ads">Ads</option>
+                        <option value="Publishing">Publishing</option>
+                        <option value="Other">Other</option>
                       </select>
                       <div style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#000000', fontSize: '0.8rem' }}>▼</div>
                     </div>
@@ -374,10 +367,10 @@ const Contact = () => {
                 </div>
 
                 <div className="animate-input" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Project Details</label>
+                  <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Tell us about the project</label>
                   <textarea 
-                    rows="4" 
-                    placeholder="Tell us about your brand goals, target audience, and timeline..." 
+                    rows="3" 
+                    placeholder="A few words about what you're looking to create." 
                     value={formData.details}
                     onChange={(e) => setFormData({ ...formData, details: e.target.value })}
                     style={{
@@ -396,6 +389,29 @@ const Contact = () => {
                     onFocus={(e) => e.target.style.borderBottomColor = '#000000'}
                     onBlur={(e) => e.target.style.borderBottomColor = '#e0e0e0'}
                   ></textarea>
+                </div>
+
+                <div className="animate-input" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#000000', fontFamily: "'Manrope', sans-serif", fontWeight: '700' }}>Budget Range</label>
+                  <input 
+                    type="text" 
+                    placeholder="Optional" 
+                    value={formData.budget}
+                    onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                    style={{
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      borderBottom: '1px solid #e0e0e0',
+                      padding: '0.75rem 0',
+                      color: '#000000',
+                      outline: 'none',
+                      fontSize: '1.05rem',
+                      fontFamily: "'Manrope', sans-serif",
+                      transition: 'border-color 0.3s ease'
+                    }} 
+                    onFocus={(e) => e.target.style.borderBottomColor = '#000000'}
+                    onBlur={(e) => e.target.style.borderBottomColor = '#e0e0e0'}
+                  />
                 </div>
 
                 <button 
@@ -431,7 +447,7 @@ const Contact = () => {
                     e.currentTarget.style.boxShadow = 'none';
                   }}
                 >
-                  Submit Project Enquiry →
+                  SEND PROJECT DETAILS →
                 </button>
               </form>
             )}

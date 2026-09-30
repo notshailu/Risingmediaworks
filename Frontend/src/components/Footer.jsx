@@ -158,7 +158,7 @@ const Footer = () => {
         {/* Top 4-Column Header Grid */}
         <div className="footer-columns-grid" style={{
           display: 'grid',
-          gridTemplateColumns: '1.4fr 1fr 1fr 1.2fr',
+          gridTemplateColumns: '1.4fr 1fr 1fr 1fr',
           gap: '4rem',
           marginBottom: '6rem'
         }}>
@@ -166,12 +166,12 @@ const Footer = () => {
           {/* Left Column: Brand Statement */}
           <div>
             <span style={{
-              fontSize: '0.75rem',
-              letterSpacing: '0.22em',
+              fontSize: '1rem',
+              letterSpacing: '0.15em',
               textTransform: 'uppercase',
               color: '#0052ff',
-              fontFamily: 'monospace',
-              fontWeight: '700',
+              fontFamily: "'Manrope', sans-serif",
+              fontWeight: '800',
               display: 'block',
               marginBottom: '1.2rem'
             }}>
@@ -180,30 +180,40 @@ const Footer = () => {
 
             <h3 style={{
               fontSize: '1.25rem',
-              fontWeight: '300',
+              fontWeight: '400',
               lineHeight: '1.5',
-              letterSpacing: '-0.01em',
               margin: '0 0 1rem 0',
               color: '#ffffff',
               maxWidth: '480px',
-              fontFamily: 'serif'
+              fontFamily: "'Manrope', sans-serif"
             }}>
-              Creative Agency • Video Production • Motion Graphics • Branding • Digital
+              We build brands that move.
             </h3>
 
             <p style={{
               fontSize: '0.9rem',
               lineHeight: '1.65',
               color: 'rgba(255, 255, 255, 0.65)',
-              margin: 0,
-              fontFamily: 'sans-serif',
+              margin: '0 0 1rem 0',
+              fontFamily: "'Manrope', sans-serif",
               fontWeight: '300'
             }}>
-              We create strategic, visual, and digital experiences that help brands communicate with clarity and confidence.
+              Creative Agency for Branding, Film, Content & Digital.
+            </p>
+            
+            <p style={{
+              fontSize: '0.9rem',
+              lineHeight: '1.65',
+              color: 'rgba(255, 255, 255, 0.65)',
+              margin: 0,
+              fontFamily: "'Manrope', sans-serif",
+              fontWeight: '300'
+            }}>
+              Alwar, Rajasthan, India
             </p>
           </div>
 
-          {/* Right Column 1: Agency Nav */}
+          {/* Right Column 1: EXPLORE */}
           <div>
             <span style={{
               fontSize: '0.72rem',
@@ -214,14 +224,12 @@ const Footer = () => {
               display: 'block',
               marginBottom: '1.8rem'
             }}>
-              NAVIGATION
+              EXPLORE
             </span>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
               {[
-                { name: 'Works', path: '/work' },
+                { name: 'Work', path: '/work' },
                 { name: 'Services', path: '/services' },
-                { name: 'Books', path: '/special-books' },
-                { name: 'Case Studies', path: '/case-studies' },
                 { name: 'About', path: '/about' },
                 { name: 'Contact', path: '/contact' }
               ].map((item, i) => (
@@ -233,7 +241,7 @@ const Footer = () => {
                       color: 'rgba(255, 255, 255, 0.7)',
                       textDecoration: 'none',
                       fontSize: '0.92rem',
-                      fontFamily: 'sans-serif',
+                      fontFamily: "'Manrope', sans-serif",
                       transition: 'all 0.3s ease',
                       display: 'inline-block'
                     }}
@@ -253,7 +261,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Right Column 2: Services */}
+          {/* Right Column 2: SERVICES */}
           <div>
             <span style={{
               fontSize: '0.72rem',
@@ -268,23 +276,20 @@ const Footer = () => {
             </span>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
               {[
-                'Video Production',
-                'Video Editing',
-                'Motion Graphics',
                 'Branding',
-                'Web Design & Development',
-                'Social Media & Content',
-                'Photography',
-                'Book Design & Publishing'
+                'Content',
+                'Film & Video',
+                'Digital',
+                'Publishing'
               ].map((cap, i) => (
-                <li key={i} style={{ color: 'rgba(255, 255, 255, 0.65)', fontSize: '0.88rem', fontWeight: '300' }}>
+                <li key={i} style={{ color: 'rgba(255, 255, 255, 0.65)', fontSize: '0.92rem', fontFamily: "'Manrope', sans-serif", fontWeight: '300' }}>
                   {cap}
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Right Column 3: Contact & Direct Inquiries */}
+          {/* Right Column 3: CONNECT */}
           <div>
             <span style={{
               fontSize: '0.72rem',
@@ -295,60 +300,69 @@ const Footer = () => {
               display: 'block',
               marginBottom: '1.8rem'
             }}>
-              DIRECT INQUIRIES
+              CONNECT
             </span>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
-              <div>
-                <h4 style={{ fontSize: '0.88rem', fontWeight: '600', color: '#ffffff', margin: '0 0 0.2rem 0' }}>LOCATION</h4>
-                <p style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.5)', margin: 0 }}>Alwar, Rajasthan, India</p>
-              </div>
-              
-              <div>
-                <h4 style={{ fontSize: '0.88rem', fontWeight: '600', color: '#ffffff', margin: '0 0 0.2rem 0' }}>PHONE</h4>
-                <a href="tel:+918741975000" style={{ fontSize: '0.85rem', color: '#3b6cff', textDecoration: 'none', fontFamily: 'monospace' }}>+91 87419 75000</a>
-              </div>
-
-              <div style={{ marginTop: '0.5rem' }}>
-                <a 
-                  href="mailto:Info.risingmediaworks@gmail.com"
-                  onMouseEnter={playHoverSound}
-                  style={{
-                    fontSize: '0.85rem',
-                    color: '#3b6cff',
-                    textDecoration: 'none',
-                    fontFamily: 'monospace',
-                    fontWeight: '500'
-                  }}
-                >
-                  Info.risingmediaworks@gmail.com
-                </a>
-              </div>
-            </div>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              {[
+                { name: 'Instagram', url: 'https://www.instagram.com/risingmediaworks?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==' },
+                { name: 'LinkedIn', url: '#linkedin' },
+                { name: 'WhatsApp', url: 'https://wa.me/918741975000' },
+                { name: 'Email', url: 'mailto:Info.risingmediaworks@gmail.com' }
+              ].map((item, i) => (
+                <li key={i}>
+                  <a 
+                    href={item.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    onMouseEnter={playHoverSound}
+                    style={{
+                      color: 'rgba(255, 255, 255, 0.7)',
+                      textDecoration: 'none',
+                      fontSize: '0.92rem',
+                      fontFamily: "'Manrope', sans-serif",
+                      transition: 'all 0.3s ease',
+                      display: 'inline-block'
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.color = '#3b6cff';
+                      e.currentTarget.style.transform = 'translateX(5px)';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)';
+                      e.currentTarget.style.transform = 'none';
+                    }}
+                  >
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
         </div>
 
-        {/* Massive Giant Typography Wordmark Matching Reference (Velora style) */}
+        {/* Massive Giant Typography Wordmark */}
         <div style={{
           position: 'relative',
           width: '100%',
           textAlign: 'center',
           overflow: 'hidden',
-          lineHeight: 0.8
+          lineHeight: 0.8,
+          marginBottom: '2rem'
         }}>
           <h1 className="footer-giant-wordmark" style={{
-            fontSize: 'calc(3rem + 9vw)',
-            fontWeight: '300',
-            fontFamily: "'Playfair Display', serif",
+            fontSize: 'calc(2rem + 8vw)',
+            fontWeight: '800',
+            fontFamily: "'Manrope', sans-serif",
             textTransform: 'uppercase',
-            letterSpacing: '0.02em',
+            letterSpacing: '0.01em',
             margin: 0,
             color: '#ffffff',
             display: 'block',
             lineHeight: '0.9',
-            transform: 'translateY(3%)'
+            transform: 'translateY(5%)'
           }}>
-            RISING MEDIA WORKS
+            CREATE. DESIGN. BRAND. GROW.
           </h1>
 
           {/* Bottom Gradient Fade Overlay */}
@@ -372,14 +386,18 @@ const Footer = () => {
           alignItems: 'center',
           padding: '2.5rem 0',
           borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-          fontSize: '0.75rem',
-          fontFamily: 'monospace',
+          fontSize: '0.8rem',
+          fontFamily: "'Manrope', sans-serif",
           color: 'rgba(255, 255, 255, 0.6)',
           flexWrap: 'wrap',
-          gap: '1rem'
+          gap: '1.5rem'
         }}>
-          <div>
-            © Rising Media Works. All Rights Reserved. &nbsp;|&nbsp; <span style={{ fontStyle: 'italic', color: '#ffffff' }}>We Don’t Just Create Content. We Build Brands.</span>
+          <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+            <span>© 2026 Rising Media Works. All rights reserved.</span>
+            <div style={{ display: 'flex', gap: '1.5rem' }}>
+              <Link to="/privacy" style={{ color: 'rgba(255, 255, 255, 0.6)', textDecoration: 'none' }}>Privacy Policy</Link>
+              <Link to="/terms" style={{ color: 'rgba(255, 255, 255, 0.6)', textDecoration: 'none' }}>Terms & Conditions</Link>
+            </div>
           </div>
 
           <button
@@ -390,10 +408,11 @@ const Footer = () => {
               color: '#ffffff',
               padding: '0.5rem 1.4rem',
               borderRadius: '20px',
-              fontFamily: 'monospace',
-              fontSize: '0.72rem',
+              fontFamily: "'Manrope', sans-serif",
+              fontSize: '0.8rem',
               cursor: 'pointer',
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              fontWeight: '600'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = '#3b6cff';
@@ -416,5 +435,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-

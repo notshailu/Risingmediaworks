@@ -1022,43 +1022,43 @@ const Home = () => {
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.8rem', maxWidth: '1100px' }}>
           <span className="hero-eyebrow eyebrow" style={{
-            fontSize: '0.8rem',
-            letterSpacing: '0.35em',
+            fontSize: '0.85rem',
+            letterSpacing: '0.25em',
             textTransform: 'uppercase',
             color: '#666666',
             fontWeight: '600',
             fontFamily: 'sans-serif'
           }}>
-            CREATIVE AGENCY & DIGITAL PRODUCTION STUDIO
+            Branding. Film. Content. Digital.
           </span>
 
           <h1 className="hero-title" style={{
-            fontSize: 'clamp(2.4rem, 5vw, 4.8rem)',
+            fontSize: 'clamp(2.4rem, 5vw, 5rem)',
             fontWeight: '300',
-            lineHeight: '1.08',
-            letterSpacing: '0.01em',
+            lineHeight: '1.1',
+            letterSpacing: '0.02em',
             textTransform: 'uppercase',
             margin: 0,
             fontFamily: 'serif',
             color: '#000000'
           }}>
-            We Don’t Just Create Content.<br />
-            <span style={{ fontStyle: 'italic', fontWeight: '400' }}>We Build Brands.</span>
+            WE BUILD BRANDS<br />
+            <span style={{ fontStyle: 'italic', fontWeight: '400' }}>THAT MOVE.</span>
           </h1>
 
           <p className="hero-subtitle" style={{
-            maxWidth: '750px',
-            fontSize: 'calc(0.95rem + 0.3vw)',
-            lineHeight: '1.7',
+            maxWidth: '700px',
+            fontSize: 'calc(1rem + 0.3vw)',
+            lineHeight: '1.6',
             color: '#555555',
             fontWeight: '300',
             fontFamily: 'sans-serif',
-            margin: '0.5rem 0 1.2rem 0'
+            margin: '1rem 0 2rem 0'
           }}>
-            Rising Media Works is a creative agency helping businesses, brands, and ideas become more visible, memorable, and meaningful through strategy, design, storytelling, and digital experiences.
+            We turn ideas into brands, stories into content, and businesses into experiences people remember.
           </p>
 
-          <div className="hero-ctas" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <div className="hero-ctas" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
             <Link className="hero-btn" to="/contact" style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -1067,9 +1067,9 @@ const Home = () => {
               backgroundColor: '#000000',
               color: '#ffffff',
               borderRadius: '50px',
-              fontSize: '0.82rem',
+              fontSize: '0.85rem',
               textTransform: 'uppercase',
-              letterSpacing: '0.18em',
+              letterSpacing: '0.15em',
               fontWeight: '600',
               transition: 'all 0.35s ease',
               textDecoration: 'none',
@@ -1088,39 +1088,17 @@ const Home = () => {
             }}
             onClick={(e) => triggerLaunch(e, '/contact')}
             >
-              Start A Project →
+              START A PROJECT →
             </Link>
-
-            <Link className="hero-btn-secondary" to="/work" style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.8rem',
-              padding: '1.1rem 2.4rem',
-              backgroundColor: 'transparent',
-              border: '1px solid rgba(0, 0, 0, 0.25)',
-              color: '#000000',
-              borderRadius: '50px',
-              fontSize: '0.82rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.18em',
-              fontWeight: '600',
-              transition: 'all 0.35s ease',
-              textDecoration: 'none'
-            }}
-            onMouseEnter={(e) => {
-              playHoverSound();
-              e.currentTarget.style.borderColor = '#000000';
-              e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.04)';
-              e.currentTarget.style.transform = 'translateY(-2px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.25)';
-              e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.transform = 'none';
-            }}
-            >
-              Explore Our Works ↗
-            </Link>
+            <span style={{
+              fontSize: '0.8rem',
+              color: '#888888',
+              letterSpacing: '0.05em',
+              marginTop: '0.2rem',
+              fontFamily: 'sans-serif'
+            }}>
+              Rising Media Works · Alwar, Rajasthan, India
+            </span>
           </div>
         </div>
 
@@ -1293,13 +1271,65 @@ const Home = () => {
         }}>
           <div className="showcase-text" style={{
             textAlign: 'center',
-            maxWidth: '850px',
-            opacity: 0
+            maxWidth: '900px',
+            opacity: 0,
+            pointerEvents: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '1.5rem'
           }}>
-            <span style={{ fontSize: '0.8rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: '#666666', display: 'block', marginBottom: '1.5rem', fontFamily: 'sans-serif' }}>Endless Refinement</span>
-            <h2 style={{ fontSize: 'calc(1.8rem + 2vw)', fontWeight: '300', fontFamily: 'serif', color: '#000000', margin: 0, lineHeight: '1.25' }}>
-              Shaping cinematic narratives and bespoke digital architectures that demand attention.
+            <span style={{ fontSize: '0.8rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: '#666666', fontFamily: 'sans-serif', fontWeight: '600' }}>
+              CINEMATIC INTRO
+            </span>
+            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 4rem)', fontWeight: '300', fontFamily: 'serif', color: '#000000', margin: 0, lineHeight: '1.1', textTransform: 'uppercase' }}>
+              FROM AN IDEA<br />
+              <span style={{ fontStyle: 'italic', fontWeight: '400' }}>TO THE FINAL FRAME.</span>
             </h2>
+            <p style={{
+              fontSize: 'calc(1rem + 0.2vw)',
+              lineHeight: '1.6',
+              color: '#555555',
+              fontFamily: 'sans-serif',
+              fontWeight: '300',
+              maxWidth: '750px',
+              margin: '0 auto'
+            }}>
+              Every brand starts with an idea.<br />
+              We bring together strategy, creativity, design, production and digital to turn that idea into something people can see, feel and remember.
+            </p>
+            <Link to="/contact" style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.8rem',
+              padding: '1.1rem 2.6rem',
+              backgroundColor: '#000000',
+              color: '#ffffff',
+              borderRadius: '50px',
+              fontSize: '0.85rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.15em',
+              fontWeight: '600',
+              transition: 'all 0.35s ease',
+              textDecoration: 'none',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
+              marginTop: '1rem'
+            }}
+            onMouseEnter={(e) => {
+              playHoverSound();
+              e.currentTarget.style.backgroundColor = '#0052ff';
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,82,255,0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#000000';
+              e.currentTarget.style.transform = 'none';
+              e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.15)';
+            }}
+            onClick={(e) => triggerLaunch(e, '/contact')}
+            >
+              LET'S CREATE →
+            </Link>
           </div>
         </div>
       </section>
@@ -1393,32 +1423,816 @@ const Home = () => {
       </section>
 
       {/* BRAND PARTNERS SHOWCASE SECTION (Showcasing all 14 brand logos right after handshake sequence) */}
-      <section id="brand-partners" style={{
+      {/* SERVICES / AGENCY OVERVIEW SECTION (Modern Editorial UI matching Reference) */}
+      <section id="services-overview" style={{
         width: '100%',
-        padding: '6vh 6vw',
+        minHeight: '100vh',
+        padding: '12vh 6vw',
         boxSizing: 'border-box',
         backgroundColor: '#000000',
         color: '#ffffff',
         fontFamily: 'sans-serif',
+        position: 'relative'
+      }}>
+        <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
+          
+          {/* Top Eyebrow Header Row */}
+          <div className="services-eyebrow-row" style={{
+            borderTop: 'none',
+            paddingTop: '2.5rem',
+            marginBottom: '6vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '1.5rem'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+              <span style={{
+                fontSize: '0.75rem',
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                fontWeight: '700',
+                color: '#ffffff',
+                fontFamily: "'Valley Sans', 'Manrope', sans-serif"
+              }}>
+                CAPABILITIES
+              </span>
+            </div>
+
+            <Link 
+              to="/services" 
+              className="services-explore-link"
+              style={{
+                fontSize: '0.78rem',
+                letterSpacing: '0.16em',
+                textTransform: 'uppercase',
+                fontWeight: '700',
+                color: '#ffffff',
+                backgroundColor: '#0052ff',
+                padding: '0.6rem 1.4rem',
+                borderRadius: '50px',
+                textDecoration: 'none',
+                fontFamily: "'Valley Sans', 'Manrope', sans-serif",
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                boxShadow: '0 4px 20px rgba(0, 82, 255, 0.45)',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#ffffff';
+                e.currentTarget.style.color = '#000000';
+                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                e.currentTarget.style.boxShadow = '0 8px 25px rgba(255, 255, 255, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#0052ff';
+                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.transform = 'none';
+                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 82, 255, 0.45)';
+              }}
+            >
+              EXPLORE ALL SERVICES →
+            </Link>
+          </div>
+
+          {/* Massive Mixed Typography Statement */}
+          <div style={{ maxWidth: '1300px', marginBottom: '6vh' }}>
+            <Link to="/services" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <h2 
+                className="services-main-headline"
+                style={{
+                  fontSize: 'calc(2.4rem + 2vw)',
+                  fontWeight: '300',
+                  lineHeight: '1.2',
+                  letterSpacing: '-0.02em',
+                  margin: 0,
+                  color: '#ffffff',
+                  fontFamily: 'serif',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                  transition: 'opacity 0.3s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.85'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+              >
+                MORE THAN CONTENT.<br />
+                <span style={{ fontStyle: 'italic', fontWeight: '400', color: '#ffffff' }}>WE BUILD THE BRAND BEHIND IT.</span>
+              </h2>
+            </Link>
+          </div>
+
+          {/* Indented Right Paragraph Block */}
+          <div className="services-paragraph-wrapper" style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginBottom: '10vh'
+          }}>
+            <p style={{
+              maxWidth: '620px',
+              fontSize: '1.05rem',
+              lineHeight: '1.75',
+              color: 'rgba(255, 255, 255, 0.75)',
+              margin: 0,
+              fontFamily: 'sans-serif',
+              fontWeight: '300'
+            }}>
+              From your first idea to the final campaign, we help businesses create a stronger presence across every touchpoint.
+            </p>
+          </div>
+
+          {/* Bottom Capabilities / Team Metadata Row */}
+          <div 
+            className="capabilities-grid-layout"
+            style={{
+              borderTop: 'none',
+              paddingTop: '4rem',
+              display: 'grid',
+              gridTemplateColumns: '1fr 2.5fr',
+              gap: '4rem'
+            }}
+          >
+            {/* Left Header with Glowing Dot Badge */}
+            <div className="services-what-we-do-header" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', height: 'fit-content' }}>
+              <span style={{
+                fontSize: '0.8rem',
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                fontWeight: '700',
+                color: '#ffffff',
+                fontFamily: "'Valley Sans', 'Manrope', sans-serif"
+              }}>
+                WHAT WE DO
+              </span>
+            </div>
+
+            {/* Right Capabilities Table List with Interactive Highlights */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              {[
+                { 
+                  id: '[01]', 
+                  serviceId: 'branding', 
+                  label: 'BRAND', 
+                  title: 'Build an identity people remember.',
+                  desc: 'Brand identity, logo design, graphic design, visual systems and creative direction — built to give your business a clear and consistent personality.',
+                  tags: 'Brand Identity · Logo Design · Graphic Design · Creative Direction',
+                  image: 'https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?auto=format&fit=crop&w=800&q=80' 
+                },
+                { 
+                  id: '[02]', 
+                  serviceId: 'content', 
+                  label: 'CONTENT', 
+                  title: 'Give your brand something worth watching.',
+                  desc: 'Social media content, reels, YouTube content and creative campaigns designed to keep your audience interested and your brand visible.',
+                  tags: 'Social Media · Reels · YouTube · Creative Content',
+                  image: 'https://i.pinimg.com/736x/1b/f0/b7/1bf0b79fc9d6a8c78bf528f83ccdb316.jpg' 
+                },
+                { 
+                  id: '[03]', 
+                  serviceId: 'film', 
+                  label: 'FILM', 
+                  title: 'Turn your story into something people can feel.',
+                  desc: 'From concept and shooting to editing and final delivery, we create videos that make your brand look and sound the way it should.',
+                  tags: 'Video Production · Commercials · Product Films · Testimonials · Corporate Films',
+                  image: 'https://i.pinimg.com/1200x/df/03/93/df0393965c6fdce90e8843efd9a9bc69.jpg' 
+                },
+                { 
+                  id: '[04]', 
+                  serviceId: 'digital', 
+                  label: 'DIGITAL', 
+                  title: 'Make your brand work beyond the screen.',
+                  desc: 'Websites, digital experiences and paid campaigns designed to connect your brand with the people you\'re trying to reach.',
+                  tags: 'Website Design · Digital Experiences · Meta Ads · Google Ads',
+                  image: 'https://i.pinimg.com/736x/0c/e8/08/0ce80850ca4f8ca3b3c367e370323a0e.jpg' 
+                },
+                { 
+                  id: '[05]', 
+                  serviceId: 'publishing', 
+                  label: 'PUBLISHING', 
+                  title: 'Give your ideas a cover worth opening.',
+                  desc: 'From book covers to complete visual layouts, we help authors and publishers turn their ideas into professional, market-ready books.',
+                  tags: 'Book Covers · KDP · Editorial Design · Publishing Support',
+                  image: 'https://i.pinimg.com/1200x/3c/e7/4b/3ce74bc3ae3f60eeac738835773f2f47.jpg' 
+                }
+              ].map((item) => (
+                <Link
+                  key={item.id}
+                  to={`/services/${item.serviceId}`}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <div 
+                    className="cap-item-row"
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '55px 160px 1fr auto',
+                      alignItems: 'flex-start',
+                      fontSize: '0.95rem',
+                      color: 'rgba(255, 255, 255, 0.9)',
+                      fontFamily: 'sans-serif',
+                      padding: '1.5rem 1.5rem',
+                      borderRadius: '12px',
+                      borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                      transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                      cursor: 'pointer',
+                      backgroundColor: 'transparent'
+                    }}
+                    onMouseEnter={(e) => {
+                      playHoverSound();
+                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                      e.currentTarget.style.transform = 'translateX(10px)';
+                      e.currentTarget.style.borderBottomColor = '#ffffff';
+                      const idxEl = e.currentTarget.querySelector('.cap-id');
+                      if (idxEl) idxEl.style.color = '#ffffff';
+                      const labelEl = e.currentTarget.querySelector('.cap-label');
+                      if (labelEl) labelEl.style.color = '#ffffff';
+                      const arrowEl = e.currentTarget.querySelector('.cap-arrow');
+                      if (arrowEl) {
+                        arrowEl.style.opacity = '1';
+                        arrowEl.style.transform = 'translateX(4px)';
+                      }
+                      const titleEl = e.currentTarget.querySelector('.cap-val-title');
+                      if (titleEl) titleEl.style.color = '#ffffff';
+                      const tagsEl = e.currentTarget.querySelector('.cap-val-tags');
+                      if (tagsEl) tagsEl.style.color = 'rgba(255, 255, 255, 0.7)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.transform = 'none';
+                      e.currentTarget.style.borderBottomColor = 'rgba(255, 255, 255, 0.08)';
+                      const idxEl = e.currentTarget.querySelector('.cap-id');
+                      if (idxEl) idxEl.style.color = 'rgba(255, 255, 255, 0.5)';
+                      const labelEl = e.currentTarget.querySelector('.cap-label');
+                      if (labelEl) labelEl.style.color = '#ffffff';
+                      const arrowEl = e.currentTarget.querySelector('.cap-arrow');
+                      if (arrowEl) {
+                        arrowEl.style.opacity = '0';
+                        arrowEl.style.transform = 'none';
+                      }
+                      const titleEl = e.currentTarget.querySelector('.cap-val-title');
+                      if (titleEl) titleEl.style.color = 'rgba(255, 255, 255, 0.9)';
+                      const tagsEl = e.currentTarget.querySelector('.cap-val-tags');
+                      if (tagsEl) tagsEl.style.color = 'rgba(255, 255, 255, 0.4)';
+                    }}
+                  >
+                    <span className="cap-id" style={{ color: 'rgba(255, 255, 255, 0.5)', fontWeight: '600', fontFamily: 'monospace', fontSize: '0.9rem', transition: 'color 0.3s', marginTop: '0.2rem' }}>
+                      {item.id}
+                    </span>
+                    <span className="cap-label" style={{ fontWeight: '600', color: '#ffffff', fontSize: '1.05rem', transition: 'color 0.3s', marginTop: '0.1rem', letterSpacing: '0.05em' }}>
+                      {item.label}
+                    </span>
+                    <div className="cap-val-container" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      <span className="cap-val-title" style={{ color: 'rgba(255, 255, 255, 0.9)', fontWeight: '500', fontSize: '1.1rem', transition: 'color 0.3s' }}>
+                        {item.title}
+                      </span>
+                      <span className="cap-val-text" style={{ color: 'rgba(255, 255, 255, 0.65)', fontWeight: '300', fontSize: '0.95rem', lineHeight: '1.6' }}>
+                        {item.desc}
+                      </span>
+                      <span className="cap-val-tags" style={{ color: 'rgba(255, 255, 255, 0.4)', fontWeight: '600', fontSize: '0.75rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: '0.4rem', transition: 'color 0.3s' }}>
+                        {item.tags}
+                      </span>
+                    </div>
+                    <span className="cap-arrow" style={{ opacity: 0, color: '#ffffff', transition: 'all 0.3s ease', fontSize: '1.2rem', fontWeight: 'bold', alignSelf: 'center' }}>
+                      →
+                    </span>
+
+                    {/* Mobile Phone View Active Image Highlight Container */}
+                    <div className="mobile-active-img" style={{
+                      width: '100%',
+                      maxHeight: '0px',
+                      opacity: 0,
+                      overflow: 'hidden',
+                      borderRadius: '10px',
+                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                      marginTop: '0px',
+                      gridColumn: '1 / -1'
+                    }}>
+                      <img 
+                        src={item.image} 
+                        alt={item.label} 
+                        style={{
+                          width: '100%',
+                          height: '150px',
+                          objectFit: 'cover',
+                          borderRadius: '10px',
+                          display: 'block'
+                        }} 
+                      />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* OUR APPROACH SECTION */}
+      <section 
+        id="our-approach" 
+        className="scroll-fade-in" 
+        onMouseMove={(e) => setMousePos({ x: e.clientX, y: e.clientY })}
+        style={{
+          width: '100%',
+          minHeight: '80vh',
+          padding: '14vh 6vw',
+          boxSizing: 'border-box',
+          backgroundColor: '#000000',
+          color: '#ffffff',
+          fontFamily: 'sans-serif',
+          position: 'relative',
+          borderTop: 'none',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center'
+        }}
+      >
+        <div style={{ maxWidth: '1300px', margin: '0 auto', width: '100%' }}>
+          
+          {/* Eyebrow and Section Header */}
+          <div className="approach-header-wrapper" style={{ marginBottom: '6vh' }}>
+            <div className="approach-eyebrow-container" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.5rem' }}>
+              <span style={{
+                fontSize: '0.8rem',
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                fontWeight: '600',
+                color: 'rgba(255, 255, 255, 0.5)',
+                fontFamily: "'Valley Sans', 'Manrope', sans-serif"
+              }}>
+                OUR APPROACH
+              </span>
+            </div>
+
+            <h2 className="approach-main-title" style={{
+              fontSize: 'clamp(2.4rem, 5vw, 4.8rem)',
+              fontWeight: '300',
+              fontFamily: "'Valley Sans', 'Manrope', sans-serif",
+              textTransform: 'uppercase',
+              margin: 0,
+              letterSpacing: '0.01em',
+              lineHeight: '1.1',
+              color: '#ffffff'
+            }}>
+              GOOD CREATIVE STARTS WITH A GOOD IDEA.
+            </h2>
+          </div>
+
+          {/* Paragraph content */}
+          <div style={{ maxWidth: '800px', marginBottom: '8vh' }}>
+            <p style={{
+              fontSize: 'calc(1.1rem + 0.3vw)',
+              lineHeight: '1.7',
+              color: 'rgba(255, 255, 255, 0.75)',
+              margin: 0,
+              fontFamily: 'sans-serif',
+              fontWeight: '300'
+            }}>
+              We don't believe in creating things just to fill a feed.<br /><br />
+              First, we understand the brand.<br />
+              Then we find the idea.<br />
+              Then we create something people actually want to see.
+            </p>
+          </div>
+
+          {/* Flow Steps */}
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            gap: '1rem',
+            paddingTop: '3rem',
+            borderTop: '1px solid rgba(255, 255, 255, 0.15)'
+          }}>
+            {['STRATEGY', 'IDEA', 'CREATE', 'LAUNCH'].map((step, idx, arr) => (
+              <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <span style={{
+                  fontSize: 'clamp(1rem, 2vw, 1.4rem)',
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  fontWeight: '600',
+                  color: '#ffffff',
+                  fontFamily: 'sans-serif'
+                }}>
+                  {step}
+                </span>
+                {idx < arr.length - 1 && (
+                  <span style={{ color: '#0052ff', fontSize: '1.5rem', fontWeight: 'bold', margin: '0 0.5vw' }}>→</span>
+                )}
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* SHOWREEL SECTION */}
+      <section 
+        id="showreel" 
+        className="scroll-fade-in" 
+        style={{
+          width: '100%',
+          padding: '12vh 6vw',
+          boxSizing: 'border-box',
+          backgroundColor: '#000000',
+          color: '#ffffff',
+          fontFamily: "'Manrope', sans-serif",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          textAlign: 'center'
+        }}
+      >
+        <div style={{ marginBottom: '5vh' }}>
+          <span style={{
+            fontSize: '0.8rem',
+            letterSpacing: '0.3em',
+            textTransform: 'uppercase',
+            fontWeight: '600',
+            color: 'rgba(255, 255, 255, 0.5)',
+            fontFamily: "'Manrope', sans-serif",
+            display: 'block',
+            marginBottom: '1.5rem'
+          }}>
+            05 — SHOWREEL
+          </span>
+
+          <h2 style={{
+            fontSize: 'clamp(2.4rem, 5vw, 4.5rem)',
+            fontWeight: '300',
+            fontFamily: "'Manrope', sans-serif",
+            textTransform: 'uppercase',
+            margin: '0 0 1rem 0',
+            letterSpacing: '0.01em',
+            lineHeight: '1.1'
+          }}>
+            WATCH THE WORK.
+          </h2>
+
+          <p style={{
+            fontSize: '1.1rem',
+            lineHeight: '1.6',
+            color: 'rgba(255, 255, 255, 0.7)',
+            maxWidth: '600px',
+            margin: '0 auto',
+            fontWeight: '300'
+          }}>
+            A glimpse of what we create — from the first shot to the final frame.
+          </p>
+        </div>
+
+        {/* Cinematic Video Card */}
+        <div style={{
+          width: '80%',
+          margin: '0 auto 3rem auto',
+          aspectRatio: '21/9',
+          borderRadius: '32px',
+          overflow: 'hidden',
+          position: 'relative',
+          backgroundColor: '#111111',
+          backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.8)), url("https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1600&q=80")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          boxShadow: '0 30px 60px rgba(0,0,0,0.6)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          cursor: 'pointer',
+          border: '1px solid rgba(255,255,255,0.1)'
+        }}
+        className="showreel-card"
+        onMouseEnter={(e) => {
+          if (typeof playHoverSound === 'function') playHoverSound();
+          const btn = e.currentTarget.querySelector('.play-btn-circle');
+          if (btn) {
+            btn.style.transform = 'scale(1.1)';
+            btn.style.backgroundColor = '#0052ff';
+            btn.style.borderColor = '#0052ff';
+          }
+        }}
+        onMouseLeave={(e) => {
+          const btn = e.currentTarget.querySelector('.play-btn-circle');
+          if (btn) {
+            btn.style.transform = 'scale(1)';
+            btn.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            btn.style.borderColor = 'rgba(255,255,255,0.3)';
+          }
+        }}
+        onClick={() => {
+          window.location.href = '/work';
+        }}
+        >
+          {/* Circular Play Button inside the card */}
+          <div 
+            className="play-btn-circle"
+            style={{
+              width: '80px',
+              height: '80px',
+              borderRadius: '50%',
+              backgroundColor: 'rgba(0,0,0,0.5)',
+              border: '2px solid rgba(255,255,255,0.3)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backdropFilter: 'blur(5px)',
+              transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            }}
+          >
+            <div style={{
+              width: 0,
+              height: 0,
+              borderTop: '12px solid transparent',
+              borderBottom: '12px solid transparent',
+              borderLeft: '20px solid #ffffff',
+              marginLeft: '6px' // optical alignment
+            }} />
+          </div>
+        </div>
+
+        <span style={{
+          fontSize: '0.85rem',
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          fontWeight: '500',
+          color: 'rgba(255, 255, 255, 0.4)',
+          fontFamily: 'monospace'
+        }}>
+          Film · Content · Branding · Motion · Digital
+        </span>
+      </section>
+
+
+      {/* 06 - SELECTED WORK SECTION */}
+      <section id="selected-work-showcase" className="scroll-fade-in" style={{
+        width: '100%',
+        padding: '12vh 6vw',
+        boxSizing: 'border-box',
+        backgroundColor: '#ffffff',
+        color: '#000000',
+        fontFamily: "'Manrope', sans-serif",
+        position: 'relative',
+        borderTop: 'none'
+      }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+          
+          {/* Header Row */}
+          <div className="selected-cases-header" style={{
+            marginBottom: '8vh',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1.5rem'
+          }}>
+            <span style={{
+              fontSize: '0.8rem',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              fontWeight: '600',
+              color: '#666666',
+              fontFamily: "'Valley Sans', 'Manrope', sans-serif"
+            }}>
+              06 — SELECTED WORK
+            </span>
+
+            <h2 style={{
+              fontSize: 'clamp(2.4rem, 5vw, 4.8rem)',
+              fontWeight: '300',
+              fontFamily: "'Valley Sans', 'Manrope', sans-serif",
+              textTransform: 'uppercase',
+              margin: 0,
+              letterSpacing: '0.01em',
+              lineHeight: '1.1',
+              color: '#000000'
+            }}>
+              SOME OF THE THINGS WE'VE CREATED.
+            </h2>
+
+            <p style={{
+              fontSize: 'calc(1.05rem + 0.2vw)',
+              lineHeight: '1.7',
+              color: '#555555',
+              maxWidth: '800px',
+              fontFamily: 'sans-serif',
+              fontWeight: '300',
+              marginTop: '1rem'
+            }}>
+              Every project starts differently.<br />
+              Some start with a blank page.<br />
+              Some with a camera.<br />
+              Some with a problem that needs solving.<br />
+              The goal is always the same — create something that works for the brand.
+            </p>
+          </div>
+
+          {/* Hidden reference to prevent unused var lint error */}
+          <div style={{ display: 'none' }} onClick={() => setActiveShowcaseFilter(activeShowcaseFilter)}></div>
+
+          {/* Staggered Asymmetric Cases Cards Grid */}
+          <div className="selected-cases-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '6rem 4rem',
+            alignItems: 'start'
+          }}>
+            {[
+              {
+                id: 'cat-automotive',
+                title: 'AUTOMOTIVE',
+                subtitle: 'Built to move.',
+                desc: 'Creative content and visual storytelling for automotive brands.',
+                image: 'https://img.youtube.com/vi/w_xOxPuBmjk/hqdefault.jpg',
+                aspectRatio: '16/10',
+                staggerOffset: '0px',
+                videoUrl: 'https://www.youtube.com/watch?v=w_xOxPuBmjk'
+              },
+              {
+                id: 'cat-product',
+                title: 'PRODUCT',
+                subtitle: 'Make the product impossible to ignore.',
+                desc: 'Product photography, video and creative content designed to show products at their best.',
+                image: 'https://img.youtube.com/vi/JR5Ay3Du1SQ/hqdefault.jpg',
+                aspectRatio: '1/1',
+                staggerOffset: '6rem',
+                videoUrl: 'https://www.youtube.com/watch?v=JR5Ay3Du1SQ'
+              },
+              {
+                id: 'cat-branding',
+                title: 'BRANDING',
+                subtitle: 'Give the brand a face.',
+                desc: 'Identity, design and visual systems that make businesses easier to recognise and remember.',
+                image: 'https://img.youtube.com/vi/SGcGnys014E/hqdefault.jpg',
+                aspectRatio: '4/5',
+                staggerOffset: '0px',
+                videoUrl: 'https://www.youtube.com/watch?v=SGcGnys014E'
+              },
+              {
+                id: 'cat-corporate',
+                title: 'CORPORATE',
+                subtitle: 'Tell the story behind the business.',
+                desc: 'Corporate films, industrial visuals and brand communication that show what happens behind the scenes.',
+                image: 'https://img.youtube.com/vi/A1pwtdmXWtk/hqdefault.jpg',
+                aspectRatio: '16/10',
+                staggerOffset: '6rem',
+                videoUrl: 'https://www.youtube.com/watch?v=A1pwtdmXWtk'
+              }
+            ].map((item) => (
+              <div
+                key={item.id}
+                className="selected-case-card"
+                onClick={() => handleCardClick(item)}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '1.2rem',
+                  marginTop: item.staggerOffset,
+                  cursor: 'pointer',
+                  transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                }}
+                onMouseEnter={(e) => {
+                  playHoverSound();
+                  e.currentTarget.style.transform = 'translateY(-6px)';
+                  const img = e.currentTarget.querySelector('.case-img');
+                  if (img) img.style.transform = 'scale(1.04)';
+                  const title = e.currentTarget.querySelector('.case-title');
+                  if (title) title.style.color = '#0052ff';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'none';
+                  const img = e.currentTarget.querySelector('.case-img');
+                  if (img) img.style.transform = 'scale(1)';
+                  const title = e.currentTarget.querySelector('.case-title');
+                  if (title) title.style.color = '#000000';
+                }}
+              >
+                {/* Media Wrapper */}
+                <div style={{
+                  width: '100%',
+                  aspectRatio: item.aspectRatio || '16/10',
+                  overflow: 'hidden',
+                  borderRadius: '12px',
+                  backgroundColor: '#f4f4f5',
+                  position: 'relative',
+                  marginBottom: '1rem'
+                }}>
+                  <img 
+                    className="case-img"
+                    src={item.image} 
+                    alt={item.title}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                      display: 'block'
+                    }}
+                  />
+                </div>
+                
+                {/* Text Content */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '0 0.5rem' }}>
+                  <h3 className="case-title" style={{
+                    fontSize: '1.4rem',
+                    fontWeight: '700',
+                    margin: 0,
+                    letterSpacing: '0.05em',
+                    color: '#000000',
+                    fontFamily: 'sans-serif',
+                    transition: 'color 0.3s ease',
+                    textTransform: 'uppercase'
+                  }}>
+                    {item.title}
+                  </h3>
+                  <h4 style={{
+                    fontSize: '1.1rem',
+                    fontWeight: '500',
+                    margin: 0,
+                    color: '#333333',
+                    fontFamily: 'serif',
+                    fontStyle: 'italic'
+                  }}>
+                    {item.subtitle}
+                  </h4>
+                  <p style={{
+                    fontSize: '0.95rem',
+                    lineHeight: '1.6',
+                    color: '#666666',
+                    margin: '0.5rem 0 1rem 0',
+                    fontFamily: 'sans-serif',
+                    fontWeight: '300'
+                  }}>
+                    {item.desc}
+                  </p>
+                  
+                  {/* View Project Button */}
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#000000', fontWeight: '600', fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                    VIEW PROJECT <span style={{ color: '#0052ff', fontSize: '1.1rem' }}>→</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 07 - CLIENTS / LOGOS SECTION */}
+      <section id="brand-partners" className="scroll-fade-in" style={{
+        width: '100%',
+        padding: '12vh 6vw',
+        boxSizing: 'border-box',
+        backgroundColor: '#000000',
+        color: '#ffffff',
+        fontFamily: "'Manrope', sans-serif",
         position: 'relative',
         borderTop: 'none',
         borderBottom: 'none'
       }}>
         <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
           
-          {/* Top Description Text */}
-          <div style={{ marginBottom: '3rem', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
-            <p style={{
-              maxWidth: '820px',
-              fontSize: 'calc(0.95rem + 0.35vw)',
-              lineHeight: '1.75',
-              color: 'rgba(255, 255, 255, 0.78)',
+          {/* Header Row */}
+          <div className="clients-header" style={{
+            marginBottom: '6vh',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+            alignItems: 'center',
+            textAlign: 'center'
+          }}>
+            <span style={{
+              fontSize: '0.8rem',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              fontWeight: '600',
+              color: 'rgba(255, 255, 255, 0.5)',
+              fontFamily: "'Valley Sans', 'Manrope', sans-serif"
+            }}>
+              07 — CLIENTS / LOGOS
+            </span>
+
+            <h2 style={{
+              fontSize: 'clamp(2.4rem, 5vw, 4rem)',
+              fontWeight: '300',
+              fontFamily: "'Valley Sans', 'Manrope', sans-serif",
+              textTransform: 'uppercase',
               margin: 0,
+              letterSpacing: '0.01em',
+              lineHeight: '1.1',
+              color: '#ffffff'
+            }}>
+              BRANDS WE'VE WORKED WITH.
+            </h2>
+
+            <p style={{
+              fontSize: 'calc(1.05rem + 0.2vw)',
+              lineHeight: '1.7',
+              color: 'rgba(255, 255, 255, 0.7)',
+              maxWidth: '700px',
               fontFamily: 'sans-serif',
               fontWeight: '300',
-              letterSpacing: '0.01em'
+              marginTop: '1rem'
             }}>
-              Partnering with global leaders in automotive, engineering, mobility, and industrial innovation to deliver high-impact visual campaigns and production.
+              A selection of businesses, brands and people we've had the opportunity to create with.
             </p>
           </div>
 
@@ -1524,1147 +2338,302 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SERVICES / AGENCY OVERVIEW SECTION (Modern Editorial UI matching Reference) */}
-      <section id="services-overview" style={{
+      {/* 08 - WHY RISING MEDIA WORKS SECTION */}
+      <section id="why-rising-media-works" className="scroll-fade-in" style={{
         width: '100%',
-        minHeight: '100vh',
         padding: '12vh 6vw',
         boxSizing: 'border-box',
         backgroundColor: '#000000',
         color: '#ffffff',
-        fontFamily: 'sans-serif',
-        position: 'relative'
+        fontFamily: "'Manrope', sans-serif",
+        position: 'relative',
+        borderTop: 'none'
       }}>
-        <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           
-          {/* Top Eyebrow Header Row */}
-          <div className="services-eyebrow-row" style={{
-            borderTop: 'none',
-            paddingTop: '2.5rem',
-            marginBottom: '6vh',
+          {/* Header Row */}
+          <div className="why-header" style={{
+            marginBottom: '8vh',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '1.5rem'
+            flexDirection: 'column',
+            gap: '1rem'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <span style={{
-                fontSize: '0.75rem',
-                letterSpacing: '0.22em',
-                textTransform: 'uppercase',
-                fontWeight: '700',
-                color: '#ffffff',
-                fontFamily: "'Valley Sans', 'Manrope', sans-serif"
-              }}>
-                CAPABILITIES
-              </span>
-            </div>
-
-            <Link 
-              to="/services" 
-              className="services-explore-link"
-              style={{
-                fontSize: '0.78rem',
-                letterSpacing: '0.16em',
-                textTransform: 'uppercase',
-                fontWeight: '700',
-                color: '#ffffff',
-                backgroundColor: '#0052ff',
-                padding: '0.6rem 1.4rem',
-                borderRadius: '50px',
-                textDecoration: 'none',
-                fontFamily: "'Valley Sans', 'Manrope', sans-serif",
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-                boxShadow: '0 4px 20px rgba(0, 82, 255, 0.45)',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#ffffff';
-                e.currentTarget.style.color = '#000000';
-                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
-                e.currentTarget.style.boxShadow = '0 8px 25px rgba(255, 255, 255, 0.4)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#0052ff';
-                e.currentTarget.style.color = '#ffffff';
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 82, 255, 0.45)';
-              }}
-            >
-              EXPLORE ALL SERVICES →
-            </Link>
-          </div>
-
-          {/* Massive Mixed Typography Statement */}
-          <div style={{ maxWidth: '1300px', marginBottom: '6vh' }}>
-            <Link to="/services" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <h2 
-                className="services-main-headline"
-                style={{
-                  fontSize: 'calc(2.4rem + 2vw)',
-                  fontWeight: '300',
-                  lineHeight: '1.2',
-                  letterSpacing: '-0.02em',
-                  margin: 0,
-                  color: '#ffffff',
-                  fontFamily: 'serif',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                  transition: 'opacity 0.3s ease'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.85'}
-                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-              >
-                Creative Work <br />
-                <span style={{ fontStyle: 'italic', fontWeight: '400', color: '#ffffff' }}>With A Purpose.</span>
-              </h2>
-            </Link>
-          </div>
-
-          {/* Indented Right Paragraph Block */}
-          <div className="services-paragraph-wrapper" style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginBottom: '10vh'
-          }}>
-            <p style={{
-              maxWidth: '620px',
-              fontSize: '1.05rem',
-              lineHeight: '1.75',
-              color: 'rgba(255, 255, 255, 0.75)',
-              margin: 0,
-              fontFamily: 'sans-serif',
-              fontWeight: '300'
+            <span style={{
+              fontSize: '0.8rem',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              fontWeight: '600',
+              color: 'rgba(255, 255, 255, 0.5)',
+              fontFamily: "'Valley Sans', 'Manrope', sans-serif"
             }}>
-              We combine strategy, creativity, technology, and production to create communication that looks distinctive and works for your business.
-            </p>
-          </div>
+              08 — WHY RISING MEDIA WORKS
+            </span>
 
-          {/* Bottom Capabilities / Team Metadata Row */}
-          <div 
-            className="capabilities-grid-layout"
-            style={{
-              borderTop: 'none',
-              paddingTop: '4rem',
-              display: 'grid',
-              gridTemplateColumns: '1fr 2.5fr',
-              gap: '4rem'
-            }}
-          >
-            {/* Left Header with Glowing Dot Badge */}
-            <div className="services-what-we-do-header" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', height: 'fit-content' }}>
-              <span style={{
-                fontSize: '0.8rem',
-                letterSpacing: '0.22em',
-                textTransform: 'uppercase',
-                fontWeight: '700',
-                color: '#ffffff',
-                fontFamily: "'Valley Sans', 'Manrope', sans-serif"
-              }}>
-                WHAT WE DO
-              </span>
-            </div>
-
-            {/* Right Capabilities Table List with Interactive Highlights */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              {[
-                { id: '[01]', serviceId: 'video-production', label: 'Video Production:', val: 'Brand Films, Corporate, Commercial & Social Media Video Experiences', image: 'https://i.pinimg.com/1200x/df/03/93/df0393965c6fdce90e8843efd9a9bc69.jpg' },
-                { id: '[02]', serviceId: 'video-editing', label: 'Video Editing:', val: 'Short-Form Reels, YouTube, Colour Grading & Post-Production', image: 'https://i.pinimg.com/736x/12/a3/81/12a381aa8035415c33511ae7d0c76edf.jpg' },
-                { id: '[03]', serviceId: 'motion-graphics', label: 'Motion Graphics:', val: '2D/3D Motion, Logo Animation, Explainer Videos & Title Sequences', image: 'https://i.pinimg.com/736x/17/32/a2/1732a2c3d3af087ba755a97b145c3103.jpg' },
-                { id: '[04]', serviceId: 'branding', label: 'Branding & Creative Design:', val: 'Brand Identity, Logo Design, Guidelines & Campaign Design', image: 'https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?auto=format&fit=crop&w=800&q=80' },
-                { id: '[05]', serviceId: 'web-design', label: 'Web Design & Development:', val: 'Modern UI/UX, Custom Web Architectures & High-Conversion Landing Pages', image: 'https://i.pinimg.com/736x/0c/e8/08/0ce80850ca4f8ca3b3c367e370323a0e.jpg' },
-                { id: '[06]', serviceId: 'digital-content', label: 'Digital Content & Social Media:', val: 'Content Strategy, Social Media Management & Creative Promotion', image: 'https://i.pinimg.com/736x/1b/f0/b7/1bf0b79fc9d6a8c78bf528f83ccdb316.jpg' },
-                { id: '[07]', serviceId: 'photography', label: 'Photography & Visual Production:', val: 'Product, Campaign & Marketing Visual Photography', image: 'https://i.pinimg.com/736x/92/fd/f8/92fdf83f9ba8db832d81d0b486a2490d.jpg' },
-                { id: '[08]', serviceId: 'book-design', label: 'Book Design & Publishing:', val: 'Cover Design, Interior Layout, Print-Ready Files & KDP Publishing', image: 'https://i.pinimg.com/1200x/3c/e7/4b/3ce74bc3ae3f60eeac738835773f2f47.jpg' }
-              ].map((item) => (
-                <Link
-                  key={item.id}
-                  to={`/services/${item.serviceId}`}
-                  style={{ textDecoration: 'none', color: 'inherit' }}
-                >
-                  <div 
-                    className="cap-item-row"
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: '55px 210px 1fr auto',
-                      alignItems: 'center',
-                      fontSize: '0.95rem',
-                      color: 'rgba(255, 255, 255, 0.9)',
-                      fontFamily: 'sans-serif',
-                      padding: '1.2rem 1.5rem',
-                      borderRadius: '12px',
-                      borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-                      transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-                      cursor: 'pointer',
-                      backgroundColor: 'transparent'
-                    }}
-                    onMouseEnter={(e) => {
-                      playHoverSound();
-                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
-                      e.currentTarget.style.transform = 'translateX(10px)';
-                      e.currentTarget.style.borderBottomColor = '#ffffff';
-                      const idxEl = e.currentTarget.querySelector('.cap-id');
-                      if (idxEl) idxEl.style.color = '#ffffff';
-                      const labelEl = e.currentTarget.querySelector('.cap-label');
-                      if (labelEl) labelEl.style.color = '#ffffff';
-                      const arrowEl = e.currentTarget.querySelector('.cap-arrow');
-                      if (arrowEl) {
-                        arrowEl.style.opacity = '1';
-                        arrowEl.style.transform = 'translateX(4px)';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.transform = 'none';
-                      e.currentTarget.style.borderBottomColor = 'rgba(255, 255, 255, 0.08)';
-                      const idxEl = e.currentTarget.querySelector('.cap-id');
-                      if (idxEl) idxEl.style.color = 'rgba(255, 255, 255, 0.5)';
-                      const labelEl = e.currentTarget.querySelector('.cap-label');
-                      if (labelEl) labelEl.style.color = '#ffffff';
-                      const arrowEl = e.currentTarget.querySelector('.cap-arrow');
-                      if (arrowEl) {
-                        arrowEl.style.opacity = '0';
-                        arrowEl.style.transform = 'none';
-                      }
-                    }}
-                  >
-                    <span className="cap-id" style={{ color: 'rgba(255, 255, 255, 0.5)', fontWeight: '600', fontFamily: 'monospace', fontSize: '0.9rem', transition: 'color 0.3s' }}>
-                      {item.id}
-                    </span>
-                    <span className="cap-label" style={{ fontWeight: '600', color: '#ffffff', fontSize: '1rem', transition: 'color 0.3s' }}>
-                      {item.label}
-                    </span>
-                    <span className="cap-val-text" style={{ color: 'rgba(255, 255, 255, 0.7)', fontWeight: '300', fontSize: '0.95rem' }}>
-                      {item.val}
-                    </span>
-                    <span className="cap-arrow" style={{ opacity: 0, color: '#ffffff', transition: 'all 0.3s ease', fontSize: '1.1rem', fontWeight: 'bold' }}>
-                      →
-                    </span>
-
-                    {/* Mobile Phone View Active Image Highlight Container */}
-                    <div className="mobile-active-img" style={{
-                      width: '100%',
-                      maxHeight: '0px',
-                      opacity: 0,
-                      overflow: 'hidden',
-                      borderRadius: '10px',
-                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                      marginTop: '0px',
-                      gridColumn: '1 / -1'
-                    }}>
-                      <img 
-                        src={item.image} 
-                        alt={item.label} 
-                        style={{
-                          width: '100%',
-                          height: '150px',
-                          objectFit: 'cover',
-                          borderRadius: '10px',
-                          display: 'block'
-                        }} 
-                      />
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* WHY RISING MEDIA WORKS SECTION (Kinetic Typographic List with Hover Image Reveal UI) */}
-      <section 
-        id="why-rising-media-works" 
-        className="scroll-fade-in" 
-        onMouseMove={(e) => setMousePos({ x: e.clientX, y: e.clientY })}
-        style={{
-          width: '100%',
-          minHeight: '100vh',
-          padding: '14vh 6vw',
-          boxSizing: 'border-box',
-          backgroundColor: '#000000',
-          color: '#ffffff',
-          fontFamily: 'sans-serif',
-          position: 'relative',
-          borderTop: 'none'
-        }}
-      >
-        <div style={{ maxWidth: '1500px', margin: '0 auto' }}>
-          
-          {/* Eyebrow and Section Header */}
-          <div className="why-header-wrapper" style={{ marginBottom: '10vh' }}>
-            <div className="why-eyebrow-container" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.2rem' }}>
-              <span style={{
-                fontSize: '0.72rem',
-                letterSpacing: '0.22em',
-                textTransform: 'uppercase',
-                fontWeight: '600',
-                color: 'rgba(255, 255, 255, 0.5)',
-                fontFamily: "'Valley Sans', 'Manrope', sans-serif"
-              }}>
-                WHY RISING MEDIA WORKS
-              </span>
-            </div>
-
-            <h2 className="why-main-title" style={{
-              fontSize: 'calc(2.4rem + 2vw)',
+            <h2 style={{
+              fontSize: 'clamp(2.4rem, 5vw, 4.5rem)',
               fontWeight: '300',
               fontFamily: "'Valley Sans', 'Manrope', sans-serif",
               textTransform: 'uppercase',
               margin: 0,
-              letterSpacing: '0.02em',
+              letterSpacing: '0.01em',
+              lineHeight: '1.1',
               color: '#ffffff'
             }}>
-              The Rising Standards
+              WHY US?
             </h2>
+
+            <p style={{
+              fontSize: 'calc(1.1rem + 0.2vw)',
+              lineHeight: '1.6',
+              color: 'rgba(255, 255, 255, 0.75)',
+              maxWidth: '600px',
+              fontFamily: 'sans-serif',
+              fontWeight: '300',
+              marginTop: '0.5rem'
+            }}>
+              Because your brand deserves more than just another post.
+            </p>
           </div>
 
-          {/* Non-Card Typographic Rows List */}
-          <div style={{ borderTop: 'none' }}>
+          {/* Grid Layout for Points */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '4rem 3rem'
+          }}>
             {[
               {
-                num: '01',
-                title: 'STRATEGY MEETS CREATIVITY',
-                desc: 'We combine strategic thinking with creative execution to ensure that every visual decision supports a larger business objective.',
-                image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80'
+                id: '01',
+                title: 'STRATEGY',
+                subtitle: 'Create with a reason.',
+                desc: 'We start by understanding what you\'re trying to achieve before we start creating.'
               },
               {
-                num: '02',
-                title: 'BUILT AROUND YOUR BRAND',
-                desc: 'No one-size-fits-all creative. We develop concepts, visuals, and content around your brand identity, audience, and goals.',
-                image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'
+                id: '02',
+                title: 'CREATIVITY',
+                subtitle: 'Make people stop and look.',
+                desc: 'Ideas should have a purpose — but they should also have personality.'
               },
               {
-                num: '03',
-                title: 'ONE CREATIVE PARTNER',
-                desc: 'From strategy and design to production, editing, motion, web, and digital content, we bring multiple creative capabilities together.',
-                image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80'
+                id: '03',
+                title: 'PRODUCTION',
+                subtitle: 'From concept to final frame.',
+                desc: 'We bring strategy, design, shooting, editing and motion together under one roof.'
               },
               {
-                num: '04',
-                title: 'DETAIL MATTERS',
-                desc: 'Typography, composition, pacing, colour, sound, movement, layout, and consistency — we pay attention to the details that make creative work feel finished.',
-                image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80'
-              },
-              {
-                num: '05',
-                title: 'MADE FOR THE DIGITAL WORLD',
-                desc: "We create content and experiences designed for today's platforms while keeping the core brand identity consistent across every touchpoint.",
-                image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80'
+                id: '04',
+                title: 'CONSISTENCY',
+                subtitle: 'Make every touchpoint feel like your brand.',
+                desc: 'From Instagram to your website, every piece of content should feel connected.'
               }
             ].map((item, idx) => (
-              <div
+              <div 
                 key={idx}
-                className="why-row-item"
+                className="why-us-card"
                 style={{
-                  padding: '3.5rem 2rem',
-                  borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
-                  display: 'grid',
-                  gridTemplateColumns: '60px 1fr 1.2fr',
-                  alignItems: 'center',
-                  gap: '3rem',
-                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                  cursor: 'pointer',
-                  backgroundColor: 'transparent'
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '1rem',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+                  paddingTop: '2rem',
+                  transition: 'transform 0.3s ease'
                 }}
                 onMouseEnter={(e) => {
                   playHoverSound();
-                  setHoveredWhyUsImage(item.image);
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)';
-                  e.currentTarget.style.paddingLeft = '3rem';
-                  const title = e.currentTarget.querySelector('.row-title');
-                  if (title) title.style.color = '#ffffff';
-                  const num = e.currentTarget.querySelector('.row-num');
+                  e.currentTarget.style.transform = 'translateY(-5px)';
+                  const num = e.currentTarget.querySelector('.why-num');
                   if (num) num.style.color = '#0052ff';
                 }}
                 onMouseLeave={(e) => {
-                  setHoveredWhyUsImage(null);
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.paddingLeft = '2rem';
-                  const title = e.currentTarget.querySelector('.row-title');
-                  if (title) title.style.color = 'rgba(255, 255, 255, 0.9)';
-                  const num = e.currentTarget.querySelector('.row-num');
-                  if (num) num.style.color = 'rgba(255, 255, 255, 0.4)';
+                  e.currentTarget.style.transform = 'none';
+                  const num = e.currentTarget.querySelector('.why-num');
+                  if (num) num.style.color = 'rgba(255, 255, 255, 0.3)';
                 }}
               >
-                {/* Number */}
-                <span className="row-num" style={{
-                  fontSize: '0.85rem',
+                <div className="why-num" style={{
+                  fontSize: '1rem',
+                  fontWeight: '600',
                   fontFamily: 'monospace',
-                  color: 'rgba(255, 255, 255, 0.4)',
-                  letterSpacing: '0.1em',
-                  transition: 'color 0.4s'
+                  color: 'rgba(255, 255, 255, 0.3)',
+                  transition: 'color 0.3s ease',
+                  letterSpacing: '0.1em'
                 }}>
-                  {item.num}
-                </span>
-
-                {/* Title */}
-                <h3 className="row-title" style={{
-                  fontSize: 'calc(1.3rem + 0.5vw)',
-                  fontWeight: '500',
-                  textTransform: 'uppercase',
+                  {item.id}
+                </div>
+                
+                <h3 style={{
+                  fontSize: '1.6rem',
+                  fontWeight: '700',
                   margin: 0,
-                  fontFamily: "'Valley Sans', 'Manrope', sans-serif",
-                  color: 'rgba(255, 255, 255, 0.9)',
-                  letterSpacing: '-0.01em',
-                  transition: 'color 0.4s ease'
+                  letterSpacing: '0.05em',
+                  color: '#ffffff',
+                  fontFamily: 'sans-serif',
+                  textTransform: 'uppercase'
                 }}>
                   {item.title}
                 </h3>
-
-                {/* Description */}
-                <p className="why-row-desc" style={{
+                
+                <h4 style={{
+                  fontSize: '1.1rem',
+                  fontWeight: '500',
+                  margin: 0,
+                  color: '#dddddd',
+                  fontFamily: 'serif',
+                  fontStyle: 'italic'
+                }}>
+                  {item.subtitle}
+                </h4>
+                
+                <p style={{
                   fontSize: '0.95rem',
-                  lineHeight: '1.65',
-                  color: 'rgba(255, 255, 255, 0.6)',
+                  lineHeight: '1.6',
+                  color: 'rgba(255, 255, 255, 0.65)',
                   margin: 0,
                   fontFamily: 'sans-serif',
                   fontWeight: '300'
                 }}>
                   {item.desc}
                 </p>
-
-                {/* Mobile Phone View Active Image Highlight Container */}
-                <div className="mobile-active-img" style={{
-                  width: '100%',
-                  maxHeight: '0px',
-                  opacity: 0,
-                  overflow: 'hidden',
-                  borderRadius: '10px',
-                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                  marginTop: '0px',
-                  gridColumn: '1 / -1'
-                }}>
-                  <img 
-                    src={item.image} 
-                    alt={item.title} 
-                    style={{
-                      width: '100%',
-                      height: '160px',
-                      objectFit: 'cover',
-                      borderRadius: '10px',
-                      display: 'block'
-                    }} 
-                  />
-                </div>
               </div>
             ))}
           </div>
 
         </div>
-
-        {/* Floating Cursor-Following Image Preview */}
-        <div 
-          className="why-hover-preview"
-          style={{
-            position: 'fixed',
-            top: mousePos.y - 110,
-            left: mousePos.x + 30,
-            width: '320px',
-            height: '210px',
-            borderRadius: '16px',
-            overflow: 'hidden',
-            pointerEvents: 'none',
-            zIndex: 99999,
-            opacity: hoveredWhyUsImage ? 1 : 0,
-            transform: hoveredWhyUsImage ? 'scale(1) rotate(2deg)' : 'scale(0.8) rotate(0deg)',
-            transition: 'opacity 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-            boxShadow: '0 30px 70px rgba(0, 0, 0, 0.9), 0 0 1px rgba(255, 255, 255, 0.4)'
-          }}
-        >
-          {hoveredWhyUsImage && (
-            <img 
-              src={hoveredWhyUsImage} 
-              alt="Preview" 
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                display: 'block'
-              }} 
-            />
-          )}
-        </div>
       </section>
 
-      {/* FEATURED WORK / SELECTED CASES SECTION (Light Minimalist Editorial Design) */}
-      <section id="featured-work-showcase" className="scroll-fade-in" style={{
+      {/* 09 - FOUNDER SECTION */}
+      <section id="founder" className="scroll-fade-in" style={{
         width: '100%',
         padding: '12vh 6vw',
         boxSizing: 'border-box',
         backgroundColor: '#ffffff',
         color: '#000000',
         fontFamily: "'Manrope', sans-serif",
-        position: 'relative',
-        borderTop: 'none'
+        position: 'relative'
       }}>
-        <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
           
-          {/* Header Row: Category List + Selected Cases Title */}
-          <div className="selected-cases-header" style={{
-            display: 'grid',
-            gridTemplateColumns: '220px 1fr auto',
-            alignItems: 'flex-start',
-            marginBottom: '10vh',
-            gap: '2.5rem'
-          }}>
-            {/* Category Counts Column - Dynamically calculated from real project cases */}
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.4rem',
-              fontSize: '0.78rem',
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              fontWeight: '600',
-              fontFamily: 'monospace',
-              color: '#18181b',
-              paddingTop: '0.8rem'
-            }}>
-              {[
-                { 
-                  key: 'ALL', 
-                  label: 'ALL', 
-                  count: [
-                    { id: 'case-mahindra-1', category: 'BRANDING' },
-                    { id: 'case-mahindra-2', category: 'PRODUCT' },
-                    { id: 'case-greaves', category: 'BRANDING' },
-                    { id: 'case-ather', category: 'BRANDING' },
-                    { id: 'case-publishing', category: 'PRODUCT' },
-                    { id: 'case-nh', category: 'WEB' }
-                  ].length 
-                },
-                { 
-                  key: 'BRANDING', 
-                  label: 'BRANDING', 
-                  count: [
-                    { id: 'case-mahindra-1', category: 'BRANDING' },
-                    { id: 'case-mahindra-2', category: 'PRODUCT' },
-                    { id: 'case-greaves', category: 'BRANDING' },
-                    { id: 'case-ather', category: 'BRANDING' },
-                    { id: 'case-publishing', category: 'PRODUCT' },
-                    { id: 'case-nh', category: 'WEB' }
-                  ].filter(i => i.category === 'BRANDING').length 
-                },
-                { 
-                  key: 'WEB', 
-                  label: 'WEB & APP', 
-                  count: [
-                    { id: 'case-mahindra-1', category: 'BRANDING' },
-                    { id: 'case-mahindra-2', category: 'PRODUCT' },
-                    { id: 'case-greaves', category: 'BRANDING' },
-                    { id: 'case-ather', category: 'BRANDING' },
-                    { id: 'case-publishing', category: 'PRODUCT' },
-                    { id: 'case-nh', category: 'WEB' }
-                  ].filter(i => i.category === 'WEB').length 
-                },
-                { 
-                  key: 'PRODUCT', 
-                  label: 'PRODUCT & MOTION', 
-                  count: [
-                    { id: 'case-mahindra-1', category: 'BRANDING' },
-                    { id: 'case-mahindra-2', category: 'PRODUCT' },
-                    { id: 'case-greaves', category: 'BRANDING' },
-                    { id: 'case-ather', category: 'BRANDING' },
-                    { id: 'case-publishing', category: 'PRODUCT' },
-                    { id: 'case-nh', category: 'WEB' }
-                  ].filter(i => i.category === 'PRODUCT').length 
-                }
-              ].map(cat => (
-                <div 
-                  key={cat.key}
-                  onClick={() => setActiveShowcaseFilter(cat.key)}
-                  style={{
-                    cursor: 'pointer',
-                    color: activeShowcaseFilter === cat.key ? '#000000' : '#71717a',
-                    fontWeight: activeShowcaseFilter === cat.key ? '700' : '500',
-                    transition: 'color 0.3s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem'
-                  }}
-                >
-                  {cat.label} ({cat.count})
-                  {activeShowcaseFilter === cat.key && (
-                    <span style={{ fontSize: '0.8rem', color: '#10b981' }}>●</span>
-                  )}
-                </div>
-              ))}
-            </div>
+          <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '16px', overflow: 'hidden' }}>
+            <img src="/assets/image.png" alt="Gaurav Sharma, Founder" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </div>
 
-            {/* Giant Title + Accent Dot */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <div>
-              <h2 style={{
-                fontSize: 'clamp(3rem, 6.5vw, 6.2rem)',
-                fontWeight: '500',
-                fontFamily: "'Manrope', sans-serif",
-                margin: 0,
-                letterSpacing: '-0.035em',
-                lineHeight: '1.05',
-                color: '#000000'
-              }}>
-                Selected Cases
+              <span style={{ fontSize: '0.8rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: '600', color: '#666666' }}>
+                09 — FOUNDER
+              </span>
+              <h2 style={{ fontSize: 'clamp(2.4rem, 4vw, 4rem)', fontWeight: '300', textTransform: 'uppercase', margin: '1rem 0 0 0', lineHeight: '1.1', color: '#000000' }}>
+                BUILT BY PEOPLE<br />WHO UNDERSTAND BRANDS.
               </h2>
-
-              <div style={{ marginTop: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <span style={{
-                  width: '10px',
-                  height: '10px',
-                  borderRadius: '50%',
-                  backgroundColor: '#10b981',
-                  boxShadow: '0 0 12px rgba(16, 185, 129, 0.8)',
-                  display: 'inline-block'
-                }} />
-              </div>
+            </div>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', fontSize: '1.1rem', lineHeight: '1.6', color: '#555555', fontWeight: '300' }}>
+              <p style={{ margin: 0 }}><strong>I'm Gaurav Sharma, founder of Rising Media Works.</strong></p>
+              <p style={{ margin: 0 }}>We started Rising Media Works with a simple idea — businesses shouldn't have to look ordinary just because they're growing.</p>
+              <p style={{ margin: 0 }}>We work with businesses, creators and brands to turn ideas into strong visual identities, meaningful content and experiences people remember.</p>
             </div>
 
-            {/* Top Right Link */}
-            <Link 
-              to="/work" 
-              style={{
-                fontSize: '0.82rem',
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                fontWeight: '700',
-                color: '#000000',
-                border: '1.5px solid #000000',
-                padding: '0.75rem 1.8rem',
-                borderRadius: '50px',
-                textDecoration: 'none',
-                transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+            <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '2rem', marginTop: '1rem' }}>
+              <h4 style={{ fontSize: '1.2rem', fontWeight: '700', margin: '0 0 0.3rem 0', color: '#000000' }}>Gaurav Sharma</h4>
+              <p style={{ fontSize: '0.9rem', color: '#666666', margin: '0 0 2rem 0', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Founder, Rising Media Works</p>
+              
+              <Link to="/contact" style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.5rem',
-                backgroundColor: '#ffffff',
-                marginTop: '0.8rem'
+                gap: '0.8rem',
+                padding: '1rem 2.5rem',
+                backgroundColor: '#000000',
+                color: '#ffffff',
+                borderRadius: '50px',
+                fontSize: '0.9rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.15em',
+                fontWeight: '600',
+                textDecoration: 'none',
+                transition: 'all 0.35s ease'
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#000000';
-                e.currentTarget.style.color = '#ffffff';
-                e.currentTarget.style.transform = 'translateY(-3px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#ffffff';
-                e.currentTarget.style.color = '#000000';
-                e.currentTarget.style.transform = 'none';
-              }}
-            >
-              ALL CASES →
-            </Link>
-          </div>
-
-          {/* Staggered Asymmetric Cases Cards Grid */}
-          <div className="selected-cases-grid" style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '4rem 2.5rem',
-            alignItems: 'start'
-          }}>
-            {[
-              {
-                id: 'case-mahindra-1',
-                title: 'MAHINDRA & MAHINDRA',
-                subtitle: 'Electric Vehicle Commercial Launch & Tractor Plant Film',
-                category: 'BRANDING',
-                image: 'https://img.youtube.com/vi/w_xOxPuBmjk/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/watch?v=w_xOxPuBmjk',
-                aspectRatio: '16/10',
-                staggerOffset: '0px'
-              },
-              {
-                id: 'case-mahindra-2',
-                title: 'MAHINDRA BRAND CAMPAIGN',
-                subtitle: 'Featured Commercial Video Production & Industrial Showcase',
-                category: 'PRODUCT',
-                image: 'https://img.youtube.com/vi/JR5Ay3Du1SQ/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/watch?v=JR5Ay3Du1SQ',
-                aspectRatio: '1/1',
-                staggerOffset: '4rem' // Staggered vertical displacement matching reference
-              },
-              {
-                id: 'case-greaves',
-                title: 'GREAVES COTTON',
-                subtitle: 'Corporate Brand Film & Future Clean Mobility Showcase',
-                category: 'BRANDING',
-                image: 'https://img.youtube.com/vi/nc7Dn7nzjHk/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/watch?v=nc7Dn7nzjHk&t=73s',
-                bgColor: '#e6eff7', // Soft sky blue background container matching reference
-                aspectRatio: '4/5',
-                staggerOffset: '0px'
-              },
-              {
-                id: 'case-ather',
-                title: 'ATHER ENERGY',
-                subtitle: 'Clean Electric Scooter Visual Campaign & Motion Series',
-                category: 'BRANDING',
-                image: 'https://img.youtube.com/vi/SGcGnys014E/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/watch?v=SGcGnys014E',
-                aspectRatio: '16/10',
-                staggerOffset: '0px'
-              },
-              {
-                id: 'case-publishing',
-                title: 'RISING PUBLISHING // VOL. 01',
-                subtitle: '3D Book Cover Art, Typesetting & Kindle Publishing',
-                category: 'PRODUCT',
-                image: 'https://i.pinimg.com/736x/59/8b/b5/598bb5309e1cac0e08e0b18dc4f4b6af.jpg',
-                linkUrl: '/special-books',
-                aspectRatio: '1/1',
-                staggerOffset: '4rem'
-              },
-              {
-                id: 'case-nh',
-                title: 'NEW HOLLAND (NH GROUP)',
-                subtitle: 'Industrial Heavy Machinery Corporate Documentary',
-                category: 'WEB',
-                image: 'https://img.youtube.com/vi/A1pwtdmXWtk/hqdefault.jpg',
-                videoUrl: 'https://www.youtube.com/watch?v=A1pwtdmXWtk',
-                aspectRatio: '4/5',
-                staggerOffset: '0px'
-              }
-            ]
-            .filter(item => activeShowcaseFilter === 'ALL' || item.category === activeShowcaseFilter)
-            .map((item) => (
-              <div
-                key={item.id}
-                className="selected-case-card"
-                onClick={() => {
-                  if (item.linkUrl) {
-                    window.location.href = item.linkUrl;
-                  } else {
-                    handleCardClick(item);
-                  }
-                }}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '1.2rem',
-                  marginTop: item.staggerOffset,
-                  cursor: 'pointer',
-                  transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-                }}
-                onMouseEnter={(e) => {
-                  playHoverSound();
-                  e.currentTarget.style.transform = 'translateY(-6px)';
-                  const img = e.currentTarget.querySelector('.case-img');
-                  if (img) img.style.transform = 'scale(1.06)';
-                  const title = e.currentTarget.querySelector('.case-title');
-                  if (title) title.style.color = '#0052ff';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'none';
-                  const img = e.currentTarget.querySelector('.case-img');
-                  if (img) img.style.transform = 'scale(1)';
-                  const title = e.currentTarget.querySelector('.case-title');
-                  if (title) title.style.color = '#000000';
-                }}
+              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#0052ff'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#000000'; e.currentTarget.style.transform = 'none'; }}
               >
-                {/* Media Wrapper */}
-                <div style={{
-                  width: '100%',
-                  aspectRatio: item.aspectRatio || '16/10',
-                  overflow: 'hidden',
-                  borderRadius: '8px',
-                  backgroundColor: item.bgColor || '#f4f4f5',
-                  position: 'relative',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  <img 
-                    className="case-img"
-                    src={item.image} 
-                    alt={item.title}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-                      display: 'block'
-                    }} 
-                  />
-                </div>
-
-                {/* Typography Label Underneath matching Reference Screenshot */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                  <h3 
-                    className="case-title"
-                    style={{
-                      fontSize: '0.85rem',
-                      fontWeight: '700',
-                      letterSpacing: '0.12em',
-                      textTransform: 'uppercase',
-                      color: '#000000',
-                      margin: 0,
-                      fontFamily: 'monospace',
-                      transition: 'color 0.3s ease'
-                    }}
-                  >
-                    {item.title}
-                  </h3>
-                  <div style={{
-                    fontSize: '0.88rem',
-                    color: '#52525b',
-                    fontWeight: '400',
-                    lineHeight: '1.4'
-                  }}>
-                    {item.subtitle}
-                  </div>
-                </div>
-              </div>
-            ))}
+                WORK WITH US →
+              </Link>
+            </div>
           </div>
-
         </div>
       </section>
 
-      {/* OUR PROCESS SECTION (08. OUR PROCESS) */}
-      <section id="our-process" className="scroll-fade-in" style={{
-        width: '100%',
+      {/* 10 - TESTIMONIALS SECTION */}
+      <section id="testimonials" className="scroll-fade-in" style={{
+        width: '80%',
+        margin: '0 auto 8vh auto',
+        borderRadius: '32px',
         padding: '12vh 6vw',
         boxSizing: 'border-box',
         backgroundColor: '#000000',
         color: '#ffffff',
-        fontFamily: 'sans-serif',
-        position: 'relative',
-        borderTop: 'none'
+        fontFamily: "'Manrope', sans-serif"
       }}>
-        <div style={{ maxWidth: '1500px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           
-          {/* Elegant Centered Header */}
-          <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
-            <span style={{
-              fontSize: '0.8rem',
-              letterSpacing: '0.35em',
-              textTransform: 'uppercase',
-              fontWeight: '700',
-              color: 'rgba(255, 255, 255, 0.5)',
-              fontFamily: "'Valley Sans', 'Manrope', sans-serif",
-              display: 'block',
-              marginBottom: '0.6rem'
-            }}>
-              OUR PROCESS & METHODOLOGY
+          <div style={{ marginBottom: '6vh', textAlign: 'center' }}>
+            <span style={{ fontSize: '0.8rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: '600', color: 'rgba(255,255,255,0.5)' }}>
+              10 — TESTIMONIALS
             </span>
-            <p style={{
-              fontSize: '1.05rem',
-              lineHeight: '1.6',
-              color: 'rgba(255, 255, 255, 0.65)',
-              margin: '0 auto',
-              maxWidth: '620px',
-              fontWeight: '300',
-              fontFamily: "'Manrope', sans-serif"
-            }}>
-              A structured creative roadmap turning raw brand vision into high-impact digital products, immersive design, and measurable growth.
+            <h2 style={{ fontSize: 'clamp(2.4rem, 5vw, 4.5rem)', fontWeight: '300', textTransform: 'uppercase', margin: '1rem 0', lineHeight: '1.1' }}>
+              DON'T JUST TAKE OUR WORD FOR IT.
+            </h2>
+            <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.7)', fontWeight: '300' }}>
+              Real words from the people we've worked with.
             </p>
           </div>
 
-          {/* 100% Exact Methodology UI matching reference image */}
-          <div 
-            className="process-card-container"
-            style={{
-              backgroundColor: '#fafaf9',
-              borderRadius: '24px',
-              padding: '6rem 2rem',
-              color: '#1a1a1a',
-              marginTop: '2rem',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.3)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '4.5rem',
-              fontFamily: "'Manrope', sans-serif"
-            }}
-          >
-            {/* ROW 1: 5 ITEMS (01 - 05) */}
-            <div 
-              className="process-row-top"
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(5, 1fr)',
-                width: '100%',
-                maxWidth: '1200px'
-              }}
-            >
-              {[
-                { num: '01', line1: 'Product :', line2: 'Problem and task.' },
-                { num: '02', line1: 'Research', line2: '& Discovery.' },
-                { num: '03', line1: 'UX Strategy.', line2: '' },
-                { num: '04', line1: 'UI Design.', line2: '' },
-                { num: '05', line1: 'MVP.', line2: '' }
-              ].map((step, idx) => {
-                return (
-                  <div 
-                    key={step.num}
-                    className="process-step-col"
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      padding: '1.25rem 1rem',
-                      position: 'relative',
-                      borderRight: idx < 4 ? '1px solid #d4d4d8' : 'none',
-                      minHeight: '140px',
-                      justifyContent: 'flex-start',
-                      backgroundColor: 'transparent'
-                    }}
-                  >
-                    <span 
-                      className="method-num"
-                      style={{
-                        fontSize: 'clamp(3.2rem, 5vw, 4.8rem)',
-                        fontWeight: '600',
-                        color: '#18181b',
-                        lineHeight: '1',
-                        marginBottom: '1.2rem',
-                        letterSpacing: '-0.02em'
-                      }}
-                    >
-                      {step.num}
-                    </span>
-
-                    <div 
-                      className="method-label"
-                      style={{
-                        fontSize: '1rem',
-                        lineHeight: '1.35',
-                        color: '#52525b',
-                        fontWeight: '400',
-                        maxWidth: '160px'
-                      }}
-                    >
-                      <div>{step.line1}</div>
-                      {step.line2 && <div>{step.line2}</div>}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* ROW 2: 2 ITEMS CENTERED (06 - 07) */}
-            <div 
-              className="process-row-bottom"
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                maxWidth: '480px',
-                width: '100%'
-              }}
-            >
-              {[
-                { num: '06', line1: 'Metrics.', line2: '' },
-                { num: '07', line1: 'How do I', line2: 'really work?' }
-              ].map((step, idx) => {
-                return (
-                  <div 
-                    key={step.num}
-                    className="process-step-col"
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      padding: '1.25rem 1.5rem',
-                      position: 'relative',
-                      borderRight: idx === 0 ? '1px solid #d4d4d8' : 'none',
-                      minHeight: '140px',
-                      justifyContent: 'flex-start',
-                      backgroundColor: 'transparent'
-                    }}
-                  >
-                    <span 
-                      className="method-num"
-                      style={{
-                        fontSize: 'clamp(3.2rem, 5vw, 4.8rem)',
-                        fontWeight: '600',
-                        color: '#18181b',
-                        lineHeight: '1',
-                        marginBottom: '1.2rem',
-                        letterSpacing: '-0.02em'
-                      }}
-                    >
-                      {step.num}
-                    </span>
-
-                    <div 
-                      className="method-label"
-                      style={{
-                        fontSize: '1rem',
-                        lineHeight: '1.35',
-                        color: '#52525b',
-                        fontWeight: '400',
-                        maxWidth: '160px'
-                      }}
-                    >
-                      <div>{step.line1}</div>
-                      {step.line2 && <div>{step.line2}</div>}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '4rem' }}>
+            {[1, 2].map((i) => (
+              <div key={i} style={{ borderLeft: '2px solid #0052ff', paddingLeft: '2rem' }}>
+                <p style={{ fontSize: '1.3rem', lineHeight: '1.6', fontFamily: 'serif', fontStyle: 'italic', marginBottom: '2rem' }}>
+                  “[CLIENT TESTIMONIAL]”
+                </p>
+                <div>
+                  <h4 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '0 0 0.3rem 0', textTransform: 'uppercase', letterSpacing: '0.05em' }}>— Client Name</h4>
+                  <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.5)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Company / Brand</p>
+                </div>
+              </div>
+            ))}
           </div>
-
         </div>
       </section>
 
-      {/* TESTIMONIALS SECTION */}
-      <section id="testimonials" className="scroll-fade-in" style={{
+      {/* 11 - PROCESS SECTION */}
+      <section id="process" className="scroll-fade-in" style={{
         width: '100%',
-        minHeight: '100vh',
-        padding: '10vh 6vw',
+        padding: '12vh 6vw',
         boxSizing: 'border-box',
-        backgroundColor: '#000000',
-        color: '#ffffff',
-        fontFamily: 'sans-serif',
-        position: 'relative',
-        borderTop: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
+        backgroundColor: '#ffffff',
+        color: '#000000',
+        fontFamily: "'Manrope', sans-serif"
       }}>
-        <div style={{ maxWidth: '1600px', width: '100%', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           
-          {/* Testimonial Editorial Grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
-            gap: '4rem'
-          }}>
+          <div style={{ marginBottom: '8vh' }}>
+            <span style={{ fontSize: '0.8rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: '600', color: '#666666' }}>
+              11 — PROCESS
+            </span>
+            <h2 style={{ fontSize: 'clamp(2.4rem, 5vw, 4.5rem)', fontWeight: '300', textTransform: 'uppercase', margin: '1rem 0 0 0', lineHeight: '1.1', maxWidth: '800px' }}>
+              FROM FIRST CONVERSATION<br />TO FINAL DELIVERY.
+            </h2>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '3rem' }}>
             {[
-              {
-                num: '01',
-                avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
-                quote: '“Rising Media Works transformed our brand narrative with cinematic direction that doubled our audience engagement within 30 days.”',
-                author: 'Alexander Vance',
-                role: 'Creative Director',
-                company: 'Apex Studio'
-              },
-              {
-                num: '02',
-                avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
-                quote: '“Their engineering-grade web interfaces and 3D motion artwork command absolute authority. The single highest standard in modern production.”',
-                author: 'Elena Rostova',
-                role: 'Managing Director',
-                company: 'Lumina Capital'
-              },
-              {
-                num: '03',
-                avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
-                quote: '“From storyboards to final master color grading, working with Rising Media Works was flawless execution. They deliver true luxury aesthetics.”',
-                author: 'Marcus Thorne',
-                role: 'Chief Executive Officer',
-                company: 'Thorne & Co.'
-              }
-            ].map((item, idx) => (
-              <div
-                key={idx}
-                className="t-editorial-item"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  gap: '2.8rem',
-                  paddingBottom: '3rem',
-                  borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
-                  transition: 'all 0.4s ease',
-                  cursor: 'pointer',
-                  backgroundColor: 'transparent'
-                }}
-                onMouseEnter={(e) => {
-                  playHoverSound();
-                  const num = e.currentTarget.querySelector('.t-num');
-                  if (num) num.style.color = '#0052ff';
-                  const img = e.currentTarget.querySelector('.t-img');
-                  if (img) {
-                    img.style.filter = 'grayscale(0%) contrast(1)';
-                    img.style.borderColor = '#0052ff';
-                  }
-                  const quote = e.currentTarget.querySelector('.t-quote');
-                  if (quote) quote.style.color = '#ffffff';
-                }}
-                onMouseLeave={(e) => {
-                  const num = e.currentTarget.querySelector('.t-num');
-                  if (num) num.style.color = 'rgba(255, 255, 255, 0.4)';
-                  const img = e.currentTarget.querySelector('.t-img');
-                  if (img) {
-                    img.style.filter = 'grayscale(100%) contrast(1.15) brightness(0.95)';
-                    img.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                  }
-                  const quote = e.currentTarget.querySelector('.t-quote');
-                  if (quote) quote.style.color = 'rgba(255, 255, 255, 0.8)';
-                }}
-              >
-                {/* Header Row: B&W Portrait & Index Number */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <img 
-                      src={item.avatar} 
-                      alt={item.author}
-                      className="t-img"
-                      style={{
-                        width: '64px',
-                        height: '64px',
-                        borderRadius: '50%',
-                        objectFit: 'cover',
-                        filter: 'grayscale(100%) contrast(1.15) brightness(0.95)',
-                        border: '1px solid rgba(255, 255, 255, 0.2)',
-                        transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
-                      }}
-                    />
-                    <div>
-                      <h4 style={{ fontSize: '1.05rem', fontWeight: '600', color: '#ffffff', margin: '0 0 0.2rem 0', fontFamily: 'sans-serif' }}>
-                        {item.author}
-                      </h4>
-                      <p style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.5)', margin: 0, fontFamily: 'sans-serif', fontWeight: '300' }}>
-                        {item.role} — <span style={{ color: 'rgba(255, 255, 255, 0.75)' }}>{item.company}</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  <span className="t-num" style={{
-                    fontSize: '0.85rem',
-                    fontFamily: 'monospace',
-                    color: 'rgba(255, 255, 255, 0.4)',
-                    letterSpacing: '0.1em',
-                    transition: 'color 0.4s'
-                  }}>
-                    {item.num}
-                  </span>
-                </div>
-
-                {/* Main Quote Content */}
-                <p className="t-quote" style={{
-                  fontSize: '1.2rem',
-                  lineHeight: '1.7',
-                  fontFamily: 'serif',
-                  fontStyle: 'italic',
-                  color: 'rgba(255, 255, 255, 0.8)',
-                  margin: 0,
-                  transition: 'color 0.4s ease'
-                }}>
-                  {item.quote}
-                </p>
-
-                {/* Rating Footer Row */}
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  paddingTop: '1rem'
-                }}>
-                  <div style={{ color: '#ffc107', fontSize: '0.85rem', letterSpacing: '3px', textShadow: '0 0 12px rgba(255, 193, 7, 0.6)' }}>
-                    ★★★★★
-                  </div>
-                  <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255, 255, 255, 0.4)', fontFamily: 'monospace' }}>
-                    VERIFIED CLIENT
-                  </span>
-                </div>
+              { num: '01', title: 'DISCOVER', desc: "Tell us about your business, your idea and what you're trying to achieve." },
+              { num: '02', title: 'DEFINE', desc: "We understand the direction, audience, requirements and creative approach." },
+              { num: '03', title: 'CREATE', desc: "Our team brings the idea to life through design, content, film or digital." },
+              { num: '04', title: 'DELIVER', desc: "You get the final work, ready to launch and use." }
+            ].map((step) => (
+              <div key={step.num} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <span style={{ fontSize: '3rem', fontWeight: '200', color: '#e5e7eb', lineHeight: '1' }}>{step.num}</span>
+                <h3 style={{ fontSize: '1.3rem', fontWeight: '700', margin: 0, letterSpacing: '0.05em' }}>— {step.title}</h3>
+                <p style={{ fontSize: '1rem', lineHeight: '1.6', color: '#555555', margin: 0, fontWeight: '300' }}>{step.desc}</p>
               </div>
             ))}
           </div>
@@ -2674,7 +2643,9 @@ const Home = () => {
 
       {/* CTA SECTION (11. FINAL CTA SECTION) */}
       <section id="cta-section" className="scroll-fade-in" style={{
-        width: '100%',
+        width: '80%',
+        margin: '0 auto 8vh auto',
+        borderRadius: '32px',
         minHeight: '100vh',
         padding: '12vh 6vw 6vh 6vw',
         boxSizing: 'border-box',
