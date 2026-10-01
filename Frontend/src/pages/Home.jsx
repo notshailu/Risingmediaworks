@@ -573,7 +573,7 @@ const Home = () => {
       scrollTrigger: {
         trigger: secondSectionRef.current,
         start: 'top top',
-        end: isMobile ? '+=600' : '+=1400',
+        end: isMobile ? '+=1500' : '+=1400',
         pin: true,
         scrub: 0.1, // Zero-lag smooth direct scroll tracking
         anticipatePin: 1,
@@ -726,7 +726,7 @@ const Home = () => {
       scrollTrigger: {
         trigger: handsSectionRef.current,
         start: 'top top',
-        end: isMobile ? '+=650' : '+=1400',
+        end: isMobile ? '+=1500' : '+=1400',
         pin: true,
         scrub: 0.1, // Zero-lag smooth direct scroll tracking
         anticipatePin: 1,
@@ -1001,7 +1001,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div ref={containerRef} style={{ width: '100%', position: 'relative', overflowX: 'hidden' }}>
+    <div ref={containerRef} style={{ width: '100%', position: 'relative', overflowX: 'clip' }}>
       
 
 
@@ -2511,7 +2511,7 @@ const Home = () => {
         fontFamily: "'Manrope', sans-serif",
         position: 'relative'
       }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: '4rem', alignItems: 'center' }}>
           
           <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '16px', overflow: 'hidden' }}>
             <img src="/assets/image.png" alt="Gaurav Sharma, Founder" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -2563,11 +2563,11 @@ const Home = () => {
       </section>
 
       {/* 10 - TESTIMONIALS SECTION */}
-      <section id="testimonials" className="scroll-fade-in" style={{
-        width: '80%',
+      <section id="testimonials" className="scroll-fade-in responsive-box-section" style={{
         margin: '0 auto 8vh auto',
         borderRadius: '32px',
-        padding: '12vh 6vw',
+        paddingTop: '12vh',
+        paddingBottom: '12vh',
         boxSizing: 'border-box',
         backgroundColor: '#000000',
         color: '#ffffff',
@@ -2587,15 +2587,63 @@ const Home = () => {
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '4rem' }}>
-            {[1, 2].map((i) => (
-              <div key={i} style={{ borderLeft: '2px solid #0052ff', paddingLeft: '2rem' }}>
-                <p style={{ fontSize: '1.3rem', lineHeight: '1.6', fontFamily: 'serif', fontStyle: 'italic', marginBottom: '2rem' }}>
-                  “[CLIENT TESTIMONIAL]”
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 'clamp(2rem, 4vw, 4rem)' }}>
+            {[
+              {
+                text: "Rising Media Works completely transformed our brand identity. The attention to detail and creative direction they provided helped us connect with our audience on a much deeper level.",
+                name: "Rohan Mehta",
+                company: "CEO, NovaTech Solutions"
+              },
+              {
+                text: "Their team has an incredible eye for storytelling. The cinematic film they produced for our new product launch blew our expectations out of the water. Simply world-class.",
+                name: "Sarah Jenkins",
+                company: "Marketing Director, Elevate Lifestyle"
+              }
+            ].map((testimonial, i) => (
+              <div key={i} style={{ 
+                backgroundColor: 'rgba(255, 255, 255, 0.03)', 
+                border: '1px solid rgba(255, 255, 255, 0.06)',
+                borderRadius: '24px',
+                padding: '3rem 2.5rem',
+                position: 'relative',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  top: '-15px',
+                  right: '20px',
+                  fontSize: '10rem',
+                  fontFamily: 'serif',
+                  color: 'rgba(255, 255, 255, 0.02)',
+                  lineHeight: '1',
+                  pointerEvents: 'none',
+                  userSelect: 'none'
+                }}>
+                  ”
+                </div>
+                
+                <p style={{ 
+                  fontSize: '1.15rem', 
+                  lineHeight: '1.75', 
+                  fontFamily: 'var(--font-sans)', 
+                  fontWeight: '300', 
+                  color: 'rgba(255,255,255,0.85)', 
+                  marginBottom: '2.5rem',
+                  position: 'relative',
+                  zIndex: 2
+                }}>
+                  "{testimonial.text}"
                 </p>
-                <div>
-                  <h4 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '0 0 0.3rem 0', textTransform: 'uppercase', letterSpacing: '0.05em' }}>— Client Name</h4>
-                  <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.5)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Company / Brand</p>
+                
+                <div style={{ position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <div style={{ width: '40px', height: '2px', backgroundColor: '#0052ff' }}></div>
+                  <div>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: '700', margin: '0 0 0.2rem 0', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#ffffff' }}>{testimonial.name}</h4>
+                    <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.15em' }}>{testimonial.company}</p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -2623,7 +2671,7 @@ const Home = () => {
             </h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '3rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: '3rem' }}>
             {[
               { num: '01', title: 'DISCOVER', desc: "Tell us about your business, your idea and what you're trying to achieve." },
               { num: '02', title: 'DEFINE', desc: "We understand the direction, audience, requirements and creative approach." },
@@ -2642,12 +2690,12 @@ const Home = () => {
       </section>
 
       {/* CTA SECTION (11. FINAL CTA SECTION) */}
-      <section id="cta-section" className="scroll-fade-in" style={{
-        width: '80%',
+      <section id="cta-section" className="scroll-fade-in responsive-box-section" style={{
         margin: '0 auto 8vh auto',
         borderRadius: '32px',
-        minHeight: '100vh',
-        padding: '12vh 6vw 6vh 6vw',
+        minHeight: '60vh',
+        paddingTop: '12vh',
+        paddingBottom: '8vh',
         boxSizing: 'border-box',
         backgroundColor: '#000000',
         color: '#ffffff',
@@ -2691,7 +2739,7 @@ const Home = () => {
 
           {/* Main Giant Kinetic Editorial Statement */}
           <h2 style={{
-            fontSize: 'calc(2.6rem + 3vw)',
+            fontSize: 'clamp(2.2rem, 7vw, 4.5rem)',
             fontWeight: '800',
             fontFamily: "'Manrope', sans-serif",
             textTransform: 'uppercase',

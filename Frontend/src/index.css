@@ -31,7 +31,7 @@ body.light-theme {
 html, body {
   width: 100%;
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow-x: clip;
   overflow-y: auto;
   background-color: #000000;
   color: var(--text-color);
@@ -77,5 +77,28 @@ html.lenis, html.lenis body {
 
 .lenis.lenis-smooth iframe {
   pointer-events: none;
+}
+
+/* Responsive box sections */
+.responsive-box-section {
+  width: 94% !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+@media (min-width: 768px) {
+  .responsive-box-section {
+    width: 85% !important;
+    padding-left: 4vw !important;
+    padding-right: 4vw !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .responsive-box-section {
+    width: 80% !important;
+    padding-left: 6vw !important;
+    padding-right: 6vw !important;
+  }
 }
 
