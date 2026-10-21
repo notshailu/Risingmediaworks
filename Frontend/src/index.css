@@ -51,10 +51,22 @@ ul {
   list-style: none;
 }
 
-/* Hide default cursor on desktops to use custom cursor */
+/* Hide the default cursor only where the custom cursor is mounted. */
 @media (hover: hover) and (pointer: fine) {
-  html, body, a, button, [role="button"], input, textarea, select {
+  .app-container, .app-container a, .app-container button, .app-container [role="button"], .app-container input, .app-container textarea, .app-container select {
     cursor: none !important;
+  }
+
+  .admin-login, .admin-panel {
+    cursor: default !important;
+  }
+
+  .admin-login input, .admin-login textarea, .admin-panel input, .admin-panel textarea {
+    cursor: text !important;
+  }
+
+  .admin-login button, .admin-login a, .admin-panel button, .admin-panel a {
+    cursor: pointer !important;
   }
 }
 

@@ -1,8 +1,16 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getSiteContent } from '../data/siteContent';
 
 const Footer = () => {
   const flameCanvasRef = useRef(null);
+  const [siteContent, setSiteContent] = useState(getSiteContent);
+
+  useEffect(() => {
+    const refreshSiteContent = () => setSiteContent(getSiteContent());
+    window.addEventListener('rmw-site-content-updated', refreshSiteContent);
+    return () => window.removeEventListener('rmw-site-content-updated', refreshSiteContent);
+  }, []);
 
   const playHoverSound = () => {
     try {
@@ -187,7 +195,7 @@ const Footer = () => {
               maxWidth: '480px',
               fontFamily: "'Manrope', sans-serif"
             }}>
-              We build brands that move.
+              {siteContent.footerTagline}
             </h3>
 
             <p style={{
@@ -276,14 +284,36 @@ const Footer = () => {
             </span>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
               {[
-                'Branding',
-                'Content',
-                'Film & Video',
-                'Digital',
-                'Publishing'
-              ].map((cap, i) => (
-                <li key={i} style={{ color: 'rgba(255, 255, 255, 0.65)', fontSize: '0.92rem', fontFamily: "'Manrope', sans-serif", fontWeight: '300' }}>
-                  {cap}
+                { name: 'Branding', path: '/services/branding-design' },
+                { name: 'Content', path: '/services/digital-content' },
+                { name: 'Film & Video', path: '/services/video-production' },
+                { name: 'Digital', path: '/services/web-design' },
+                { name: 'Publishing', path: '/services/book-design' }
+              ].map((service) => (
+                <li key={service.path}>
+                  <Link
+                    to={service.path}
+                    onMouseEnter={playHoverSound}
+                    style={{
+                      color: 'rgba(255, 255, 255, 0.65)',
+                      textDecoration: 'none',
+                      fontSize: '0.92rem',
+                      fontFamily: "'Manrope', sans-serif",
+                      fontWeight: '300',
+                      transition: 'all 0.3s ease',
+                      display: 'inline-block'
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.color = '#3b6cff';
+                      e.currentTarget.style.transform = 'translateX(5px)';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.65)';
+                      e.currentTarget.style.transform = 'none';
+                    }}
+                  >
+                    {service.name}
+                  </Link>
                 </li>
               ))}
             </ul>

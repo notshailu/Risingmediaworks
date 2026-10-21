@@ -28,6 +28,7 @@ import WorkForm from './pages/Admin/WorkForm';
 import AdminCaseStudies from './pages/Admin/AdminCaseStudies';
 import CaseStudyForm from './pages/Admin/CaseStudyForm';
 import AdminInquiries from './pages/Admin/AdminInquiries';
+import AdminSiteContent from './pages/Admin/AdminSiteContent';
 
 import { ProjectLaunchProvider } from './components/ProjectLaunchPortal';
 
@@ -71,6 +72,7 @@ const App = () => {
             <Route element={<AdminLayout />}>
               <Route index element={<AdminInquiries />} />
               <Route path="inquiries" element={<AdminInquiries />} />
+              <Route path="content" element={<AdminSiteContent />} />
               <Route path="books" element={<AdminBooks />} />
               <Route path="books/new" element={<BookForm />} />
               <Route path="books/edit/:id" element={<BookForm />} />

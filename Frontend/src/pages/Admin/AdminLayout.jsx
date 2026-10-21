@@ -47,6 +47,7 @@ const AdminLayout = () => {
   const isWorksActive = location.pathname.includes('/admin/works');
   const isCaseStudiesActive = location.pathname.includes('/admin/case-studies');
   const isBooksActive = location.pathname.includes('/admin/books');
+  const isContentActive = location.pathname.includes('/admin/content');
 
   // Count unread new real inquiries for notification badge
   let unreadCount = 0;
@@ -434,6 +435,27 @@ const AdminLayout = () => {
             Books Management
           </Link>
 
+          <Link
+            to="/admin/content"
+            style={{
+              color: isContentActive ? '#ffffff' : '#475569',
+              textDecoration: 'none',
+              padding: '0.8rem 1.1rem',
+              borderRadius: '12px',
+              backgroundColor: isContentActive ? '#0f172a' : 'transparent',
+              fontWeight: isContentActive ? '700' : '600',
+              fontSize: '0.9rem',
+              transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              boxShadow: isContentActive ? '0 4px 12px rgba(15, 23, 42, 0.15)' : 'none'
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h10M4 18h16"/><path d="M18 10v8M14 14h8"/></svg>
+            Site Content
+          </Link>
+
           {/* Admin Push Notification Box */}
           <div style={{
             marginTop: 'auto',
@@ -701,6 +723,25 @@ const AdminLayout = () => {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={isBooksActive ? "2.5" : "2"}><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
           </div>
           Books
+        </Link>
+
+        <Link
+          to="/admin/content"
+          onClick={() => triggerNativeHaptic('light')}
+          style={{
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem',
+            textDecoration: 'none', color: isContentActive ? '#0052ff' : '#64748b',
+            fontSize: '0.72rem', fontWeight: isContentActive ? '700' : '600', flex: 1
+          }}
+        >
+          <div style={{
+            padding: '0.35rem 1.25rem', borderRadius: '20px',
+            backgroundColor: isContentActive ? '#eff6ff' : 'transparent', display: 'flex',
+            alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s ease'
+          }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={isContentActive ? '2.5' : '2'}><path d="M4 6h16M4 12h10M4 18h16"/><path d="M18 10v8M14 14h8"/></svg>
+          </div>
+          Content
         </Link>
 
         <button 

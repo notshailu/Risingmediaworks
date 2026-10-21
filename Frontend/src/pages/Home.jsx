@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { servicesData, projectsData, booksData } from '../data/dummyData';
+import { getSiteContent } from '../data/siteContent';
 import Footer from '../components/Footer';
 import { useProjectLaunch } from '../components/ProjectLaunchPortal';
 
@@ -41,6 +42,13 @@ const Home = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [activeProcessStep, setActiveProcessStep] = useState('01');
   const [activeShowcaseFilter, setActiveShowcaseFilter] = useState('ALL');
+  const [siteContent, setSiteContent] = useState(getSiteContent);
+
+  useEffect(() => {
+    const refreshSiteContent = () => setSiteContent(getSiteContent());
+    window.addEventListener('rmw-site-content-updated', refreshSiteContent);
+    return () => window.removeEventListener('rmw-site-content-updated', refreshSiteContent);
+  }, []);
 
   // Fetch real works from the database (fallback gracefully if offline)
   useEffect(() => {
@@ -1042,8 +1050,8 @@ const Home = () => {
             fontFamily: 'serif',
             color: '#000000'
           }}>
-            WE BUILD BRANDS<br />
-            <span style={{ fontStyle: 'italic', fontWeight: '400' }}>THAT MOVE.</span>
+            {siteContent.heroLineOne}<br />
+            <span style={{ fontStyle: 'italic', fontWeight: '400' }}>{siteContent.heroLineTwo}</span>
           </h1>
 
           <p className="hero-subtitle" style={{
@@ -1518,8 +1526,8 @@ const Home = () => {
                 onMouseEnter={(e) => e.currentTarget.style.opacity = '0.85'}
                 onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
               >
-                MORE THAN CONTENT.<br />
-                <span style={{ fontStyle: 'italic', fontWeight: '400', color: '#ffffff' }}>WE BUILD THE BRAND BEHIND IT.</span>
+                {siteContent.servicesLineOne}<br />
+                <span style={{ fontStyle: 'italic', fontWeight: '400', color: '#ffffff' }}>{siteContent.servicesLineTwo}</span>
               </h2>
             </Link>
           </div>
@@ -1572,7 +1580,7 @@ const Home = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {[
                 { 
-                  id: '[01]', 
+                  id: 'branding',
                   serviceId: 'branding', 
                   label: 'BRAND', 
                   title: 'Build an identity people remember.',
@@ -1581,7 +1589,7 @@ const Home = () => {
                   image: 'https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?auto=format&fit=crop&w=800&q=80' 
                 },
                 { 
-                  id: '[02]', 
+                  id: 'content',
                   serviceId: 'content', 
                   label: 'CONTENT', 
                   title: 'Give your brand something worth watching.',
@@ -1590,7 +1598,7 @@ const Home = () => {
                   image: 'https://i.pinimg.com/736x/1b/f0/b7/1bf0b79fc9d6a8c78bf528f83ccdb316.jpg' 
                 },
                 { 
-                  id: '[03]', 
+                  id: 'film',
                   serviceId: 'film', 
                   label: 'FILM', 
                   title: 'Turn your story into something people can feel.',
@@ -1599,7 +1607,7 @@ const Home = () => {
                   image: 'https://i.pinimg.com/1200x/df/03/93/df0393965c6fdce90e8843efd9a9bc69.jpg' 
                 },
                 { 
-                  id: '[04]', 
+                  id: 'digital',
                   serviceId: 'digital', 
                   label: 'DIGITAL', 
                   title: 'Make your brand work beyond the screen.',
@@ -1608,7 +1616,7 @@ const Home = () => {
                   image: 'https://i.pinimg.com/736x/0c/e8/08/0ce80850ca4f8ca3b3c367e370323a0e.jpg' 
                 },
                 { 
-                  id: '[05]', 
+                  id: 'publishing',
                   serviceId: 'publishing', 
                   label: 'PUBLISHING', 
                   title: 'Give your ideas a cover worth opening.',
@@ -1626,7 +1634,7 @@ const Home = () => {
                     className="cap-item-row"
                     style={{
                       display: 'grid',
-                      gridTemplateColumns: '55px 160px 1fr auto',
+                      gridTemplateColumns: '160px 1fr auto',
                       alignItems: 'flex-start',
                       fontSize: '0.95rem',
                       color: 'rgba(255, 255, 255, 0.9)',
@@ -1676,9 +1684,6 @@ const Home = () => {
                       if (tagsEl) tagsEl.style.color = 'rgba(255, 255, 255, 0.4)';
                     }}
                   >
-                    <span className="cap-id" style={{ color: 'rgba(255, 255, 255, 0.5)', fontWeight: '600', fontFamily: 'monospace', fontSize: '0.9rem', transition: 'color 0.3s', marginTop: '0.2rem' }}>
-                      {item.id}
-                    </span>
                     <span className="cap-label" style={{ fontWeight: '600', color: '#ffffff', fontSize: '1.05rem', transition: 'color 0.3s', marginTop: '0.1rem', letterSpacing: '0.05em' }}>
                       {item.label}
                     </span>
@@ -1856,7 +1861,7 @@ const Home = () => {
             display: 'block',
             marginBottom: '1.5rem'
           }}>
-            05 — SHOWREEL
+            {siteContent.showreelLabel}
           </span>
 
           <h2 style={{
@@ -1969,7 +1974,7 @@ const Home = () => {
         width: '100%',
         padding: '12vh 6vw',
         boxSizing: 'border-box',
-        backgroundColor: '#ffffff',
+        background: 'linear-gradient(180deg, #ffffff 0%, #d8d8d8 30%, #5a5a5a 60%, #000000 100%)',
         color: '#000000',
         fontFamily: "'Manrope', sans-serif",
         position: 'relative',
@@ -1992,7 +1997,7 @@ const Home = () => {
               color: '#666666',
               fontFamily: "'Valley Sans', 'Manrope', sans-serif"
             }}>
-              06 — SELECTED WORK
+              {siteContent.selectedWorkLabel}
             </span>
 
             <h2 style={{
@@ -2005,7 +2010,7 @@ const Home = () => {
               lineHeight: '1.1',
               color: '#000000'
             }}>
-              SOME OF THE THINGS WE'VE CREATED.
+              {siteContent.selectedWorkHeading}
             </h2>
 
             <p style={{
@@ -2038,7 +2043,7 @@ const Home = () => {
             {[
               {
                 id: 'cat-automotive',
-                title: 'AUTOMOTIVE',
+                title: siteContent.categories.automotive,
                 subtitle: 'Built to move.',
                 desc: 'Creative content and visual storytelling for automotive brands.',
                 image: 'https://img.youtube.com/vi/w_xOxPuBmjk/hqdefault.jpg',
@@ -2048,7 +2053,7 @@ const Home = () => {
               },
               {
                 id: 'cat-product',
-                title: 'PRODUCT',
+                title: siteContent.categories.product,
                 subtitle: 'Make the product impossible to ignore.',
                 desc: 'Product photography, video and creative content designed to show products at their best.',
                 image: 'https://img.youtube.com/vi/JR5Ay3Du1SQ/hqdefault.jpg',
@@ -2058,7 +2063,7 @@ const Home = () => {
               },
               {
                 id: 'cat-branding',
-                title: 'BRANDING',
+                title: siteContent.categories.branding,
                 subtitle: 'Give the brand a face.',
                 desc: 'Identity, design and visual systems that make businesses easier to recognise and remember.',
                 image: 'https://img.youtube.com/vi/SGcGnys014E/hqdefault.jpg',
@@ -2068,7 +2073,7 @@ const Home = () => {
               },
               {
                 id: 'cat-corporate',
-                title: 'CORPORATE',
+                title: siteContent.categories.corporate,
                 subtitle: 'Tell the story behind the business.',
                 desc: 'Corporate films, industrial visuals and brand communication that show what happens behind the scenes.',
                 image: 'https://img.youtube.com/vi/A1pwtdmXWtk/hqdefault.jpg',
@@ -2207,7 +2212,7 @@ const Home = () => {
               color: 'rgba(255, 255, 255, 0.5)',
               fontFamily: "'Valley Sans', 'Manrope', sans-serif"
             }}>
-              07 — CLIENTS / LOGOS
+              {siteContent.clientsLabel}
             </span>
 
             <h2 style={{
@@ -2366,7 +2371,7 @@ const Home = () => {
               color: 'rgba(255, 255, 255, 0.5)',
               fontFamily: "'Valley Sans', 'Manrope', sans-serif"
             }}>
-              08 — WHY RISING MEDIA WORKS
+              {siteContent.whyLabel}
             </span>
 
             <h2 style={{
@@ -2520,7 +2525,7 @@ const Home = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <div>
               <span style={{ fontSize: '0.8rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: '600', color: '#666666' }}>
-                09 — FOUNDER
+                {siteContent.founderLabel}
               </span>
               <h2 style={{ fontSize: 'clamp(2.4rem, 4vw, 4rem)', fontWeight: '300', textTransform: 'uppercase', margin: '1rem 0 0 0', lineHeight: '1.1', color: '#000000' }}>
                 BUILT BY PEOPLE<br />WHO UNDERSTAND BRANDS.
@@ -2577,7 +2582,7 @@ const Home = () => {
           
           <div style={{ marginBottom: '6vh', textAlign: 'center' }}>
             <span style={{ fontSize: '0.8rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: '600', color: 'rgba(255,255,255,0.5)' }}>
-              10 — TESTIMONIALS
+              {siteContent.testimonialsLabel}
             </span>
             <h2 style={{ fontSize: 'clamp(2.4rem, 5vw, 4.5rem)', fontWeight: '300', textTransform: 'uppercase', margin: '1rem 0', lineHeight: '1.1' }}>
               DON'T JUST TAKE OUR WORD FOR IT.
@@ -2664,7 +2669,7 @@ const Home = () => {
           
           <div style={{ marginBottom: '8vh' }}>
             <span style={{ fontSize: '0.8rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: '600', color: '#666666' }}>
-              11 — PROCESS
+              {siteContent.processLabel}
             </span>
             <h2 style={{ fontSize: 'clamp(2.4rem, 5vw, 4.5rem)', fontWeight: '300', textTransform: 'uppercase', margin: '1rem 0 0 0', lineHeight: '1.1', maxWidth: '800px' }}>
               FROM FIRST CONVERSATION<br />TO FINAL DELIVERY.
@@ -2673,14 +2678,13 @@ const Home = () => {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: '3rem' }}>
             {[
-              { num: '01', title: 'DISCOVER', desc: "Tell us about your business, your idea and what you're trying to achieve." },
-              { num: '02', title: 'DEFINE', desc: "We understand the direction, audience, requirements and creative approach." },
-              { num: '03', title: 'CREATE', desc: "Our team brings the idea to life through design, content, film or digital." },
-              { num: '04', title: 'DELIVER', desc: "You get the final work, ready to launch and use." }
+              { title: 'DISCOVER', desc: "Tell us about your business, your idea and what you're trying to achieve." },
+              { title: 'DEFINE', desc: "We understand the direction, audience, requirements and creative approach." },
+              { title: 'CREATE', desc: "Our team brings the idea to life through design, content, film or digital." },
+              { title: 'DELIVER', desc: "You get the final work, ready to launch and use." }
             ].map((step) => (
-              <div key={step.num} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <span style={{ fontSize: '3rem', fontWeight: '200', color: '#e5e7eb', lineHeight: '1' }}>{step.num}</span>
-                <h3 style={{ fontSize: '1.3rem', fontWeight: '700', margin: 0, letterSpacing: '0.05em' }}>— {step.title}</h3>
+              <div key={step.title} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <h3 style={{ fontSize: '1.3rem', fontWeight: '700', margin: 0, letterSpacing: '0.05em' }}>{step.title}</h3>
                 <p style={{ fontSize: '1rem', lineHeight: '1.6', color: '#555555', margin: 0, fontWeight: '300' }}>{step.desc}</p>
               </div>
             ))}

@@ -1119,6 +1119,25 @@
     -webkit-overflow-scrolling: touch !important;
   }
 
+  .mobile-admin-bottom-nav {
+    padding-left: 0.2rem !important;
+    padding-right: 0.2rem !important;
+  }
+
+  .mobile-admin-bottom-nav > a,
+  .mobile-admin-bottom-nav > button {
+    font-size: 0.62rem !important;
+  }
+
+  .mobile-admin-bottom-nav > a > div,
+  .mobile-admin-bottom-nav > button > div {
+    padding: 0.3rem 0.65rem !important;
+  }
+
+  .admin-site-content {
+    padding: 0.25rem 0 !important;
+  }
+
   .admin-header-row {
     flex-direction: column !important;
     align-items: flex-start !important;

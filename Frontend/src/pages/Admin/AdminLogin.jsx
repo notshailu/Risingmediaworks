@@ -62,7 +62,7 @@ const AdminLogin = () => {
   };
 
   return (
-    <div style={{
+    <div className="admin-login" style={{
       width: '100vw',
       minHeight: '100vh',
       minHeight: '100dvh',
