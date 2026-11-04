@@ -309,6 +309,52 @@ const BookDetail = () => {
             grid-template-columns: repeat(2, 1fr) !important;
           }
         }
+        @media (max-width: 768px) {
+          .luxury-modal-backdrop {
+            padding: 0.75rem !important;
+          }
+          .luxury-modal-container {
+            height: 85vh !important;
+            max-height: 580px !important;
+            width: 100% !important;
+          }
+          .luxury-modal-spread {
+            grid-template-columns: 1fr !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+          }
+          .luxury-modal-sidebar {
+            display: none !important;
+          }
+          .luxury-modal-tabs-mobile {
+            display: flex !important;
+            overflow-x: auto !important;
+            gap: 0.5rem !important;
+            padding: 0.65rem 1rem !important;
+            background-color: #f7f6f2 !important;
+            border-bottom: 1px solid #eae8e1 !important;
+            -webkit-overflow-scrolling: touch !important;
+            scrollbar-width: none !important;
+            flex-shrink: 0 !important;
+          }
+          .luxury-modal-tabs-mobile::-webkit-scrollbar {
+            display: none !important;
+          }
+          .luxury-modal-content {
+            padding: 1.25rem 1.25rem !important;
+            flex: 1 !important;
+            overflow-y: auto !important;
+          }
+          .luxury-modal-heading {
+            font-size: 1.22rem !important;
+          }
+        }
+        @media (min-width: 769px) {
+          .luxury-modal-tabs-mobile {
+            display: none !important;
+          }
+        }
         @media (max-width: 640px) {
           .luxury-page-root {
             padding: 90px 1.25rem 60px 1.25rem !important;
@@ -1557,6 +1603,7 @@ const BookDetail = () => {
           onClick={(e) => {
             if (e.target === e.currentTarget) setIsOpen(false);
           }}
+          className="luxury-modal-backdrop"
           style={{
             position: 'fixed',
             top: 0,
@@ -1572,29 +1619,33 @@ const BookDetail = () => {
             padding: '1.5rem'
           }}
         >
-          <div style={{
-            position: 'relative',
-            width: '100%',
-            maxWidth: '960px',
-            height: '600px',
-            backgroundColor: '#ffffff',
-            borderRadius: '8px',
-            overflow: 'hidden',
-            boxShadow: '0 30px 60px rgba(0,0,0,0.5)',
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
+          <div 
+            className="luxury-modal-container"
+            style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '960px',
+              height: '600px',
+              backgroundColor: '#ffffff',
+              borderRadius: '8px',
+              overflow: 'hidden',
+              boxShadow: '0 30px 60px rgba(0,0,0,0.5)',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
             {/* Modal Header */}
             <div style={{
-              padding: '1.1rem 1.8rem',
+              padding: '1.1rem 1.6rem',
               borderBottom: '1px solid #eae8e1',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              backgroundColor: '#f5f4ef'
+              backgroundColor: '#f5f4ef',
+              flexShrink: 0
             }}>
               <div>
-                <span style={{ fontSize: '0.7rem', color: '#1c3a2f', fontWeight: '800', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                <span style={{ fontSize: '0.68rem', color: '#1c3a2f', fontWeight: '800', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   Publication Archive
                 </span>
                 <h3 style={{ fontSize: '1.15rem', margin: '0.1rem 0 0 0', fontWeight: '800', color: '#121212' }}>
@@ -1625,10 +1676,45 @@ const BookDetail = () => {
               </button>
             </div>
 
-            {/* Two-Page Spread */}
-            <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', overflow: 'hidden' }}>
-              {/* Left Page: Index */}
-              <div style={{ padding: '2.5rem', borderRight: '1px solid #eae8e1', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: '#ffffff' }}>
+            {/* Mobile Horizontal Pill Tabs (Only visible <= 768px) */}
+            <div className="luxury-modal-tabs-mobile">
+              {modalSections.map((sec, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActiveSectionIndex(idx)}
+                  style={{
+                    flexShrink: 0,
+                    padding: '0.4rem 0.85rem',
+                    borderRadius: '20px',
+                    border: activeSectionIndex === idx ? '1px solid #121212' : '1px solid #dedbd2',
+                    backgroundColor: activeSectionIndex === idx ? '#121212' : '#ffffff',
+                    color: activeSectionIndex === idx ? '#ffffff' : '#4a4843',
+                    fontSize: '0.74rem',
+                    fontWeight: activeSectionIndex === idx ? '700' : '500',
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  {sec.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Two-Page Spread on Desktop / Single Column on Mobile */}
+            <div className="luxury-modal-spread" style={{ flex: 1, display: 'grid', gridTemplateColumns: '280px 1fr', overflow: 'hidden' }}>
+              {/* Left Page: Index (Desktop Only) */}
+              <div 
+                className="luxury-modal-sidebar"
+                style={{ 
+                  padding: '2.2rem', 
+                  borderRight: '1px solid #eae8e1', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  justifyContent: 'space-between', 
+                  backgroundColor: '#ffffff' 
+                }}
+              >
                 <div>
                   <h4 style={{ fontSize: '0.75rem', color: '#73716a', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 1.25rem 0' }}>
                     Contents & Specifications
@@ -1663,21 +1749,52 @@ const BookDetail = () => {
                 </div>
               </div>
 
-              {/* Right Page: Content */}
-              <div style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: '#fcfbfa' }}>
-                <div style={{ overflowY: 'auto', paddingRight: '0.5rem' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#1c3a2f', fontWeight: '800', textTransform: 'uppercase' }}>
+              {/* Right Page (or Full Width on Mobile): Content */}
+              <div 
+                className="luxury-modal-content"
+                style={{ 
+                  padding: '2.5rem', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  justifyContent: 'space-between', 
+                  backgroundColor: '#fcfbfa',
+                  overflowY: 'auto'
+                }}
+              >
+                <div style={{ overflowY: 'auto', paddingRight: '0.5rem', flex: 1 }}>
+                  <span style={{ fontSize: '0.75rem', color: '#1c3a2f', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                     {modalSections[activeSectionIndex]?.label}
                   </span>
-                  <h2 style={{ fontSize: '1.45rem', fontWeight: '800', margin: '0.5rem 0 1rem 0', color: '#121212' }}>
+                  <h2 
+                    className="luxury-modal-heading"
+                    style={{ 
+                      fontSize: '1.45rem', 
+                      fontWeight: '800', 
+                      margin: '0.4rem 0 1rem 0', 
+                      color: '#121212',
+                      wordBreak: 'break-word',
+                      lineHeight: '1.25'
+                    }}
+                  >
                     {modalSections[activeSectionIndex]?.title}
                   </h2>
-                  <p style={{ fontSize: '0.98rem', lineHeight: '1.75', color: '#4a4843', margin: 0, whiteSpace: 'pre-line' }}>
+                  <p style={{ fontSize: '0.96rem', lineHeight: '1.75', color: '#4a4843', margin: 0, whiteSpace: 'pre-line', wordBreak: 'break-word' }}>
                     {modalSections[activeSectionIndex]?.content}
                   </p>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #eae8e1', paddingTop: '1rem' }}>
+                <div 
+                  className="luxury-modal-footer"
+                  style={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center', 
+                    borderTop: '1px solid #eae8e1', 
+                    paddingTop: '1rem',
+                    marginTop: '1.2rem',
+                    flexShrink: 0
+                  }}
+                >
                   <button
                     onClick={() => setActiveSectionIndex((prev) => Math.max(0, prev - 1))}
                     disabled={activeSectionIndex === 0}
@@ -1687,7 +1804,8 @@ const BookDetail = () => {
                       fontSize: '0.82rem',
                       fontWeight: '700',
                       color: activeSectionIndex === 0 ? '#dedbd2' : '#121212',
-                      cursor: activeSectionIndex === 0 ? 'not-allowed' : 'pointer'
+                      cursor: activeSectionIndex === 0 ? 'not-allowed' : 'pointer',
+                      padding: '0.4rem 0.2rem'
                     }}
                   >
                     ← Previous
@@ -1706,7 +1824,8 @@ const BookDetail = () => {
                       fontSize: '0.82rem',
                       fontWeight: '700',
                       color: activeSectionIndex === modalSections.length - 1 ? '#dedbd2' : '#121212',
-                      cursor: activeSectionIndex === modalSections.length - 1 ? 'not-allowed' : 'pointer'
+                      cursor: activeSectionIndex === modalSections.length - 1 ? 'not-allowed' : 'pointer',
+                      padding: '0.4rem 0.2rem'
                     }}
                   >
                     Next →
