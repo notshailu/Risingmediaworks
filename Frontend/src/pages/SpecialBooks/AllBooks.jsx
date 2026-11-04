@@ -2,14 +2,55 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { booksData } from '../../data/dummyData';
+import { getActiveDummyBooks } from '../../utils/dummyBooksHelper';
 const AllBooks = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const navigate = useNavigate();
   const containerRef = useRef(null);
   const bookAssetRef = useRef(null);
   const mouseMoveHandlerRef = useRef(null);
   const [canClick, setCanClick] = useState(false);
   const [displayLimit, setDisplayLimit] = useState(6);
+  const [books, setBooks] = useState(() => getActiveDummyBooks());
+
+  const fetchBooks = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/books`);
+      const activeDummy = getActiveDummyBooks();
+
+      if (response.ok) {
+        const apiBooks = await response.json();
+        if (Array.isArray(apiBooks) && apiBooks.length > 0) {
+          const normalizedApiBooks = apiBooks.map((b) => ({
+            ...b,
+            id: b._id || b.id,
+            image: b.coverImage || b.image || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=1000',
+            buyUrl: b.buyUrl || b.finalBookUrl || 'https://www.amazon.com'
+          }));
+
+          const existingIds = new Set(normalizedApiBooks.map((b) => b.id));
+          const remainingDummy = activeDummy.filter((b) => !existingIds.has(b.id));
+
+          setBooks([...normalizedApiBooks, ...remainingDummy]);
+        } else {
+          setBooks(activeDummy);
+        }
+      } else {
+        setBooks(activeDummy);
+      }
+    } catch (err) {
+      console.error('Error fetching books in AllBooks:', err);
+      setBooks(getActiveDummyBooks());
+    }
+  };
+
+  useEffect(() => {
+    fetchBooks();
+
+    const handleUpdate = () => fetchBooks();
+    window.addEventListener('dummy_books_updated', handleUpdate);
+    return () => window.removeEventListener('dummy_books_updated', handleUpdate);
+  }, [API_BASE_URL]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -363,7 +404,7 @@ const AllBooks = () => {
         perspective: '2000px',
         transformStyle: 'preserve-3d'
       }}>
-        {booksData.slice(0, displayLimit).map((book, idx) => (
+        {books.slice(0, displayLimit).map((book, idx) => (
           <Link
             key={book.id}
             to={`/special-books/${book.id}`}
@@ -669,7 +710,7 @@ const AllBooks = () => {
 
 
       {/* See All Books action button */}
-      {booksData.length > displayLimit && (
+      {books.length > displayLimit && (
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem', marginBottom: '8rem', position: 'relative', zIndex: 10 }}>
           <Link
             to="/special-books/all"

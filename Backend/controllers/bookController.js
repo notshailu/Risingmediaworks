@@ -1,4 +1,5 @@
 const Book = require('../models/Book');
+const mongoose = require('mongoose');
 
 // @desc    Get all books
 // @route   GET /api/books
@@ -15,6 +16,9 @@ const getBooks = async (req, res) => {
 // @route   GET /api/books/:id
 const getBookById = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({ message: 'Book not found' });
+    }
     const book = await Book.findById(req.params.id);
     if (book) {
       res.json(book);
@@ -124,6 +128,10 @@ const updateBook = async (req, res) => {
 // @route   DELETE /api/books/:id
 const deleteBook = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.json({ message: 'Book removed' });
+    }
+
     const book = await Book.findById(req.params.id);
 
     if (book) {

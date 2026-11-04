@@ -164,9 +164,9 @@ const Home = () => {
     }
   };
 
-  // High performance 60fps continuous image sequence preloader
+  // High performance 60fps continuous image sequence preloader (199 frames)
   useEffect(() => {
-    const totalFrames = 250;
+    const totalFrames = 199;
     const loadedImages = [];
 
     const pad = (num, size) => {
@@ -177,7 +177,7 @@ const Home = () => {
 
     for (let i = 1; i <= totalFrames; i++) {
       const img = new Image();
-      img.src = `/Animation/frame_${pad(i, 4)}.webp`;
+      img.src = `/assets/Animation/frame_${pad(i, 4)}.jpeg`;
       if (img.decode) {
         img.decode().catch(() => {});
       }
@@ -513,7 +513,7 @@ const Home = () => {
       const nw = imageWidth * r;
       const nh = imageHeight * r;
       const cx = (canvasWidth - nw) / 2;
-      const cyOffset = isMobile ? 0 : 80;
+      const cyOffset = 0;
       const cy = ((canvasHeight - nh) / 2) + cyOffset;
 
       context.drawImage(img, cx, cy, nw, nh);
@@ -553,7 +553,7 @@ const Home = () => {
 
     const handleResize = () => {
       const isMobile = window.innerWidth <= 1024;
-      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       context.imageSmoothingEnabled = true;
@@ -581,9 +581,9 @@ const Home = () => {
       scrollTrigger: {
         trigger: secondSectionRef.current,
         start: 'top top',
-        end: isMobile ? '+=1500' : '+=1400',
+        end: isMobile ? '+=1800' : '+=2200',
         pin: true,
-        scrub: 0.1, // Zero-lag smooth direct scroll tracking
+        scrub: 0.25, // Buttery smooth cinematic scrub tracking
         anticipatePin: 1,
         refreshPriority: 2
       }
@@ -601,10 +601,10 @@ const Home = () => {
 
     // Text fade-in triggers exactly when the phone zoom movement completes at frame 230 (timeline progress 0.85 to 1.0)
     tl.fromTo('.showcase-text', 
-      { opacity: 0, scale: 0.8 }, 
-      { opacity: 1, scale: 1, duration: 0.15, ease: 'power3.out' }, 
-      0.85
-    );
+        { opacity: 0, y: 35, scale: 0.95 }, 
+        { opacity: 1, y: 0, scale: 1, duration: 0.12, ease: 'power2.out' }, 
+        0.88
+      );
 
     // General scroll animations for subsequent sections
     gsap.utils.toArray('.scroll-fade-in').forEach((element) => {
@@ -706,7 +706,7 @@ const Home = () => {
 
     const handleResize = () => {
       const isMobile = window.innerWidth <= 1024;
-      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       context.imageSmoothingEnabled = true;
@@ -734,9 +734,9 @@ const Home = () => {
       scrollTrigger: {
         trigger: handsSectionRef.current,
         start: 'top top',
-        end: isMobile ? '+=1500' : '+=1400',
+        end: isMobile ? '+=1800' : '+=2200',
         pin: true,
-        scrub: 0.1, // Zero-lag smooth direct scroll tracking
+        scrub: 0.25, // Buttery smooth cinematic scrub tracking
         anticipatePin: 1,
         refreshPriority: 1
       }
@@ -1245,7 +1245,7 @@ const Home = () => {
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 60%, rgba(255,255,255,0.65) 100%)',
+          background: 'transparent', display: 'none',
           zIndex: 3,
           pointerEvents: 'none'
         }} />

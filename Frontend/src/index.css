@@ -52,6 +52,16 @@ ul {
 }
 
 /* Hide the default cursor only where the custom cursor is mounted. */
+.custom-cursor-dot {
+  z-index: 2147483647 !important;
+  pointer-events: none !important;
+}
+
+.custom-cursor-ring {
+  z-index: 2147483646 !important;
+  pointer-events: none !important;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .app-container, .app-container a, .app-container button, .app-container [role="button"], .app-container input, .app-container textarea, .app-container select {
     cursor: none !important;
