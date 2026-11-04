@@ -18,6 +18,24 @@ const BookDetail = () => {
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
   const [copiedLink, setCopiedLink] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [selectedFormatIndex, setSelectedFormatIndex] = useState(0);
+
+  // Accordion open/close state (Technical Specs & Description open by default, matching reference)
+  const [openAccordions, setOpenAccordions] = useState({
+    description: true,
+    specs: true,
+    publishing: false,
+    preview: false
+  });
+
+  const toggleAccordion = (key) => {
+    setOpenAccordions((prev) => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
 
   // Close modal on Escape key press
   useEffect(() => {
@@ -138,15 +156,15 @@ const BookDetail = () => {
   const currentIndex = allBooksList.findIndex((b) => b.id === id || b._id === id);
   const prevBook = currentIndex > 0 ? allBooksList[currentIndex - 1] : null;
   const nextBook = currentIndex >= 0 && currentIndex < allBooksList.length - 1 ? allBooksList[currentIndex + 1] : null;
-  const otherBooks = allBooksList.filter((b) => b.id !== id && b._id !== id).slice(0, 3);
+  const otherBooks = allBooksList.filter((b) => b.id !== id && b._id !== id).slice(0, 4);
 
   // Entrance animations
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
     
-    tl.fromTo('.book-nav-bar', { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.5, clearProps: 'opacity,transform' })
-      .fromTo('.book-visual-column', { opacity: 0, x: -25 }, { opacity: 1, x: 0, duration: 0.7, clearProps: 'opacity,transform' }, '-=0.2')
-      .fromTo('.book-details-column', { opacity: 0, x: 25 }, { opacity: 1, x: 0, duration: 0.7, clearProps: 'opacity,transform' }, '-=0.5');
+    tl.fromTo('.luxury-breadcrumb-bar', { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.5, clearProps: 'opacity,transform' })
+      .fromTo('.luxury-visual-column', { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.7, clearProps: 'opacity,transform' }, '-=0.2')
+      .fromTo('.luxury-details-column', { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.7, clearProps: 'opacity,transform' }, '-=0.5');
   }, { scope: containerRef, dependencies: [id, book] });
 
   const handleMouseMoveCover = (e) => {
@@ -154,7 +172,7 @@ const BookDetail = () => {
     const rect = bookCoverRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
-    setMouseOffset({ x: x / 14, y: -y / 14 });
+    setMouseOffset({ x: x / 15, y: -y / 15 });
   };
 
   const handleMouseLeaveCover = () => {
@@ -171,10 +189,10 @@ const BookDetail = () => {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Manrope', sans-serif", color: '#64748b' }}>
+      <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Manrope', sans-serif", color: '#64748b', backgroundColor: '#fcfbfa' }}>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ width: '32px', height: '32px', border: '3px solid #e2e8f0', borderTopColor: '#0052ff', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 1rem' }} />
-          <p style={{ fontWeight: '600', fontSize: '0.95rem' }}>Loading publication details...</p>
+          <div style={{ width: '32px', height: '32px', border: '3px solid #e5e3dc', borderTopColor: '#121212', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 1rem' }} />
+          <p style={{ fontWeight: '600', fontSize: '0.9rem', color: '#6e6d68' }}>Loading luxury publication...</p>
         </div>
       </div>
     );
@@ -182,9 +200,9 @@ const BookDetail = () => {
 
   if (!book) {
     return (
-      <div style={{ padding: '160px 2rem 100px 2rem', textAlign: 'center', color: '#0f172a', fontFamily: "'Manrope', sans-serif" }}>
-        <h2 style={{ fontSize: '2.2rem', fontWeight: '800', letterSpacing: '-0.02em', marginBottom: '0.8rem' }}>Publication Not Found</h2>
-        <p style={{ color: '#64748b', fontSize: '1rem', maxWidth: '480px', margin: '0 auto 2rem' }}>The requested book could not be found or has been removed.</p>
+      <div style={{ padding: '160px 2rem 100px 2rem', textAlign: 'center', color: '#121212', fontFamily: "'Manrope', sans-serif", backgroundColor: '#fcfbfa', minHeight: '100vh' }}>
+        <h2 style={{ fontSize: '2.2rem', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '0.8rem' }}>Publication Not Found</h2>
+        <p style={{ color: '#6e6d68', fontSize: '0.95rem', maxWidth: '480px', margin: '0 auto 2rem' }}>The requested book could not be found or has been removed from the archive.</p>
         <Link 
           to="/special-books/all" 
           style={{ 
@@ -192,29 +210,31 @@ const BookDetail = () => {
             alignItems: 'center',
             gap: '0.5rem',
             padding: '0.75rem 1.6rem',
-            backgroundColor: '#0052ff',
+            backgroundColor: '#121212',
             color: '#ffffff',
-            borderRadius: '10px',
+            borderRadius: '4px',
             textDecoration: 'none',
-            fontWeight: '700',
-            fontSize: '0.9rem'
+            fontWeight: '600',
+            fontSize: '0.85rem',
+            letterSpacing: '0.04em',
+            textTransform: 'uppercase'
           }}
         >
-          ← Browse Publications Archive
+          ← Browse Archive
         </Link>
       </div>
     );
   }
 
-  // Filter ONLY specs that actually contain non-empty data entered by the user
+  // Filter ONLY real specs with actual values entered by the user
   const realSpecs = [
-    { key: 'printSpecs', label: 'Format & Dimensions', value: book.printSpecs },
-    { key: 'gridSpec', label: 'Grid Layout', value: book.gridSpec },
-    { key: 'publishingSpec', label: 'Publishing & Distribution', value: book.publishingSpec },
-    { key: 'paperSpec', label: 'Paper & Finish', value: book.paperSpec }
+    { key: 'printSpecs', label: 'Format & Trim Size', value: book.printSpecs, caption: 'Standard Archival Trim' },
+    { key: 'gridSpec', label: 'Editorial Grid Layout', value: book.gridSpec, caption: 'Harmonic Baseline Alignment' },
+    { key: 'publishingSpec', label: 'Publishing & Distribution', value: book.publishingSpec, caption: 'Global Registration' },
+    { key: 'paperSpec', label: 'Paperweight & Tactile Finish', value: book.paperSpec, caption: 'Archival-Grade Stock' }
   ].filter((s) => s.value && String(s.value).trim().length > 0);
 
-  // Filter sections for Interactive Look Inside spread modal (only real content)
+  // Sections for modal reader
   const modalSections = [
     book.description ? { id: 'overview', label: '01. Overview', title: 'Editorial Overview', content: book.description } : null,
     book.printSpecs ? { id: 'printSpecs', label: '02. Format Specs', title: 'Format & Dimensions', content: book.printSpecs } : null,
@@ -223,16 +243,29 @@ const BookDetail = () => {
     book.paperSpec ? { id: 'paperSpec', label: '05. Paper & Finish', title: 'Paper & Finish Specification', content: book.paperSpec } : null
   ].filter(Boolean);
 
-  const formattedPrice = book.price !== null && book.price !== undefined && String(book.price).trim() !== ''
-    ? (!isNaN(Number(book.price)) 
-        ? Number(book.price).toLocaleString('en-IN', { minimumFractionDigits: Number(book.price) % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 })
-        : String(book.price))
+  const numericPrice = book.price !== null && book.price !== undefined && !isNaN(Number(book.price))
+    ? Number(book.price)
     : null;
 
+  const formattedUnitPrice = numericPrice !== null
+    ? numericPrice.toLocaleString('en-IN', { minimumFractionDigits: numericPrice % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 })
+    : (book.price ? String(book.price) : null);
+
+  const totalCalculated = numericPrice !== null ? numericPrice * quantity : null;
+  const formattedTotalPrice = totalCalculated !== null
+    ? totalCalculated.toLocaleString('en-IN', { minimumFractionDigits: totalCalculated % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 })
+    : formattedUnitPrice;
+
   const isAmazonUrl = book.buyUrl && /amazon\./i.test(book.buyUrl);
-  const buyButtonLabel = isAmazonUrl
-    ? (formattedPrice ? `Buy on Amazon — ₹${formattedPrice}` : 'Buy on Amazon')
-    : (formattedPrice ? `Purchase Book — ₹${formattedPrice}` : 'Purchase Book');
+  const buyButtonText = isAmazonUrl
+    ? (formattedTotalPrice ? `Purchase on Amazon — ₹${formattedTotalPrice}` : 'Buy on Amazon')
+    : (formattedTotalPrice ? `Order Publication — ₹${formattedTotalPrice}` : 'Order Publication');
+
+  // Format options chips derived from real data
+  const formatChips = [
+    book.printSpecs ? book.printSpecs : 'Standard Print',
+    book.paperSpec ? book.paperSpec : 'Archival Finish'
+  ].filter((item, idx, arr) => item && arr.indexOf(item) === idx);
 
   return (
     <div
@@ -240,13 +273,13 @@ const BookDetail = () => {
       style={{
         width: '100%',
         minHeight: '100vh',
-        backgroundColor: '#fafbfc',
-        color: '#0f172a',
-        padding: '110px 1.5rem 100px 1.5rem',
+        backgroundColor: '#fbfaf8',
+        color: '#121212',
+        padding: '105px 2rem 100px 2rem',
         boxSizing: 'border-box',
         position: 'relative',
         overflowX: 'hidden',
-        fontFamily: "'Manrope', -apple-system, BlinkMacSystemFont, sans-serif"
+        fontFamily: "'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       }}
     >
       <WaterBackground />
@@ -255,76 +288,122 @@ const BookDetail = () => {
         @keyframes spin {
           to { transform: rotate(360deg); }
         }
-        @media (max-width: 960px) {
-          .book-detail-grid {
+        @media (max-width: 1024px) {
+          .luxury-product-grid {
             grid-template-columns: 1fr !important;
             gap: 2.5rem !important;
           }
-          .book-visual-column {
+          .luxury-visual-column {
             position: static !important;
             top: auto !important;
           }
+          .luxury-related-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
         }
         @media (max-width: 640px) {
-          .book-nav-bar {
+          .luxury-breadcrumb-bar {
             flex-direction: column !important;
             align-items: flex-start !important;
-            gap: 0.75rem !important;
+            gap: 0.6rem !important;
           }
-          .book-specs-grid {
+          .luxury-related-grid {
             grid-template-columns: 1fr !important;
+          }
+          .luxury-gallery-lower {
+            grid-template-columns: 1fr !important;
+          }
+          .luxury-buy-row {
+            flex-direction: column !important;
           }
         }
       `}</style>
 
-      <div style={{ maxWidth: '1240px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
+      <div style={{ maxWidth: '1320px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
         
-        {/* ================= BREADCRUMBS & NAVIGATION ================= */}
+        {/* ================= 1. MINIMAL LUXURY BREADCRUMB & BACK NAVIGATION ================= */}
         <div 
-          className="book-nav-bar" 
+          className="luxury-breadcrumb-bar"
           style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            padding: '0.85rem 1.25rem',
-            backgroundColor: '#ffffff',
-            borderRadius: '14px',
-            border: '1px solid #e2e8f0',
+            fontSize: '0.78rem',
+            color: '#8c8a84',
             marginBottom: '2.5rem',
             flexWrap: 'wrap',
-            gap: '0.75rem'
+            gap: '1rem',
+            letterSpacing: '0.02em'
           }}
         >
-          {/* Breadcrumb path */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>
-            <Link to="/" style={{ color: '#64748b', textDecoration: 'none' }} onMouseEnter={(e) => e.target.style.color = '#0052ff'} onMouseLeave={(e) => e.target.style.color = '#64748b'}>Home</Link>
-            <span>/</span>
-            <Link to="/special-books/all" style={{ color: '#64748b', textDecoration: 'none' }} onMouseEnter={(e) => e.target.style.color = '#0052ff'} onMouseLeave={(e) => e.target.style.color = '#64748b'}>Special Books</Link>
-            <span>/</span>
-            <span style={{ color: '#0f172a', fontWeight: '700', maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {book.title}
-            </span>
+          {/* Prominent Back Button & Breadcrumb Path */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <Link
+              to="/special-books/all"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                padding: '0.42rem 0.85rem',
+                borderRadius: '4px',
+                backgroundColor: '#ffffff',
+                border: '1px solid #dedbd2',
+                color: '#121212',
+                textDecoration: 'none',
+                fontWeight: '700',
+                fontSize: '0.78rem',
+                letterSpacing: '0.03em',
+                transition: 'all 0.15s ease',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.03)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#121212';
+                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.borderColor = '#121212';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#ffffff';
+                e.currentTarget.style.color = '#121212';
+                e.currentTarget.style.borderColor = '#dedbd2';
+              }}
+            >
+              <span style={{ fontSize: '0.9rem' }}>←</span>
+              <span>Back to Books Archive</span>
+            </Link>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+              <Link to="/" style={{ color: '#8c8a84', textDecoration: 'none' }} onMouseEnter={(e) => e.target.style.color = '#121212'} onMouseLeave={(e) => e.target.style.color = '#8c8a84'}>Home</Link>
+              <span>/</span>
+              <Link to="/special-books/all" style={{ color: '#8c8a84', textDecoration: 'none' }} onMouseEnter={(e) => e.target.style.color = '#121212'} onMouseLeave={(e) => e.target.style.color = '#8c8a84'}>Special Books</Link>
+              {book.category && (
+                <>
+                  <span>/</span>
+                  <span style={{ textTransform: 'capitalize' }}>{book.category.replace('-', ' ')}</span>
+                </>
+              )}
+              <span>/</span>
+              <span style={{ color: '#121212', fontWeight: '600', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {book.title}
+              </span>
+            </div>
           </div>
 
-          {/* Actions: Prev / Next / Share */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', fontSize: '0.82rem' }}>
+          {/* Quick Actions: Prev / Next / Share */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
             {prevBook && (
               <Link
                 to={`/special-books/${prevBook.id || prevBook._id}`}
                 style={{
-                  padding: '0.4rem 0.85rem',
-                  backgroundColor: '#f1f5f9',
-                  color: '#0f172a',
-                  borderRadius: '8px',
+                  color: '#4a4843',
                   textDecoration: 'none',
                   fontWeight: '600',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.35rem',
-                  transition: 'background-color 0.15s ease'
+                  gap: '0.3rem',
+                  fontSize: '0.78rem'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#e2e8f0'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9'}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#121212'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#4a4843'}
               >
                 ← Prev
               </Link>
@@ -334,19 +413,16 @@ const BookDetail = () => {
               <Link
                 to={`/special-books/${nextBook.id || nextBook._id}`}
                 style={{
-                  padding: '0.4rem 0.85rem',
-                  backgroundColor: '#f1f5f9',
-                  color: '#0f172a',
-                  borderRadius: '8px',
+                  color: '#4a4843',
                   textDecoration: 'none',
                   fontWeight: '600',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.35rem',
-                  transition: 'background-color 0.15s ease'
+                  gap: '0.3rem',
+                  fontSize: '0.78rem'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#e2e8f0'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9'}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#121212'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#4a4843'}
               >
                 Next →
               </Link>
@@ -355,50 +431,164 @@ const BookDetail = () => {
             <button
               onClick={handleShare}
               style={{
-                padding: '0.4rem 0.85rem',
-                backgroundColor: '#ffffff',
-                border: '1px solid #e2e8f0',
-                color: '#475569',
-                borderRadius: '8px',
+                background: 'transparent',
+                border: '1px solid #e0ded8',
+                borderRadius: '4px',
+                padding: '0.3rem 0.65rem',
+                color: '#4a4843',
                 cursor: 'pointer',
+                fontSize: '0.75rem',
                 fontWeight: '600',
-                fontSize: '0.82rem',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.35rem'
+                gap: '0.3rem',
+                transition: 'all 0.15s ease'
               }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#121212'; e.currentTarget.style.color = '#121212'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e0ded8'; e.currentTarget.style.color = '#4a4843'; }}
             >
-              🔗 {copiedLink ? 'Link Copied!' : 'Share'}
+              <span>🔗</span> {copiedLink ? 'Copied' : 'Share'}
             </button>
           </div>
         </div>
 
-        {/* ================= MAIN TWO-COLUMN PRODUCT SECTION ================= */}
+        {/* ================= 2. MAIN TWO-COLUMN LUXURY SHOWCASE ================= */}
         <div 
-          className="book-detail-grid"
+          className="luxury-product-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'minmax(320px, 460px) 1fr',
+            gridTemplateColumns: 'minmax(380px, 1.05fr) minmax(360px, 0.95fr)',
             gap: '3.5rem',
             alignItems: 'start',
-            marginBottom: '4.5rem'
+            marginBottom: '6rem'
           }}
         >
-          {/* ---------------- LEFT: 3D BOOK PRESENTATION ---------------- */}
-          <div className="book-visual-column" style={{ position: 'sticky', top: '100px' }}>
+          {/* ---------------- LEFT: MULTI-CARD LUXURY GALLERY ---------------- */}
+          <div className="luxury-visual-column" style={{ position: 'sticky', top: '100px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            
+            {/* UPPER CARD: Hero 3D Book Showcase */}
             <div 
               style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '20px',
-                border: '1px solid #e2e8f0',
-                padding: '2.5rem 2rem',
+                backgroundColor: '#f5f4ef',
+                borderRadius: '8px',
+                border: '1px solid #eae8e1',
+                padding: '2.5rem 2rem 2.2rem 2rem',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)'
+                position: 'relative',
+                minHeight: '480px',
+                justifyContent: 'center',
+                overflow: 'hidden'
               }}
             >
-              {/* Interactive 3D Book Mockup */}
+              {/* Badges: Top-Left (Category/Edition) & Top-Right (In Stock) */}
+              <div style={{ position: 'absolute', top: '16px', left: '18px', display: 'flex', gap: '0.4rem', zIndex: 10 }}>
+                {book.category && (
+                  <span style={{
+                    fontSize: '0.65rem',
+                    fontWeight: '700',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                    padding: '3px 8px',
+                    borderRadius: '3px',
+                    backgroundColor: '#e8e5dc',
+                    color: '#423f39'
+                  }}>
+                    {book.category.replace('-', ' ')}
+                  </span>
+                )}
+                <span style={{
+                  fontSize: '0.65rem',
+                  fontWeight: '700',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
+                  padding: '3px 8px',
+                  borderRadius: '3px',
+                  backgroundColor: '#dedbd2',
+                  color: '#383631'
+                }}>
+                  ORIGINAL
+                </span>
+              </div>
+
+              {/* In Stock Badge (Top-Right, matching reference) */}
+              <div style={{ position: 'absolute', top: '16px', right: '18px', zIndex: 10 }}>
+                <span style={{
+                  fontSize: '0.65rem',
+                  fontWeight: '800',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  padding: '3px 8px',
+                  borderRadius: '3px',
+                  backgroundColor: '#1c3a2f',
+                  color: '#ffffff',
+                  display: 'inline-block'
+                }}>
+                  IN STOCK
+                </span>
+              </div>
+
+              {/* Floating Prev/Next Image Navigation Arrows (Matching Reference) */}
+              <button
+                type="button"
+                onClick={() => modalSections.length > 0 && setIsOpen(true)}
+                title="Preview"
+                style={{
+                  position: 'absolute',
+                  left: '14px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                  border: '1px solid #dedbd2',
+                  color: '#423f39',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                  zIndex: 10,
+                  transition: 'all 0.15s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#ffffff'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.7)'}
+              >
+                ‹
+              </button>
+
+              <button
+                type="button"
+                onClick={() => modalSections.length > 0 && setIsOpen(true)}
+                title="Preview"
+                style={{
+                  position: 'absolute',
+                  right: '14px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                  border: '1px solid #dedbd2',
+                  color: '#423f39',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                  zIndex: 10,
+                  transition: 'all 0.15s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#ffffff'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.7)'}
+              >
+                ›
+              </button>
+
+              {/* 3D Interactive Book Mockup */}
               <div
                 ref={bookCoverRef}
                 onMouseMove={handleMouseMoveCover}
@@ -406,11 +596,11 @@ const BookDetail = () => {
                 onClick={() => modalSections.length > 0 && setIsOpen(true)}
                 style={{
                   position: 'relative',
-                  width: '270px',
-                  height: '385px',
+                  width: '280px',
+                  height: '395px',
                   perspective: '1200px',
                   cursor: modalSections.length > 0 ? 'pointer' : 'default',
-                  margin: '1rem 0 1.5rem 0',
+                  margin: '1.5rem 0',
                   transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
                 }}
               >
@@ -424,16 +614,16 @@ const BookDetail = () => {
                     transition: 'transform 0.15s ease-out'
                   }}
                 >
-                  {/* Front Cover */}
+                  {/* Front Cover Card */}
                   <div 
                     style={{
                       position: 'absolute',
                       width: '100%',
                       height: '100%',
-                      borderRadius: '4px 12px 12px 4px',
+                      borderRadius: '3px 10px 10px 3px',
                       overflow: 'hidden',
-                      boxShadow: '0 20px 45px -10px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(0,0,0,0.06)',
-                      backgroundColor: '#0f172a'
+                      boxShadow: '0 25px 45px -12px rgba(20, 20, 18, 0.28), 0 0 0 1px rgba(0,0,0,0.06)',
+                      backgroundColor: '#121212'
                     }}
                   >
                     <img
@@ -446,25 +636,25 @@ const BookDetail = () => {
                       }}
                     />
 
-                    {/* Realistic spine gradient */}
+                    {/* Realistic Spine Gradient Shadow */}
                     <div style={{
                       position: 'absolute',
                       top: 0,
                       left: 0,
                       bottom: 0,
                       width: '24px',
-                      background: 'linear-gradient(to right, rgba(0,0,0,0.35) 0%, rgba(255,255,255,0.12) 50%, rgba(0,0,0,0.15) 100%)',
+                      background: 'linear-gradient(to right, rgba(0,0,0,0.38) 0%, rgba(255,255,255,0.1) 50%, rgba(0,0,0,0.18) 100%)',
                       pointerEvents: 'none'
                     }} />
 
-                    {/* Subtle gloss reflection */}
+                    {/* Gloss Light Reflection */}
                     <div style={{
                       position: 'absolute',
                       top: 0,
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      background: 'linear-gradient(135deg, rgba(255,255,255,0.16) 0%, transparent 60%)',
+                      background: 'linear-gradient(135deg, rgba(255,255,255,0.14) 0%, transparent 60%)',
                       pointerEvents: 'none'
                     }} />
                   </div>
@@ -474,333 +664,721 @@ const BookDetail = () => {
                     position: 'absolute',
                     top: 0,
                     left: 0,
-                    width: '16px',
+                    width: '18px',
                     height: '100%',
-                    backgroundColor: '#1e293b',
+                    backgroundColor: '#1f1e1a',
                     transformOrigin: 'left',
                     transform: 'rotateY(-90deg)',
-                    boxShadow: 'inset 0 0 8px rgba(0,0,0,0.6)'
+                    boxShadow: 'inset 0 0 8px rgba(0,0,0,0.65)'
                   }} />
                 </div>
               </div>
 
-              {/* Bottom Quick Actions */}
-              <div style={{ display: 'flex', gap: '0.65rem', width: '100%', justifyContent: 'center', flexWrap: 'wrap' }}>
+              {/* Bottom Left Button: ▶ WATCH VIDEO / PREVIEW INTERIOR (Matching Reference) */}
+              <div style={{ position: 'absolute', bottom: '16px', left: '18px', zIndex: 10 }}>
                 {modalSections.length > 0 && (
                   <button
                     type="button"
                     onClick={() => setIsOpen(true)}
                     style={{
-                      flex: 1,
-                      minWidth: '130px',
-                      padding: '0.65rem 0.9rem',
-                      backgroundColor: '#f8fafc',
-                      border: '1px solid #cbd5e1',
-                      borderRadius: '8px',
-                      fontWeight: '600',
-                      fontSize: '0.82rem',
-                      color: '#0f172a',
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#121212',
+                      fontSize: '0.72rem',
+                      fontWeight: '800',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
                       cursor: 'pointer',
                       display: 'inline-flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '0.35rem',
-                      transition: 'all 0.15s ease'
+                      gap: '0.45rem',
+                      padding: 0
                     }}
-                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#f8fafc'; }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#0052ff'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#121212'}
                   >
-                    <span>📖</span> Look Inside
+                    <span>▶</span> WATCH INTERIOR PREVIEW
                   </button>
                 )}
+              </div>
 
-                {book.finalBookUrl && (
+              {/* Bottom Right: PDF link if available */}
+              {book.finalBookUrl && (
+                <div style={{ position: 'absolute', bottom: '16px', right: '18px', zIndex: 10 }}>
                   <a
                     href={book.finalBookUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
-                      flex: 1,
-                      minWidth: '130px',
-                      padding: '0.65rem 0.9rem',
-                      backgroundColor: '#f8fafc',
-                      border: '1px solid #cbd5e1',
-                      borderRadius: '8px',
-                      fontWeight: '600',
-                      fontSize: '0.82rem',
-                      color: '#0052ff',
+                      color: '#6e6d68',
+                      fontSize: '0.72rem',
+                      fontWeight: '700',
                       textDecoration: 'none',
                       display: 'inline-flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '0.35rem',
-                      transition: 'all 0.15s ease'
+                      gap: '0.3rem',
+                      letterSpacing: '0.04em'
                     }}
-                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#eff6ff'; e.currentTarget.style.borderColor = '#bfdbfe'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#f8fafc'; e.currentTarget.style.borderColor = '#cbd5e1'; }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#121212'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#6e6d68'}
                   >
-                    <span>📄</span> PDF Preview
+                    <span>📄</span> PDF SPECIMEN ↗
                   </a>
-                )}
-              </div>
+                </div>
+              )}
             </div>
-          </div>
 
-          {/* ---------------- RIGHT: REAL PRODUCT DETAILS & BUY SECTION ---------------- */}
-          <div className="book-details-column" style={{ display: 'flex', flexDirection: 'column' }}>
-            
-            {/* Category Tag (Only if exists) */}
-            {book.category && (
-              <div style={{ marginBottom: '0.6rem' }}>
+            {/* LOWER TWO CARDS: Secondary Gallery Angle Shots (Matching Reference Image) */}
+            <div 
+              className="luxury-gallery-lower"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '1.25rem'
+              }}
+            >
+              {/* Secondary Card 1: Angle Detail / Spine Thumbnail */}
+              <div 
+                onClick={() => modalSections.length > 0 && setIsOpen(true)}
+                style={{
+                  backgroundColor: '#f5f4ef',
+                  borderRadius: '8px',
+                  border: '1px solid #eae8e1',
+                  height: '175px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  overflow: 'hidden',
+                  position: 'relative',
+                  transition: 'border-color 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.borderColor = '#b3b0a6'}
+                onMouseLeave={(e) => e.currentTarget.style.borderColor = '#eae8e1'}
+              >
+                <img
+                  src={book.image}
+                  alt="Detail Angle"
+                  style={{
+                    maxHeight: '135px',
+                    width: 'auto',
+                    objectFit: 'contain',
+                    transform: 'rotate(-4deg)',
+                    boxShadow: '0 8px 18px rgba(0,0,0,0.18)',
+                    borderRadius: '2px'
+                  }}
+                />
                 <span style={{
-                  display: 'inline-block',
-                  backgroundColor: '#f1f5f9',
-                  color: '#475569',
-                  fontSize: '0.72rem',
+                  position: 'absolute',
+                  bottom: '8px',
+                  left: '10px',
+                  fontSize: '0.62rem',
                   fontWeight: '700',
-                  padding: '0.3rem 0.75rem',
-                  borderRadius: '6px',
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase'
+                  color: '#7a7872',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em'
                 }}>
-                  {book.category.replace('-', ' ')}
+                  Cover Angle
                 </span>
               </div>
-            )}
 
-            {/* Book Title */}
+              {/* Secondary Card 2: Interior Spread Preview */}
+              <div 
+                onClick={() => modalSections.length > 0 && setIsOpen(true)}
+                style={{
+                  backgroundColor: '#f5f4ef',
+                  borderRadius: '8px',
+                  border: '1px solid #eae8e1',
+                  height: '175px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  padding: '1rem',
+                  boxSizing: 'border-box',
+                  position: 'relative',
+                  transition: 'border-color 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.borderColor = '#b3b0a6'}
+                onMouseLeave={(e) => e.currentTarget.style.borderColor = '#eae8e1'}
+              >
+                {/* Miniature 2-Page Spread Layout Graphic */}
+                <div style={{
+                  display: 'flex',
+                  width: '130px',
+                  height: '85px',
+                  backgroundColor: '#ffffff',
+                  borderRadius: '2px',
+                  boxShadow: '0 6px 14px rgba(0,0,0,0.1)',
+                  border: '1px solid #dedbd2',
+                  overflow: 'hidden'
+                }}>
+                  <div style={{ flex: 1, borderRight: '1px solid #eae8e1', padding: '6px', display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                    <div style={{ width: '40%', height: '4px', backgroundColor: '#121212', borderRadius: '1px' }} />
+                    <div style={{ width: '85%', height: '2px', backgroundColor: '#dedbd2' }} />
+                    <div style={{ width: '95%', height: '2px', backgroundColor: '#dedbd2' }} />
+                    <div style={{ width: '75%', height: '2px', backgroundColor: '#dedbd2' }} />
+                  </div>
+                  <div style={{ flex: 1, padding: '6px', display: 'flex', flexDirection: 'column', gap: '3px', backgroundColor: '#faf9f6' }}>
+                    <div style={{ width: '70%', height: '35px', backgroundColor: '#dedbd2', margin: 'auto auto', borderRadius: '1px' }} />
+                  </div>
+                </div>
+
+                <span style={{
+                  position: 'absolute',
+                  bottom: '8px',
+                  left: '10px',
+                  fontSize: '0.62rem',
+                  fontWeight: '700',
+                  color: '#7a7872',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em'
+                }}>
+                  Interior Spread
+                </span>
+
+                <span style={{
+                  position: 'absolute',
+                  bottom: '8px',
+                  right: '10px',
+                  fontSize: '0.62rem',
+                  fontWeight: '700',
+                  color: '#121212'
+                }}>
+                  Open ↗
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+          {/* ---------------- RIGHT: PRODUCT DETAILS & PURCHASE PANEL ---------------- */}
+          <div className="luxury-details-column" style={{ display: 'flex', flexDirection: 'column' }}>
+            
+            {/* Product Title */}
             <h1 style={{
-              fontSize: 'clamp(2.1rem, 4vw, 2.85rem)',
-              fontWeight: '800',
-              margin: '0 0 0.5rem 0',
+              fontSize: 'clamp(2.1rem, 3.8vw, 2.85rem)',
+              fontWeight: '700',
+              margin: '0 0 0.35rem 0',
               letterSpacing: '-0.025em',
-              lineHeight: '1.18',
-              color: '#0f172a'
+              lineHeight: '1.16',
+              color: '#121212'
             }}>
               {book.title}
             </h1>
 
-            {/* Author */}
-            <div style={{ fontSize: '1rem', color: '#64748b', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <span>By</span>
-              <span style={{ fontWeight: '700', color: '#0f172a' }}>{book.author}</span>
+            {/* Subtitle / Model line (Matching Reference: "for Porsche 911...") */}
+            <div style={{
+              fontSize: '0.9rem',
+              color: '#73716a',
+              marginBottom: '1.25rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              letterSpacing: '0.01em'
+            }}>
+              <span>by</span>
+              <span style={{ fontWeight: '600', color: '#2b2a26' }}>{book.author}</span>
+              {book.category && (
+                <>
+                  <span>•</span>
+                  <span>{book.category.replace('-', ' ').toUpperCase()}</span>
+                </>
+              )}
             </div>
 
-            {/* Real Price (Only if set) */}
-            {formattedPrice && (
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.45rem', marginBottom: '1.5rem' }}>
-                <span style={{ fontSize: '2.3rem', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.02em' }}>
-                  ₹{formattedPrice}
+            {/* Price Display (Matching Reference: bold price) */}
+            {formattedUnitPrice && (
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.6rem', marginBottom: '1.2rem' }}>
+                <span style={{ fontSize: '2.1rem', fontWeight: '800', color: '#121212', letterSpacing: '-0.025em' }}>
+                  ₹{formattedUnitPrice}
                 </span>
-                <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>
+                <span style={{ fontSize: '0.8rem', color: '#8c8a84', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   INR
                 </span>
               </div>
             )}
 
-            {/* Purchase CTA Buttons */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '2.5rem' }}>
+            {/* Overview / Description Paragraph with "Read More" (Matching Reference) */}
+            {book.description && (
+              <div style={{ marginBottom: '1.8rem' }}>
+                <p style={{
+                  fontSize: '0.9rem',
+                  lineHeight: '1.65',
+                  color: '#4a4843',
+                  margin: 0,
+                  whiteSpace: 'pre-line'
+                }}>
+                  {isDescriptionExpanded || book.description.length <= 160
+                    ? book.description
+                    : `${book.description.substring(0, 160)}...`}
+                </p>
+                {book.description.length > 160 && (
+                  <button
+                    type="button"
+                    onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      padding: 0,
+                      marginTop: '0.35rem',
+                      color: '#121212',
+                      fontSize: '0.82rem',
+                      fontWeight: '700',
+                      cursor: 'pointer',
+                      textDecoration: 'underline'
+                    }}
+                  >
+                    {isDescriptionExpanded ? 'Read Less' : 'Read More'}
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Format Option Chips (Matching Reference: Visible Carbon Finish pills) */}
+            {formatChips.length > 0 && (
+              <div style={{ marginBottom: '1.8rem' }}>
+                <span style={{
+                  fontSize: '0.72rem',
+                  color: '#73716a',
+                  fontWeight: '600',
+                  display: 'block',
+                  marginBottom: '0.6rem',
+                  letterSpacing: '0.03em'
+                }}>
+                  Specification Format:
+                </span>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  {formatChips.map((chip, index) => {
+                    const isSelected = selectedFormatIndex === index;
+                    return (
+                      <button
+                        key={index}
+                        type="button"
+                        onClick={() => setSelectedFormatIndex(index)}
+                        style={{
+                          padding: '0.45rem 0.9rem',
+                          borderRadius: '4px',
+                          border: isSelected ? '1px solid #121212' : '1px solid #dedbd2',
+                          backgroundColor: isSelected ? '#121212' : '#ffffff',
+                          color: isSelected ? '#ffffff' : '#4a4843',
+                          fontSize: '0.78rem',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          letterSpacing: '0.02em',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        {chip}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Stepper + Main Add to Cart / Purchase CTA (Matching Reference Button Style) */}
+            <div 
+              className="luxury-buy-row"
+              style={{
+                display: 'flex',
+                gap: '0.75rem',
+                alignItems: 'stretch',
+                marginBottom: '2.5rem'
+              }}
+            >
+              {/* Stepper: - 1 + */}
+              <div 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  border: '1px solid #dedbd2',
+                  borderRadius: '4px',
+                  backgroundColor: '#ffffff',
+                  height: '52px',
+                  padding: '0 0.5rem',
+                  boxSizing: 'border-box'
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#121212',
+                    fontSize: '1.1rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    width: '32px',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  −
+                </button>
+                <span style={{
+                  minWidth: '28px',
+                  textAlign: 'center',
+                  fontSize: '0.9rem',
+                  fontWeight: '700',
+                  color: '#121212'
+                }}>
+                  {quantity}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setQuantity((q) => q + 1)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#121212',
+                    fontSize: '1.1rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    width: '32px',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  +
+                </button>
+              </div>
+
+              {/* Main Dark Button: Purchase Book */}
               {book.buyUrl ? (
                 <a
                   href={book.buyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.6rem',
-                    backgroundColor: '#0052ff',
+                    flex: 1,
+                    height: '52px',
+                    backgroundColor: '#1b3a2f', // Deep dark luxury forest green from reference
                     color: '#ffffff',
-                    padding: '1rem 1.8rem',
-                    borderRadius: '12px',
+                    borderRadius: '4px',
                     fontWeight: '700',
-                    fontSize: '0.98rem',
+                    fontSize: '0.92rem',
+                    letterSpacing: '0.03em',
                     textDecoration: 'none',
-                    boxShadow: '0 4px 16px rgba(0, 82, 255, 0.25)',
-                    transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0 1.5rem',
+                    boxSizing: 'border-box',
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 4px 14px rgba(27, 58, 47, 0.25)'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#0040d0';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 82, 255, 0.35)';
+                    e.currentTarget.style.backgroundColor = '#132820';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#0052ff';
+                    e.currentTarget.style.backgroundColor = '#1b3a2f';
                     e.currentTarget.style.transform = 'none';
-                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 82, 255, 0.25)';
                   }}
                 >
-                  <span>{buyButtonLabel}</span>
-                  <span style={{ fontSize: '1.1rem' }}>↗</span>
+                  <span>{buyButtonText}</span>
+                  <span style={{ fontSize: '1.15rem' }}>↗</span>
                 </a>
               ) : (
                 <div style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: '#f1f5f9',
-                  color: '#64748b',
-                  padding: '0.9rem 1.6rem',
-                  borderRadius: '12px',
+                  flex: 1,
+                  height: '52px',
+                  backgroundColor: '#eae8e1',
+                  color: '#6e6d68',
+                  borderRadius: '4px',
                   fontWeight: '600',
-                  fontSize: '0.92rem'
+                  fontSize: '0.85rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
                 }}>
                   Purchasing Link Available Soon
                 </div>
               )}
-
-              {modalSections.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setIsOpen(true)}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.5rem',
-                    backgroundColor: '#ffffff',
-                    color: '#0f172a',
-                    border: '1px solid #cbd5e1',
-                    padding: '0.85rem 1.6rem',
-                    borderRadius: '12px',
-                    fontWeight: '700',
-                    fontSize: '0.9rem',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#f8fafc';
-                    e.currentTarget.style.borderColor = '#94a3b8';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#ffffff';
-                    e.currentTarget.style.borderColor = '#cbd5e1';
-                  }}
-                >
-                  <span>📖</span> Preview Book Interior
-                </button>
-              )}
             </div>
 
-            {/* Real Description (Only if entered) */}
-            {book.description && (
-              <div style={{ marginBottom: '2.5rem', borderTop: '1px solid #e2e8f0', paddingTop: '1.8rem' }}>
-                <h3 style={{
-                  fontSize: '0.8rem',
-                  fontWeight: '800',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                  color: '#475569',
-                  margin: '0 0 0.75rem 0'
-                }}>
-                  Overview
-                </h3>
-                <p style={{
-                  fontSize: '1rem',
-                  lineHeight: '1.75',
-                  color: '#334155',
-                  margin: 0,
-                  whiteSpace: 'pre-line'
-                }}>
-                  {book.description}
-                </p>
-              </div>
-            )}
+            {/* ================= ACCORDION STACK (MATCHING REFERENCE EXACTLY) ================= */}
+            <div style={{ borderTop: '1px solid #eae8e1' }}>
+              
+              {/* Accordion Item 1: Description */}
+              {book.description && (
+                <div style={{ borderBottom: '1px solid #eae8e1' }}>
+                  <button
+                    type="button"
+                    onClick={() => toggleAccordion('description')}
+                    style={{
+                      width: '100%',
+                      padding: '1.1rem 0',
+                      background: 'none',
+                      border: 'none',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                      textAlign: 'left'
+                    }}
+                  >
+                    <span style={{ fontSize: '0.88rem', fontWeight: '700', color: '#121212', letterSpacing: '0.01em' }}>
+                      Description
+                    </span>
+                    <span style={{ fontSize: '1.1rem', color: '#73716a', fontWeight: '400' }}>
+                      {openAccordions.description ? '−' : '+'}
+                    </span>
+                  </button>
 
-            {/* Real Specifications (Only if values exist) */}
-            {realSpecs.length > 0 && (
-              <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '1.8rem', marginBottom: '2rem' }}>
-                <h3 style={{
-                  fontSize: '0.8rem',
-                  fontWeight: '800',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                  color: '#475569',
-                  margin: '0 0 1rem 0'
-                }}>
-                  Specifications
-                </h3>
+                  {openAccordions.description && (
+                    <div style={{ paddingBottom: '1.25rem', color: '#4a4843', fontSize: '0.88rem', lineHeight: '1.7' }}>
+                      <p style={{ margin: 0, whiteSpace: 'pre-line' }}>{book.description}</p>
+                    </div>
+                  )}
+                </div>
+              )}
 
-                <div 
-                  className="book-specs-grid"
+              {/* Accordion Item 2: Technical Specifications / Fitment (Open by default with 2-column table) */}
+              <div style={{ borderBottom: '1px solid #eae8e1' }}>
+                <button
+                  type="button"
+                  onClick={() => toggleAccordion('specs')}
                   style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                    gap: '1rem'
+                    width: '100%',
+                    padding: '1.1rem 0',
+                    background: 'none',
+                    border: 'none',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    cursor: 'pointer',
+                    textAlign: 'left'
                   }}
                 >
-                  {realSpecs.map((spec) => (
-                    <div
-                      key={spec.key}
-                      style={{
-                        backgroundColor: '#ffffff',
-                        borderRadius: '12px',
-                        border: '1px solid #e2e8f0',
-                        padding: '1rem 1.25rem'
-                      }}
-                    >
-                      <span style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '0.35rem' }}>
-                        {spec.label}
-                      </span>
-                      <span style={{ fontSize: '0.95rem', fontWeight: '700', color: '#0f172a', wordBreak: 'break-word' }}>
-                        {spec.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                  <span style={{ fontSize: '0.88rem', fontWeight: '700', color: '#121212', letterSpacing: '0.01em' }}>
+                    Specifications & Editorial Details
+                  </span>
+                  <span style={{ fontSize: '1rem', color: '#73716a', fontWeight: '400' }}>
+                    {openAccordions.specs ? '✕' : '+'}
+                  </span>
+                </button>
+
+                {openAccordions.specs && (
+                  <div style={{ paddingBottom: '1.25rem' }}>
+                    {realSpecs.length > 0 ? (
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        {realSpecs.map((spec, sIdx) => (
+                          <div 
+                            key={spec.key}
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'baseline',
+                              padding: '0.85rem 0',
+                              borderBottom: sIdx === realSpecs.length - 1 ? 'none' : '1px solid #f0ede6',
+                              gap: '1rem'
+                            }}
+                          >
+                            <div>
+                              <div style={{ fontSize: '0.85rem', fontWeight: '600', color: '#121212' }}>
+                                {spec.label}
+                              </div>
+                              <div style={{ fontSize: '0.72rem', color: '#8c8a84', marginTop: '0.15rem' }}>
+                                {spec.caption}
+                              </div>
+                            </div>
+
+                            <div style={{ fontSize: '0.85rem', color: '#383631', textAlign: 'right', fontWeight: '500', maxWidth: '60%', wordBreak: 'break-word' }}>
+                              {spec.value}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p style={{ margin: 0, fontSize: '0.85rem', color: '#73716a' }}>
+                        Official print specifications archived with publisher release.
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
-            )}
+
+              {/* Accordion Item 3: Publishing & Distribution */}
+              <div style={{ borderBottom: '1px solid #eae8e1' }}>
+                <button
+                  type="button"
+                  onClick={() => toggleAccordion('publishing')}
+                  style={{
+                    width: '100%',
+                    padding: '1.1rem 0',
+                    background: 'none',
+                    border: 'none',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    cursor: 'pointer',
+                    textAlign: 'left'
+                  }}
+                >
+                  <span style={{ fontSize: '0.88rem', fontWeight: '700', color: '#121212', letterSpacing: '0.01em' }}>
+                    Publishing & Archival Rights
+                  </span>
+                  <span style={{ fontSize: '1.1rem', color: '#73716a', fontWeight: '400' }}>
+                    {openAccordions.publishing ? '−' : '+'}
+                  </span>
+                </button>
+
+                {openAccordions.publishing && (
+                  <div style={{ paddingBottom: '1.25rem', color: '#4a4843', fontSize: '0.85rem', lineHeight: '1.7' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #f0ede6' }}>
+                      <span style={{ color: '#73716a' }}>Publisher</span>
+                      <span style={{ fontWeight: '600', color: '#121212' }}>{book.publishingSpec || 'Rising Media Works Press'}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #f0ede6' }}>
+                      <span style={{ color: '#73716a' }}>Distribution</span>
+                      <span style={{ fontWeight: '600', color: '#121212' }}>Global Retail & Amazon Network</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0' }}>
+                      <span style={{ color: '#73716a' }}>Archival Standard</span>
+                      <span style={{ fontWeight: '600', color: '#121212' }}>Acid-Free Preserved Material</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Accordion Item 4: Installation / Reading Guide */}
+              <div style={{ borderBottom: '1px solid #eae8e1' }}>
+                <button
+                  type="button"
+                  onClick={() => toggleAccordion('preview')}
+                  style={{
+                    width: '100%',
+                    padding: '1.1rem 0',
+                    background: 'none',
+                    border: 'none',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    cursor: 'pointer',
+                    textAlign: 'left'
+                  }}
+                >
+                  <span style={{ fontSize: '0.88rem', fontWeight: '700', color: '#121212', letterSpacing: '0.01em' }}>
+                    Digital Specimen & Spread Viewer
+                  </span>
+                  <span style={{ fontSize: '1.1rem', color: '#73716a', fontWeight: '400' }}>
+                    {openAccordions.preview ? '−' : '+'}
+                  </span>
+                </button>
+
+                {openAccordions.preview && (
+                  <div style={{ paddingBottom: '1.25rem', display: 'flex', gap: '0.85rem', flexWrap: 'wrap' }}>
+                    {modalSections.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setIsOpen(true)}
+                        style={{
+                          padding: '0.65rem 1.2rem',
+                          backgroundColor: '#121212',
+                          color: '#ffffff',
+                          border: 'none',
+                          borderRadius: '4px',
+                          fontSize: '0.78rem',
+                          fontWeight: '700',
+                          cursor: 'pointer',
+                          letterSpacing: '0.04em',
+                          textTransform: 'uppercase'
+                        }}
+                      >
+                        📖 Open Fullscreen Spread
+                      </button>
+                    )}
+
+                    {book.finalBookUrl && (
+                      <a
+                        href={book.finalBookUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          padding: '0.65rem 1.2rem',
+                          backgroundColor: '#ffffff',
+                          color: '#121212',
+                          border: '1px solid #dedbd2',
+                          borderRadius: '4px',
+                          fontSize: '0.78rem',
+                          fontWeight: '700',
+                          textDecoration: 'none',
+                          letterSpacing: '0.04em',
+                          textTransform: 'uppercase'
+                        }}
+                      >
+                        📄 Download PDF File ↗
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+
+            </div>
 
           </div>
         </div>
 
-        {/* ================= RELATED BOOKS FROM CATALOG ================= */}
+        {/* ================= 3. [02] RELATED PRODUCTS / PUBLICATIONS (MATCHING REFERENCE EXACTLY) ================= */}
         {otherBooks.length > 0 && (
-          <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '3rem' }}>
+          <div style={{ marginTop: '2rem', borderTop: '1px solid #eae8e1', paddingTop: '3.5rem' }}>
+            
+            {/* Header: [02] RELATED PRODUCTS (Geometric Wide Font) */}
             <div style={{
               display: 'flex',
               justifyContent: 'space-between',
-              alignItems: 'flex-end',
-              marginBottom: '2rem',
-              flexWrap: 'wrap',
-              gap: '1rem'
+              alignItems: 'baseline',
+              marginBottom: '2rem'
             }}>
-              <div>
-                <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: '0.3rem' }}>
-                  Publications Archive
-                </span>
-                <h2 style={{ fontSize: '1.85rem', fontWeight: '800', margin: 0, letterSpacing: '-0.02em', color: '#0f172a' }}>
-                  Other Special Books
-                </h2>
-              </div>
+              <h2 style={{
+                fontSize: '0.95rem',
+                fontWeight: '800',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: '#121212',
+                margin: 0,
+                fontFamily: "'Space Grotesk', 'Manrope', monospace"
+              }}>
+                [02] RELATED PUBLICATIONS
+              </h2>
 
               <Link
                 to="/special-books/all"
                 style={{
-                  fontSize: '0.85rem',
-                  color: '#0052ff',
-                  fontWeight: '700',
+                  fontSize: '0.78rem',
+                  color: '#73716a',
+                  fontWeight: '600',
                   textDecoration: 'none',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.35rem'
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase'
                 }}
+                onMouseEnter={(e) => e.target.style.color = '#121212'}
+                onMouseLeave={(e) => e.target.style.color = '#73716a'}
               >
-                View All Books →
+                View Catalog →
               </Link>
             </div>
 
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '2rem'
-            }}>
-              {otherBooks.map((other) => {
-                const otherPriceFormatted = other.price !== null && other.price !== undefined && String(other.price).trim() !== ''
-                  ? (!isNaN(Number(other.price)) 
-                      ? `₹${Number(other.price).toLocaleString('en-IN', { minimumFractionDigits: Number(other.price) % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 })}` 
-                      : `₹${other.price}`)
+            {/* 4-Card Luxury Grid (Matching Reference Product Cards) */}
+            <div 
+              className="luxury-related-grid"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gap: '1.25rem'
+              }}
+            >
+              {otherBooks.map((other, idx) => {
+                const oPrice = other.price !== null && other.price !== undefined && String(other.price).trim() !== ''
+                  ? (!isNaN(Number(other.price)) ? `₹${Number(other.price).toLocaleString('en-IN', { minimumFractionDigits: Number(other.price) % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 })}` : `₹${other.price}`)
                   : null;
 
                 return (
@@ -812,54 +1390,98 @@ const BookDetail = () => {
                       color: 'inherit',
                       display: 'flex',
                       flexDirection: 'column',
-                      backgroundColor: '#ffffff',
-                      borderRadius: '16px',
-                      border: '1px solid #e2e8f0',
+                      backgroundColor: '#f5f4ef',
+                      borderRadius: '8px',
+                      border: '1px solid #eae8e1',
                       overflow: 'hidden',
-                      boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
                       transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = 'translateY(-4px)';
-                      e.currentTarget.style.boxShadow = '0 12px 30px rgba(15, 23, 42, 0.08)';
-                      e.currentTarget.style.borderColor = '#0052ff';
+                      e.currentTarget.style.borderColor = '#b3b0a6';
+                      e.currentTarget.style.boxShadow = '0 12px 28px rgba(20, 20, 18, 0.08)';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'none';
-                      e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.02)';
-                      e.currentTarget.style.borderColor = '#e2e8f0';
+                      e.currentTarget.style.borderColor = '#eae8e1';
+                      e.currentTarget.style.boxShadow = 'none';
                     }}
                   >
-                    <div style={{ height: '260px', backgroundColor: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                    {/* Upper Media Container */}
+                    <div style={{
+                      height: '240px',
+                      backgroundColor: '#f5f4ef',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      position: 'relative',
+                      padding: '1.5rem',
+                      boxSizing: 'border-box'
+                    }}>
+                      {/* Badge (Matching Reference: NEW or Bestseller) */}
+                      <span style={{
+                        position: 'absolute',
+                        top: '12px',
+                        left: '12px',
+                        fontSize: '0.62rem',
+                        fontWeight: '700',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.06em',
+                        padding: '2px 6px',
+                        borderRadius: '2px',
+                        backgroundColor: idx % 2 === 0 ? '#dedbd2' : '#121212',
+                        color: idx % 2 === 0 ? '#383631' : '#ffffff'
+                      }}>
+                        {idx % 2 === 0 ? 'NEW' : 'FEATURED'}
+                      </span>
+
                       <img
                         src={other.image || other.coverImage}
                         alt={other.title}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        style={{
+                          maxHeight: '180px',
+                          maxWidth: '125px',
+                          objectFit: 'contain',
+                          boxShadow: '0 8px 18px rgba(0,0,0,0.18)',
+                          borderRadius: '2px',
+                          transition: 'transform 0.3s ease'
+                        }}
                       />
                     </div>
-                    <div style={{ padding: '1.25rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      {other.category && (
-                        <div style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', marginBottom: '0.35rem' }}>
-                          {other.category.replace('-', ' ')}
-                        </div>
-                      )}
-                      <h3 style={{ fontSize: '1.1rem', fontWeight: '800', color: '#0f172a', margin: '0 0 0.35rem 0', lineHeight: '1.3' }}>
+
+                    {/* Lower Info Container (Clean Minimalist Matching Reference) */}
+                    <div style={{ padding: '1rem 1.1rem 1.2rem 1.1rem', backgroundColor: '#fcfbfa', borderTop: '1px solid #eae8e1', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                      <h3 style={{
+                        fontSize: '0.88rem',
+                        fontWeight: '700',
+                        color: '#121212',
+                        margin: '0 0 0.25rem 0',
+                        lineHeight: '1.3',
+                        letterSpacing: '-0.01em',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}>
                         {other.title}
                       </h3>
-                      <p style={{ color: '#64748b', fontSize: '0.82rem', margin: '0 0 1rem 0' }}>
+                      
+                      <p style={{
+                        color: '#73716a',
+                        fontSize: '0.75rem',
+                        margin: '0 0 0.8rem 0',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}>
                         By {other.author}
                       </p>
-                      
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '0.85rem', borderTop: '1px solid #f1f5f9' }}>
-                        {otherPriceFormatted ? (
-                          <span style={{ fontWeight: '800', color: '#0f172a', fontSize: '1.05rem' }}>
-                            {otherPriceFormatted}
-                          </span>
-                        ) : (
-                          <span style={{ color: '#94a3b8', fontSize: '0.82rem' }}>—</span>
-                        )}
-                        <span style={{ fontSize: '0.8rem', fontWeight: '700', color: '#0052ff' }}>
-                          View Details →
+
+                      <div style={{ marginTop: 'auto', paddingTop: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                        <span style={{ fontSize: '0.92rem', fontWeight: '800', color: '#121212' }}>
+                          {oPrice || 'Available'}
+                        </span>
+                        <span style={{ fontSize: '0.72rem', color: '#73716a', fontWeight: '600' }}>
+                          View ↗
                         </span>
                       </div>
                     </div>
@@ -884,7 +1506,7 @@ const BookDetail = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'rgba(15, 23, 42, 0.85)',
+            backgroundColor: 'rgba(18, 18, 16, 0.82)',
             backdropFilter: 'blur(10px)',
             zIndex: 9990,
             display: 'flex',
@@ -899,7 +1521,7 @@ const BookDetail = () => {
             maxWidth: '960px',
             height: '600px',
             backgroundColor: '#ffffff',
-            borderRadius: '20px',
+            borderRadius: '8px',
             overflow: 'hidden',
             boxShadow: '0 30px 60px rgba(0,0,0,0.5)',
             display: 'flex',
@@ -908,17 +1530,17 @@ const BookDetail = () => {
             {/* Modal Header */}
             <div style={{
               padding: '1.1rem 1.8rem',
-              borderBottom: '1px solid #e2e8f0',
+              borderBottom: '1px solid #eae8e1',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              backgroundColor: '#f8fafc'
+              backgroundColor: '#f5f4ef'
             }}>
               <div>
-                <span style={{ fontSize: '0.72rem', color: '#0052ff', fontWeight: '800', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                  Publication Details
+                <span style={{ fontSize: '0.7rem', color: '#1c3a2f', fontWeight: '800', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  Publication Archive
                 </span>
-                <h3 style={{ fontSize: '1.15rem', margin: '0.1rem 0 0 0', fontWeight: '800', color: '#0f172a' }}>
+                <h3 style={{ fontSize: '1.15rem', margin: '0.1rem 0 0 0', fontWeight: '800', color: '#121212' }}>
                   {book.title}
                 </h3>
               </div>
@@ -926,11 +1548,11 @@ const BookDetail = () => {
               <button
                 onClick={() => setIsOpen(false)}
                 style={{
-                  background: '#0f172a',
+                  background: '#121212',
                   color: '#ffffff',
                   border: 'none',
-                  width: '34px',
-                  height: '34px',
+                  width: '32px',
+                  height: '32px',
                   borderRadius: '50%',
                   cursor: 'pointer',
                   fontSize: '0.9rem',
@@ -949,9 +1571,9 @@ const BookDetail = () => {
             {/* Two-Page Spread */}
             <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', overflow: 'hidden' }}>
               {/* Left Page: Index */}
-              <div style={{ padding: '2.5rem', borderRight: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: '#ffffff' }}>
+              <div style={{ padding: '2.5rem', borderRight: '1px solid #eae8e1', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: '#ffffff' }}>
                 <div>
-                  <h4 style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 1.25rem 0' }}>
+                  <h4 style={{ fontSize: '0.75rem', color: '#73716a', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 1.25rem 0' }}>
                     Contents & Specifications
                   </h4>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
@@ -960,13 +1582,13 @@ const BookDetail = () => {
                         key={idx}
                         onClick={() => setActiveSectionIndex(idx)}
                         style={{
-                          background: activeSectionIndex === idx ? '#eff6ff' : 'transparent',
+                          background: activeSectionIndex === idx ? '#f5f4ef' : 'transparent',
                           border: 'none',
-                          borderRadius: '8px',
+                          borderRadius: '4px',
                           textAlign: 'left',
                           fontFamily: 'inherit',
-                          fontSize: '0.9rem',
-                          color: activeSectionIndex === idx ? '#0052ff' : '#475569',
+                          fontSize: '0.88rem',
+                          color: activeSectionIndex === idx ? '#121212' : '#6e6d68',
                           fontWeight: activeSectionIndex === idx ? '800' : '500',
                           cursor: 'pointer',
                           padding: '0.55rem 0.75rem',
@@ -979,26 +1601,26 @@ const BookDetail = () => {
                   </div>
                 </div>
 
-                <div style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: '500' }}>
-                  Rising Media Works Editorial
+                <div style={{ fontSize: '0.72rem', color: '#8c8a84', fontWeight: '500' }}>
+                  Rising Media Works Editorial Press
                 </div>
               </div>
 
               {/* Right Page: Content */}
-              <div style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: '#fafbfc' }}>
+              <div style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: '#fcfbfa' }}>
                 <div style={{ overflowY: 'auto', paddingRight: '0.5rem' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#0052ff', fontWeight: '800', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: '0.75rem', color: '#1c3a2f', fontWeight: '800', textTransform: 'uppercase' }}>
                     {modalSections[activeSectionIndex]?.label}
                   </span>
-                  <h2 style={{ fontSize: '1.45rem', fontWeight: '800', margin: '0.5rem 0 1rem 0', color: '#0f172a' }}>
+                  <h2 style={{ fontSize: '1.45rem', fontWeight: '800', margin: '0.5rem 0 1rem 0', color: '#121212' }}>
                     {modalSections[activeSectionIndex]?.title}
                   </h2>
-                  <p style={{ fontSize: '1rem', lineHeight: '1.75', color: '#334155', margin: 0, whiteSpace: 'pre-line' }}>
+                  <p style={{ fontSize: '0.98rem', lineHeight: '1.75', color: '#4a4843', margin: 0, whiteSpace: 'pre-line' }}>
                     {modalSections[activeSectionIndex]?.content}
                   </p>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #e2e8f0', paddingTop: '1rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #eae8e1', paddingTop: '1rem' }}>
                   <button
                     onClick={() => setActiveSectionIndex((prev) => Math.max(0, prev - 1))}
                     disabled={activeSectionIndex === 0}
@@ -1007,14 +1629,14 @@ const BookDetail = () => {
                       border: 'none',
                       fontSize: '0.82rem',
                       fontWeight: '700',
-                      color: activeSectionIndex === 0 ? '#cbd5e1' : '#0f172a',
+                      color: activeSectionIndex === 0 ? '#dedbd2' : '#121212',
                       cursor: activeSectionIndex === 0 ? 'not-allowed' : 'pointer'
                     }}
                   >
                     ← Previous
                   </button>
 
-                  <span style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: '600' }}>
+                  <span style={{ fontSize: '0.75rem', color: '#8c8a84', fontWeight: '600' }}>
                     {activeSectionIndex + 1} of {modalSections.length}
                   </span>
 
@@ -1026,7 +1648,7 @@ const BookDetail = () => {
                       border: 'none',
                       fontSize: '0.82rem',
                       fontWeight: '700',
-                      color: activeSectionIndex === modalSections.length - 1 ? '#cbd5e1' : '#0f172a',
+                      color: activeSectionIndex === modalSections.length - 1 ? '#dedbd2' : '#121212',
                       cursor: activeSectionIndex === modalSections.length - 1 ? 'not-allowed' : 'pointer'
                     }}
                   >

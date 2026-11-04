@@ -755,7 +755,9 @@ export const booksData = [
     interiorDesign: 'A 12-column grid layout for textbook tables, code references, and image spacing.',
     printSpecs: '6x9 inch print, cream paperweight, matte cover finish.',
     publishingDetails: 'Configured and launched on KDP (Kindle Direct Publishing) and IngramSpark platforms.',
-    finalBookUrl: 'https://i.pinimg.com/736x/59/8b/b5/598bb5309e1cac0e08e0b18dc4f4b6af.jpg'
+    finalBookUrl: 'https://i.pinimg.com/736x/59/8b/b5/598bb5309e1cac0e08e0b18dc4f4b6af.jpg',
+    price: 1299,
+    buyUrl: 'https://www.amazon.in'
   },
   {
     id: 'book-2',
@@ -773,7 +775,9 @@ export const booksData = [
     interiorDesign: 'Clean technical pages with dedicated side-margins for footnotes and equations.',
     printSpecs: '7x10 inch print, white paperweight, glossy cover coating.',
     publishingDetails: 'Printed and published globally with ISBN registration support.',
-    finalBookUrl: 'https://i.pinimg.com/736x/60/17/23/601723142038f663816834fa6ea76936.jpg'
+    finalBookUrl: 'https://i.pinimg.com/736x/60/17/23/601723142038f663816834fa6ea76936.jpg',
+    price: 1499,
+    buyUrl: 'https://www.amazon.in'
   },
   {
     id: 'book-3',
@@ -791,7 +795,9 @@ export const booksData = [
     interiorDesign: 'Dual column text layout with wide margins for handwritten student annotations.',
     printSpecs: '8x10 inch hardbound case wrap, matte gold finish details.',
     publishingDetails: 'Privately printed and distributed for design workshops.',
-    finalBookUrl: 'https://i.pinimg.com/736x/85/bf/a8/85bfa81ee1e8ec827325f96a85ce26ca.jpg'
+    finalBookUrl: 'https://i.pinimg.com/736x/85/bf/a8/85bfa81ee1e8ec827325f96a85ce26ca.jpg',
+    price: 1899,
+    buyUrl: 'https://www.amazon.in'
   },
   {
     id: 'book-4',
@@ -809,7 +815,9 @@ export const booksData = [
     interiorDesign: 'Modular grid structure for catalogs, diagrams, and photo grids.',
     printSpecs: 'A4 size landscape print, 120gsm heavy paper, gloss finish.',
     publishingDetails: 'Distributed digitally and via physical publishing networks.',
-    finalBookUrl: 'https://i.pinimg.com/1200x/3d/e4/bb/3de4bbbc02cd0210e66e8773aa87e533.jpg'
+    finalBookUrl: 'https://i.pinimg.com/1200x/3d/e4/bb/3de4bbbc02cd0210e66e8773aa87e533.jpg',
+    price: 1199,
+    buyUrl: 'https://www.amazon.in'
   },
   {
     id: 'book-5',
@@ -827,7 +835,9 @@ export const booksData = [
     interiorDesign: 'Single column layout with highlighted gray boxes for warning alerts and tips.',
     printSpecs: '6x9 inch print, cream paperweight, matte cover texture.',
     publishingDetails: 'Available globally on Amazon KDP in eBook, paperback, and hardcover.',
-    finalBookUrl: 'https://i.pinimg.com/1200x/f4/ef/90/f4ef9086506d38bf26707adff430e3e5.jpg'
+    finalBookUrl: 'https://i.pinimg.com/1200x/f4/ef/90/f4ef9086506d38bf26707adff430e3e5.jpg',
+    price: 999,
+    buyUrl: 'https://www.amazon.in'
   },
   {
     id: 'book-6',
@@ -845,7 +855,9 @@ export const booksData = [
     interiorDesign: 'Mixed grid system incorporating asymmetrical margins and variable line heights.',
     printSpecs: '7x9 inch print, textured luxury paper, hardcover case binding.',
     publishingDetails: 'Published in partnership with the International Design Association.',
-    finalBookUrl: 'https://i.pinimg.com/1200x/cd/81/bf/cd81bf4357e8bb71cb7e054adca72471.jpg'
+    finalBookUrl: 'https://i.pinimg.com/1200x/cd/81/bf/cd81bf4357e8bb71cb7e054adca72471.jpg',
+    price: 1599,
+    buyUrl: 'https://www.amazon.in'
   },
   {
     id: 'book-7',
