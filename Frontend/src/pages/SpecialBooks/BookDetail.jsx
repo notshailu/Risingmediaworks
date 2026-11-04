@@ -261,15 +261,23 @@ const BookDetail = () => {
     ? (formattedTotalPrice ? `Purchase on Amazon — ₹${formattedTotalPrice}` : 'Buy on Amazon')
     : (formattedTotalPrice ? `Order Publication — ₹${formattedTotalPrice}` : 'Order Publication');
 
-  // Format options chips derived from real data
+  // Format options chips derived from real data - concise luxury pills
   const formatChips = [
-    book.printSpecs ? book.printSpecs : 'Standard Print',
-    book.paperSpec ? book.paperSpec : 'Archival Finish'
+    book.printSpecs
+      ? (book.printSpecs.length > 20
+          ? (/\b\d+x\d+\b/i.test(book.printSpecs) ? `${book.printSpecs.match(/\b\d+x\d+\b/i)[0]}″ Edition` : 'Standard Edition')
+          : book.printSpecs)
+      : 'Standard Edition',
+    book.paperSpec
+      ? (book.paperSpec.length > 20 ? 'Archival Finish' : book.paperSpec)
+      : 'Archival Finish',
+    book.finalBookUrl ? 'Digital PDF Specimen' : null
   ].filter((item, idx, arr) => item && arr.indexOf(item) === idx);
 
   return (
     <div
       ref={containerRef}
+      className="luxury-page-root"
       style={{
         width: '100%',
         minHeight: '100vh',
@@ -302,10 +310,17 @@ const BookDetail = () => {
           }
         }
         @media (max-width: 640px) {
+          .luxury-page-root {
+            padding: 90px 1.25rem 60px 1.25rem !important;
+          }
+          .luxury-hero-card {
+            padding: 2.2rem 1rem 1.8rem 1rem !important;
+            min-height: 380px !important;
+          }
           .luxury-breadcrumb-bar {
             flex-direction: column !important;
             align-items: flex-start !important;
-            gap: 0.6rem !important;
+            gap: 0.8rem !important;
           }
           .luxury-related-grid {
             grid-template-columns: 1fr !important;
@@ -315,6 +330,20 @@ const BookDetail = () => {
           }
           .luxury-buy-row {
             flex-direction: column !important;
+            gap: 0.75rem !important;
+          }
+          .luxury-stepper {
+            width: 100% !important;
+            padding: 0 1.25rem !important;
+          }
+          .luxury-spec-row {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 0.35rem !important;
+          }
+          .luxury-spec-val {
+            text-align: left !important;
+            max-width: 100% !important;
           }
         }
       `}</style>
@@ -371,7 +400,7 @@ const BookDetail = () => {
               <span>Back to Books Archive</span>
             </Link>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexWrap: 'wrap' }}>
               <Link to="/" style={{ color: '#8c8a84', textDecoration: 'none' }} onMouseEnter={(e) => e.target.style.color = '#121212'} onMouseLeave={(e) => e.target.style.color = '#8c8a84'}>Home</Link>
               <span>/</span>
               <Link to="/special-books/all" style={{ color: '#8c8a84', textDecoration: 'none' }} onMouseEnter={(e) => e.target.style.color = '#121212'} onMouseLeave={(e) => e.target.style.color = '#8c8a84'}>Special Books</Link>
@@ -382,7 +411,7 @@ const BookDetail = () => {
                 </>
               )}
               <span>/</span>
-              <span style={{ color: '#121212', fontWeight: '600', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <span style={{ color: '#121212', fontWeight: '600', maxWidth: 'min(300px, 60vw)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {book.title}
               </span>
             </div>
@@ -457,7 +486,7 @@ const BookDetail = () => {
           className="luxury-product-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'minmax(380px, 1.05fr) minmax(360px, 0.95fr)',
+            gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 0.95fr)',
             gap: '3.5rem',
             alignItems: 'start',
             marginBottom: '6rem'
@@ -468,6 +497,7 @@ const BookDetail = () => {
             
             {/* UPPER CARD: Hero 3D Book Showcase */}
             <div 
+              className="luxury-hero-card"
               style={{
                 backgroundColor: '#f5f4ef',
                 borderRadius: '8px',
@@ -594,10 +624,13 @@ const BookDetail = () => {
                 onMouseMove={handleMouseMoveCover}
                 onMouseLeave={handleMouseLeaveCover}
                 onClick={() => modalSections.length > 0 && setIsOpen(true)}
+                className="luxury-3d-mockup"
                 style={{
                   position: 'relative',
-                  width: '280px',
-                  height: '395px',
+                  width: 'min(280px, 75vw)',
+                  height: 'min(395px, 105vw)',
+                  maxWidth: '280px',
+                  maxHeight: '395px',
                   perspective: '1200px',
                   cursor: modalSections.length > 0 ? 'pointer' : 'default',
                   margin: '1.5rem 0',
@@ -990,15 +1023,18 @@ const BookDetail = () => {
             >
               {/* Stepper: - 1 + */}
               <div 
+                className="luxury-stepper"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'space-between',
                   border: '1px solid #dedbd2',
                   borderRadius: '4px',
                   backgroundColor: '#ffffff',
                   height: '52px',
-                  padding: '0 0.5rem',
-                  boxSizing: 'border-box'
+                  padding: '0 0.85rem',
+                  boxSizing: 'border-box',
+                  minWidth: '130px'
                 }}
               >
                 <button
@@ -1008,27 +1044,34 @@ const BookDetail = () => {
                     background: 'none',
                     border: 'none',
                     color: '#121212',
-                    fontSize: '1.1rem',
+                    fontSize: '1.2rem',
                     fontWeight: '600',
                     cursor: 'pointer',
                     width: '32px',
                     height: '100%',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    padding: 0
                   }}
+                  aria-label="Decrease quantity"
                 >
                   −
                 </button>
-                <span style={{
-                  minWidth: '28px',
-                  textAlign: 'center',
-                  fontSize: '0.9rem',
-                  fontWeight: '700',
-                  color: '#121212'
-                }}>
-                  {quantity}
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <span style={{ fontSize: '0.72rem', color: '#8c8a84', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '600' }}>
+                    Qty:
+                  </span>
+                  <span style={{
+                    minWidth: '22px',
+                    textAlign: 'center',
+                    fontSize: '0.92rem',
+                    fontWeight: '700',
+                    color: '#121212'
+                  }}>
+                    {quantity}
+                  </span>
+                </div>
                 <button
                   type="button"
                   onClick={() => setQuantity((q) => q + 1)}
@@ -1036,15 +1079,17 @@ const BookDetail = () => {
                     background: 'none',
                     border: 'none',
                     color: '#121212',
-                    fontSize: '1.1rem',
+                    fontSize: '1.2rem',
                     fontWeight: '600',
                     cursor: 'pointer',
                     width: '32px',
                     height: '100%',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    padding: 0
                   }}
+                  aria-label="Increase quantity"
                 >
                   +
                 </button>
@@ -1173,6 +1218,7 @@ const BookDetail = () => {
                         {realSpecs.map((spec, sIdx) => (
                           <div 
                             key={spec.key}
+                            className="luxury-spec-row"
                             style={{
                               display: 'flex',
                               justifyContent: 'space-between',
@@ -1182,7 +1228,7 @@ const BookDetail = () => {
                               gap: '1rem'
                             }}
                           >
-                            <div>
+                            <div style={{ flex: '1 1 auto', minWidth: '130px' }}>
                               <div style={{ fontSize: '0.85rem', fontWeight: '600', color: '#121212' }}>
                                 {spec.label}
                               </div>
@@ -1191,7 +1237,18 @@ const BookDetail = () => {
                               </div>
                             </div>
 
-                            <div style={{ fontSize: '0.85rem', color: '#383631', textAlign: 'right', fontWeight: '500', maxWidth: '60%', wordBreak: 'break-word' }}>
+                            <div 
+                              className="luxury-spec-val"
+                              style={{ 
+                                fontSize: '0.85rem', 
+                                color: '#383631', 
+                                textAlign: 'right', 
+                                fontWeight: '500', 
+                                maxWidth: '60%', 
+                                wordBreak: 'break-word',
+                                flex: '1 1 auto'
+                              }}
+                            >
                               {spec.value}
                             </div>
                           </div>
@@ -1233,17 +1290,17 @@ const BookDetail = () => {
 
                 {openAccordions.publishing && (
                   <div style={{ paddingBottom: '1.25rem', color: '#4a4843', fontSize: '0.85rem', lineHeight: '1.7' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #f0ede6' }}>
+                    <div className="luxury-spec-row" style={{ display: 'flex', justifyContent: 'space-between', padding: '0.6rem 0', borderBottom: '1px solid #f0ede6', gap: '0.5rem' }}>
                       <span style={{ color: '#73716a' }}>Publisher</span>
-                      <span style={{ fontWeight: '600', color: '#121212' }}>{book.publishingSpec || 'Rising Media Works Press'}</span>
+                      <span style={{ fontWeight: '600', color: '#121212' }} className="luxury-spec-val">{book.publishingSpec || 'Rising Media Works Press'}</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #f0ede6' }}>
+                    <div className="luxury-spec-row" style={{ display: 'flex', justifyContent: 'space-between', padding: '0.6rem 0', borderBottom: '1px solid #f0ede6', gap: '0.5rem' }}>
                       <span style={{ color: '#73716a' }}>Distribution</span>
-                      <span style={{ fontWeight: '600', color: '#121212' }}>Global Retail & Amazon Network</span>
+                      <span style={{ fontWeight: '600', color: '#121212' }} className="luxury-spec-val">Global Retail & Amazon Network</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0' }}>
+                    <div className="luxury-spec-row" style={{ display: 'flex', justifyContent: 'space-between', padding: '0.6rem 0', gap: '0.5rem' }}>
                       <span style={{ color: '#73716a' }}>Archival Standard</span>
-                      <span style={{ fontWeight: '600', color: '#121212' }}>Acid-Free Preserved Material</span>
+                      <span style={{ fontWeight: '600', color: '#121212' }} className="luxury-spec-val">Acid-Free Preserved Material</span>
                     </div>
                   </div>
                 )}
