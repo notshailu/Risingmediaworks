@@ -517,6 +517,26 @@ const Home = () => {
       const cy = ((canvasHeight - nh) / 2) + cyOffset;
 
       context.drawImage(img, cx, cy, nw, nh);
+
+      // Mask Gemini Logo at bottom right corner seamlessly on canvas
+      const logoX = cx + nw * 0.912;
+      const logoY = cy + nh * 0.838;
+      const logoRadius = Math.max(nw * 0.026, 26);
+      const sampleX = Math.min(canvasWidth - 2, Math.floor(cx + nw * 0.94));
+      const sampleY = Math.min(canvasHeight - 2, Math.floor(logoY));
+
+      if (sampleX >= 0 && sampleY >= 0 && sampleX < canvasWidth && sampleY < canvasHeight) {
+        try {
+          const pixelData = context.getImageData(sampleX, sampleY, 1, 1).data;
+          context.save();
+          context.fillStyle = 'rgb(' + pixelData[0] + ', ' + pixelData[1] + ', ' + pixelData[2] + ')';
+          context.beginPath();
+          context.arc(logoX, logoY, logoRadius, 0, Math.PI * 2);
+          context.fill();
+          context.restore();
+        } catch (e) {}
+      }
+
       return true;
     };
 
