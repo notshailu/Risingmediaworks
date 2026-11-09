@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { servicesData, projectsData, booksData } from '../data/dummyData';
+import { servicesData, projectsData } from '../data/dummyData';
 import { getSiteContent } from '../data/siteContent';
 import Footer from '../components/Footer';
 import { useProjectLaunch } from '../components/ProjectLaunchPortal';
@@ -415,7 +415,7 @@ const Home = () => {
     const hero = document.getElementById('hero');
     if (!hero || images.length === 0) return;
 
-    const trailImages = booksData.map(book => book.image);
+    const trailImages = projectsData.map(project => project.image);
 
     const imageElements = hero.querySelectorAll('.trail-image');
     let imageIndex = 0;

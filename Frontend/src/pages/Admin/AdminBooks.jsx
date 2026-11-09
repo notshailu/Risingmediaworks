@@ -1,49 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  getActiveDummyBooks, 
-  deleteDummyBook, 
-  deleteAllDummyBooks, 
-  restoreAllDummyBooks,
-  getDeletedDummyBookIds
-} from '../../utils/dummyBooksHelper';
 
 const AdminBooks = () => {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeDummyCount, setActiveDummyCount] = useState(0);
 
   const fetchBooks = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/books`);
-      let apiBooks = [];
       if (response.ok) {
-        apiBooks = await response.json();
+        const apiBooks = await response.json();
+        setBooks(apiBooks);
+      } else {
+        setBooks([]);
       }
-
-      const activeDummy = getActiveDummyBooks().map((b) => ({
-        ...b,
-        _id: b.id,
-        isDummy: true
-      }));
-      setActiveDummyCount(activeDummy.length);
-
-      // Avoid duplicates if any API book matches an id
-      const apiIds = new Set(apiBooks.map((b) => b._id || b.id));
-      const filteredDummy = activeDummy.filter((b) => !apiIds.has(b.id));
-
-      // Display real database books first, then active demo books
-      setBooks([...apiBooks, ...filteredDummy]);
     } catch (error) {
       console.error('Error fetching books in AdminBooks:', error);
-      const activeDummy = getActiveDummyBooks().map((b) => ({
-        ...b,
-        _id: b.id,
-        isDummy: true
-      }));
-      setActiveDummyCount(activeDummy.length);
-      setBooks(activeDummy);
+      setBooks([]);
     } finally {
       setLoading(false);
     }
@@ -51,40 +25,20 @@ const AdminBooks = () => {
 
   useEffect(() => {
     fetchBooks();
-
-    const handleUpdate = () => fetchBooks();
-    window.addEventListener('dummy_books_updated', handleUpdate);
-    return () => window.removeEventListener('dummy_books_updated', handleUpdate);
   }, []);
 
-  const handleDelete = async (id, isDummy) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this book?')) {
       try {
-        if (isDummy || (typeof id === 'string' && id.startsWith('book-'))) {
-          deleteDummyBook(id);
-          // Also call backend in case
-          fetch(`${API_BASE_URL}/api/books/${id}`, { method: 'DELETE' }).catch(() => null);
+        const response = await fetch(`${API_BASE_URL}/api/books/${id}`, { method: 'DELETE' });
+        if (response.ok) {
+          fetchBooks();
         } else {
-          await fetch(`${API_BASE_URL}/api/books/${id}`, { method: 'DELETE' });
+          console.error('Failed to delete book');
         }
-        fetchBooks(); // Refresh list
       } catch (error) {
         console.error('Error deleting book:', error);
       }
-    }
-  };
-
-  const handleRemoveAllDummy = () => {
-    if (window.confirm('Are you sure you want to remove ALL placeholder demo books? Only your real uploaded publications will be shown.')) {
-      deleteAllDummyBooks();
-      fetchBooks();
-    }
-  };
-
-  const handleRestoreDummy = () => {
-    if (window.confirm('Restore all placeholder demo books to the catalog?')) {
-      restoreAllDummyBooks();
-      fetchBooks();
     }
   };
 
@@ -101,51 +55,6 @@ const AdminBooks = () => {
         </div>
 
         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
-          {activeDummyCount > 0 ? (
-            <button
-              type="button"
-              onClick={handleRemoveAllDummy}
-              style={{
-                padding: '0.65rem 1.15rem',
-                backgroundColor: '#fef2f2',
-                color: '#dc2626',
-                border: '1px solid #fecaca',
-                borderRadius: '10px',
-                fontWeight: '700',
-                fontSize: '0.85rem',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                transition: 'all 0.15s ease'
-              }}
-              title="Remove all placeholder demo books from the website and dashboard"
-            >
-              <span>🗑️ Remove All Dummy Books</span>
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleRestoreDummy}
-              style={{
-                padding: '0.65rem 1.15rem',
-                backgroundColor: '#f8fafc',
-                color: '#475569',
-                border: '1px solid #cbd5e1',
-                borderRadius: '10px',
-                fontWeight: '600',
-                fontSize: '0.82rem',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem'
-              }}
-              title="Restore placeholder demo books"
-            >
-              <span>↺ Restore Demo Books</span>
-            </button>
-          )}
-
           <Link 
             to="/admin/books/new" 
             style={{ 
@@ -175,28 +84,11 @@ const AdminBooks = () => {
           {books.length === 0 ? (
             <div style={{ gridColumn: '1 / -1', padding: '4rem 2rem', textAlign: 'center', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px dashed #cbd5e1' }}>
               <p style={{ color: '#0f172a', fontSize: '1.1rem', margin: '0 0 0.5rem 0', fontWeight: '700' }}>No books found in catalog.</p>
-              <p style={{ color: '#64748b', fontSize: '0.9rem', margin: '0 0 1.5rem 0' }}>All dummy books were removed. Click "+ Add New Book" above to upload your first publication!</p>
-              <button
-                type="button"
-                onClick={handleRestoreDummy}
-                style={{
-                  padding: '0.5rem 1rem',
-                  backgroundColor: '#f1f5f9',
-                  color: '#475569',
-                  border: '1px solid #cbd5e1',
-                  borderRadius: '8px',
-                  fontWeight: '600',
-                  fontSize: '0.82rem',
-                  cursor: 'pointer'
-                }}
-              >
-                ↺ Restore Demo Books
-              </button>
+              <p style={{ color: '#64748b', fontSize: '0.9rem', margin: '0 0 1.5rem 0' }}>Click "+ Add New Book" above to upload your first publication!</p>
             </div>
           ) : (
             books.map((book) => {
               const bookId = book._id || book.id;
-              const isDummy = book.isDummy || (typeof bookId === 'string' && bookId.startsWith('book-'));
 
               return (
                 <div 
@@ -212,26 +104,6 @@ const AdminBooks = () => {
                     position: 'relative'
                   }}
                 >
-                  {isDummy && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '12px',
-                      left: '12px',
-                      backgroundColor: 'rgba(254, 243, 199, 0.95)',
-                      color: '#92400e',
-                      border: '1px solid #fde68a',
-                      fontSize: '0.65rem',
-                      fontWeight: '800',
-                      letterSpacing: '0.05em',
-                      padding: '3px 8px',
-                      borderRadius: '6px',
-                      zIndex: 10,
-                      backdropFilter: 'blur(4px)'
-                    }}>
-                      DEMO BOOK
-                    </div>
-                  )}
-
                   <div style={{ height: '210px', backgroundColor: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid #e2e8f0', overflow: 'hidden' }}>
                     {book.coverImage || book.image ? (
                       <img src={book.coverImage || book.image} alt={book.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -247,7 +119,7 @@ const AdminBooks = () => {
                       By {book.author || 'Rising Media Works'}
                     </p>
                     <p style={{ color: '#334155', fontSize: '0.85rem', marginBottom: '1.2rem', flex: 1, lineHeight: '1.55', fontWeight: '500' }}>
-                      {book.description?.substring(0, 90)}...
+                      {book.description ? (book.description.length > 90 ? `${book.description.substring(0, 90)}...` : book.description) : 'No description provided.'}
                     </p>
                     
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f1f5f9', paddingTop: '0.85rem', marginTop: 'auto' }}>
@@ -255,24 +127,22 @@ const AdminBooks = () => {
                         {book.price ? `₹${book.price}` : 'Featured'}
                       </span>
                       <div style={{ display: 'flex', gap: '0.5rem' }}>
-                        {!isDummy && (
-                          <Link 
-                            to={`/admin/books/edit/${bookId}`} 
-                            style={{ 
-                              padding: '0.45rem 0.95rem', 
-                              backgroundColor: '#f1f5f9', 
-                              color: '#0f172a', 
-                              borderRadius: '8px', 
-                              textDecoration: 'none', 
-                              fontSize: '0.8rem', 
-                              fontWeight: '700' 
-                            }}
-                          >
-                            Edit
-                          </Link>
-                        )}
+                        <Link 
+                          to={`/admin/books/edit/${bookId}`} 
+                          style={{ 
+                            padding: '0.45rem 0.95rem', 
+                            backgroundColor: '#f1f5f9', 
+                            color: '#0f172a', 
+                            borderRadius: '8px', 
+                            textDecoration: 'none', 
+                            fontSize: '0.8rem', 
+                            fontWeight: '700' 
+                          }}
+                        >
+                          Edit
+                        </Link>
                         <button 
-                          onClick={() => handleDelete(bookId, isDummy)} 
+                          onClick={() => handleDelete(bookId)} 
                           style={{ 
                             padding: '0.45rem 0.95rem', 
                             backgroundColor: '#fef2f2', 
@@ -283,9 +153,9 @@ const AdminBooks = () => {
                             fontSize: '0.8rem', 
                             fontWeight: '700' 
                           }}
-                          title={isDummy ? 'Remove this placeholder demo book' : 'Delete book from catalog'}
+                          title="Delete book from catalog"
                         >
-                          {isDummy ? 'Remove Demo' : 'Delete'}
+                          Delete
                         </button>
                       </div>
                     </div>

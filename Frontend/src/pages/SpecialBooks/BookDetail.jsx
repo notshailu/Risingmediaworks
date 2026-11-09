@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { getActiveDummyBooks } from '../../utils/dummyBooksHelper';
 import WaterBackground from '../../components/WaterBackground';
 
 const BookDetail = () => {
@@ -12,7 +11,7 @@ const BookDetail = () => {
   const bookCoverRef = useRef(null);
   
   const [book, setBook] = useState(null);
-  const [allBooksList, setAllBooksList] = useState(() => getActiveDummyBooks());
+  const [allBooksList, setAllBooksList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
@@ -55,7 +54,6 @@ const BookDetail = () => {
     
     const fetchBookData = async () => {
       setLoading(true);
-      const activeDummy = getActiveDummyBooks();
 
       try {
         const res = await fetch(`${API_BASE_URL}/api/books/${id}`);
@@ -78,27 +76,7 @@ const BookDetail = () => {
             finalBookUrl: apiBook.finalBookUrl || ''
           });
         } else {
-          const found = activeDummy.find((b) => b.id === id || b._id === id);
-          if (found) {
-            setBook({
-              id: found.id || found._id,
-              _id: found.id || found._id,
-              title: found.title,
-              author: found.author,
-              description: found.description || found.overview || '',
-              price: found.price !== undefined && found.price !== null ? found.price : null,
-              image: found.coverImage || found.image || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=1000',
-              buyUrl: found.buyUrl || '',
-              category: found.category || '',
-              printSpecs: found.printSpecs || '',
-              gridSpec: found.gridSpec || '',
-              publishingSpec: found.publishingSpec || '',
-              paperSpec: found.paperSpec || '',
-              finalBookUrl: found.finalBookUrl || ''
-            });
-          } else {
-            setBook(null);
-          }
+          setBook(null);
         }
 
         const listRes = await fetch(`${API_BASE_URL}/api/books`).catch(() => null);
@@ -110,37 +88,17 @@ const BookDetail = () => {
               id: b._id || b.id,
               image: b.coverImage || b.image || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=1000'
             }));
-            const existing = new Set(normalizedList.map((b) => b.id));
-            setAllBooksList([...normalizedList, ...activeDummy.filter((b) => !existing.has(b.id))]);
+            setAllBooksList(normalizedList);
           } else {
-            setAllBooksList(activeDummy);
+            setAllBooksList([]);
           }
         } else {
-          setAllBooksList(activeDummy);
+          setAllBooksList([]);
         }
       } catch (err) {
-        const found = activeDummy.find((b) => b.id === id || b._id === id);
-        if (found) {
-          setBook({
-            id: found.id || found._id,
-            _id: found.id || found._id,
-            title: found.title,
-            author: found.author,
-            description: found.description || found.overview || '',
-            price: found.price !== undefined && found.price !== null ? found.price : null,
-            image: found.coverImage || found.image || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=1000',
-            buyUrl: found.buyUrl || '',
-            category: found.category || '',
-            printSpecs: found.printSpecs || '',
-            gridSpec: found.gridSpec || '',
-            publishingSpec: found.publishingSpec || '',
-            paperSpec: found.paperSpec || '',
-            finalBookUrl: found.finalBookUrl || ''
-          });
-        } else {
-          setBook(null);
-        }
-        setAllBooksList(activeDummy);
+        console.error('Error fetching book details:', err);
+        setBook(null);
+        setAllBooksList([]);
       } finally {
         setLoading(false);
       }

@@ -2,14 +2,13 @@ import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { getActiveDummyBooks } from '../../utils/dummyBooksHelper';
 
 const ShowAllBooks = () => {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const containerRef = useRef(null);
   const headerAnimatedRef = useRef(false);
 
-  const [books, setBooks] = useState(() => getActiveDummyBooks());
+  const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,31 +28,27 @@ const ShowAllBooks = () => {
   const fetchBooks = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/books`);
-      const activeDummy = getActiveDummyBooks();
 
       if (response.ok) {
         const apiBooks = await response.json();
-        if (Array.isArray(apiBooks) && apiBooks.length > 0) {
+        if (Array.isArray(apiBooks)) {
           const normalizedApiBooks = apiBooks.map((b) => ({
             ...b,
             id: b._id || b.id,
             image: b.coverImage || b.image || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=1000',
-            buyUrl: b.buyUrl || b.finalBookUrl || 'https://www.amazon.com'
+            buyUrl: b.buyUrl || b.finalBookUrl || ''
           }));
 
-          const existingIds = new Set(normalizedApiBooks.map((b) => b.id));
-          const remainingDummy = activeDummy.filter((b) => !existingIds.has(b.id));
-
-          setBooks([...normalizedApiBooks, ...remainingDummy]);
+          setBooks(normalizedApiBooks);
         } else {
-          setBooks(activeDummy);
+          setBooks([]);
         }
       } else {
-        setBooks(activeDummy);
+        setBooks([]);
       }
     } catch (err) {
       console.error('Error fetching books in ShowAllBooks:', err);
-      setBooks(getActiveDummyBooks());
+      setBooks([]);
     } finally {
       setLoading(false);
     }
@@ -61,10 +56,6 @@ const ShowAllBooks = () => {
 
   useEffect(() => {
     fetchBooks();
-
-    const handleUpdate = () => fetchBooks();
-    window.addEventListener('dummy_books_updated', handleUpdate);
-    return () => window.removeEventListener('dummy_books_updated', handleUpdate);
   }, [API_BASE_URL]);
 
   useGSAP(() => {
